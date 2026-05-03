@@ -98,7 +98,7 @@ const Collection = () => {
                     {/* RIGHT SIDE */}
                     <div className="grid grid-rows-2 gap-6 lg:gap-8">
                         {/* TOP RIGHT */}
-                        <div className="relative h-[260px] sm:h-[300px] lg:h-[360px] rounded-3xl overflow-hidden group">
+                        <div className="relative h-65 sm:h-75 lg:h-90 rounded-3xl overflow-hidden group">
                             <Image src="/products/product2.png" alt="Diffusers" fill className="object-cover group-hover:scale-105 transition duration-500" />
 
                             <div className="absolute inset-0 bg-black/30 flex items-end p-6 lg:p-8">
@@ -110,7 +110,7 @@ const Collection = () => {
                         </div>
 
                         {/* BOTTOM RIGHT */}
-                        <div className="relative h-[260px] sm:h-[300px] lg:h-[360px] rounded-3xl overflow-hidden group">
+                        <div className="relative h-65 sm:h-75 lg:h-90 rounded-3xl overflow-hidden group">
                             <Image src="/products/product3.png" alt="Candles" fill className="object-cover group-hover:scale-105 transition duration-500" />
 
                             <div className="absolute inset-0 bg-black/30 flex items-end p-6 lg:p-8">
