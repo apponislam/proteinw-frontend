@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronDown, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import Image from "next/image";
 
 const faqs = [
@@ -26,7 +26,7 @@ const TestimonialsFAQ = () => {
     };
 
     return (
-        <section className="py-24 bg-white">
+        <section className="py-24 bg-[#F3F3F3]">
             <div className="container mx-auto px-6">
                 {/* Title */}
                 <div className="text-center mb-16">
@@ -39,7 +39,7 @@ const TestimonialsFAQ = () => {
                     {/* LEFT SIDE */}
                     <div className="space-y-6">
                         {/* Testimonial */}
-                        <div className="relative bg-gray-50 rounded-3xl p-8 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-8 overflow-hidden">
                             {/* Big quote mark */}
                             {/* ❝ */}
                             <span className="absolute top-6 left-2 text-[140px] text-[#FFDEA8] font-serif leading-none pointer-events-none select-none opacity-50">❞</span>
@@ -54,7 +54,7 @@ const TestimonialsFAQ = () => {
                         </div>
 
                         {/* Simple message input */}
-                        <div className="bg-gray-50 rounded-3xl p-5 flex items-center gap-3">
+                        <div className="bg-white rounded-3xl p-5 flex items-center gap-3">
                             <input type="text" placeholder="Send us a message..." className="w-full bg-transparent outline-none text-sm" />
 
                             <button className="w-10 h-10 rounded-full bg-[#EFAC02] flex items-center justify-center text-white hover:opacity-90 transition">
@@ -66,7 +66,7 @@ const TestimonialsFAQ = () => {
                     {/* RIGHT SIDE - FAQ */}
                     <div className="space-y-4">
                         {faqs.map((item, index) => (
-                            <div key={index} className="border border-gray-200 rounded-2xl p-5 cursor-pointer" onClick={() => toggleFAQ(index)}>
+                            <div key={index} className="border bg-white border-gray-200 rounded-2xl p-5 cursor-pointer" onClick={() => toggleFAQ(index)}>
                                 <div className="flex items-center justify-between">
                                     <h3 className="font-semibold text-gray-900">{item.q}</h3>
 
