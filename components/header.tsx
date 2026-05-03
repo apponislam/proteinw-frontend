@@ -36,10 +36,10 @@ export function Header() {
     return (
         <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${scrolled ? "border-border bg-background shadow-sm" : "border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"}`}>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 items-center justify-between">
+                <div className="flex py-4 items-center justify-between">
                     {/* Left Section - Logo */}
                     <div className="shrink-0">
-                        <Link href="/" className="text-xl font-bold text-[#F59E0B] hover:text-[#F59E0B]/80 transition-colors">
+                        <Link href="/" className="text-xl font-bold text-black hover:text-[#F59E0B]/80 transition-colors">
                             Kungsbjörnen
                         </Link>
                     </div>
@@ -59,7 +59,7 @@ export function Header() {
                         <Link href="/login" className="text-sm font-medium text-foreground hover:text-[#F59E0B] transition-colors">
                             Login
                         </Link>
-                        <Link href="/get-started" className="inline-flex items-center justify-center rounded-lg bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 py-2 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
+                        <Link href="/get-started" className="font-bold px-6 inline-flex items-center justify-center rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800]  py-3 text-sm text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
                             Get Started
                         </Link>
                     </div>
@@ -89,7 +89,7 @@ export function Header() {
                                     </Link>
                                     <Link
                                         href="/get-started"
-                                        className="inline-flex items-center justify-center rounded-lg bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 py-2 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
+                                        className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 py-2 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         Get Started
