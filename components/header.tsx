@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 const navigation = [
@@ -14,9 +15,26 @@ const navigation = [
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const y = window.scrollY;
+            if (y > 180 && !scrolled) {
+                setScrolled(true);
+            } else if (y < 60 && scrolled) {
+                setScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [scrolled]);
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+        <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${scrolled ? "border-border bg-background shadow-sm" : "border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"}`}>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     {/* Left Section - Logo */}
@@ -29,9 +47,9 @@ export function Header() {
                     {/* Middle Section - Navigation (Desktop) */}
                     <nav className="hidden md:flex items-center space-x-8">
                         {navigation.map((item) => (
-                            <Link key={item.name} href={item.href} className="text-sm font-medium text-foreground hover:text-[#F59E0B] transition-colors relative group">
+                            <Link key={item.name} href={item.href} className={`text-sm font-medium transition-colors relative group ${item.href === pathname ? "text-[#F59E0B]" : "text-foreground hover:text-[#F59E0B]"}`}>
                                 {item.name}
-                                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#F59E0B] transition-all group-hover:w-full"></span>
+                                <span className={`absolute -bottom-1 left-0 h-0.5 bg-[#F59E0B] transition-all ${item.href === pathname ? "w-full" : "w-0 group-hover:w-full"}`}></span>
                             </Link>
                         ))}
                     </nav>
@@ -60,7 +78,7 @@ export function Header() {
                     <div className="md:hidden">
                         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-border/40">
                             {navigation.map((item) => (
-                                <Link key={item.name} href={item.href} className="block px-3 py-2 text-base font-medium text-foreground hover:text-[#F59E0B] hover:bg-muted rounded-md transition-colors" onClick={() => setIsOpen(false)}>
+                                <Link key={item.name} href={item.href} className={`block px-3 py-2 text-base font-medium rounded-md transition-colors ${item.href === pathname ? "text-[#F59E0B] bg-muted" : "text-foreground hover:text-[#F59E0B] hover:bg-muted"}`} onClick={() => setIsOpen(false)}>
                                     {item.name}
                                 </Link>
                             ))}
