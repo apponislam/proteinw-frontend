@@ -1,4 +1,5 @@
 import ChooseWhy from "@/components/Home/ChooseWhy";
+import Collection from "@/components/Home/Collection";
 import { HeroArea } from "@/components/Home/HeroArea";
 import ProfitValueCards from "@/components/Home/ProfitValueCards";
 import StepsSection from "@/components/Home/StepsSection";
@@ -9,6 +10,7 @@ export default function Home() {
         <div>
             <HeroArea></HeroArea>
             <ChooseWhy></ChooseWhy>
+            <Collection></Collection>
             <StepsSection></StepsSection>
             <ProfitValueCards></ProfitValueCards>
             <TestimonialsFAQ></TestimonialsFAQ>
