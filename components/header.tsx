@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { LayoutDashboard, Menu, X } from "lucide-react";
 
 const navigation = [
     { name: "Home", href: "/" },
@@ -55,11 +55,12 @@ export function Header() {
                     </nav>
 
                     {/* Right Section - Auth Buttons */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <Link href="/login" className="text-sm font-medium text-foreground hover:text-[#F59E0B] transition-colors">
+                    <div className="hidden md:flex items-center space-x-8">
+                        <LayoutDashboard className="text-[#F59E0B]" />
+                        <Link href="/auth/login" className="text-sm font-medium text-foreground hover:text-[#F59E0B] transition-colors">
                             Login
                         </Link>
-                        <Link href="/get-started" className="font-bold px-6 inline-flex items-center justify-center rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800]  py-3 text-sm text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
+                        <Link href="/auth/register" className="font-bold px-6 inline-flex items-center justify-center rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800]  py-3 text-sm text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
                             Get Started
                         </Link>
                     </div>
@@ -84,11 +85,12 @@ export function Header() {
                             ))}
                             <div className="pt-4 pb-3 border-t border-border/40">
                                 <div className="flex items-center px-5 space-x-4">
-                                    <Link href="/login" className="text-base font-medium text-foreground hover:text-[#F59E0B] transition-colors" onClick={() => setIsOpen(false)}>
+                                    <LayoutDashboard className="text-[#F59E0B]" />
+                                    <Link href="/auth/login" className="text-base font-medium text-foreground hover:text-[#F59E0B] transition-colors" onClick={() => setIsOpen(false)}>
                                         Login
                                     </Link>
                                     <Link
-                                        href="/get-started"
+                                        href="/auth/register"
                                         className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 py-2 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
                                         onClick={() => setIsOpen(false)}
                                     >
