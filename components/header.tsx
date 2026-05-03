@@ -7,7 +7,7 @@ import { LayoutDashboard, Menu, X } from "lucide-react";
 
 const navigation = [
     { name: "Home", href: "/" },
-    { name: "Sell With Us", href: "/sell" },
+    { name: "Sell With Us", href: "/sell-with-us" },
     { name: "Products", href: "/products" },
     { name: "Profit", href: "/profit" },
     { name: "About Us", href: "/about" },
