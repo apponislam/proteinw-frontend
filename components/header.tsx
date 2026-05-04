@@ -34,9 +34,9 @@ export function Header() {
     }, [scrolled]);
 
     return (
-        <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${scrolled ? "border-border bg-background shadow-sm" : "border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"}`}>
+        <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300  ${scrolled ? "border-border bg-background shadow-sm py-2" : "border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 py-6"}`}>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex py-4 items-center justify-between">
+                <div className="flex  items-center justify-between">
                     {/* Left Section - Logo */}
                     <div className="shrink-0">
                         <Link href="/" className="text-xl font-bold text-black hover:text-[#F59E0B]/80 transition-colors">
