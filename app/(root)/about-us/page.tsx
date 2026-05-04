@@ -1,7 +1,12 @@
+import SupportPage from "@/components/about-us/SupportPage";
 import React from "react";
 
 const page = () => {
-    return <div>about us page</div>;
+    return (
+        <div>
+            <SupportPage></SupportPage>
+        </div>
+    );
 };
 
 export default page;
