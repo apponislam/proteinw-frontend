@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Send } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const faqs = [
     {
@@ -82,7 +83,9 @@ const TestimonialsFAQ = () => {
                             </div>
                         ))}
 
-                        <button className="text-[#EFAC02] font-semibold hover:underline mt-4">View all FAQs →</button>
+                        <Link href="/about-us">
+                            <button className="text-[#EFAC02] font-semibold hover:underline mt-4 cursor-pointer">View all FAQs →</button>
+                        </Link>
                     </div>
                 </div>
             </div>
