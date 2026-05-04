@@ -1,10 +1,10 @@
-import ChooseWhy from "@/components/Home/ChooseWhy";
-import Collection from "@/components/Home/Collection";
-import EarnSection from "@/components/Home/EarnSection";
-import { HeroArea } from "@/components/Home/HeroArea";
-import ProfitValueCards from "@/components/Home/ProfitValueCards";
-import StepsSection from "@/components/Home/StepsSection";
-import TestimonialsFAQ from "@/components/Home/TestimonialsFAQ";
+import ChooseWhy from "@/components/home/ChooseWhy";
+import Collection from "@/components/home/Collection";
+import EarnSection from "@/components/home/EarnSection";
+import { HeroArea } from "@/components/home/HeroArea";
+import ProfitValueCards from "@/components/home/ProfitValueCards";
+import StepsSection from "@/components/home/StepsSection";
+import TestimonialsFAQ from "@/components/home/TestimonialsFAQ";
 
 export default function Home() {
     return (
