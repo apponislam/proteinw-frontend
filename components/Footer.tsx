@@ -47,11 +47,11 @@ const Footer = () => {
                                 </Link>
                             </li>
 
-                            <li>
+                            {/* <li>
                                 <Link href="/cookie-policy" className="hover:text-[#EFAC02] transition-colors">
                                     Cookie Policy
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
 
