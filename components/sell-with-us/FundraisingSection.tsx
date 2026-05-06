@@ -50,29 +50,17 @@ const FundraisingSection = () => {
                     </div>
 
                     {/* 4th CARD (3/4) */}
-                    <div className="lg:col-span-3 bg-white rounded-3xl p-10 flex flex-col lg:flex-row lg:justify-between gap-6 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
-                        <div>
+                    <div className="lg:col-span-3 bg-white rounded-3xl p-10 flex flex-col lg:flex-row lg:items-start gap-6 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+                        <div className="min-w-0 flex-1">
                             <h3 className="text-2xl font-bold text-gray-900 mb-4">Produkter folk faktiskt vill ha</h3>
 
                             <p className="text-gray-600 leading-relaxed">Vi har noga valt ut lättsålda kvalitetsprodukter som ljus, strumpor och delikatesser. Kvalitet som gör att kunderna gärna köper igen.</p>
 
                             <button className="mt-6 text-[#EFAC02] font-semibold transition-all duration-300 hover:underline hover:translate-x-1">Se hela sortimentet →</button>
                         </div>
-                        <div className="flex flex-wrap sm:flex-nowrap gap-4 lg:mt-0">
-                            <Image
-                                src="/sellwithus/product1.png"
-                                width={160}
-                                height={160}
-                                alt="Fundraising products"
-                                className="w-[140px] sm:w-[160px] h-[140px] sm:h-[160px] rounded-2xl object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
-                            />
-                            <Image
-                                src="/sellwithus/product2.png"
-                                width={160}
-                                height={160}
-                                alt="Fundraising products"
-                                className="w-[140px] sm:w-[160px] h-[140px] sm:h-[160px] rounded-2xl object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
-                            />
+                        <div className="flex flex-wrap sm:flex-nowrap gap-4 lg:mt-0 shrink-0 max-w-full">
+                            <Image src="/sellwithus/product1.png" width={160} height={160} alt="Fundraising products" className="w-[140px] sm:w-[160px] h-[140px] sm:h-[160px] rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mb-6" />
+                            <Image src="/sellwithus/product2.png" width={160} height={160} alt="Fundraising products" className="w-[140px] sm:w-[160px] h-[140px] sm:h-[160px] rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mt-6" />
                         </div>
                     </div>
                 </div>
