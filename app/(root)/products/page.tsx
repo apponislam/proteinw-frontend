@@ -1,9 +1,47 @@
 import React from "react";
 import ProductCard from "@/components/products/ProductCard";
+import { Rocket } from "lucide-react";
+import Link from "next/link";
 
 const categories = ["All Products", "Scented Candles", "Premium Socks"];
 
 const products = [
+    {
+        image: "/products/product1.png",
+        title: "Midnight Diffuser",
+        price: "180 SEK",
+        description: "Notes of arctic cloudberry and warm sandalwood. Hand-poured in",
+    },
+    {
+        image: "/products/product2.png",
+        title: "Midnight Diffuser",
+        price: "180 SEK",
+        description: "Notes of arctic cloudberry and warm sandalwood. Hand-poured in",
+    },
+    {
+        image: "/products/product3.png",
+        title: "Midnight Diffuser",
+        price: "180 SEK",
+        description: "Notes of arctic cloudberry and warm sandalwood. Hand-poured in",
+    },
+    {
+        image: "/products/product3.png",
+        title: "Midnight Diffuser",
+        price: "180 SEK",
+        description: "Notes of arctic cloudberry and warm sandalwood. Hand-poured in",
+    },
+    {
+        image: "/products/product2.png",
+        title: "Midnight Diffuser",
+        price: "180 SEK",
+        description: "Notes of arctic cloudberry and warm sandalwood. Hand-poured in",
+    },
+    {
+        image: "/products/product1.png",
+        title: "Midnight Diffuser",
+        price: "180 SEK",
+        description: "Notes of arctic cloudberry and warm sandalwood. Hand-poured in",
+    },
     {
         image: "/products/product1.png",
         title: "Midnight Diffuser",
@@ -45,10 +83,23 @@ const page = () => {
                             ))}
                         </ul>
                     </div>
-                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-10">
                         {products.map((product, index) => (
                             <ProductCard key={`${product.title}-${index}`} image={product.image} title={product.title} price={product.price} description={product.description} />
                         ))}
+                    </div>
+                </div>
+                <div className="flex justify-center">
+                    <div className="w-full sm:w-auto sm:min-w-[560px] lg:w-1/2 max-w-3xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white rounded-[32px] sm:rounded-[60px] p-4 sm:p-6 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+                        <div className="sm:pl-4">
+                            <h2 className="text-sm text-[#837560] font-bold">READY TO FUNDRAISE?</h2>
+                            <p>Join 500+ successful teams</p>
+                        </div>
+                        <Link href="/auth/register" className="w-full sm:w-auto">
+                            <button className="w-full sm:w-auto justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white px-6 sm:px-16 py-2 rounded-3xl flex items-center gap-2 cursor-pointer">
+                                <Rocket /> Start Selling These
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
