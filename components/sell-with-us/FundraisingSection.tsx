@@ -59,8 +59,8 @@ const FundraisingSection = () => {
                             <button className="mt-6 text-[#EFAC02] font-semibold transition-all duration-300 hover:underline hover:translate-x-1">Se hela sortimentet →</button>
                         </div>
                         <div className="flex flex-wrap sm:flex-nowrap gap-4 lg:mt-0 shrink-0 max-w-full">
-                            <Image src="/sellwithus/product1.png" width={160} height={160} alt="Fundraising products" className="w-[140px] sm:w-[160px] h-[140px] sm:h-[160px] rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mb-6" />
-                            <Image src="/sellwithus/product2.png" width={160} height={160} alt="Fundraising products" className="w-[140px] sm:w-[160px] h-[140px] sm:h-[160px] rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mt-6" />
+                            <Image src="/sellwithus/product1.png" width={160} height={160} alt="Fundraising products" className="w-35 sm:w-40 h-35 sm:h-40 rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mb-6" />
+                            <Image src="/sellwithus/product2.png" width={160} height={160} alt="Fundraising products" className="w-35 sm:w-40 h-35 sm:h-40 rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mt-6" />
                         </div>
                     </div>
                 </div>
