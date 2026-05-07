@@ -1,5 +1,4 @@
-import FundraisingCalculatorLeft from "@/components/profit/FundraisingCalculatorLeft";
-import FundraisingSummary from "@/components/profit/FundraisingSummary";
+import Fundraisingcalculator from "@/components/profit/Fundraisingcalculator";
 import React from "react";
 
 const Page = () => {
@@ -14,9 +13,11 @@ const Page = () => {
                     </p>
                 </div>
 
-                <FundraisingCalculatorLeft></FundraisingCalculatorLeft>
-                <FundraisingSummary></FundraisingSummary>
+                {/* <FundraisingCalculatorLeft></FundraisingCalculatorLeft>
+                <FundraisingSummary></FundraisingSummary> */}
                 {/* <FundraisingCalculator></FundraisingCalculator> */}
+
+                <Fundraisingcalculator></Fundraisingcalculator>
             </div>
         </div>
     );

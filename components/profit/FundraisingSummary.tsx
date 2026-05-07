@@ -1,87 +1,3 @@
-// "use client";
-
-// interface FundraisingSummaryProps {
-//     packagesNeeded?: number;
-//     perStudent?: number;
-//     totalProfit?: number;
-// }
-
-// export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 8, totalProfit = 16929 }: FundraisingSummaryProps) {
-//     return (
-//         <div className="w-full max-w-md rounded-3xl bg-black p-8 text-white">
-//             {/* TOP STATS */}
-//             <div className="grid grid-cols-2 gap-6 border-b border-white/10 pb-8">
-//                 <div>
-//                     <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Packages Needed</p>
-
-//                     <h2 className="mt-3 text-5xl font-bold">{packagesNeeded}</h2>
-
-//                     <p className="mt-2 text-sm text-zinc-400">To reach your 15,000 kr goal</p>
-//                 </div>
-
-//                 <div>
-//                     <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Per Student</p>
-
-//                     <h2 className="mt-3 text-5xl font-bold">{perStudent}.0</h2>
-
-//                     <p className="mt-2 text-sm text-zinc-400">Average packages per person</p>
-//                 </div>
-//             </div>
-
-//             {/* TOTAL PROFIT */}
-//             <div className="pt-8">
-//                 <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Estimated Total Profit</p>
-
-//                 <h2 className="mt-3 text-4xl font-bold">{totalProfit.toLocaleString()} SEK</h2>
-
-//                 <p className="mt-2 text-lg font-medium text-zinc-300">45% Profit Tier</p>
-//             </div>
-
-//             {/* PROGRESS */}
-//             <div className="mt-10">
-//                 <div className="mb-4 flex items-center justify-between">
-//                     <p className="text-sm font-medium text-zinc-300">Profit Tier Progress</p>
-
-//                     <p className="text-sm font-medium text-white">Next Tier: 50%</p>
-//                 </div>
-
-//                 <div className="relative h-3 rounded-full bg-white/10">
-//                     <div className="absolute left-0 top-0 h-3 w-[70%] rounded-full bg-white" />
-//                 </div>
-
-//                 <div className="mt-4 flex justify-between text-xs text-zinc-400">
-//                     <div className="text-center">
-//                         <p className="font-semibold text-white">START</p>
-//                         <p className="mt-1">40%</p>
-//                         <p className="mt-1">0 Pkgs</p>
-//                     </div>
-
-//                     <div className="text-center">
-//                         <p className="font-semibold text-white">45%</p>
-//                         <p className="mt-1">150 Pkgs</p>
-//                     </div>
-
-//                     <div className="text-center">
-//                         <p className="font-semibold text-white">50%</p>
-//                         <p className="mt-1">225 Pkgs</p>
-//                     </div>
-
-//                     <div className="text-center">
-//                         <p className="font-semibold text-white">300+</p>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* TIP */}
-//             <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-5">
-//                 <p className="text-sm leading-relaxed text-zinc-300">
-//                     <span className="font-semibold text-white">Expert Tip:</span> If each student sells just 2 more packages, your team will unlock the 50% profit tier, adding an extra 4,500 SEK to your goal.
-//                 </p>
-//             </div>
-//         </div>
-//     );
-// }
-
 "use client";
 
 interface FundraisingSummaryProps {
@@ -96,7 +12,7 @@ interface FundraisingSummaryProps {
 
 export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 8, totalProfit = 16929, profitPercent = 45, progress = 72, nextTier = "50%", targetProfit = 15000 }: FundraisingSummaryProps) {
     return (
-        <div className="w-full max-w-md space-y-4">
+        <div className="w-full  space-y-4">
             {/* TOP BOXES */}
             <div className="grid grid-cols-2 gap-4">
                 {/* PACKAGES NEEDED */}
