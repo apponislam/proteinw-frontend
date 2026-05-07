@@ -1,5 +1,7 @@
 "use client";
 
+import { Lightbulb, TrendingUp } from "lucide-react";
+
 interface FundraisingSummaryProps {
     packagesNeeded?: number;
     perStudent?: number;
@@ -16,7 +18,7 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
             {/* TOP BOXES */}
             <div className="grid grid-cols-2 gap-4">
                 {/* PACKAGES NEEDED */}
-                <div className="rounded-3xl bg-black p-6 text-white">
+                <div className="rounded-3xl bg-white p-6 text-black shadow-xl">
                     <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Packages Needed</p>
 
                     <h2 className="mt-4 text-5xl font-bold">{packagesNeeded}</h2>
@@ -25,7 +27,7 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                 </div>
 
                 {/* PER STUDENT */}
-                <div className="rounded-3xl bg-black p-6 text-white">
+                <div className="rounded-3xl bg-white p-6 text-black shadow-xl">
                     <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Per Student</p>
 
                     <h2 className="mt-4 text-5xl font-bold">{perStudent}</h2>
@@ -35,37 +37,49 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
             </div>
 
             {/* TOTAL PROFIT */}
-            <div className="rounded-3xl bg-black p-6 text-white">
-                <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">Estimated Total Profit</p>
-
-                <h2 className="mt-4 text-5xl font-bold">{totalProfit.toLocaleString()} SEK</h2>
-
-                <p className="mt-3 text-lg text-zinc-300">{profitPercent}% Profit Tier</p>
+            <div className="rounded-3xl bg-[#FFDEA8] p-6 text-[#271900] flex items-center justify-between">
+                <div>
+                    <p className="text-xs font-medium uppercase tracking-[0.2em] ">Estimated Total Profit</p>
+                    <h2 className=" text-5xl font-bold">{totalProfit.toLocaleString()} SEK</h2>
+                </div>
+                <button className="bg-[#271900] rounded-4xl text-[#FFDEA8] px-4 py-2 flex items-center gap-2">
+                    <TrendingUp /> {profitPercent}% Profit Tier
+                </button>
+                {/* <p className="mt-3 text-lg text-zinc-300">{profitPercent}% Profit Tier</p> */}
             </div>
 
             {/* PROGRESS */}
-            <div className="rounded-3xl bg-black p-6 text-white">
+            <div className="rounded-3xl bg-white p-6 text-black shadow-xl">
                 <div className="flex items-center justify-between">
-                    <p className="text-lg font-semibold">Profit Tier Progress</p>
+                    <p className="text-lg font-semibold text-[#271900]">Profit Tier Progress</p>
 
-                    <p className="text-sm text-zinc-300">Next Tier: {nextTier}</p>
+                    <p className="text-[#7C5800]">Next Tier: {nextTier}</p>
                 </div>
 
-                <div className="mt-6 relative h-3 rounded-full bg-white/10">
-                    <div className="absolute left-0 top-0 h-3 rounded-full bg-white transition-all" style={{ width: `${progress}%` }} />
+                <div className="mt-6 relative h-3 rounded-full bg-[#FCB601]">
+                    <div className="absolute left-0 top-0 h-3 rounded-full bg-[#271900] transition-all" style={{ width: `${progress}%` }} />
                 </div>
 
-                <div className="mt-6 flex justify-between text-xs text-zinc-400">
-                    <span>40%</span>
-                    <span>45%</span>
-                    <span>50%</span>
-                    <span>300+</span>
+                <div className="mt-6 flex justify-between text-xs text-[#837560]">
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="text-center">40%</span>
+                        <span className="text-center">150 Pkgs</span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="text-center">45%</span>
+                        <span className="text-center">225 Pkgs</span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                        <span className="text-center">40%</span>
+                        <span className="text-center">225+ Pkgs</span>
+                    </div>
                 </div>
 
                 {/* TIP */}
-                <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-sm text-zinc-300">
-                        <span className="font-semibold text-white">Expert Tip:</span> If each student sells just 2 more packages, your team will unlock the next profit tier and increase total earnings.
+                <div className="mt-6 rounded-2xl bg-[#F3F3F3] p-4 flex items-start gap-3 text-[#7C5800]">
+                    <Lightbulb />
+                    <p className="text-sm ">
+                        <span className="font-semibold">Expert Tip:</span> If each student sells just 2 more packages, your team will unlock the next profit tier and increase total earnings.
                     </p>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Info } from "lucide-react";
 import { useState } from "react";
 
 export default function FundraisingCalculatorLeft() {
@@ -10,19 +11,21 @@ export default function FundraisingCalculatorLeft() {
 
     return (
         <div className="mx-auto w-full max-w-4xl">
-            <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-xl">
+            <div className="rounded-3xl  bg-white p-8 shadow-xl">
                 <div className="space-y-10">
                     {/* TARGET PROFIT */}
                     <div>
                         <div className="mb-3 flex items-center justify-between">
-                            <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">TARGET PROFIT (SEK)</h3>
+                            <h3 className="text-sm font-semibold uppercase tracking-wide text-[#514532]">TARGET PROFIT (SEK)</h3>
 
-                            <span className="text-3xl font-bold text-zinc-900">{targetProfit.toLocaleString()} kr</span>
+                            <span className="text-3xl font-bold text-[#7C5800]">
+                                {targetProfit.toLocaleString()} <span className="text-sm">kr</span>
+                            </span>
                         </div>
 
                         <input type="range" min={1} max={80000} value={targetProfit} onChange={(e) => setTargetProfit(Number(e.target.value))} className="h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-200 accent-black" />
 
-                        <div className="mt-2 flex justify-between text-sm text-zinc-500">
+                        <div className="mt-2 flex justify-between text-sm text-[#837560]">
                             <span>1 KR</span>
                             <span>40,000 KR</span>
                             <span>80,000 KR</span>
@@ -32,14 +35,16 @@ export default function FundraisingCalculatorLeft() {
                     {/* STUDENTS */}
                     <div>
                         <div className="mb-3 flex items-center justify-between">
-                            <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">NUMBER OF STUDENTS</h3>
+                            <h3 className="text-sm font-semibold uppercase tracking-wide text-[#514532]">NUMBER OF STUDENTS</h3>
 
-                            <span className="text-3xl font-bold text-zinc-900">{students} members</span>
+                            <span className="text-3xl font-bold text-[#7C5800]">
+                                {students} <span className="text-sm">members</span>
+                            </span>
                         </div>
 
                         <input type="range" min={1} max={80} value={students} onChange={(e) => setStudents(Number(e.target.value))} className="h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-200 accent-black" />
 
-                        <div className="mt-2 flex justify-between text-sm text-zinc-500">
+                        <div className="mt-2 flex justify-between text-sm text-[#837560]">
                             <span>1 PERSON</span>
                             <span>40 PEOPLE</span>
                             <span>80 PEOPLE</span>
@@ -47,23 +52,26 @@ export default function FundraisingCalculatorLeft() {
                     </div>
 
                     {/* PACKAGE INFO */}
-                    <div className="rounded-2xl bg-zinc-100 p-5">
-                        <p className="text-lg font-semibold text-zinc-900">Price per package: {packagePrice} SEK</p>
+                    <div className="">
+                        <div className="flex items-center gap-3">
+                            <Info className="text-[#7C5800]" />
+                            <p className="text-lg font-semibold text-[#514532]">Price per package: {packagePrice} SEK</p>
+                        </div>
 
                         <div className="mt-4 space-y-2 text-sm text-zinc-600">
-                            <div className="flex justify-between">
-                                <span>0 - 149 pkgs</span>
-                                <span>40% Profit</span>
+                            <div className="flex justify-between p-2 hover:bg-[#FFB80033] hover:border-l-[#FFB80033] border-l-4 border-l-transparent rounded-sm">
+                                <span className="text-[#837560]">0 - 149 pkgs</span>
+                                <span className="text-[#1A1C1C] font-bold">40% Profit</span>
                             </div>
 
-                            <div className="flex justify-between">
-                                <span>150 - 224 pkgs</span>
-                                <span>45% Profit</span>
+                            <div className="flex justify-between p-2 hover:bg-[#FFB80033] hover:border-l-[#FFB80033] border-l-4 border-l-transparent rounded-sm">
+                                <span className="text-[#837560]">150 - 224 pkgs</span>
+                                <span className="text-[#1A1C1C] font-bold">45% Profit</span>
                             </div>
 
-                            <div className="flex justify-between">
-                                <span>225+ pkgs</span>
-                                <span>50% Profit</span>
+                            <div className="flex justify-between p-2 hover:bg-[#FFB80033] hover:border-l-[#FFB80033] border-l-4 border-l-transparent rounded-sm">
+                                <span className="text-[#837560]">225+ pkgs</span>
+                                <span className="text-[#1A1C1C] font-bold">50% Profit</span>
                             </div>
                         </div>
                     </div>
@@ -71,12 +79,13 @@ export default function FundraisingCalculatorLeft() {
             </div>
 
             {/* CTA */}
-            <div className="mt-8 rounded-3xl bg-black p-8 text-white">
-                <h3 className="text-4xl font-bold leading-tight">Ready to start?</h3>
+            <div className="mt-8 rounded-3xl bg-[#2F3131] p-8 text-white flex items-center justify-between">
+                <div>
+                    <h3 className="text-xl font-bold leading-tight">Ready to start?</h3>
+                    <p className="mt-4 text-sm leading-relaxed text-zinc-400">Takes less than 2 minutes to set up.</p>
+                </div>
 
-                <button className="mt-6 rounded-2xl bg-white px-6 py-4 text-lg font-semibold text-black transition hover:scale-[1.02]">Start Fundraising Now</button>
-
-                <p className="mt-4 text-sm leading-relaxed text-zinc-400">Takes less than 2 minutes to set up.</p>
+                <button className="rounded-2xl bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-4 text-lg font-semibold text-white transition hover:scale-[1.02]">Start Fundraising Now</button>
             </div>
         </div>
     );
