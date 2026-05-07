@@ -90,7 +90,7 @@ const page = () => {
                     </div>
                 </div>
                 <div className="flex justify-center">
-                    <div className="w-full sm:w-auto sm:min-w-[560px] lg:w-1/2 max-w-3xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white rounded-[32px] sm:rounded-[60px] p-4 sm:p-6 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+                    <div className="w-full sm:w-auto sm:min-w-140 lg:w-1/2 max-w-3xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white rounded-[32px] sm:rounded-[60px] p-4 sm:p-6 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
                         <div className="sm:pl-4">
                             <h2 className="text-sm text-[#837560] font-bold">READY TO FUNDRAISE?</h2>
                             <p>Join 500+ successful teams</p>
