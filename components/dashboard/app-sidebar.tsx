@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Home, Users, Settings, BarChart3, Package, CreditCard, LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,12 +19,8 @@ export function AppSidebar() {
     const pathname = usePathname();
 
     return (
-        <Sidebar className="bg-white">
+        <Sidebar>
             <SidebarHeader className="p-4">
-                {/* <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">PW</div>
-                    <span className="font-semibold text-lg">ProteinW</span>
-                </div> */}
                 <div className="flex items-center gap-3">
                     <div>
                         <Image src="/dashboard/superadmin/logo.svg" alt="ProteinW" width={40} height={40} />
@@ -36,18 +32,17 @@ export function AppSidebar() {
                 </div>
             </SidebarHeader>
             <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Menu</SidebarGroupLabel>
+                <SidebarGroup className="p-0">
                     <SidebarGroupContent>
-                        <SidebarMenu>
+                        <SidebarMenu className="gap-2">
                             {menuItems.map((item) => {
-                                const isActive = pathname === item.url;
+                                const isActive = item.url === "/dashboard" ? pathname === "/dashboard" || (pathname.startsWith("/dashboard/") && !menuItems.some((i) => i.url !== "/dashboard" && pathname.startsWith(i.url))) : pathname === item.url;
                                 return (
-                                    <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild isActive={isActive}>
-                                            <Link href={item.url}>
-                                                <item.icon />
-                                                <span>{item.title}</span>
+                                    <SidebarMenuItem key={item.title} className={`relative px-5 py-2 transition-colors rounded-none before:absolute before:right-0 before:top-0 before:h-full before:w-1 before:bg-[#D97706] ${isActive ? "bg-[#F5F5F4] text-[#D97706] hover:text-[#D97706] before:block" : "text-[#78716C] hover:bg-[#F5F5F4] hover:text-[#D97706] before:hidden hover:before:block"}`}>
+                                        <SidebarMenuButton asChild isActive={isActive} className="bg-transparent! !hover:bg-transparent p-0!">
+                                            <Link href={item.url} className="flex items-center gap-2 text-inherit hover:text-inherit">
+                                                <item.icon className="text-inherit" />
+                                                <span className="text-inherit">{item.title}</span>
                                             </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
