@@ -1,5 +1,6 @@
 "use client";
 
+import { Mail, Phone } from "lucide-react";
 import { useState } from "react";
 
 export default function SupportPage() {
@@ -10,75 +11,83 @@ export default function SupportPage() {
     };
 
     return (
-        <section className="py-24 bg-[#F3F3F3]">
-            <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12">
-                {/* LEFT SIDE */}
-                <div>
-                    <h2 className="text-4xl font-bold text-gray-900 mb-10">Common Questions</h2>
+        <section className="container mx-auto px-6 grid lg:grid-cols-2 gap-12">
+            {/* LEFT SIDE */}
+            <div>
+                <h2 className="text-4xl font-bold text-gray-900 mb-10">Common Questions</h2>
 
-                    <div className="space-y-4">
-                        {faqData.map((item, index) => (
-                            <div key={index} onClick={() => toggleFAQ(index)} className="bg-white border border-white hover:border-[#EFAC02] rounded-2xl p-5 cursor-pointer transition">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="font-semibold text-gray-900">{item.question}</h3>
+                <div className="space-y-4">
+                    {faqData.map((item, index) => (
+                        <div key={index} onClick={() => toggleFAQ(index)} className="bg-white border border-white hover:border-[#EFAC02] rounded-2xl p-5 cursor-pointer transition">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-semibold text-gray-900">{item.question}</h3>
 
-                                    <span className="text-lg font-bold text-[#837560]">{openIndex === index ? "−" : "+"}</span>
-                                </div>
+                                <span className="text-lg font-bold text-[#837560]">{openIndex === index ? "−" : "+"}</span>
+                            </div>
 
-                                <div className={`grid transition-all duration-300 ease-in-out overflow-hidden ${openIndex === index ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0"}`}>
-                                    <div className="overflow-hidden">
-                                        <p className="text-sm text-gray-600 leading-relaxed">{item.answer}</p>
-                                    </div>
+                            <div className={`grid transition-all duration-300 ease-in-out overflow-hidden ${openIndex === index ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0"}`}>
+                                <div className="overflow-hidden">
+                                    <p className="text-sm text-[#514532] leading-relaxed">{item.answer}</p>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
+            </div>
 
-                <div>
-                    {/* RIGHT SIDE */}
-                    <div className="bg-white rounded-3xl p-8 border border-white shadow-sm">
-                        <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a message</h2>
+            <div>
+                {/* RIGHT SIDE */}
+                <div className="bg-white rounded-3xl p-8 border border-white shadow-sm">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a message</h2>
 
-                        <form className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <input type="text" placeholder="Name" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                                <input type="email" placeholder="Email" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <input type="text" placeholder="Subject" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                                <input type="text" placeholder="Phone" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                            </div>
-
-                            {/* 👇 replaced select */}
-                            <input list="inquiry-options" placeholder="Select topic" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                            <datalist id="inquiry-options">
-                                <option value="Product Inquiry" />
-                                <option value="General Question" />
-                                <option value="Support" />
-                            </datalist>
-
-                            <textarea placeholder="How can we help you?" rows={5} className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-
-                            <button type="submit" className="mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">
-                                Send Message
-                            </button>
-                        </form>
-                    </div>
-
-                    {/* Support Info */}
-                    <div className="mt-12 space-y-6">
-                        <div className="bg-white rounded-3xl p-6 border border-white">
-                            <p className="font-semibold text-gray-900 mb-1">Support Email</p>
-                            <p className="text-gray-700">hello@nordicarchive.fund</p>
-                            <p className="text-xs text-gray-500 mt-1">24/7 automated support, 12hr human response.</p>
+                    <form className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <input type="text" placeholder="Name" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                            <input type="email" placeholder="Email" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
                         </div>
 
-                        <div className="bg-white rounded-3xl p-6 border border-white">
-                            <p className="font-semibold text-gray-900 mb-1">Phone Support</p>
-                            <p className="text-gray-700">+46 (0) 8 123 45 67</p>
-                            <p className="text-xs text-gray-500 mt-1">Mon–Fri, 9am – 5pm CET</p>
+                        <div className="grid grid-cols-2 gap-4">
+                            <input type="text" placeholder="Subject" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                            <input type="text" placeholder="Phone" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                        </div>
+
+                        {/* 👇 replaced select */}
+                        <input list="inquiry-options" placeholder="Select topic" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                        <datalist id="inquiry-options">
+                            <option value="Product Inquiry" />
+                            <option value="General Question" />
+                            <option value="Support" />
+                        </datalist>
+
+                        <textarea placeholder="How can we help you?" rows={5} className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+
+                        <button type="submit" className="mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                {/* Support Info */}
+                <div className="mt-12 space-y-6">
+                    <div className="flex gap-6">
+                        <div className="bg-[#FFDEA8] text-[#271900] w-10 h-10 flex items-center justify-center rounded-full">
+                            <Mail className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <p className="font-bold text-[#1A1C1C]">Support Email</p>
+                            <p className="text-[#514532]">hello@nordicarchive.fund</p>
+                            <p className="text-xs text-[#837560] mt-1">24/7 automated support, 12hr human response.</p>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-6">
+                        <div className="bg-[#FFDEA8] text-[#271900] w-10 h-10 flex items-center justify-center rounded-full">
+                            <Phone className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <p className="font-bold text-[#1A1C1C]">Phone Support</p>
+                            <p className="text-[#514532]">+46 (0) 8 123 45 67</p>
+                            <p className="text-xs text-[#837560] mt-1">Mon–Fri, 9am – 5pm CET</p>
                         </div>
                     </div>
                 </div>
