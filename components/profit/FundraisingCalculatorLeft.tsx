@@ -82,7 +82,7 @@ export default function FundraisingCalculatorLeft() {
             <div className="mt-8 rounded-3xl bg-[#2F3131] p-8 text-white flex items-center justify-between">
                 <div>
                     <h3 className="text-xl font-bold leading-tight">Ready to start?</h3>
-                    <p className="mt-4 text-sm leading-relaxed text-zinc-400">Takes less than 2 minutes to set up.</p>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-400">Takes less than 2 minutes to set up.</p>
                 </div>
 
                 <button className="rounded-2xl bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-4 text-lg font-semibold text-white transition hover:scale-[1.02]">Start Fundraising Now</button>

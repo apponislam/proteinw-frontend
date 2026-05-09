@@ -1,6 +1,7 @@
 "use client";
 
 import { Lightbulb, TrendingUp } from "lucide-react";
+import Image from "next/image";
 
 interface FundraisingSummaryProps {
     packagesNeeded?: number;
@@ -70,8 +71,8 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                         <span className="text-center">225 Pkgs</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                        <span className="text-center">40%</span>
-                        <span className="text-center">225+ Pkgs</span>
+                        <span className="text-center">50%</span>
+                        <span className="text-center">300 Pkgs</span>
                     </div>
                 </div>
 
@@ -80,6 +81,19 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                     <Lightbulb />
                     <p className="text-sm ">
                         <span className="font-semibold">Expert Tip:</span> If each student sells just 2 more packages, your team will unlock the next profit tier and increase total earnings.
+                    </p>
+                </div>
+            </div>
+            <div className="relative">
+                <Image src="/profit/profitpic.png" alt="Description" width={500} height={300} className="w-full rounded-[24px]" />
+
+                {/* Black Overlay */}
+                <div className="absolute inset-0 rounded-[24px] bg-black/50"></div>
+
+                <div className="absolute bottom-3 xl:bottom-8 left-3 xl:left-8 z-10 text-white">
+                    <h1 className="text-2xl">High-Margin Products</h1>
+                    <p>
+                        Our collections sell faster because they are useful, sustainable, and <br className="hidden xl:block" /> beautifully designed. Quality that supports your community.
                     </p>
                 </div>
             </div>
