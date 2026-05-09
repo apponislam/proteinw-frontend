@@ -7,12 +7,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const menuItems = [
-    { title: "Dashboard", url: "/dashboard", icon: Home },
-    { title: "Analytics", url: "/dashboard/analytics", icon: BarChart3 },
+    { title: "Dashboard Overview", url: "/dashboard", icon: Home },
+    { title: "Admins", url: "/dashboard/admins", icon: Users },
+    { title: "Groups", url: "/dashboard/groups", icon: Users },
+    { title: "Sellers", url: "/dashboard/sellers", icon: Users },
+    { title: "Orders", url: "/dashboard/orders", icon: CreditCard },
     { title: "Products", url: "/dashboard/products", icon: Package },
-    { title: "Users", url: "/dashboard/users", icon: Users },
-    { title: "Payments", url: "/dashboard/payments", icon: CreditCard },
-    { title: "Settings", url: "/dashboard/settings", icon: Settings },
+    { title: "Campaigns", url: "/dashboard/campaigns", icon: BarChart3 },
+    { title: "Profit Rules", url: "/dashboard/profit-rules", icon: Settings },
 ];
 
 export function AppSidebar() {
