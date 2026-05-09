@@ -56,7 +56,9 @@ export function Header() {
 
                     {/* Right Section - Auth Buttons */}
                     <div className="hidden md:flex items-center space-x-8">
-                        <LayoutDashboard className="text-[#F59E0B]" />
+                        <Link href="/dashboard">
+                            <LayoutDashboard className="text-[#F59E0B]" />
+                        </Link>
                         <Link href="/auth/login" className="text-sm font-medium text-foreground hover:text-[#F59E0B] transition-colors">
                             Login
                         </Link>
@@ -85,7 +87,9 @@ export function Header() {
                             ))}
                             <div className="pt-4 pb-3 border-t border-border/40">
                                 <div className="flex items-center px-5 space-x-4">
-                                    <LayoutDashboard className="text-[#F59E0B]" />
+                                    <Link href="/dashboard">
+                                        <LayoutDashboard className="text-[#F59E0B]" />
+                                    </Link>
                                     <Link href="/auth/login" className="text-base font-medium text-foreground hover:text-[#F59E0B] transition-colors" onClick={() => setIsOpen(false)}>
                                         Login
                                     </Link>

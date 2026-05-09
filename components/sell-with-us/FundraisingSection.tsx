@@ -1,5 +1,6 @@
 import { Box, TabletSmartphone } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const FundraisingSection = () => {
@@ -56,7 +57,9 @@ const FundraisingSection = () => {
 
                             <p className="text-gray-600 leading-relaxed">Vi har noga valt ut lättsålda kvalitetsprodukter som ljus, strumpor och delikatesser. Kvalitet som gör att kunderna gärna köper igen.</p>
 
-                            <button className="mt-6 text-[#EFAC02] font-semibold transition-all duration-300 hover:underline hover:translate-x-1">Se hela sortimentet →</button>
+                            <Link href="/profit">
+                                <button className="mt-6 text-[#EFAC02] font-semibold transition-all duration-300 hover:underline hover:translate-x-1 cursor-pointer">Se hela sortimentet →</button>
+                            </Link>
                         </div>
                         <div className="flex flex-wrap sm:flex-nowrap gap-4 lg:mt-0 shrink-0 max-w-full">
                             <Image src="/sellwithus/product1.png" width={160} height={160} alt="Fundraising products" className="w-35 sm:w-40 h-35 sm:h-40 rounded-[32px] object-cover transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg mb-6" />
