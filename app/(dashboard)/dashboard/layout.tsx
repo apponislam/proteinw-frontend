@@ -1,15 +1,14 @@
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import DashBoradHeader from "@/components/dashboard/DashBoradHeader";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset>
-                <div className="p-4">
-                    <SidebarTrigger />
-                    {children}
-                </div>
+            <SidebarInset className="bg-[#F9F9F9]">
+                <DashBoradHeader></DashBoradHeader>
+                <div className="p-4">{children}</div>
             </SidebarInset>
         </SidebarProvider>
     );
