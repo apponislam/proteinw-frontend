@@ -1,12 +1,17 @@
-import { Bell } from "lucide-react";
-import { SidebarTrigger } from "../ui/sidebar";
+"use client";
+import { Bell, Menu } from "lucide-react";
 import Image from "next/image";
+import { useSidebar } from "../ui/sidebar";
 
 const DashBoradHeader = () => {
+    const { toggleSidebar } = useSidebar();
+
     return (
         <div className="bg-white p-4 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex items-center justify-between">
-                <SidebarTrigger />
+                <button onClick={toggleSidebar} className="flex items-center justify-center p-2 rounded-none bg-transparent text-[#78716C] hover:text-[#D97706] hover:bg-[#F5F5F4] transition-all duration-200">
+                    <Menu size={24} />
+                </button>
                 <div className="flex items-center gap-6">
                     <Bell className="text-[#A8A29E]" />
                     <div className="w-1 bg-[#F5F5F4] h-8"></div>
