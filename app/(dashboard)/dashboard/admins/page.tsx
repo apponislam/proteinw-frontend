@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import AdminCreateModal from "@/components/dashboard/Admin/Admins/AdminCreateModal";
+import AdminsCards from "@/components/dashboard/Admin/Admins/AdminsCards";
 
 const AdminsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +20,8 @@ const AdminsPage = () => {
                     Create Admin
                 </button>
             </div>
+
+            <AdminsCards />
 
             <AdminCreateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
