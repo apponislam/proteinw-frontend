@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import AdminCreateModal from "@/components/dashboard/Admin/Admins/AdminCreateModal";
 import AdminsCards from "@/components/dashboard/Admin/Admins/AdminsCards";
+import AdminList from "@/components/dashboard/Admin/Admins/AdminList";
 
 const AdminsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,6 +23,7 @@ const AdminsPage = () => {
             </div>
 
             <AdminsCards />
+            <AdminList />
 
             <AdminCreateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
