@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import OverviewReport from "./OverviewReport";
 
 const AdminOverview = () => {
     return (
@@ -96,6 +97,7 @@ const AdminOverview = () => {
                     </div>
                 </div>
             </div>
+            <OverviewReport></OverviewReport>
         </div>
     );
 };
