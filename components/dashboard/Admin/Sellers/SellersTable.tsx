@@ -52,10 +52,6 @@ const SellersTable = () => {
                     <h2 className="text-xl font-bold text-[#1A1C1C]">All Sellers</h2>
                     <p className="text-[#78716C] text-sm mt-1">LIVE OVERVIEW</p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <button className="text-[#78716C] hover:text-[#1A1C1C] text-sm">Filters</button>
-                    <button className="text-[#D97706] hover:underline text-sm font-medium">Export CSV</button>
-                </div>
             </div>
 
             <div className="overflow-x-auto">

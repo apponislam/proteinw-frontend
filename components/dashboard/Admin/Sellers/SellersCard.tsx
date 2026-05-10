@@ -5,7 +5,7 @@ const sellerStats = [
     {
         title: "TOTAL SELLERS",
         value: "1,248",
-        subtitle: "+12%",
+        subtitle: "",
         color: "#D97706",
     },
     {
