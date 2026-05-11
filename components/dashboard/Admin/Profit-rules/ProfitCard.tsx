@@ -16,7 +16,7 @@ const ProfitCard: React.FC<ProfitCardProps> = ({ tierName, percentage, min, max,
     const salesRange = max ? `${min} – ${max} Items` : `${min}+ Items`;
 
     return (
-        <div className={`bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group ${isMostPopular ? "ring-2 ring-[#D97706]" : ""}`}>
+        <div className={`bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group ${isMostPopular ? "ring-2 ring-[#F59E0B33]" : ""}`}>
             {isMostPopular && <div className="absolute top-0 right-0 bg-[#D97706] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">MOST POPULAR</div>}
             <div className="relative z-10">
                 <div className="mb-4">
