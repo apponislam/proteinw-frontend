@@ -9,7 +9,7 @@ const tierSchema = z.object({
     tierName: z.string().min(2, "Tier name must be at least 2 characters"),
     percentage: z.string().min(1, "Percentage is required"),
     min: z.number().min(0, "Min must be at least 0"),
-    max: z.number().min(0, "Max must be at least 0"),
+    max: z.number().min(0, "Max must be at least 0").optional(),
     tierTag: z.string().optional(),
 });
 
@@ -27,7 +27,7 @@ const ProfitRuleHead = () => {
             tierName: "",
             percentage: "",
             min: 0,
-            max: 0,
+            max: undefined,
             tierTag: "",
         },
     });
