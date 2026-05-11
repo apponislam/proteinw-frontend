@@ -23,7 +23,7 @@ const ProfitCards: React.FC = () => {
             groupsCount: 12,
         },
         {
-            tierName: "MOST POPULAR",
+            tierName: "GROWTH ACCELERATOR",
             percentage: "45%",
             min: 150,
             max: 224,
@@ -31,7 +31,7 @@ const ProfitCards: React.FC = () => {
             isMostPopular: true,
         },
         {
-            tierName: "GROWTH ACCELERATOR",
+            tierName: "ELITE PERFORMANCE",
             percentage: "50%",
             min: 225,
             groupsCount: 24,
