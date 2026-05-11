@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { Home, Users, Settings, BarChart3, Package, CreditCard, LogOut } from "lucide-react";
+import { Home, Users, Settings, BarChart3, Package, CreditCard, LogOut, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,6 +15,7 @@ const menuItems = [
     { title: "Products", url: "/dashboard/products", icon: Package },
     { title: "Campaigns", url: "/dashboard/campaigns", icon: BarChart3 },
     { title: "Profit Rules", url: "/dashboard/profit-rules", icon: Settings },
+    { title: "Policy Center", url: "/dashboard/policy-center", icon: ShieldCheck },
 ];
 
 export function AppSidebar() {
