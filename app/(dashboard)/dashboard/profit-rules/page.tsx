@@ -1,11 +1,12 @@
 import React from "react";
+import ProfitRuleHead from "@/components/dashboard/Admin/Profit-rules/ProfitRuleHead";
 
-const page = () => {
+const ProfitRulesPage = () => {
     return (
         <div>
-            <h1>Profit Rules</h1>
+            <ProfitRuleHead />
         </div>
     );
 };
 
-export default page;
+export default ProfitRulesPage;
