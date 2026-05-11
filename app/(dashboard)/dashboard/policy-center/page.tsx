@@ -1,9 +1,54 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import JoditEditor from "jodit-react";
 
 const PolicyCenterPage = () => {
     const [activeTab, setActiveTab] = useState("terms");
+    const termsEditorRef = useRef<any>(null);
+    const privacyEditorRef = useRef<any>(null);
+
+    const config = {
+        readonly: false,
+        height: 400,
+        toolbarButtonSize: "middle",
+        toolbarAdaptive: false,
+        showCharsCounter: false,
+        showWordsCounter: false,
+        showXPathInStatusbar: false,
+        askBeforePasteHTML: false,
+        askBeforePasteFromWord: false,
+        defaultActionOnPaste: "insert_only",
+        toolbar: ["bold", "italic", "underline", "strikethrough", "|", "ul", "ol", "|", "outdent", "indent", "|", "font", "fontsize", "brush", "paragraph", "|", "left", "center", "right", "justify", "|", "undo", "redo", "|", "cut", "copy", "paste"],
+        disablePlugins: ["image", "file", "video", "media", "uploader", "filebrowser", "drag-and-drop"],
+        uploader: {
+            insertImageAsBase64URI: false,
+            files: false,
+            allowDragAndDropFileToEditor: false,
+        },
+        filebrowser: {
+            ajax: {
+                url: "",
+            },
+            disabled: true,
+        },
+    } as any;
+
+    const handleSaveTerms = () => {
+        if (termsEditorRef.current) {
+            const content = termsEditorRef.current.value;
+            console.log("Saving terms:", content);
+            alert("Terms saved!");
+        }
+    };
+
+    const handleSavePrivacy = () => {
+        if (privacyEditorRef.current) {
+            const content = privacyEditorRef.current.value;
+            console.log("Saving privacy:", content);
+            alert("Privacy policy saved!");
+        }
+    };
 
     return (
         <div>
@@ -28,16 +73,24 @@ const PolicyCenterPage = () => {
                     {activeTab === "terms" && (
                         <div className="space-y-4">
                             <h2 className="text-xl font-bold text-[#1A1C1C]">Terms and Conditions</h2>
-                            <textarea placeholder="Enter your terms and conditions here..." className="w-full h-96 px-4 py-3 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 resize-none" />
-                            <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">Save Terms</button>
+                            <div>
+                                <JoditEditor ref={termsEditorRef} config={config} />
+                            </div>
+                            <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all" onClick={handleSaveTerms}>
+                                Save Terms
+                            </button>
                         </div>
                     )}
 
                     {activeTab === "privacy" && (
                         <div className="space-y-4">
                             <h2 className="text-xl font-bold text-[#1A1C1C]">Privacy Policy</h2>
-                            <textarea placeholder="Enter your privacy policy here..." className="w-full h-96 px-4 py-3 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 resize-none" />
-                            <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">Save Privacy Policy</button>
+                            <div>
+                                <JoditEditor ref={privacyEditorRef} config={config} />
+                            </div>
+                            <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all" onClick={handleSavePrivacy}>
+                                Save Privacy Policy
+                            </button>
                         </div>
                     )}
                 </div>
