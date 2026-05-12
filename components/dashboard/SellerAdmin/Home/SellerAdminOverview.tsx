@@ -1,5 +1,6 @@
 import React from "react";
 import SellerAdminHomeCards from "./SellerAdminHomeCards";
+import SellerAdminFundraisingTarget from "./SellerAdminFundraisingTarget";
 
 const SellerAdminOverview = () => {
     return (
@@ -10,6 +11,7 @@ const SellerAdminOverview = () => {
                 <p className="text-[#78716C] text-lg">Your Class 2024 campaign is active and performing well.</p>
             </div>
             <SellerAdminHomeCards />
+            <SellerAdminFundraisingTarget />
         </div>
     );
 };
