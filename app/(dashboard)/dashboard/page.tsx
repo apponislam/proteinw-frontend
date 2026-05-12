@@ -1,4 +1,4 @@
-import AdminOverview from "@/components/dashboard/Admin/Home/AdminOverview";
+import AdminOverview from "@/components/dashboard/SuperAdmin/Home/AdminOverview";
 import React from "react";
 
 const page = () => {

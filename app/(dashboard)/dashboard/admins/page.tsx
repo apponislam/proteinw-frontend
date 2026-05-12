@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
-import AdminCreateModal from "@/components/dashboard/Admin/Admins/AdminCreateModal";
-import AdminsCards from "@/components/dashboard/Admin/Admins/AdminsCards";
-import AdminList from "@/components/dashboard/Admin/Admins/AdminList";
+import AdminCreateModal from "@/components/dashboard/SuperAdmin/Admins/AdminCreateModal";
+import AdminsCards from "@/components/dashboard/SuperAdmin/Admins/AdminsCards";
+import AdminList from "@/components/dashboard/SuperAdmin/Admins/AdminList";
 
 const AdminsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);

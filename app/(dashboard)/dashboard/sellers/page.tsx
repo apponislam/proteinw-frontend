@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import SellersCard from "@/components/dashboard/Admin/Sellers/SellersCard";
-import SellersTable from "@/components/dashboard/Admin/Sellers/SellersTable";
+import SellersCard from "@/components/dashboard/SuperAdmin/Sellers/SellersCard";
+import SellersTable from "@/components/dashboard/SuperAdmin/Sellers/SellersTable";
 
 const SellersPage = () => {
     return (

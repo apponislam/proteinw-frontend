@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import OrdersCard from "@/components/dashboard/Admin/Orders/OrdersCard";
-import OrdersTable from "@/components/dashboard/Admin/Orders/OrdersTable";
+import OrdersCard from "@/components/dashboard/SuperAdmin/Orders/OrdersCard";
+import OrdersTable from "@/components/dashboard/SuperAdmin/Orders/OrdersTable";
 
 const OrdersPage = () => {
     return (

@@ -1,5 +1,5 @@
-import CampaignsOverviewCards from "@/components/dashboard/Admin/Campaigns/CampaignsOverviewCards";
-import AllCampaignCards from "@/components/dashboard/Admin/Campaigns/AllCampaignCards";
+import CampaignsOverviewCards from "@/components/dashboard/SuperAdmin/Campaigns/CampaignsOverviewCards";
+import AllCampaignCards from "@/components/dashboard/SuperAdmin/Campaigns/AllCampaignCards";
 import React from "react";
 
 const page = () => {

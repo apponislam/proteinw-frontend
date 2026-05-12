@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import GroupCards from "@/components/dashboard/Admin/Groups/GroupCards";
-import GroupsTable from "@/components/dashboard/Admin/Groups/GroupsTable";
+import GroupCards from "@/components/dashboard/SuperAdmin/Groups/GroupCards";
+import GroupsTable from "@/components/dashboard/SuperAdmin/Groups/GroupsTable";
 
 const GroupsPage = () => {
     return (
