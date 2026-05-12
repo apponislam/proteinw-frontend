@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import CampaignCard from "./CampaignCard";
 
 const campaigns = [
@@ -83,14 +84,52 @@ const campaigns = [
         raised: "€57,000",
         daysLeft: "Deadline: In 2 days",
     },
+    {
+        title: "Old Town Heritage Project",
+        description: "Preserving historical buildings in the city center",
+        status: "INACTIVE",
+        progress: 100,
+        goal: "€80,000",
+        raised: "€80,000",
+        daysLeft: "Deadline: Completed",
+    },
 ];
 
 const AllCampaignCards = () => {
+    const [activeTab, setActiveTab] = useState<"all" | "active" | "inactive">("all");
+
+    const filteredCampaigns = campaigns.filter((campaign) => {
+        if (activeTab === "all") return true;
+        if (activeTab === "active") return campaign.status === "ACTIVE";
+        return campaign.status === "INACTIVE";
+    });
+
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {campaigns.map((campaign, index) => (
-                <CampaignCard key={index} title={campaign.title} description={campaign.description} status={campaign.status} progress={campaign.progress} goal={campaign.goal} raised={campaign.raised} daysLeft={campaign.daysLeft} />
-            ))}
+        <div>
+            <div className="mb-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-[#1A1C1C]">Active Campaigns</h2>
+                        <p className="text-[#78716C] text-sm mt-1">Managing ongoing regional fundraising initiatives</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <button onClick={() => setActiveTab("all")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "all" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            All
+                        </button>
+                        <button onClick={() => setActiveTab("active")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "active" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            Active
+                        </button>
+                        <button onClick={() => setActiveTab("inactive")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeTab === "inactive" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            Inactive
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {filteredCampaigns.map((campaign, index) => (
+                    <CampaignCard key={index} title={campaign.title} description={campaign.description} status={campaign.status} progress={campaign.progress} goal={campaign.goal} raised={campaign.raised} daysLeft={campaign.daysLeft} />
+                ))}
+            </div>
         </div>
     );
 };
