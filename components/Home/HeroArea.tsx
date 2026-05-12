@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, TrendingUp } from "lucide-react";
 
 export function HeroArea() {
     return (
@@ -49,7 +49,10 @@ export function HeroArea() {
 
                             {/* Profit Box - Absolutely Positioned */}
                             <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-white/80 border border-white/20 rounded-2xl p-6 shadow-md">
-                                <p className="text-4xl font-bold text-gray-900">50%</p>
+                                <div className="flex items-center gap-4">
+                                    <TrendingUp className="text-[#7C5800]" />
+                                    <p className="text-4xl font-bold text-gray-900">50%</p>
+                                </div>
                                 <p className="text-gray-600 text-sm mt-2 max-w-xs">Industry-leading profit margins for your group.</p>
                             </div>
                         </div>

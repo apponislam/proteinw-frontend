@@ -6,8 +6,7 @@ const products = [
         id: "SKU-20492-W",
         status: "Active",
         price: "$124.00",
-        campaigns: ["W", "N"],
-        additional: "+2",
+        campaigns: ["W", "N", "F", "G"],
     },
     {
         name: "Sol Lounge Chair",
@@ -15,7 +14,6 @@ const products = [
         status: "Active",
         price: "$849.00",
         campaigns: ["N"],
-        additional: "",
     },
     {
         name: "Tid Wall Clock",
@@ -23,17 +21,17 @@ const products = [
         status: "Draft",
         price: "$75.00",
         campaigns: [],
-        additional: "None assigned",
     },
     {
         name: "Ull Wool Throw",
         id: "SKU-33091-G",
         status: "Draft",
         price: "$185.00",
-        campaigns: ["W", "F"],
-        additional: "",
+        campaigns: ["W", "F", "X"],
     },
 ];
+
+const campaignColors = ["bg-[#D97706]", "bg-[#7C3AED]", "bg-[#10B981]", "bg-[#3B82F6]"];
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -92,27 +90,38 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                     </div>
                                 </td>
                                 <td className="px-4 py-4">
-                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(product.status)}`}>
-                                        {product.status}
-                                    </span>
+                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(product.status)}`}>{product.status}</span>
                                 </td>
                                 <td className="px-4 py-4">
                                     <span className="text-[#D97706] font-bold">{product.price}</span>
                                 </td>
                                 <td className="px-4 py-4">
-                                    <div className="flex items-center gap-2">
-                                        {product.campaigns.map((campaign, idx) => (
-                                            <span key={idx} className="w-8 h-8 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">
-                                                {campaign}
-                                            </span>
-                                        ))}
-                                        {product.additional && (
-                                            <span className="text-[#78716C] text-sm">{product.additional}</span>
-                                        )}
-                                    </div>
+                                    {product.campaigns.length === 0 ? (
+                                        <span className="text-[#78716C] text-sm">None assigned</span>
+                                    ) : (
+                                        <div className="flex items-center relative group">
+                                            {product.campaigns.slice(0, 2).map((campaign, idx) => (
+                                                <span key={idx} className={`w-8 h-8 rounded-full text-white flex items-center justify-center font-bold text-sm border-2 border-white ${campaignColors[idx % campaignColors.length]} ${idx > 0 ? "-ml-2" : ""}`}>
+                                                    {campaign}
+                                                </span>
+                                            ))}
+                                            {product.campaigns.length > 2 && <span className={`w-8 h-8 rounded-full bg-[#78716C] text-white flex items-center justify-center font-bold text-xs border-2 border-white ${product.campaigns.length > 2 ? "-ml-2" : ""}`}>+{product.campaigns.length - 2}</span>}
+                                            {product.campaigns.length > 2 && (
+                                                <div className="absolute bottom-full left-0 mb-2 hidden group-hover:flex flex-wrap gap-1 bg-white p-2 rounded-lg shadow-lg border border-[#F5F5F4] z-50">
+                                                    {product.campaigns.map((campaign, idx) => (
+                                                        <span key={idx} className={`w-7 h-7 rounded-full text-white flex items-center justify-center font-bold text-xs ${campaignColors[idx % campaignColors.length]}`}>
+                                                            {campaign}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </td>
                                 <td className="px-4 py-4">
-                                    <button onClick={onEdit} className="text-[#D97706] hover:underline text-sm">Edit</button>
+                                    <button onClick={onEdit} className="text-[#D97706] hover:underline text-sm">
+                                        Edit
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -121,19 +130,10 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
             </div>
 
             <div className="flex items-center justify-between mt-6">
-                <div className="text-[#78716C] text-sm">
-                    SHOWING 1 TO 10 OF 1,248 SELLERS
-                </div>
+                <div className="text-[#78716C] text-sm">SHOWING 1 TO 10 OF 1,248 SELLERS</div>
                 <div className="flex items-center gap-2">
                     {[1, 2, 3].map((page) => (
-                        <button
-                            key={page}
-                            className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
-                                page === 1
-                                    ? "bg-[#D97706] text-white"
-                                    : "text-[#78716C] hover:bg-[#F5F5F4]"
-                            }`}
-                        >
+                        <button key={page} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${page === 1 ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             {page}
                         </button>
                     ))}
