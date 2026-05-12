@@ -1,51 +1,36 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import JoditEditor from "jodit-react";
+import React, { useState, useMemo, useRef } from "react";
+import dynamic from "next/dynamic";
+import "jodit/es2021/jodit.min.css";
+
+const JoditEditor = dynamic(() => import("jodit-react"), {
+    ssr: false,
+});
 
 const PolicyCenterPage = () => {
     const [activeTab, setActiveTab] = useState("terms");
     const termsEditorRef = useRef<any>(null);
     const privacyEditorRef = useRef<any>(null);
 
-    const config = {
-        readonly: false,
-        height: 400,
-        toolbarButtonSize: "middle",
-        toolbarAdaptive: false,
-        showCharsCounter: false,
-        showWordsCounter: false,
-        showXPathInStatusbar: false,
-        askBeforePasteHTML: false,
-        askBeforePasteFromWord: false,
-        defaultActionOnPaste: "insert_only",
-        toolbar: ["bold", "italic", "underline", "strikethrough", "|", "ul", "ol", "|", "outdent", "indent", "|", "font", "fontsize", "brush", "paragraph", "|", "left", "center", "right", "justify", "|", "undo", "redo", "|", "cut", "copy", "paste"],
-        disablePlugins: ["image", "file", "video", "media", "uploader", "filebrowser", "drag-and-drop"],
-        uploader: {
-            insertImageAsBase64URI: false,
-            files: false,
-            allowDragAndDropFileToEditor: false,
-        },
-        filebrowser: {
-            ajax: {
-                url: "",
-            },
-            disabled: true,
-        },
-    } as any;
+    const config = useMemo(
+        () =>
+            ({
+                disablePlugins: ["image", "file", "video", "media", "uploader", "filebrowser", "drag-and-drop"],
+            }) as any,
+        [],
+    );
 
     const handleSaveTerms = () => {
         if (termsEditorRef.current) {
-            const content = termsEditorRef.current.value;
-            console.log("Saving terms:", content);
+            console.log("Saving terms:", termsEditorRef.current.value);
             alert("Terms saved!");
         }
     };
 
     const handleSavePrivacy = () => {
         if (privacyEditorRef.current) {
-            const content = privacyEditorRef.current.value;
-            console.log("Saving privacy:", content);
+            console.log("Saving privacy:", privacyEditorRef.current.value);
             alert("Privacy policy saved!");
         }
     };
