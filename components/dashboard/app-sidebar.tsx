@@ -24,7 +24,7 @@ export function AppSidebar() {
     return (
         <Sidebar>
             <SidebarHeader className="p-4">
-                <div className="flex items-center gap-3">
+                <Link href="/" className="flex items-center gap-3">
                     <div>
                         <Image src="/dashboard/superadmin/logo.svg" alt="ProteinW" width={40} height={40} />
                     </div>
@@ -32,7 +32,7 @@ export function AppSidebar() {
                         <h1 className="text-[18px] font-bold">Fundraising Pro</h1>
                         <p className="text-[#78716C] text-[10px]">SUPER ADMIN CONSOLE</p>
                     </div>
-                </div>
+                </Link>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup className="p-0">
