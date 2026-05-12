@@ -1,25 +1,23 @@
 "use client";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { Home, Users, Settings, BarChart3, Package, CreditCard, LogOut, ShieldCheck } from "lucide-react";
+import { getMenuByRole } from "@/utils/menuItems";
+import { useRole } from "./RoleProvider";
+import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const menuItems = [
-    { title: "Dashboard Overview", url: "/dashboard", icon: Home },
-    { title: "Admins", url: "/dashboard/admins", icon: Users },
-    { title: "Groups", url: "/dashboard/groups", icon: Users },
-    { title: "Sellers", url: "/dashboard/sellers", icon: Users },
-    { title: "Orders", url: "/dashboard/orders", icon: CreditCard },
-    { title: "Products", url: "/dashboard/products", icon: Package },
-    { title: "Campaigns", url: "/dashboard/campaigns", icon: BarChart3 },
-    { title: "Profit Rules", url: "/dashboard/profit-rules", icon: Settings },
-    { title: "Policy Center", url: "/dashboard/policy-center", icon: ShieldCheck },
-];
-
 export function AppSidebar() {
     const pathname = usePathname();
+    const { activeRole } = useRole();
+    const menuItems = getMenuByRole(activeRole);
+
+    const roleLabels: Record<string, string> = {
+        SUPER_ADMIN: "SUPER ADMIN",
+        SELLER_ADMIN: "SELLER ADMIN",
+        SELLER: "SELLER",
+    };
 
     return (
         <Sidebar>
@@ -30,7 +28,7 @@ export function AppSidebar() {
                     </div>
                     <div>
                         <h1 className="text-[18px] font-bold">Fundraising Pro</h1>
-                        <p className="text-[#78716C] text-[10px]">SUPER ADMIN CONSOLE</p>
+                        <p className="text-[#78716C] text-[10px]">{roleLabels[activeRole]} CONSOLE</p>
                     </div>
                 </Link>
             </SidebarHeader>

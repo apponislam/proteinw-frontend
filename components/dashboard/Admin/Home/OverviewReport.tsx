@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const groupData = [
@@ -32,7 +33,9 @@ const OverviewReport = () => {
                     <h2 className="text-[#1A1C1C] text-xl font-bold">Total Profit per Group</h2>
                     <p className="text-[#78716C] text-sm mt-1">Revenue distribution for the top-performing groups this quarter.</p>
                 </div>
-                <button className="text-[#D97706] font-medium text-sm hover:underline">View all reports</button>
+                <Link href="/dashboard/groups">
+                    <button className="text-[#D97706] font-medium text-sm hover:underline cursor-pointer">View all reports</button>
+                </Link>
             </div>
 
             <div className="overflow-x-auto">
