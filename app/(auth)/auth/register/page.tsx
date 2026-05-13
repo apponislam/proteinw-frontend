@@ -1,6 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import { Trophy, GraduationCap, Users, Target } from "lucide-react";
 
 const page = () => {
+    const [selectedProfession, setSelectedProfession] = useState<string | null>(null);
+
+    const professions = [
+        { name: "LEADER", icon: Trophy },
+        { name: "TEACHER", icon: GraduationCap },
+        { name: "PARENT", icon: Users },
+        { name: "COACH", icon: Target },
+    ];
+
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
@@ -63,16 +76,24 @@ const page = () => {
                                 <input type="text" placeholder="Class 2024 / Team Blue" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
                             </div>
 
-                            {/* Your Role */}
+                            {/* Your Profession */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-3">YOUR ROLE</label>
-                                <div className="flex flex-wrap gap-3">
-                                    {["LEADER", "TEACHER", "PARENT", "COACH"].map((role) => (
-                                        <label key={role} className="flex items-center gap-2 cursor-pointer">
-                                            <input type="radio" name="role" value={role} className="w-4 h-4" />
-                                            <span className="text-sm text-gray-700 font-medium">{role}</span>
-                                        </label>
-                                    ))}
+                                <label className="block text-sm font-semibold text-gray-700 mb-3">YOUR PROFESSION</label>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                    {professions.map((profession) => {
+                                        const Icon = profession.icon;
+                                        return (
+                                            <button
+                                                key={profession.name}
+                                                type="button"
+                                                onClick={() => setSelectedProfession(profession.name)}
+                                                className={`px-3 py-4 rounded-xl border-2 transition-all flex flex-col items-center justify-center gap-2 ${selectedProfession === profession.name ? "border-[#7C5800] bg-[#FFDEA8] text-[#271900] font-semibold" : "border-white bg-[#E8E8E8] text-[#78716C] hover:border-[#EFAC02] hover:bg-white"}`}
+                                            >
+                                                <Icon className="w-5 h-5" />
+                                                {profession.name}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
