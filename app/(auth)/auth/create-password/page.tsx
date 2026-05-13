@@ -1,6 +1,42 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const createPasswordSchema = z
+    .object({
+        newPassword: z.string().min(8, "Password must be at least 8 characters"),
+        confirmPassword: z.string().min(8, "Please confirm your password"),
+    })
+    .refine((data) => data.newPassword === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });
+
+type CreatePasswordFormValues = z.infer<typeof createPasswordSchema>;
 
 const page = () => {
+    const router = useRouter();
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<CreatePasswordFormValues>({
+        resolver: zodResolver(createPasswordSchema),
+        defaultValues: {
+            newPassword: "",
+            confirmPassword: "",
+        },
+    });
+
+    const onSubmit = (data: CreatePasswordFormValues) => {
+        console.log("Create password form submitted:", data);
+        router.push("/auth/reset-successful");
+    };
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
@@ -33,21 +69,23 @@ const page = () => {
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             {/* New Password Input */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">NEW PASSWORD</label>
                                 <div className="relative">
-                                    <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                    <Controller name="newPassword" control={control} render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
                                 </div>
+                                {errors.newPassword && <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>}
                             </div>
 
                             {/* Confirm Password Input */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">CONFIRM PASSWORD</label>
                                 <div className="relative">
-                                    <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                    <Controller name="confirmPassword" control={control} render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
                                 </div>
+                                {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
                             </div>
 
                             {/* Password Requirements */}

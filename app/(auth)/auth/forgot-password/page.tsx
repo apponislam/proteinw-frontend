@@ -1,6 +1,35 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const forgotPasswordSchema = z.object({
+    email: z.string().email("Please enter a valid email address"),
+});
+
+type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 const page = () => {
+    const router = useRouter();
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<ForgotPasswordFormValues>({
+        resolver: zodResolver(forgotPasswordSchema),
+        defaultValues: {
+            email: "",
+        },
+    });
+
+    const onSubmit = (data: ForgotPasswordFormValues) => {
+        console.log("Forgot password form submitted:", data);
+        router.push("/auth/verify-code");
+    };
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
@@ -33,13 +62,14 @@ const page = () => {
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             {/* Email Input */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
                                 <div className="relative">
-                                    <input type="email" placeholder="name@example.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                    <Controller name="email" control={control} render={({ field }) => <input type="email" placeholder="name@example.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
                                 </div>
+                                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                             </div>
 
                             {/* Send Code Button */}

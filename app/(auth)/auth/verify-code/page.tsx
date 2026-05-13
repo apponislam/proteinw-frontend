@@ -1,10 +1,33 @@
 "use client";
 import Link from "next/link";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const verifyCodeSchema = z.object({
+    code: z.string().length(6, "Please enter the complete 6-digit code"),
+});
+
+type VerifyCodeFormValues = z.infer<typeof verifyCodeSchema>;
 
 const Page = () => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const router = useRouter();
+
+    const {
+        control,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+    } = useForm<VerifyCodeFormValues>({
+        resolver: zodResolver(verifyCodeSchema),
+        defaultValues: {
+            code: "",
+        },
+    });
 
     const handleChange = (index: number, value: string) => {
         if (!/^\d*$/.test(value)) return;
@@ -12,6 +35,9 @@ const Page = () => {
         const newOtp = [...otp];
         newOtp[index] = value.slice(-1);
         setOtp(newOtp);
+
+        const fullCode = newOtp.join("");
+        setValue("code", fullCode);
 
         if (value && index < 5) {
             inputRefs.current[index + 1]?.focus();
@@ -32,6 +58,7 @@ const Page = () => {
         if (digits.length > 0) {
             const newOtp = digits.split("").concat(Array(6 - digits.length).fill(""));
             setOtp(newOtp);
+            setValue("code", digits);
 
             if (digits.length === 6) {
                 inputRefs.current[5]?.focus();
@@ -39,6 +66,11 @@ const Page = () => {
                 inputRefs.current[digits.length]?.focus();
             }
         }
+    };
+
+    const onSubmit = (data: VerifyCodeFormValues) => {
+        console.log("Verify code form submitted:", data);
+        router.push("/auth/create-password");
     };
 
     return (
@@ -73,28 +105,35 @@ const Page = () => {
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                             {/* OTP Input Boxes */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-4">VERIFICATION CODE</label>
-                                <div className="flex gap-3 justify-center">
-                                    {otp.map((digit, index) => (
-                                        <input
-                                            key={index}
-                                            ref={(el) => {
-                                                inputRefs.current[index] = el;
-                                            }}
-                                            type="text"
-                                            inputMode="numeric"
-                                            maxLength={1}
-                                            value={digit}
-                                            onChange={(e) => handleChange(index, e.target.value)}
-                                            onKeyDown={(e) => handleKeyDown(index, e)}
-                                            onPaste={handlePaste}
-                                            className="w-12 h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition bg-gray-50 hover:border-gray-400"
-                                        />
-                                    ))}
-                                </div>
+                                <Controller
+                                    name="code"
+                                    control={control}
+                                    render={() => (
+                                        <div className="flex gap-3 justify-center">
+                                            {otp.map((digit, index) => (
+                                                <input
+                                                    key={index}
+                                                    ref={(el) => {
+                                                        inputRefs.current[index] = el;
+                                                    }}
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    maxLength={1}
+                                                    value={digit}
+                                                    onChange={(e) => handleChange(index, e.target.value)}
+                                                    onKeyDown={(e) => handleKeyDown(index, e)}
+                                                    onPaste={handlePaste}
+                                                    className="w-12 h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition bg-gray-50 hover:border-gray-400"
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                />
+                                {errors.code && <p className="text-red-500 text-xs mt-2 text-center">{errors.code.message}</p>}
                             </div>
 
                             {/* Verify Button */}

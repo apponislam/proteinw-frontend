@@ -1,6 +1,35 @@
+"use client";
+
 import Link from "next/link";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(1, "Please enter your password"),
+    remember: z.boolean().optional(),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const page = () => {
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormValues>({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+            remember: false,
+        },
+    });
+
+    const onSubmit = (data: LoginFormValues) => {
+        console.log("Login form submitted:", data);
+    };
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 ">
             {/* Header */}
@@ -33,21 +62,23 @@ const page = () => {
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             {/* Email Input */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
                                 <div className="relative">
-                                    <input type="email" placeholder="name@example.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                    <Controller name="email" control={control} render={({ field }) => <input type="email" placeholder="name@example.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
                                 </div>
+                                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                             </div>
 
                             {/* Password Input */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">PASSWORD</label>
                                 <div className="relative">
-                                    <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                    <Controller name="password" control={control} render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
                                 </div>
+                                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                                 <div className="text-right mt-2">
                                     <Link href="/auth/forgot-password" className="text-sm text-amber-600 hover:text-amber-700 font-medium">
                                         Forgot Password?
@@ -57,10 +88,18 @@ const page = () => {
 
                             {/* Remember Me */}
                             <div className="flex items-center">
-                                <input type="checkbox" id="remember" className="w-4 h-4 rounded border-gray-300 cursor-pointer" />
-                                <label htmlFor="remember" className="ml-2 text-sm text-gray-700 cursor-pointer">
-                                    Remember me
-                                </label>
+                                <Controller
+                                    name="remember"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <>
+                                            <input type="checkbox" id="remember" className="w-4 h-4 rounded border-gray-300 cursor-pointer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
+                                            <label htmlFor="remember" className="ml-2 text-sm text-gray-700 cursor-pointer">
+                                                Remember me
+                                            </label>
+                                        </>
+                                    )}
+                                />
                             </div>
 
                             {/* Sign In Button */}
