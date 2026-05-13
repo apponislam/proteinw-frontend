@@ -81,7 +81,6 @@ const OrdersTable = () => {
                             <option>Last 30 Days</option>
                         </select>
                     </div>
-                    <div className="text-[#78716C] text-sm">Showing 24 of 1,204 results</div>
                 </div>
             </div>
 
