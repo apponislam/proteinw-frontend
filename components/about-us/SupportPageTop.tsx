@@ -19,7 +19,7 @@ const SupportPageTop = () => {
                         <input type="text" placeholder="Search our knowledge base..." className="bg-[#E8E8E8] rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-transparent placeholder:text-[#837560] pl-10  w-full" />
                     </div>
                 </div>
-                <Image src="/about/aboutusbg.PNG" alt="Support" width={400} height={400} className="w-auto md:w-125  rounded-3xl hidden md:block" />
+                <Image src="/about/aboutusbg.PNG" alt="Support" width={400} height={400} loading="eager" className="w-auto md:w-125  rounded-3xl hidden md:block" />
             </div>
         </div>
     );

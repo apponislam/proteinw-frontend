@@ -2,9 +2,43 @@
 
 import { Mail, Phone } from "lucide-react";
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const supportFormSchema = z.object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.string().email("Please enter a valid email address"),
+    subject: z.string().min(3, "Subject must be at least 3 characters"),
+    phone: z.string().optional(),
+    topic: z.string().min(1, "Please select a topic"),
+    message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type SupportFormValues = z.infer<typeof supportFormSchema>;
 
 export default function SupportPage() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SupportFormValues>({
+        resolver: zodResolver(supportFormSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            subject: "",
+            phone: "",
+            topic: "",
+            message: "",
+        },
+    });
+
+    const onSubmit = (data: SupportFormValues) => {
+        console.log("Form submitted:", data);
+    };
 
     const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
@@ -40,28 +74,72 @@ export default function SupportPage() {
                 <div className="bg-white rounded-3xl p-8 border border-white shadow-sm">
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">Send us a message</h2>
 
-                    <form className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
-                            <input type="text" placeholder="Name" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                            <input type="email" placeholder="Email" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                            <Controller
+                                name="name"
+                                control={control}
+                                render={({ field }) => (
+                                    <div>
+                                        <input type="text" placeholder="Name" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.name ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                                    </div>
+                                )}
+                            />
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <div>
+                                        <input type="email" placeholder="Email" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.email ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                                    </div>
+                                )}
+                            />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <input type="text" placeholder="Subject" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                            <input type="text" placeholder="Phone" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                            <Controller
+                                name="subject"
+                                control={control}
+                                render={({ field }) => (
+                                    <div>
+                                        <input type="text" placeholder="Subject" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.subject ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
+                                    </div>
+                                )}
+                            />
+                            <Controller name="phone" control={control} render={({ field }) => <input type="text" placeholder="Phone" className="w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" {...field} />} />
                         </div>
 
-                        {/* 👇 replaced select */}
-                        <input list="inquiry-options" placeholder="Select topic" className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
-                        <datalist id="inquiry-options">
-                            <option value="Product Inquiry" />
-                            <option value="General Question" />
-                            <option value="Support" />
-                        </datalist>
+                        <Controller
+                            name="topic"
+                            control={control}
+                            render={({ field }) => (
+                                <div>
+                                    <input list="inquiry-options" placeholder="Select topic" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.topic ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                    <datalist id="inquiry-options">
+                                        <option value="Product Inquiry" />
+                                        <option value="General Question" />
+                                        <option value="Support" />
+                                    </datalist>
+                                    {errors.topic && <p className="text-red-500 text-xs mt-1">{errors.topic.message}</p>}
+                                </div>
+                            )}
+                        />
 
-                        <textarea placeholder="How can we help you?" rows={5} className="w-full bg-[#F8F8F8] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                        <Controller
+                            name="message"
+                            control={control}
+                            render={({ field }) => (
+                                <div>
+                                    <textarea placeholder="How can we help you?" className={`w-full bg-[#F8F8F8] rounded-xl px-6 py-4 h-52 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] resize-none ${errors.message ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                    {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+                                </div>
+                            )}
+                        />
 
-                        <button type="submit" className="mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">
+                        <button type="submit" className="mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white h-12 rounded-xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">
                             Send Message
                         </button>
                     </form>
