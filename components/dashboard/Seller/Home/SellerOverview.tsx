@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import SellerHomeCards from "./SellerHomeCards";
 import SellerFundraisingTarget from "./SellerFundraisingTarget";
+import GroupCards from "./GroupCards";
 
 const SellerOverview = () => {
     const [copied, setCopied] = useState(false);
@@ -30,6 +31,7 @@ const SellerOverview = () => {
             </div>
             <SellerHomeCards />
             <SellerFundraisingTarget />
+            <GroupCards />
         </div>
     );
 };
