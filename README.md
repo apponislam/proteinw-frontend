@@ -113,19 +113,19 @@ npm start
 ### User Roles
 
 1. **Super Admin** - Full platform management
-   - Manage admins, sellers, products, campaigns
-   - View orders and profit rules
-   - Monitor platform performance
+    - Manage admins, sellers, products, campaigns
+    - View orders and profit rules
+    - Monitor platform performance
 
 2. **Seller Admin** - Team/group management
-   - Manage their own groups
-   - Track team sales
-   - Manage storefront
+    - Manage their own groups
+    - Track team sales
+    - Manage storefront
 
 3. **Seller** - Individual seller
-   - View and join campaigns
-   - Track personal sales
-   - Access fundraising targets
+    - View and join campaigns
+    - Track personal sales
+    - Access fundraising targets
 
 ### Authentication Flow
 
@@ -234,11 +234,12 @@ npm run dev  # next dev -H 0.0.0.0 -p 3030
 
 ## 📄 License
 
-This project is private and proprietary.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 📞 Support
 
 For support, contact:
+
 - Email: hello@nordicarchive.fund
 - Phone: +46 (0) 8 123 45 67
 
