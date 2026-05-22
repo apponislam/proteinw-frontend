@@ -1,7 +1,7 @@
 "use client";
 import SupportPage from "@/components/about-us/SupportPage";
 import SupportPageTop from "@/components/about-us/SupportPageTop";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const faqData = [
     {
