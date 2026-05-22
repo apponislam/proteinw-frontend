@@ -1,4 +1,5 @@
 import { FileCheck, GraduationCap, LaptopMinimal, PlaneTakeoff, Smile, TrendingUp, Users, Volleyball } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const SellWithUs = () => {
@@ -42,7 +43,9 @@ const SellWithUs = () => {
                         </div>
 
                         {/* CTA */}
-                        <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">Start for Class</button>
+                        <Link href="/auth/register">
+                            <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Start for Class</button>
+                        </Link>
                     </div>
 
                     {/* TEAM FUNDRAISING */}
@@ -74,7 +77,9 @@ const SellWithUs = () => {
                         </div>
 
                         {/* CTA */}
-                        <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">Start for Team</button>
+                        <Link href="/auth/register">
+                            <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Start for Team</button>
+                        </Link>
                     </div>
                 </div>
             </div>
