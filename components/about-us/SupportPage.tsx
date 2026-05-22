@@ -81,7 +81,8 @@ export default function SupportPage() {
                                 control={control}
                                 render={({ field }) => (
                                     <div>
-                                        <input type="text" placeholder="Name" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.name ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        <label className="text-xs font-semibold text-gray-500 mb-2 block">NAME</label>
+                                        <input type="text" placeholder="Enter your full name" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.name ? "ring-2 ring-red-500" : ""}`} {...field} />
                                         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                                     </div>
                                 )}
@@ -91,7 +92,8 @@ export default function SupportPage() {
                                 control={control}
                                 render={({ field }) => (
                                     <div>
-                                        <input type="email" placeholder="Email" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.email ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        <label className="text-xs font-semibold text-gray-500 mb-2 block">EMAIL</label>
+                                        <input type="email" placeholder="your@email.com" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.email ? "ring-2 ring-red-500" : ""}`} {...field} />
                                         {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                                     </div>
                                 )}
@@ -104,12 +106,22 @@ export default function SupportPage() {
                                 control={control}
                                 render={({ field }) => (
                                     <div>
-                                        <input type="text" placeholder="Subject" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.subject ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        <label className="text-xs font-semibold text-gray-500 mb-2 block">SUBJECT</label>
+                                        <input type="text" placeholder="What's this about?" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.subject ? "ring-2 ring-red-500" : ""}`} {...field} />
                                         {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
                                     </div>
                                 )}
                             />
-                            <Controller name="phone" control={control} render={({ field }) => <input type="text" placeholder="Phone" className="w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02]" {...field} />} />
+                            <Controller
+                                name="phone"
+                                control={control}
+                                render={({ field }) => (
+                                    <div>
+                                        <label className="text-xs font-semibold text-gray-500 mb-2 block">PHONE</label>
+                                        <input type="text" placeholder="+46 (0) 70 123 45 67" className="w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60" {...field} />
+                                    </div>
+                                )}
+                            />
                         </div>
 
                         <Controller
@@ -117,7 +129,8 @@ export default function SupportPage() {
                             control={control}
                             render={({ field }) => (
                                 <div>
-                                    <input list="inquiry-options" placeholder="Select topic" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] ${errors.topic ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                    <label className="text-xs font-semibold text-gray-500 mb-2 block">SELECT TOPIC</label>
+                                    <input list="inquiry-options" placeholder="Choose a topic from the list" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.topic ? "ring-2 ring-red-500" : ""}`} {...field} />
                                     <datalist id="inquiry-options">
                                         <option value="Product Inquiry" />
                                         <option value="General Question" />
@@ -133,7 +146,8 @@ export default function SupportPage() {
                             control={control}
                             render={({ field }) => (
                                 <div>
-                                    <textarea placeholder="How can we help you?" className={`w-full bg-[#F8F8F8] rounded-xl px-6 py-4 h-52 text-sm outline-none focus:ring-2 focus:ring-[#EFAC02] resize-none ${errors.message ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                    <label className="text-xs font-semibold text-gray-500 mb-2 block">HOW CAN WE HELP YOU?</label>
+                                    <textarea placeholder="Tell us about your fundraising needs or questions..." className={`w-full bg-[#F8F8F8] rounded-xl px-6 py-4 h-52 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] resize-none placeholder:text-[#514532]/60 ${errors.message ? "ring-2 ring-red-500" : ""}`} {...field} />
                                     {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
                                 </div>
                             )}

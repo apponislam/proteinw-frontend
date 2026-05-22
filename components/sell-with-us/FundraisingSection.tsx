@@ -32,18 +32,17 @@ const FundraisingSection = () => {
                     </div>
 
                     {/* 2nd CARD (1/4) */}
-                    <div className="lg:col-span-1 bg-[#EFAC02] rounded-3xl p-10 text-white flex justify-between flex-col transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+                    <div className="lg:col-span-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-3xl p-10 text-white flex justify-between flex-col transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
                         <div>
                             <h3 className="text-xl font-bold  mb-4">Hög förtjänst</h3>
 
                             <p className=" text-sm">Vi erbjuder en av marknadens högsta marginaler. Behåll upp till hälften av försäljningspriset själv.</p>
                         </div>
                         <p className="mt-6  font-bold text-4xl">50% VINST</p>
-                        {/* <div className="flex justify-between flex-col"></div> */}
                     </div>
 
                     {/* 3rd CARD (1/4) */}
-                    <div className="lg:col-span-1 bg-[#EFAC02] rounded-3xl p-10 flex justify-between flex-col text-white gap-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
+                    <div className="lg:col-span-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-3xl p-10 flex justify-between flex-col text-white gap-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
                         <Box className="text-4xl" />
                         <h3 className="text-xl font-bold text-white">Fri frakt & retur</h3>
 

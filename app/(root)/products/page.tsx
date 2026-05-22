@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import ProductCard from "@/components/products/ProductCard";
 import { Rocket } from "lucide-react";
 import Link from "next/link";
@@ -62,7 +63,9 @@ const products = [
     },
 ];
 
-const page = () => {
+const Page = () => {
+    const [activeCategory, setActiveCategory] = useState("All Products");
+
     return (
         <div className="bg-[#FAFAF9CC]">
             <div className="container mx-auto py-6 px-4 ">
@@ -77,7 +80,7 @@ const page = () => {
                         <h3 className="text-[#837560] space-y-2 mb-6">CATEGORIES</h3>
                         <ul className="flex lg:block gap-2 lg:gap-0 overflow-x-auto pb-2 lg:pb-0">
                             {categories.map((category) => (
-                                <li key={category} className="text-[#5E4200] cursor-pointer p-4 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out hover:bg-[#FFDEA8] hover:shadow-md hover:-translate-y-0.5">
+                                <li key={category} onClick={() => setActiveCategory(category)} className={`text-[#5E4200] cursor-pointer p-4 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out ${activeCategory === category ? "bg-[#FFDEA8] shadow-md -translate-y-0.5" : "hover:bg-[#FFDEA8] hover:shadow-md hover:-translate-y-0.5"}`}>
                                     {category}
                                 </li>
                             ))}
@@ -107,4 +110,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;
