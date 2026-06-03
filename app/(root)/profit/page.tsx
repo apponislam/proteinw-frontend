@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Fundraisingcalculator from "@/components/profit/Fundraisingcalculator";
 import React from "react";
+
+export const metadata: Metadata = {
+    title: "Kungsbjörnen - Profit Calculator",
+    description: "Calculate your fundraising profit with Kungsbjörnen's profit calculator",
+};
 
 const Page = () => {
     return (

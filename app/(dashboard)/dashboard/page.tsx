@@ -1,21 +1,14 @@
-"use client";
+import type { Metadata } from "next";
+import DashboardClient from "@/components/dashboard/DashboardClient";
 
-import AdminOverview from "@/components/dashboard/SuperAdmin/Home/AdminOverview";
-import SellerAdminOverview from "@/components/dashboard/SellerAdmin/Home/SellerAdminOverview";
-import SellerOverview from "@/components/dashboard/Seller/Home/SellerOverview";
-import { useRole } from "@/components/dashboard/RoleProvider";
-import React from "react";
+export const metadata: Metadata = {
+    title: "Kungsbjörnen - Dashboard",
+    description: "Your Kungsbjörnen dashboard",
+};
 
 const Page = () => {
-    const { activeRole } = useRole();
-
-    return (
-        <div>
-            {activeRole === "SUPER_ADMIN" && <AdminOverview />}
-            {activeRole === "SELLER_ADMIN" && <SellerAdminOverview />}
-            {activeRole === "SELLER" && <SellerOverview />}
-        </div>
-    );
+    return <DashboardClient />;
 };
 
 export default Page;
+
