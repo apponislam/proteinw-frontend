@@ -1,3 +1,4 @@
+import { CoreVision } from "@/components/mission/CoreVision";
 import { MissionHero } from "@/components/mission/MissionHero";
 import { Metadata } from "next";
 
@@ -10,6 +11,7 @@ const page = () => {
     return (
         <>
             <MissionHero />
+            <CoreVision />
         </>
     );
 };
