@@ -23,7 +23,7 @@ export function CoreVision() {
     ];
 
     return (
-        <section className="py-24 bg-white">
+        <section className="py-24 bg-[#F3F3F3]">
             <div className="mx-auto container px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
@@ -34,11 +34,11 @@ export function CoreVision() {
                 {/* Pillars Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {pillars.map((pillar, index) => (
-                        <div key={index} className="p-8 bg-gray-50 rounded-2xl shadow-sm">
-                            <div className="w-14 h-14 bg-[#7C58001A] rounded-xl flex items-center justify-center mb-6">
+                        <div key={index} className="group p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer">
+                            <div className="w-14 h-14 bg-[#7C58001A] rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
                                 <pillar.icon className="w-7 h-7 text-[#7C5800]" />
                             </div>
-                            <h3 className="text-2xl font-bold text-[#1A1C1C] mb-4">{pillar.title}</h3>
+                            <h3 className="text-2xl font-bold text-[#1A1C1C] mb-4 transition-colors duration-300 group-hover:text-[#7C5800]">{pillar.title}</h3>
                             <p className="text-gray-600 leading-relaxed mb-6">{pillar.description}</p>
 
                             {/* Features with Checkmarks */}

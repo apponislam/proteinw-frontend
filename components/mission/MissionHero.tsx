@@ -3,7 +3,7 @@ import { Leaf } from "lucide-react";
 
 export function MissionHero() {
     return (
-        <section className="relative overflow-hidden bg-linear-to-b from-blue-50 via-white to-gray-50 min-h-screen flex flex-col">
+        <section className="relative overflow-hidden bg-white min-h-screen flex flex-col">
             {/* Decorative background elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-100 rounded-full opacity-20 blur-3xl"></div>
