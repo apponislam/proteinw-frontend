@@ -24,7 +24,17 @@ export default function FundraisingCalculatorLeft() {
                             </span>
                         </div>
 
-                        <input type="range" min={1} max={80000} value={targetProfit} onChange={(e) => setTargetProfit(Number(e.target.value))} className="h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-200 accent-black" />
+                        <input
+                            type="range"
+                            min={1}
+                            max={80000}
+                            value={targetProfit}
+                            onChange={(e) => setTargetProfit(Number(e.target.value))}
+                            style={{
+                                background: `linear-gradient(to right, #EFAC02 ${(targetProfit / 80000) * 100}%, #E5E7EB ${(targetProfit / 80000) * 100}%)`,
+                            }}
+                            className="w-full h-2 rounded-full appearance-none outline-none    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4    [&::-webkit-slider-thumb]:h-4    [&::-webkit-slider-thumb]:rounded-full    [&::-webkit-slider-thumb]:bg-[#EFAC02]    [&::-webkit-slider-thumb]:shadow-md"
+                        />
 
                         <div className="mt-2 flex justify-between text-sm text-[#837560]">
                             <span>1 KR</span>
@@ -43,7 +53,17 @@ export default function FundraisingCalculatorLeft() {
                             </span>
                         </div>
 
-                        <input type="range" min={1} max={80} value={students} onChange={(e) => setStudents(Number(e.target.value))} className="h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-200 accent-black" />
+                        <input
+                            type="range"
+                            min={1}
+                            max={80}
+                            value={students}
+                            onChange={(e) => setStudents(Number(e.target.value))}
+                            style={{
+                                background: `linear-gradient(to right, #7C5800 ${(students / 80) * 100}%, #E5E7EB ${(students / 80) * 100}%)`,
+                            }}
+                            className="w-full h-2 rounded-full appearance-none outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4  [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#7C5800] [&::-webkit-slider-thumb]:shadow-md"
+                        />
 
                         <div className="mt-2 flex justify-between text-sm text-[#837560]">
                             <span>1 PERSON</span>

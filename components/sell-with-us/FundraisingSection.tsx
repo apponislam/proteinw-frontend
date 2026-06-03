@@ -28,6 +28,7 @@ const FundraisingSection = () => {
                         <div className="mt-6 flex gap-3 text-xs font-bold">
                             <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl">INGA BLANKETTER</span>
                             <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl">QR-KODER</span>
+                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl">Egna unika länkar</span>
                         </div>
                     </div>
 
