@@ -4,6 +4,11 @@ import Link from "next/link";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
@@ -14,10 +19,13 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginClient = () => {
+    const [login] = useLoginMutation();
+    const dispatch = useDispatch();
+    const router = useRouter();
     const {
         control,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -27,8 +35,16 @@ const LoginClient = () => {
         },
     });
 
-    const onSubmit = (data: LoginFormValues) => {
-        console.log("Login form submitted:", data);
+    const onSubmit = async (data: LoginFormValues) => {
+        try {
+            const result = await login({ email: data.email, password: data.password }).unwrap();
+            dispatch(setUser({ user: result.data.user, token: result.data.accessToken }));
+            toast.success("Login successful!");
+            router.push("/dashboard");
+        } catch (err: any) {
+            toast.error(err.data?.message || "Failed to login");
+            console.error("Login failed:", err);
+        }
     };
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 ">
@@ -103,8 +119,12 @@ const LoginClient = () => {
                             </div>
 
                             {/* Sign In Button */}
-                            <button type="submit" className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2">
-                                Sign In
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isSubmitting ? "Signing In..." : "Sign In"}
                                 <span>→</span>
                             </button>
                         </form>

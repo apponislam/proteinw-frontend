@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ReduxProviders } from "../providers/ReduxProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
 
 const plusJakarta = Plus_Jakarta_Sans({
     variable: "--font-jakarta",
@@ -14,9 +15,7 @@ export const metadata: Metadata = {
     title: "Kungsbjörnen",
     description: "Kungsbjörnen - Protein fundraising",
     icons: {
-        icon: [
-            { url: '/favicon.svg', type: 'image/svg+xml' },
-        ],
+        icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     },
 };
 
@@ -29,7 +28,11 @@ export default function RootLayout({
         <html lang="en" className={`${plusJakarta.variable} h-full antialiased`}>
             <body>
                 <ReduxProviders>
-                    <TooltipProvider>{children}</TooltipProvider>
+                    <TooltipProvider>
+                        {children}
+
+                        <Toaster />
+                    </TooltipProvider>
                 </ReduxProviders>
             </body>
         </html>
