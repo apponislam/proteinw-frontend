@@ -173,8 +173,17 @@ const RegisterClient = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <label className="flex items-start gap-3 cursor-pointer">
-                                            <input type="checkbox" className="w-4 h-4 mt-1 rounded border-gray-300" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
-                                            <span className="text-sm text-gray-700">
+                                            <div className="relative shrink-0 mt-0.5">
+                                                <input type="checkbox" className="sr-only peer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
+                                                <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all">
+                                                    {field.value && (
+                                                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <span className="text-sm text-gray-700 flex-1">
                                                 I agree to the <span className="font-semibold">Terms of Service</span> and acknowledge the <span className="font-semibold">Privacy Policy</span> regarding how my data is managed.
                                             </span>
                                         </label>
@@ -186,8 +195,17 @@ const RegisterClient = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <label className="flex items-start gap-3 cursor-pointer">
-                                            <input type="checkbox" className="w-4 h-4 mt-1 rounded border-gray-300" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
-                                            <span className="text-sm text-gray-700">I am 18+</span>
+                                            <div className="relative shrink-0 mt-0.5">
+                                                <input type="checkbox" className="sr-only peer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
+                                                <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all">
+                                                    {field.value && (
+                                                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <span className="text-sm text-gray-700 flex-1">I confirm that I am 18 years of age or older.</span>
                                         </label>
                                     )}
                                 />
@@ -213,6 +231,15 @@ const RegisterClient = () => {
                     </div>
                 </div>
             </main>
+
+            <div className="pb-12 max-w-2xl mx-auto">
+                <p className="mb-2">Step 1</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-full h-1.5 bg-[#7C5800] rounded-full"></div>
+                    <div className="w-full h-1.5 bg-[#D7CCB2] rounded-full"></div>
+                    <div className="w-full h-1.5 bg-[#D7CCB2] rounded-full"></div>
+                </div>
+            </div>
         </div>
     );
 };
