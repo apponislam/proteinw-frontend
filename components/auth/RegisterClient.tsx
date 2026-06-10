@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Trophy, GraduationCap, Users, Target } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 
 const registerSchema = z.object({
     fullName: z.string().min(2, "Name must be at least 2 characters"),
@@ -22,6 +23,8 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const RegisterClient = () => {
+    const searchParams = useSearchParams();
+    const professionFromQuery = searchParams.get("profession");
     const [selectedProfession, setSelectedProfession] = useState<string | null>(null);
 
     const professions = [
@@ -50,6 +53,19 @@ const RegisterClient = () => {
             age: false,
         },
     });
+
+    useEffect(() => {
+        if (!professionFromQuery) return;
+
+        const profession = professionFromQuery.toUpperCase();
+
+        const validProfessions = ["LEADER", "TEACHER", "PARENT", "COACH"];
+
+        if (validProfessions.includes(profession)) {
+            setSelectedProfession(profession);
+            setValue("profession", profession);
+        }
+    }, [professionFromQuery, setValue]);
 
     const onSubmit = (data: RegisterFormValues) => {
         console.log("Form submitted:", data);

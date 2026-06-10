@@ -43,7 +43,7 @@ const SellWithUs = () => {
                         </div>
 
                         {/* CTA */}
-                        <Link href="/auth/register">
+                        <Link href="/auth/register?profession=teacher">
                             <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Start for Class</button>
                         </Link>
                     </div>
@@ -77,7 +77,7 @@ const SellWithUs = () => {
                         </div>
 
                         {/* CTA */}
-                        <Link href="/auth/register">
+                        <Link href="/auth/register?profession=coach">
                             <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Start for Team</button>
                         </Link>
                     </div>
