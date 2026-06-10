@@ -6,10 +6,22 @@ import ProductScreenCards from "@/components/dashboard/SuperAdmin/Products/Produ
 import ProductsTable from "@/components/dashboard/SuperAdmin/Products/ProductsTable";
 import AddNewProduct from "@/components/dashboard/SuperAdmin/Products/AddNewProduct";
 import EditProduct from "@/components/dashboard/SuperAdmin/Products/EditProduct";
+import type { TProduct } from "@/redux/features/product/productApi";
 
 const ProductsPage = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<TProduct | null>(null);
+
+    const handleEdit = (product: TProduct) => {
+        setSelectedProduct(product);
+        setIsEditModalOpen(true);
+    };
+
+    const handleCloseEdit = () => {
+        setIsEditModalOpen(false);
+        setSelectedProduct(null);
+    };
 
     return (
         <div>
@@ -25,10 +37,10 @@ const ProductsPage = () => {
             </div>
 
             <ProductScreenCards />
-            <ProductsTable onEdit={() => setIsEditModalOpen(true)} />
+            <ProductsTable onEdit={handleEdit} />
 
             <AddNewProduct isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
-            <EditProduct isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
+            {selectedProduct && <EditProduct isOpen={isEditModalOpen} onClose={handleCloseEdit} product={selectedProduct} />}
         </div>
     );
 };

@@ -1,22 +1,35 @@
 import React from "react";
 import Image from "next/image";
-
-const productStats = [
-    {
-        title: "TOTAL Product",
-        value: "1,284",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "ACTIVE NOW",
-        value: "942",
-        subtitle: "",
-        color: "#D97706",
-    },
-];
+import { useGetProductStatsQuery } from "@/redux/features/product/productApi";
 
 const ProductScreenCards = () => {
+    const { data: statsData, isLoading } = useGetProductStatsQuery();
+
+    if (isLoading) {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                {[1, 2].map((index) => (
+                    <div key={index} className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] h-32 animate-pulse" />
+                ))}
+            </div>
+        );
+    }
+
+    const productStats = [
+        {
+            title: "TOTAL Product",
+            value: statsData?.data?.total?.toLocaleString() || "0",
+            subtitle: "",
+            color: "#D97706",
+        },
+        {
+            title: "ACTIVE NOW",
+            value: statsData?.data?.active?.toLocaleString() || "0",
+            subtitle: "",
+            color: "#D97706",
+        },
+    ];
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {productStats.map((stat, index) => (
