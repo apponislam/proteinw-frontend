@@ -153,6 +153,70 @@
 }
 
 /* Reset Tailwind's preflight inside Jodit */
+
+.rich-text-content * {
+    all: revert !important;
+}
+
+.rich-text-content {
+    font-family:
+        system-ui,
+        -apple-system,
+        sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+    color: #1c1917 !important;
+}
+
+.rich-text-content h1 {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    margin: 2rem 0 1rem 0 !important;
+}
+
+.rich-text-content h2 {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    margin: 1.5rem 0 0.75rem 0 !important;
+}
+
+.rich-text-content p {
+    margin: 1rem 0 !important;
+    color: #4b5563 !important;
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+    margin: 1rem 0 !important;
+    padding-left: 1.5rem !important;
+    color: #4b5563 !important;
+}
+
+.rich-text-content li {
+    margin: 0.5rem 0 !important;
+}
+
+.rich-text-content ul li {
+    list-style-type: disc !important;
+}
+
+.rich-text-content ol li {
+    list-style-type: decimal !important;
+}
+
+.rich-text-content strong {
+    font-weight: 700 !important;
+}
+
+.rich-text-content em {
+    font-style: italic !important;
+}
+
+.rich-text-content a {
+    color: #d97706 !important;
+    text-decoration: underline !important;
+}
+
 .jodit-wysiwyg {
     font-family:
         system-ui,
