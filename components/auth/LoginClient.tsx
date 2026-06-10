@@ -43,7 +43,7 @@ const LoginClient = () => {
             router.push("/dashboard");
         } catch (err: any) {
             toast.error(err.data?.message || "Failed to login");
-            console.error("Login failed:", err);
+            // console.error("Login failed:", err);
         }
     };
     return (

@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useVerifyOtpMutation, useResendOtpMutation } from "@/redux/features/auth/authApi";
+import { toast } from "sonner";
 
 const verifyCodeSchema = z.object({
     code: z.string().length(6, "Please enter the complete 6-digit code"),
@@ -16,6 +18,12 @@ const VerifyCodeClient = () => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const email = searchParams.get("email") || "";
+
+    const [verifyOtp, { isLoading: isVerifying }] = useVerifyOtpMutation();
+    const [resendOtp, { isLoading: isResending }] = useResendOtpMutation();
+    const [countdown, setCountdown] = useState(30);
 
     const {
         control,
@@ -28,6 +36,17 @@ const VerifyCodeClient = () => {
             code: "",
         },
     });
+
+    // Start countdown on mount
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (countdown > 0) {
+            timer = setTimeout(() => {
+                setCountdown(countdown - 1);
+            }, 1000);
+        }
+        return () => clearTimeout(timer);
+    }, [countdown]);
 
     const handleChange = (index: number, value: string) => {
         if (!/^\d*$/.test(value)) return;
@@ -68,9 +87,27 @@ const VerifyCodeClient = () => {
         }
     };
 
-    const onSubmit = (data: VerifyCodeFormValues) => {
-        console.log("Verify code form submitted:", data);
-        router.push("/auth/create-password");
+    const onSubmit = async (data: VerifyCodeFormValues) => {
+        try {
+            const result = await verifyOtp({ email, otp: data.code }).unwrap();
+            toast.success("Code verified successfully!");
+            router.push(`/auth/create-password?token=${encodeURIComponent(result.data.token)}`);
+        } catch (err: any) {
+            toast.error(err.data?.message || "Failed to verify code");
+            console.error("Verify OTP failed:", err);
+        }
+    };
+
+    const handleResend = async () => {
+        if (!email) return;
+        try {
+            await resendOtp({ email }).unwrap();
+            toast.success("Code resent successfully!");
+            setCountdown(60); // Reset countdown
+        } catch (err: any) {
+            toast.error(err.data?.message || "Failed to resend code");
+            console.error("Resend OTP failed:", err);
+        }
     };
 
     return (
@@ -137,8 +174,12 @@ const VerifyCodeClient = () => {
                             </div>
 
                             {/* Verify Button */}
-                            <button type="submit" className="w-full bg-linear-to-r inline-flex items-center justify-center from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2">
-                                Verify Code
+                            <button
+                                type="submit"
+                                disabled={isVerifying}
+                                className="w-full bg-linear-to-r inline-flex items-center justify-center from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isVerifying ? "Verifying..." : "Verify Code"}
                                 <span>→</span>
                             </button>
                         </form>
@@ -146,7 +187,14 @@ const VerifyCodeClient = () => {
                         {/* Resend Code Link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-700 text-sm">
-                                Didn&apos;t receive the code? <button className="text-amber-600 hover:text-amber-700 font-semibold">Resend</button>
+                                Didn&apos;t receive the code?{" "}
+                                {countdown > 0 ? (
+                                    <span className="text-gray-500">Resend in {countdown}s</span>
+                                ) : (
+                                    <button onClick={handleResend} disabled={isResending} className="cursor-pointer text-amber-600 hover:text-amber-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                                        {isResending ? "Resending..." : "Resend"}
+                                    </button>
+                                )}
                             </p>
                         </div>
 

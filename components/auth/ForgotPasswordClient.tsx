@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRequestPasswordResetMutation } from "@/redux/features/auth/authApi";
+import { toast } from "sonner";
 
 const forgotPasswordSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
@@ -14,6 +16,7 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
 const ForgotPasswordClient = () => {
     const router = useRouter();
+    const [requestPasswordReset, { isLoading }] = useRequestPasswordResetMutation();
 
     const {
         control,
@@ -26,9 +29,15 @@ const ForgotPasswordClient = () => {
         },
     });
 
-    const onSubmit = (data: ForgotPasswordFormValues) => {
-        console.log("Forgot password form submitted:", data);
-        router.push("/auth/verify-code");
+    const onSubmit = async (data: ForgotPasswordFormValues) => {
+        try {
+            await requestPasswordReset(data).unwrap();
+            toast.success("Verification code sent to your email!");
+            router.push(`/auth/verify-code?email=${encodeURIComponent(data.email)}`);
+        } catch (err: any) {
+            toast.error(err.data?.message || "Failed to send verification code");
+            console.error("Request password reset failed:", err);
+        }
     };
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
@@ -73,8 +82,12 @@ const ForgotPasswordClient = () => {
                             </div>
 
                             {/* Send Code Button */}
-                            <button type="submit" className="w-full bg-linear-to-r inline-flex items-center justify-center  from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2">
-                                Send Code
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full bg-linear-to-r inline-flex items-center justify-center  from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isLoading ? "Sending..." : "Send Code"}
                                 <span>→</span>
                             </button>
                         </form>

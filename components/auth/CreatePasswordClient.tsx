@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
+import { toast } from "sonner";
 
 const createPasswordSchema = z
     .object({
@@ -20,6 +22,10 @@ type CreatePasswordFormValues = z.infer<typeof createPasswordSchema>;
 
 const CreatePasswordClient = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token") || "";
+
+    const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
     const {
         control,
@@ -33,9 +39,15 @@ const CreatePasswordClient = () => {
         },
     });
 
-    const onSubmit = (data: CreatePasswordFormValues) => {
-        console.log("Create password form submitted:", data);
-        router.push("/auth/reset-successful");
+    const onSubmit = async (data: CreatePasswordFormValues) => {
+        try {
+            await resetPassword({ token, newPassword: data.newPassword }).unwrap();
+            toast.success("Password reset successfully!");
+            router.push("/auth/reset-successful");
+        } catch (err: any) {
+            toast.error(err.data?.message || "Failed to reset password");
+            console.error("Reset password failed:", err);
+        }
     };
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
@@ -100,8 +112,12 @@ const CreatePasswordClient = () => {
                             </div>
 
                             {/* Reset Button */}
-                            <button type="submit" className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2">
-                                Reset Password
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isLoading ? "Resetting..." : "Reset Password"}
                                 <span>→</span>
                             </button>
                         </form>
