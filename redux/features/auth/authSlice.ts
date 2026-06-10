@@ -13,6 +13,7 @@ export type UserProfession = "LEADER" | "TEACHER" | "PARENT" | "COACH";
 
 export type TAddress = {
     organizationName?: string;
+    organizationType?: string;
     street?: string;
     city?: string;
     state?: string;
@@ -37,7 +38,7 @@ export type TUser = {
     profileImage?: string;
     profession?: UserProfession;
     address?: TAddress;
-    goal?: string;
+    goal?: number;
     salesStartDate?: string;
     salesEndDate?: string;
     createdAt?: string;

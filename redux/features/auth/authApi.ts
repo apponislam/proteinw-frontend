@@ -114,7 +114,7 @@ const authApi = baseApi.injectEndpoints({
             }),
         }),
         // === Profile endpoints ===
-        updateProfile: builder.mutation<TUser, FormData>({
+        updateProfile: builder.mutation<{ data: TUser }, FormData>({
             query: (data) => ({
                 url: "/auth/profile",
                 method: "PATCH",
