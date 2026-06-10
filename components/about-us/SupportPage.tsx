@@ -5,13 +5,14 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useCreateContactMutation } from "@/redux/features/contact/contactApi";
+import { toast } from "sonner";
 
 const supportFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Please enter a valid email address"),
-    subject: z.string().min(3, "Subject must be at least 3 characters"),
+    subject: z.string().min(1, "Please select a topic"),
     phone: z.string().optional(),
-    topic: z.string().min(1, "Please select a topic"),
     message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -28,10 +29,12 @@ interface SupportPageProps {
 
 export default function SupportPage({ faqData }: SupportPageProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+    const [createContact, { isLoading }] = useCreateContactMutation();
 
     const {
         control,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<SupportFormValues>({
         resolver: zodResolver(supportFormSchema),
@@ -40,13 +43,19 @@ export default function SupportPage({ faqData }: SupportPageProps) {
             email: "",
             subject: "",
             phone: "",
-            topic: "",
             message: "",
         },
     });
 
-    const onSubmit = (data: SupportFormValues) => {
-        console.log("Form submitted:", data);
+    const onSubmit = async (data: SupportFormValues) => {
+        try {
+            await createContact(data).unwrap();
+            toast.success("Message sent successfully! We'll get back to you soon.");
+            reset();
+        } catch (err: any) {
+            toast.error(err.data?.message || "Failed to send message. Please try again.");
+            console.error("Support form error:", err);
+        }
     };
 
     const toggleFAQ = (index: number) => {
@@ -116,7 +125,12 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 render={({ field }) => (
                                     <div>
                                         <label className="text-xs font-semibold text-gray-500 mb-2 block">SUBJECT</label>
-                                        <input type="text" placeholder="What's this about?" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.subject ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        <input list="inquiry-options" placeholder="Choose a topic from the list" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.subject ? "ring-2 ring-red-500" : ""}`} {...field} />
+                                        <datalist id="inquiry-options">
+                                            <option value="Product Inquiry" />
+                                            <option value="General Question" />
+                                            <option value="Support" />
+                                        </datalist>
                                         {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
                                     </div>
                                 )}
@@ -134,23 +148,6 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                         </div>
 
                         <Controller
-                            name="topic"
-                            control={control}
-                            render={({ field }) => (
-                                <div>
-                                    <label className="text-xs font-semibold text-gray-500 mb-2 block">SELECT TOPIC</label>
-                                    <input list="inquiry-options" placeholder="Choose a topic from the list" className={`w-full bg-[#F8F8F8] rounded-xl px-6 h-12 text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.topic ? "ring-2 ring-red-500" : ""}`} {...field} />
-                                    <datalist id="inquiry-options">
-                                        <option value="Product Inquiry" />
-                                        <option value="General Question" />
-                                        <option value="Support" />
-                                    </datalist>
-                                    {errors.topic && <p className="text-red-500 text-xs mt-1">{errors.topic.message}</p>}
-                                </div>
-                            )}
-                        />
-
-                        <Controller
                             name="message"
                             control={control}
                             render={({ field }) => (
@@ -162,8 +159,8 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                             )}
                         />
 
-                        <button type="submit" className="mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white h-12 rounded-xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00]">
-                            Send Message
+                        <button type="submit" disabled={isLoading} className="mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white h-12 rounded-xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] disabled:opacity-50 disabled:cursor-not-allowed">
+                            {isLoading ? "Sending..." : "Send Message"}
                         </button>
                     </form>
                 </div>
