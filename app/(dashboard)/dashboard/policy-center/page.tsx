@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import "jodit/es2021/jodit.min.css";
+import { PolicyTypeEnum, useGetPolicyByTypeQuery, useUpsertPolicyMutation } from "@/redux/features/public/publicApi";
+import { toast } from "sonner";
 
 const JoditEditor = dynamic(() => import("jodit-react"), {
     ssr: false,
@@ -10,8 +12,13 @@ const JoditEditor = dynamic(() => import("jodit-react"), {
 
 const PolicyCenterPage = () => {
     const [activeTab, setActiveTab] = useState("terms");
-    const termsEditorRef = useRef<any>(null);
-    const privacyEditorRef = useRef<any>(null);
+    const [termsContent, setTermsContent] = useState("");
+    const [privacyContent, setPrivacyContent] = useState("");
+
+    const { data: termsData, isLoading: termsLoading, refetch: refetchTerms } = useGetPolicyByTypeQuery(PolicyTypeEnum.TERMS_AND_CONDITIONS);
+    const { data: privacyData, isLoading: privacyLoading, refetch: refetchPrivacy } = useGetPolicyByTypeQuery(PolicyTypeEnum.PRIVACY_POLICY);
+
+    const [upsertPolicy, { isLoading: isSaving }] = useUpsertPolicyMutation();
 
     const config = useMemo(
         () =>
@@ -21,19 +28,57 @@ const PolicyCenterPage = () => {
         [],
     );
 
-    const handleSaveTerms = () => {
-        if (termsEditorRef.current) {
-            console.log("Saving terms:", termsEditorRef.current.value);
-            alert("Terms saved!");
+    useEffect(() => {
+        if (termsData?.data?.content) {
+            setTermsContent(termsData.data.content);
+        }
+    }, [termsData]);
+
+    useEffect(() => {
+        if (privacyData?.data?.content) {
+            setPrivacyContent(privacyData.data.content);
+        }
+    }, [privacyData]);
+
+    const handleSaveTerms = async () => {
+        try {
+            await upsertPolicy({
+                type: PolicyTypeEnum.TERMS_AND_CONDITIONS,
+                title: "Terms and Conditions",
+                content: termsContent,
+                publishedAt: new Date().toISOString(),
+            }).unwrap();
+            toast.success("Terms and Conditions saved successfully!");
+            await refetchTerms();
+        } catch (error) {
+            toast.error("Failed to save Terms and Conditions");
+            console.error(error);
         }
     };
 
-    const handleSavePrivacy = () => {
-        if (privacyEditorRef.current) {
-            console.log("Saving privacy:", privacyEditorRef.current.value);
-            alert("Privacy policy saved!");
+    const handleSavePrivacy = async () => {
+        try {
+            await upsertPolicy({
+                type: PolicyTypeEnum.PRIVACY_POLICY,
+                title: "Privacy Policy",
+                content: privacyContent,
+                publishedAt: new Date().toISOString(),
+            }).unwrap();
+            toast.success("Privacy Policy saved successfully!");
+            await refetchPrivacy();
+        } catch (error) {
+            toast.error("Failed to save Privacy Policy");
+            console.error(error);
         }
     };
+
+    if (termsLoading || privacyLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-lg text-gray-600">Loading...</div>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -59,10 +104,10 @@ const PolicyCenterPage = () => {
                         <div className="space-y-4">
                             <h2 className="text-xl font-bold text-[#1A1C1C]">Terms and Conditions</h2>
                             <div>
-                                <JoditEditor ref={termsEditorRef} config={config} />
+                                <JoditEditor value={termsContent} config={config} onBlur={(newContent: string) => setTermsContent(newContent)} />
                             </div>
-                            <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all" onClick={handleSaveTerms}>
-                                Save Terms
+                            <button disabled={isSaving} className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed" onClick={handleSaveTerms}>
+                                {isSaving ? "Saving..." : "Save Terms"}
                             </button>
                         </div>
                     )}
@@ -71,10 +116,10 @@ const PolicyCenterPage = () => {
                         <div className="space-y-4">
                             <h2 className="text-xl font-bold text-[#1A1C1C]">Privacy Policy</h2>
                             <div>
-                                <JoditEditor ref={privacyEditorRef} config={config} />
+                                <JoditEditor value={privacyContent} config={config} onBlur={(newContent: string) => setPrivacyContent(newContent)} />
                             </div>
-                            <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all" onClick={handleSavePrivacy}>
-                                Save Privacy Policy
+                            <button disabled={isSaving} className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed" onClick={handleSavePrivacy}>
+                                {isSaving ? "Saving..." : "Save Privacy Policy"}
                             </button>
                         </div>
                     )}

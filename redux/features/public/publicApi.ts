@@ -28,7 +28,7 @@ const publicApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ type }) => ({ type: "Policy" as const, id: type })), { type: "Policy", id: "LIST" }] : [{ type: "Policy", id: "LIST" }]),
         }),
 
-        getPolicyByType: builder.query<{ data: TPolicy }, PolicyTypeEnum>({
+        getPolicyByType: builder.query<{ data: TPolicy | null }, PolicyTypeEnum>({
             query: (type) => ({
                 url: `/public/${type}`,
                 method: "GET",
