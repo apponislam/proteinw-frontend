@@ -31,6 +31,15 @@ export type TAdminStats = {
     orderCount: number;
 };
 
+export type TAdminStatsMeta = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+};
+
 const authApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -181,12 +190,18 @@ const authApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
-        getAdminsWithStats: builder.query<{ data: TAdminStats[] }, void>({
-            query: () => ({
-                url: "/auth/admins-with-stats",
-                method: "GET",
-                credentials: "include",
-            }),
+        getAdminsWithStats: builder.query<{ data: TAdminStats[]; meta: TAdminStatsMeta }, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params?.page) queryParams.append("page", String(params.page));
+                if (params?.limit) queryParams.append("limit", String(params.limit));
+
+                return {
+                    url: `/auth/admins-with-stats?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
         }),
     }),
 });

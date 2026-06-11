@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Input } from "@/components/ui/input";
+import { useCreateAdminMutation } from "../../../../redux/features/auth/authApi";
+import Swal from "sweetalert2";
 
 const adminFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -30,10 +32,27 @@ const AdminCreateModal: React.FC<AdminCreateModalProps> = ({ isOpen, onClose }) 
         resolver: zodResolver(adminFormSchema),
     });
 
-    const onSubmit = (data: AdminFormValues) => {
-        console.log("Form submitted:", data);
-        onClose();
-        reset();
+    const [createAdmin, { isLoading }] = useCreateAdminMutation();
+
+    const onSubmit = async (data: AdminFormValues) => {
+        try {
+            await createAdmin(data).unwrap();
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Admin created successfully! Credentials have been sent to their email.",
+                confirmButtonColor: "#D97706",
+            });
+            onClose();
+            reset();
+        } catch (error: any) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: error?.data?.message || "Failed to create admin.",
+                confirmButtonColor: "#EF4444",
+            });
+        }
     };
 
     if (!isOpen) return null;
@@ -78,8 +97,12 @@ const AdminCreateModal: React.FC<AdminCreateModalProps> = ({ isOpen, onClose }) 
                         <Input type="password" placeholder="••••••••" {...register("password")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
                     </div>
-                    <button type="submit" className="w-full inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
-                        Create
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                        {isLoading ? "Creating..." : "Create"}
                     </button>
                 </form>
             </div>
