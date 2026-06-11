@@ -6,9 +6,10 @@ type ProductCardProps = {
     title: string;
     price: string;
     description: string;
+    onViewDetails?: () => void;
 };
 
-const ProductCard = ({ image, title, price, description }: ProductCardProps) => {
+const ProductCard = ({ image, title, price, description, onViewDetails }: ProductCardProps) => {
     return (
         <div className="group bg-white rounded-3xl overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
             <Image src={image} alt={title} width={500} height={500} className="w-full h-64 object-cover transition-transform duration-300 ease-out group-hover:scale-[1.01]" />
@@ -18,7 +19,12 @@ const ProductCard = ({ image, title, price, description }: ProductCardProps) => 
                     <p className="text-[#7C5800]">{price}</p>
                 </div>
                 <p className="mb-4">{description}</p>
-                <button className="bg-[#E2E2E2] cursor-pointer w-full py-3 font-semibold rounded-[24px] transition-all duration-300 hover:bg-[#d9d9d9]">View Details</button>
+                <button 
+                    onClick={onViewDetails}
+                    className="bg-[#E2E2E2] cursor-pointer w-full py-3 font-semibold rounded-[24px] transition-all duration-300 hover:bg-[#d9d9d9]"
+                >
+                    View Details
+                </button>
             </div>
         </div>
     );

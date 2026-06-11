@@ -1,10 +1,10 @@
 "use client";
+
 import React, { useState } from "react";
 import ProductCard from "@/components/products/ProductCard";
-import { Rocket } from "lucide-react";
+import { Rocket, ChevronDown, Infinity, Leaf, Footprints, Info } from "lucide-react";
 import Link from "next/link";
-
-const categories = ["All Products", "Scented Candles", "Premium Socks"];
+import ProductDetailModal from "@/components/products/ProductDetailModal";
 
 const products = [
     {
@@ -65,6 +65,9 @@ const products = [
 
 const ProductsClient = () => {
     const [activeCategory, setActiveCategory] = useState("All Products");
+    const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
+    const [isCandlesOpen, setIsCandlesOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
 
     return (
         <div className="bg-[#FAFAF9CC]">
@@ -77,18 +80,78 @@ const ProductsClient = () => {
                 </div>
                 <div className="flex flex-col lg:flex-row gap-4">
                     <div className="w-full lg:w-80 lg:shrink-0">
-                        <h3 className="text-[#837560] space-y-2 mb-6">CATEGORIES</h3>
-                        <ul className="flex lg:block gap-2 lg:gap-0 overflow-x-auto pb-2 lg:pb-0">
-                            {categories.map((category) => (
-                                <li key={category} onClick={() => setActiveCategory(category)} className={`text-[#5E4200] cursor-pointer p-4 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out ${activeCategory === category ? "bg-[#FFDEA8] shadow-md -translate-y-0.5" : "hover:bg-[#FFDEA8] hover:shadow-md hover:-translate-y-0.5"}`}>
-                                    {category}
-                                </li>
-                            ))}
+                        <h3 className="text-[#837560] text-sm font-bold tracking-wider mb-6">CATEGORIES</h3>
+                        <ul className="flex lg:flex-col gap-2 lg:gap-3 overflow-x-auto pb-2 lg:pb-0">
+                            {/* All Products */}
+                            <li
+                                onClick={() => {
+                                    setActiveCategory("All Products");
+                                    setActiveSubCategory(null);
+                                }}
+                                className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "All Products" && !activeSubCategory ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
+                            >
+                                <Infinity className="w-4 h-4 text-[#837560]" />
+                                <span>All Products</span>
+                            </li>
+                            {/* Scented Candles */}
+                            <li className="flex flex-col">
+                                <div
+                                    onClick={() => {
+                                        setActiveCategory("Scented Candles");
+                                        setActiveSubCategory(null);
+                                        setIsCandlesOpen(!isCandlesOpen);
+                                    }}
+                                    className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center justify-between ${activeCategory === "Scented Candles" && !activeSubCategory ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <Leaf className="w-4 h-4 text-[#837560]" />
+                                        <span>Scented Candles</span>
+                                    </div>
+                                    <ChevronDown className={`w-4 h-4 text-[#837560] transition-transform duration-300 ${isCandlesOpen ? "rotate-180" : ""}`} />
+                                </div>
+
+                                {/* Sub-category list with transition */}
+                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isCandlesOpen ? "max-h-20 opacity-100 mt-1 pl-4" : "max-h-0 opacity-0"}`}>
+                                    <ul className="border-l-2 border-[#FFDEA8] pl-3 py-1 space-y-1">
+                                        <li
+                                            onClick={() => {
+                                                setActiveCategory("Scented Candles");
+                                                setActiveSubCategory("Reed Diffusers");
+                                            }}
+                                            className={`text-[#5E4200] cursor-pointer py-2 px-4 rounded-[20px] text-sm whitespace-nowrap transition-all duration-200 ${activeSubCategory === "Reed Diffusers" ? "bg-[#FFDEA8] font-semibold shadow-xs" : "hover:bg-[#FFDEA8]/30"}`}
+                                        >
+                                            Reed Diffusers
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            {/* Premium Socks */}
+                            <li
+                                onClick={() => {
+                                    setActiveCategory("Premium Socks");
+                                    setActiveSubCategory(null);
+                                }}
+                                className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Premium Socks" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
+                            >
+                                <Footprints className="w-4 h-4 text-[#837560]" />
+                                <span>Premium Socks</span>
+                            </li>
                         </ul>
+                        <div className="bg-[#F3F3F3] rounded-[24px] px-5 py-3.5 mt-6">
+                            <Info className="text-[#F3F3F3]" fill="#7C5800" />
+                            <p className="text-[#514532] mt-2 text-[14px]">Every purchase supports your local community programs. 180 SEK per package.</p>
+                        </div>
                     </div>
                     <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-10">
                         {products.map((product, index) => (
-                            <ProductCard key={`${product.title}-${index}`} image={product.image} title={product.title} price={product.price} description={product.description} />
+                            <ProductCard 
+                                key={`${product.title}-${index}`} 
+                                image={product.image} 
+                                title={product.title} 
+                                price={product.price} 
+                                description={product.description} 
+                                onViewDetails={() => setSelectedProduct(product)}
+                            />
                         ))}
                     </div>
                 </div>
@@ -106,6 +169,13 @@ const ProductsClient = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Modal */}
+            <ProductDetailModal 
+                isOpen={!!selectedProduct} 
+                onClose={() => setSelectedProduct(null)} 
+                product={selectedProduct} 
+            />
         </div>
     );
 };

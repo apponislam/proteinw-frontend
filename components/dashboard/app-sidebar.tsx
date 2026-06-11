@@ -6,17 +6,37 @@ import { useRole } from "./RoleProvider";
 import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useLogoutMutation } from "../../redux/features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 export function AppSidebar() {
     const pathname = usePathname();
+    const router = useRouter();
     const { activeRole } = useRole();
     const menuItems = getMenuByRole(activeRole);
+    const [logoutApi] = useLogoutMutation();
+    const dispatch = useDispatch();
 
     const roleLabels: Record<string, string> = {
         SUPER_ADMIN: "SUPER ADMIN",
         SELLER_ADMIN: "SELLER ADMIN",
         SELLER: "SELLER",
+    };
+
+    const handleLogout = async () => {
+        const toastId = toast.loading("Logging out...");
+        try {
+            await logoutApi().unwrap();
+            dispatch(logOut());
+
+            toast.success("You have been successfully logged out.", { id: toastId });
+            router.push("/auth/login");
+        } catch (error) {
+            toast.error("Failed to logout. Please try again.", { id: toastId });
+        }
     };
 
     return (
@@ -56,7 +76,7 @@ export function AppSidebar() {
             <SidebarFooter className="p-4">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton onClick={handleLogout} className="cursor-pointer">
                             <LogOut />
                             <span>Logout</span>
                         </SidebarMenuButton>
