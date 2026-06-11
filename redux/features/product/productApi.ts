@@ -70,7 +70,7 @@ const productApi = baseApi.injectEndpoints({
                     method: "GET",
                 };
             },
-            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "Product", id: "LIST" }] : [{ type: "Product", id: "LIST" }]),
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "Product", id: "PUBLIC_LIST" }] : [{ type: "Product", id: "PUBLIC_LIST" }]),
         }),
 
         getProductById: builder.query<{ data: TProduct }, string>({
@@ -88,8 +88,44 @@ const productApi = baseApi.injectEndpoints({
                 method: "GET",
                 credentials: "include",
             }),
-            providesTags: [{ type: "Product", id: "LIST" }],
+            providesTags: [{ type: "Product", id: "ADMIN_STATS" }],
         }),
+
+        // getAllProducts: builder.query<TProductResponse, Record<string, any> | void>({
+        //     query: (filters) => {
+        //         const params = new URLSearchParams();
+
+        //         // Default values
+        //         let page = 1;
+        //         let limit = 10;
+
+        //         if (filters) {
+        //             Object.entries(filters).forEach(([key, value]) => {
+        //                 if (value !== undefined && value !== null) {
+        //                     if (key === "page") {
+        //                         page = Number(value);
+        //                     } else if (key === "limit") {
+        //                         limit = Number(value);
+        //                     } else {
+        //                         params.append(key, String(value));
+        //                     }
+        //                 }
+        //             });
+        //         }
+
+        //         params.append("page", String(page));
+        //         params.append("limit", String(limit));
+
+        //         const queryString = params.toString();
+        //         return {
+        //             url: queryString ? `/products/admin/all?${queryString}` : "/products/admin/all",
+        //             method: "GET",
+        //             credentials: "include",
+        //         };
+        //     },
+        //     providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "Product", id: "ADMIN_LIST" }] : [{ type: "Product", id: "ADMIN_LIST" }]),
+        // }),
+
         getAllProducts: builder.query<TProductResponse, Record<string, any> | void>({
             query: (filters) => {
                 const params = new URLSearchParams();
@@ -122,7 +158,18 @@ const productApi = baseApi.injectEndpoints({
                     credentials: "include",
                 };
             },
-            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "Product", id: "LIST" }] : [{ type: "Product", id: "LIST" }]),
+            // ✅ ADD THIS - it's the fix
+            serializeQueryArgs: ({ queryArgs }) => {
+                // Always use the same base key for admin list
+                return `ADMIN_LIST_${JSON.stringify(queryArgs || {})}`;
+            },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })),
+                          { type: "Product", id: "ADMIN_LIST" }, // Keep this
+                      ]
+                    : [{ type: "Product", id: "ADMIN_LIST" }],
         }),
 
         createProduct: builder.mutation<{ data: TProduct }, FormData>({
@@ -132,7 +179,11 @@ const productApi = baseApi.injectEndpoints({
                 body: formData,
                 credentials: "include",
             }),
-            invalidatesTags: [{ type: "Product", id: "LIST" }],
+            invalidatesTags: (result, error, arg) => [
+                { type: "Product", id: "ADMIN_LIST" }, // Invalidate admin product list
+                { type: "Product", id: "PUBLIC_LIST" }, // Invalidate public product list
+                { type: "Product", id: "ADMIN_STATS" }, // Invalidate stats
+            ],
         }),
 
         updateProduct: builder.mutation<{ data: TProduct }, { productId: string; formData: FormData }>({
@@ -143,8 +194,10 @@ const productApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: (_, __, { productId }) => [
-                { type: "Product", id: "LIST" },
-                { type: "Product", id: productId },
+                { type: "Product", id: "ADMIN_LIST" }, // Invalidate admin list
+                { type: "Product", id: "PUBLIC_LIST" }, // Invalidate public list
+                { type: "Product", id: "ADMIN_STATS" }, // Invalidate stats
+                { type: "Product", id: productId }, // Invalidate specific product
             ],
         }),
 
@@ -155,8 +208,10 @@ const productApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: (_, __, productId) => [
-                { type: "Product", id: "LIST" },
-                { type: "Product", id: productId },
+                { type: "Product", id: "ADMIN_LIST" }, // Invalidate admin list
+                { type: "Product", id: "PUBLIC_LIST" }, // Invalidate public list
+                { type: "Product", id: "ADMIN_STATS" }, // Invalidate stats
+                { type: "Product", id: productId }, // Invalidate specific product
             ],
         }),
 
@@ -167,8 +222,10 @@ const productApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: (_, __, productId) => [
-                { type: "Product", id: "LIST" },
-                { type: "Product", id: productId },
+                { type: "Product", id: "ADMIN_LIST" }, // Invalidate admin list
+                { type: "Product", id: "PUBLIC_LIST" }, // Invalidate public list
+                { type: "Product", id: "ADMIN_STATS" }, // Invalidate stats
+                { type: "Product", id: productId }, // Invalidate specific product
             ],
         }),
     }),
