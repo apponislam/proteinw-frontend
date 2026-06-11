@@ -1,0 +1,419 @@
+﻿Inspiration for this website (examples) 
+Tjäna pengar med klassen – enkelt, tryggt och lönsamt  
+Tjäna pengar till laget, föreningen eller klassen - Newbody Family 
+ 
+The website should not be this complicated and overwhelming since there will be young  students and teachers. So great friendly user interface (examples)  
+Tjäna pengar till klassen: Starta klassförsäljning på Finsmakarna.se   
+
+
+
+
+Website instructions  
+
+
+  
+
+
+
+For the pages we can follow this template.
+“Sälj med oss” - “Till klassförsäljning” “Till Lagförsäljning” 
+“Så fungerar det” - directly to the page where i talk about how it works and talk about the “digital” side of this fundraising and so on” 
+“Se er vinst" - Directly to the page, profit margin and about the margin stairmodel
+“Produkter” - “Doftljus & Doftpinnar” “Strumpor” 
+“Om oss” - “Frågor och svar”  “Kundtjänst” 
+
+
+
+
+
+
+Calculator for the sellers to use, take inspiration of the slidebar from the suggested website and take note that the users are between 12-18 years old. 
+
+
+This will be at the page “Se er vinst” See your profit in english.
+We want the main calculator mode to be goal-based, not sales-input-based.
+The idea is that most school classes think in terms of a target amount they want to raise, for example for a class trip, graduation, or class fund.
+So the default calculator mode should answer this question:
+“How much do we need to sell to reach our goal?”
+User inputs
+The user should only enter:
+1. Target amount in SEK
+2. Number of students in the class
+That’s it.
+The calculator must stay very simple and user-friendly.
+Profit model
+The calculator must use this fixed profit tier model:
+* 0–149 packages = 40% profit
+* 150–224 packages = 45% profit
+* 225+ packages = 50% profit
+Product price
+* Each package/product is sold for 180 SEK (but don't show it on the calculator)
+Important calculation logic
+The calculator must determine which tier makes sense based on the target amount.
+It should not simply divide the target amount by one fixed profit value.
+Instead, it should test the tiers and return the correct result.
+Example logic
+If the class wants to earn 15,000 SEK:
+* At 40% profit, profit per package is 72 SEK
+* At 45% profit, profit per package is 81 SEK
+* At 50% profit, profit per package is 90 SEK
+The calculator must find the correct package quantity that matches both:
+* the target amount
+* the valid tier range
+Example:
+* 15,000 / 72 = 209 packages → this does not belong in the 40% tier, so that tier is invalid
+* 15,000 / 81 = about 186 packages → this fits inside the 45% tier, so this is the correct result
+Output shown to user
+The result should be presented in a very simple and friendly way.
+Main result:
+* You need to sell X packages
+Supporting results:
+* That equals about X packages per student
+* You reach X% profit
+* total class profit: X SEK
+Also show the next level in a helpful way:
+* If you want to reach 50%, you need to sell X packages
+ or
+* You are X packages away from the next profit level
+UX requirements
+   * It must feel simple and non-technical
+   * Modern and user-friendly use
+   * Maximum 2 input fields
+   * Results should update instantly when values change
+   * It must work well on mobile
+   * Use prefilled default values, for example:
+   * Target amount: 15,000 SEK
+   * Number of students: 26
+Suggested labels
+Title:
+How much do you want to earn for your class?
+Field 1:
+Target amount
+Field 2:
+Number of students
+Main result example:
+To earn 15,000 SEK, your class needs to sell about 186 packages.
+Sub-results:
+   * About 7 packages per student
+   * You reach 45% profit
+   * Estimated total profit: 15,066 SEK
+Extra helper text:
+If you sell 225 packages, you reach 50% profit.
+
+
+
+
+2026-04-15 UPDATE
+DASHBOARD MOCKUP RULES 
+
+Role 1: Super Admin
+Full system access. Can manage all campaigns, products, users, admins, sellers, pricing logic, orders, exports, and reporting.
+Role 2: Admin
+Group/class manager. Can create and manage their own class/team campaign, add sellers, track all orders for their group, monitor performance. Basic editing the storefront so each group has the store adjusted accordingly to their mission. 
+Role 3: Seller
+Individual student seller. Can access personal sales link/code, track own sales/orders, and view personal/group progress only. See deadline etc. 
+
+
+More Detailed.
+1. Super Admin (me)
+Purpose
+The Super Admin should have full control over the entire platform.
+Super Admin should be able to:
+   * view all admins
+   * view all groups
+   * view all sellers
+   * view all orders
+   * create/edit products
+   * manage pricing, specifically for each group if needed.
+   * manage the profit tier model,  specifically for each admin/group if needed.
+   * view total sales and statistics 
+   * view total profit per group,overall finacial
+   * export all data 
+   * lock/close campaigns, extend a group campaign etc. 
+   * support admins when needed
+
+
+2. Admin (coach, teacher, mentor ex)
+Main rule
+One admin should be able to manage multiple groups. example a mentor in a school have class 9b, 9a, 9c. Usually a admin has maximum 2-3 groups, usually 1
+Examples:
+   * a teacher may manage both Class 8A and 8B
+   * a parent may manage two different classes
+   * one contact person may run several campaigns
+Therefore, the Admin dashboard should start with an overview of all groups managed by that admin in categories
+Storefront (customer end)
+The admin should be able to edit the storefront so it is adjusted to their mission accordingly. AND on each individuals sellers storefront their sellers name should be on their storefront for example. Student (Martin Andersson) share his link to his grandpa, the grandpa should see “Welcome to Martin Andersson digital store)
+Admin dashboard 
+The Admin 
+   * my groups
+   * active sellers per group
+   * total sales per group
+   * number of packages sold per group
+   * current profit tier per group
+   * packages remaining until the next tier
+   * total group profit
+   * campaign status per group
+   * They should NOT SEE overall stats overview because it makes it uncessary complicated it should not be a financial website
+Per group, Admin should be able to:
+   * add sellers
+   * remove sellers
+   * view each seller’s personal sales link
+   * view sales per seller
+   * view all orders in the group
+   * view customer details for order handling
+   * view product summary
+   * view total products sold
+   * view total sales, and then total profit.
+   * track the profit tier progress
+   * view deadline
+It is important that the admin view and functionality is easy and not over complicated since they should not use it after they create the group. Since older people with low to no experience should be able to use the dashboard.
+Much for the functionality should be per group if a admin has more than one group.
+Important rule
+Admin can view individual seller statistics.
+This is needed to follow up with the group and support the sellers.
+Admin should be able to see:
+   * seller name
+   * number of orders
+   * number of packages sold
+   * total order volume
+   * personal sales link
+   * status
+In a clear and user friendly way
+3. Seller
+Main rule
+Problem: How will a sellers account be created (login credentials)
+The Seller should be able to log in and access a very simple dashboard.
+Since many sellers will be young students, the Seller dashboard must not feel like a complex admin system. It should be simple, visual, and easy to understand.
+Purpose
+The purpose of the Seller dashboard is to help the student:
+   * access and share their personal sales link
+   * track their own sales
+   * see the class/group progress
+   * stay motivated during the campaign
+Seller should be able to see:
+   * their personal sales link
+   * a button to copy the link
+   * a QR code, they can enlarge
+   * number of packages they have sold
+   * total class/group sales, how much total sales, and total profit.
+   * total class packages sold
+   * current class/group profit tier
+   * how many packages remain until the next profit tier (whole group)
+   * campaign deadline
+   * and order history, there they can see their customers' delivery information. (my orders) they should also put it by themself as pending, delivered, or cancelled/returned. (it is standard as pending)
+Seller should not be able to see:
+   * other sellers’ individual sales
+   * rankings or leaderboards
+   * who has sold the most or the least
+   * other sellers’ customer details
+   * detailed admin-level financial information
+This is important because showing individual student performance can create pressure, comparison, and frustration.
+
+
+2026-04-28
+Campaign Completion Process
+1. Campaign reaches deadline
+When the campaign deadline is reached, the campaign should change from:
+Active → Ready for Review
+At this stage:
+   * new customer orders should be stopped
+   * sellers should not be able to freely add new orders
+   * the Admin should get a clear message:
+“The campaign has ended. Please review the orders and submit the final order.”
+The campaign should not be fully locked immediately. The Admin needs time to review everything first.
+2. Admin reviews the campaign
+The Admin should review all campaign data before submitting the final order.
+Admin should check:
+      * all sellers
+      * all customer orders
+      * product totals
+      * incorrect or duplicate orders
+      * total number of packages sold
+      * current profit tier
+      * total group profit
+Admin should be able to:
+      * correct wrong orders
+      * cancel incorrect orders
+      * confirm that the campaign is ready
+“If any orders are done outside this platform, please contact us”
+Sometimes they may use catalogues we offer schools were they personally go door to door.
+________________
+
+
+3. Admin submits final order
+When everything is correct, the Admin clicks:
+Submit Final Order
+After this:
+      * the campaign is locked
+      * orders can no longer be changed
+      * the final profit tier is locked
+      * seller totals are locked
+      * summaries are generated
+      * Super Admin receives the campaign for fulfillment
+Campaign status becomes:
+Final Order Submitted
+4. System generates summaries
+After the final order is submitted, the system should automatically create summaries.
+For Admin
+Admin should receive:
+      * summary per seller
+      * summary per customer/order
+      * summary per product that will be fulfilled by super admin
+      * total group profit
+      * amount each seller should collect from customers this they may see in their order list. 
+Admin dashboard should stay simple and very user friendly/experience.
+For Seller
+Seller should receive:
+      * list of their own customers
+      * what each customer ordered (and what products, ex size, scent, units, ex)
+      * how much each customer should pay
+For Super Admin
+Super Admin should receive:
+      * final product totals
+      * product totals per group
+      * delivery information
+      * packing/fulfillment export
+      * campaign status overview
+products, super admin should see how much of each product so we can deliver the correct amount of each product, size, scent ex. Example when a click on a seller on this campaign i can see what specifically he have sold. 
+________________
+5. Super Admin handles fulfillment
+After the final order is submitted, Super Admin handles the delivery process.
+Super Admin should move the campaign through these statuses:
+      1. Final Order Received
+      2. Picking / Packing
+      3. Ready for Delivery
+      4. Delivered to Group
+      5. Settlement in Progress
+      6. Completed
+Admin should be able to see these status updates in their dashboard.
+________________
+
+
+6. Products are delivered to the group
+When the group receives the products, Admin distributes the products to the sellers.
+7. Seller after delivery
+After products are delivered, can then distribute the products so the Seller should see a simple dashboard showing:
+      * their customers
+      * what each customer ordered
+      * how much each customer should pay
+Seller should then:
+      1. receive products from Admin
+      2. deliver products to customers
+      3. collect payment from customers (third party)
+Seller dashboard must stay simple. No advanced accounting features.
+Seller should only see:
+      * own customers
+      * own orders
+      * own sales
+      * total class/group progress
+Seller should not see:
+      * other sellers’ individual sales
+      * other sellers’ customer details
+
+
+8. Settlement and closing
+Admin should track settlement after delivery.
+Admin should see:
+      * total group profit
+      * final campaign status/info
+Super Admin should be able then mark the campaign as
+Completed
+A campaign should only be completed when:
+      * products are delivered
+      * sellers have received their products
+      * payment/settlement is completed
+      * there are no unresolved issues
+      * this decision is made by the super admin
+________________
+
+
+Simple Full Flow
+      1. Campaign deadline is reached
+      2. Campaign becomes Ready for Review
+      3. Admin reviews all orders
+      4. Admin corrects or adds missing catalog orders
+      5. Admin clicks Submit Final Order
+      6. Campaign is locked
+      7. System generates summaries
+      8. Super Admin prepares delivery
+      9. Products are delivered to the group
+      10. Admin distributes products to sellers
+      11. Sellers deliver products to customers and collect payment
+      12. Super Admin marks campaign as Completed
+________________
+
+
+Visibility Rules
+Seller can see:
+      * own sales
+      * own customers/orders
+      * total group sales
+      * group profit tier
+      * campaign deadline
+Super Admin can see:
+      * everything across the platform
+
+
+Campaign Restart and Seller Account Retention
+After a campaign has been completed and locked, the Admin should have the option to restart the campaign within a limited time period.
+The restart period should be 2 months / 60 days from the date the campaign was completed.
+During this 2-month period:
+      * the existing Admin account remains active
+      * the existing Seller accounts remain active
+      * the Seller login details remain valid
+      * the Seller sales links can be reused or reactivated
+      * the Admin can restart the campaign without adding all sellers again
+This is useful if the same class or group wants to run another sales period shortly after the first campaign.
+Restarting a Campaign Within 2 Months
+If the Admin wants to restart the campaign within 2 months, they should be able to click:
+Restart this campaign
+The Admin should then enter new campaign details, such as:
+      * campaign name
+      * new start date
+      * new end date
+      * profit goal
+      * any updated group information
+      * optional new sellers
+After the Admin submits the restart request, the campaign should not go live immediately.
+The restarted campaign must be reviewed and approved by the Super Admin before it becomes active.
+What Happens to Seller Accounts
+If the campaign is restarted within 2 months:
+      * existing Sellers should remain connected to the group
+      * Sellers should not need new login credentials
+      * Sellers should be able to log in with their existing accounts
+      * previous campaign results should remain archived
+      * the new campaign should start with fresh sales numbers
+      * old orders should not be mixed with the new campaign
+Important:
+The new campaign must be treated as a separate sales period, even if the same Sellers are reused.
+      * Seller accounts connected to the new restarted campaign
+If More Than 2 Months Have Passed
+If more than 2 months have passed since the campaign was completed:
+      * the old campaign can no longer be restarted (deletes)
+      * old Seller accounts should be deleted
+      * the Admin must create a completely new campaign
+      * Sellers must be added again
+      * new login credentials must be generated
+      * new Seller links must be created/generated
+Account Deletion / Data Retention
+Seller accounts should not stay active forever after a campaign ends.
+After 2 months:
+      * Seller accounts should be deleted
+      * old campaign data should remain available to Super Admin for reporting and recordkeeping
+      * previous campaign results should stay archived separately from any new campaigns
+      * personal data should only be kept as long as necessary. 2 months. (customers)
+This supports the GDPR principle of storage limitation: personal data should not be kept longer than needed for the purpose of the processing. When the purpose is fulfilled, the main rule is that the data should be deleted or de-identified.
+Recommended Campaign Status Logic
+Use these statuses: (your dev team can decide)
+      1. Completed
+      2. Restart Available
+      3. Restart Requested
+      4. Restart Approved
+      5. Active
+      6. Restart Expired
+      7. Archived
+Simple Rule for Developers
+After a campaign is completed, the system should keep the campaign restart option open for 2 months / 60 days.
+During this period, the Admin can restart the campaign using the same Seller accounts. The Admin must enter new campaign details, and the restarted campaign must be approved by Super Admin before going live.
+After 2 months, the restart option should expire. The Admin must then create a completely new campaign, add Sellers again, and generate new login credentials and Seller links. (always need to be accepted) before proceeding adding sellers ex. 
+Previous campaign results should always remain archived separately and should never be mixed with the new campaign.

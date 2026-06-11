@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useGetAllProductsQuery, useToggleProductStatusMutation, useDeleteProductMutation, type TProduct } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
+import { Pencil, Trash2 } from "lucide-react";
+import Swal from "sweetalert2";
 
 const campaignColors = ["bg-[#D97706]", "bg-[#7C3AED]", "bg-[#10B981]", "bg-[#3B82F6]"];
 
@@ -54,13 +56,35 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
 
     // Handle delete product
     const handleDelete = async (productId: string) => {
-        try {
-            await deleteProduct(productId).unwrap();
-            toast.success("Product deleted!");
-        } catch (err) {
-            console.error(err);
-            toast.error("Failed to delete product");
-        }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This product will be permanently deleted.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#D97706",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+            customClass: {
+                confirmButton: "rounded-lg",
+                cancelButton: "rounded-lg"
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await deleteProduct(productId).unwrap();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your product has been deleted.",
+                        icon: "success",
+                        confirmButtonColor: "#D97706"
+                    });
+                } catch (err) {
+                    console.error(err);
+                    toast.error("Failed to delete product");
+                }
+            }
+        });
     };
 
     // Generate page numbers for pagination
@@ -164,12 +188,12 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                         </div>
                                     </td>
                                     <td className="px-4 py-4">
-                                        <button onClick={() => product._id && handleToggleStatus(product._id)} className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(product.isActive)}`}>
+                                        <button onClick={() => product._id && handleToggleStatus(product._id)} className={`cursor-pointer inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(product.isActive)}`}>
                                             {product.isActive ? "Active" : "Inactive"}
                                         </button>
                                     </td>
                                     <td className="px-4 py-4">
-                                        <span className="text-[#D97706] font-bold">${product.price.toFixed(2)}</span>
+                                        <span className="text-[#D97706] font-bold">{product.price} SEK</span>
                                     </td>
                                     <td className="px-4 py-4">
                                         {!product.campaigns || product.campaigns.length === 0 ? (
@@ -196,11 +220,11 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                     </td>
                                     <td className="px-4 py-4">
                                         <div className="flex items-center gap-2">
-                                            <button onClick={() => onEdit && onEdit(product)} className="text-[#D97706] hover:underline text-sm">
-                                                Edit
+                                            <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Edit">
+                                                <Pencil size={16} />
                                             </button>
-                                            <button onClick={() => product._id && handleDelete(product._id)} className="text-red-500 hover:underline text-sm">
-                                                Delete
+                                            <button onClick={() => product._id && handleDelete(product._id)} className="cursor-pointer w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors" title="Delete">
+                                                <Trash2 size={16} />
                                             </button>
                                         </div>
                                     </td>
@@ -217,7 +241,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                 </div>
                 <div className="flex items-center gap-2">
                     {pageNumbers.map((page) => (
-                        <button key={page} onClick={() => setCurrentPage(page)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${page === currentPage ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button key={page} onClick={() => setCurrentPage(page)} className={`cursor-pointer w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${page === currentPage ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             {page}
                         </button>
                     ))}

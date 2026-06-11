@@ -13,20 +13,29 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
 
     // Form state
     const [name, setName] = useState("");
-    const [price, setPrice] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [category, setCategory] = useState("");
     const [subCategory, setSubCategory] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    React.useEffect(() => {
+        if (selectedFile) {
+            const objectUrl = URL.createObjectURL(selectedFile);
+            setPreviewUrl(objectUrl);
+            return () => URL.revokeObjectURL(objectUrl);
+        } else {
+            setPreviewUrl(null);
+        }
+    }, [selectedFile]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const formData = new FormData();
             formData.append("name", name);
-            formData.append("price", price);
             formData.append("shortDescription", shortDescription);
             formData.append("category", category);
             formData.append("subCategory", subCategory);
@@ -37,7 +46,6 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             onClose();
             // Reset form
             setName("");
-            setPrice("");
             setShortDescription("");
             setCategory("");
             setSubCategory("");
@@ -56,7 +64,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between p-6 border-b border-[#F5F5F4]">
                     <h2 className="text-xl font-bold text-[#1A1C1C]">Add new product</h2>
-                    <button onClick={onClose} className="text-[#78716C] hover:text-[#1A1C1C]">
+                    <button onClick={onClose} className="text-[#78716C] hover:text-[#1A1C1C] cursor-pointer">
                         <X size={20} />
                     </button>
                 </div>
@@ -65,11 +73,6 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     <div>
                         <label className="block text-[#78716C] text-sm font-medium mb-2">Product name</label>
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full h-12 px-4 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20" />
-                    </div>
-
-                    <div>
-                        <label className="block text-[#78716C] text-sm font-medium mb-2">Price</label>
-                        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required step="0.01" className="w-full h-12 px-4 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20" />
                     </div>
 
                     <div>
@@ -99,14 +102,17 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     <div>
                         <label className="block text-[#78716C] text-sm font-medium mb-2">Upload product image</label>
                         <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} className="hidden" />
-                        <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-[#F5F5F4] rounded-lg p-8 text-center hover:border-[#D97706] transition-colors cursor-pointer">
-                            {selectedFile ? <div className="text-[#1A1C1C] text-sm font-medium">{selectedFile.name}</div> : <div className="text-[#78716C] text-sm">Click to upload or drag and drop</div>}
+                        <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-[#F5F5F4] rounded-lg p-4 text-center hover:border-[#D97706] transition-colors cursor-pointer flex flex-col items-center justify-center">
+                            {previewUrl && (
+                                <img src={previewUrl} alt="Preview" className="h-32 w-full object-contain mb-3 rounded-lg" />
+                            )}
+                            {selectedFile ? <div className="text-[#1A1C1C] text-sm font-medium">{selectedFile.name}</div> : <div className="text-[#78716C] text-sm py-4">Click to upload or drag and drop</div>}
                         </div>
                     </div>
                 </form>
 
                 <div className="p-6 border-t border-[#F5F5F4]">
-                    <button onClick={handleSubmit} disabled={isLoading} className="w-full h-12 bg-[#D97706] hover:bg-[#C06A06] disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors">
+                    <button onClick={handleSubmit} disabled={isLoading} className="cursor-pointer w-full h-12 bg-[#D97706] hover:bg-[#C06A06] disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors">
                         {isLoading ? "Adding Product..." : "Add Product"}
                     </button>
                 </div>

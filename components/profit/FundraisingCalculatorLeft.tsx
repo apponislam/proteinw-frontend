@@ -2,12 +2,16 @@
 
 import { Info } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
-export default function FundraisingCalculatorLeft() {
-    const [targetProfit, setTargetProfit] = useState(15000);
-    const [students, setStudents] = useState(26);
+interface Props {
+    targetProfit: number;
+    setTargetProfit: (val: number) => void;
+    students: number;
+    setStudents: (val: number) => void;
+    profitPercent: number;
+}
 
+export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfit, students, setStudents, profitPercent }: Props) {
     const packagePrice = 180;
 
     return (
@@ -80,17 +84,17 @@ export default function FundraisingCalculatorLeft() {
                         </div>
 
                         <div className="mt-4 space-y-2 text-sm text-zinc-600">
-                            <div className="flex justify-between p-2 hover:bg-[#FFB80033] hover:border-l-[#FFB80033] border-l-4 border-l-transparent rounded-sm">
+                            <div className={`flex justify-between p-2 rounded-sm border-l-4 transition-colors ${profitPercent === 40 ? "bg-[#FFB80033] border-l-[#FFB80033]" : "border-l-transparent hover:bg-[#FFB80033] hover:border-l-[#FFB80033]"}`}>
                                 <span className="text-[#837560]">0 - 149 pkgs</span>
                                 <span className="text-[#1A1C1C] font-bold">40% Profit</span>
                             </div>
 
-                            <div className="flex justify-between p-2 hover:bg-[#FFB80033] hover:border-l-[#FFB80033] border-l-4 border-l-transparent rounded-sm">
+                            <div className={`flex justify-between p-2 rounded-sm border-l-4 transition-colors ${profitPercent === 45 ? "bg-[#FFB80033] border-l-[#FFB80033]" : "border-l-transparent hover:bg-[#FFB80033] hover:border-l-[#FFB80033]"}`}>
                                 <span className="text-[#837560]">150 - 224 pkgs</span>
                                 <span className="text-[#1A1C1C] font-bold">45% Profit</span>
                             </div>
 
-                            <div className="flex justify-between p-2 hover:bg-[#FFB80033] hover:border-l-[#FFB80033] border-l-4 border-l-transparent rounded-sm">
+                            <div className={`flex justify-between p-2 rounded-sm border-l-4 transition-colors ${profitPercent === 50 ? "bg-[#FFB80033] border-l-[#FFB80033]" : "border-l-transparent hover:bg-[#FFB80033] hover:border-l-[#FFB80033]"}`}>
                                 <span className="text-[#837560]">225+ pkgs</span>
                                 <span className="text-[#1A1C1C] font-bold">50% Profit</span>
                             </div>
