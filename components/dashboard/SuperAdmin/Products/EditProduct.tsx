@@ -20,8 +20,27 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
     const [subCategory, setSubCategory] = useState(product.subCategory || "");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [isDragging, setIsDragging] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(false);
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            setSelectedFile(e.dataTransfer.files[0]);
+        }
+    };
 
     React.useEffect(() => {
         if (selectedFile) {
@@ -110,7 +129,13 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                     <div>
                         <label className="block text-[#78716C] text-sm font-medium mb-2">Upload product image</label>
                         <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} className="hidden" />
-                        <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-[#F5F5F4] rounded-lg p-4 text-center hover:border-[#D97706] transition-colors cursor-pointer flex flex-col items-center justify-center">
+                        <div
+                            onClick={() => fileInputRef.current?.click()}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer flex flex-col items-center justify-center ${isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#F5F5F4] hover:border-[#D97706]"}`}
+                        >
                             {previewUrl && (
                                 <img src={previewUrl} alt="Preview" className="h-32 w-full object-contain mb-3 rounded-lg" />
                             )}
