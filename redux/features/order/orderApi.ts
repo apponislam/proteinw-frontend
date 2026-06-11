@@ -24,6 +24,7 @@ export type TOrder = {
     customerPhone?: string;
     address: TOrderAddress;
     items: TOrderItem[];
+    totalPackage: number;
     totalPrice: number;
     memberId?: string;
     campaignId?: string;

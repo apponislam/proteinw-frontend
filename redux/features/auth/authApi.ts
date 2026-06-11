@@ -21,6 +21,16 @@ type VerifyOtpResponse = {
     };
 };
 
+export type TAdminStats = {
+    _id: string;
+    name: string;
+    email: string;
+    isActive: boolean;
+    groupName: string | null;
+    sellerCount: number;
+    orderCount: number;
+};
+
 const authApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -40,9 +50,9 @@ const authApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
-        registerMember: builder.mutation<AuthResponse, FormData>({
+        registerSeller: builder.mutation<AuthResponse, FormData>({
             query: (userInfo) => ({
-                url: "/auth/register-member",
+                url: "/auth/register-seller",
                 method: "POST",
                 body: userInfo,
                 credentials: "include",
@@ -163,13 +173,28 @@ const authApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
+        createAdmin: builder.mutation<{ data: TUser }, any>({
+            query: (adminInfo) => ({
+                url: "/auth/create-admin",
+                method: "POST",
+                body: adminInfo,
+                credentials: "include",
+            }),
+        }),
+        getAdminsWithStats: builder.query<{ data: TAdminStats[] }, void>({
+            query: () => ({
+                url: "/auth/admins-with-stats",
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
     }),
 });
 
 export const {
     useLoginMutation,
     useRegisterMutation,
-    useRegisterMemberMutation,
+    useRegisterSellerMutation,
     useRefreshTokenMutation,
     useLogoutMutation,
     useGetMeQuery,
@@ -185,4 +210,6 @@ export const {
     useResendEmailUpdateMutation,
     useVerifyNewEmailQuery,
     useSetUserPasswordMutation,
+    useCreateAdminMutation,
+    useGetAdminsWithStatsQuery,
 } = authApi;

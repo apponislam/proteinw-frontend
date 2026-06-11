@@ -36,7 +36,7 @@ export function HeroArea() {
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
 
-                                <Link href="#profit" className="inline-flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-900 font-semibold px-8 py-4 rounded-[24px] hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors duration-300">
+                                <Link href="/profit" className="inline-flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-900 font-semibold px-8 py-4 rounded-[24px] hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors duration-300">
                                     See Your Profit
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>

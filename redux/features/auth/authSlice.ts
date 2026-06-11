@@ -4,7 +4,7 @@ import { RootState } from "../../stote";
 export const roles = {
     SUPER_ADMIN: "SUPER_ADMIN" as const,
     ADMIN: "ADMIN" as const,
-    MEMBER: "MEMBER" as const,
+    SELLER: "SELLER" as const,
 };
 
 export type Role = (typeof roles)[keyof typeof roles];
