@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { X, Check } from "lucide-react";
+import { X, Coins, Sparkles, Leaf } from "lucide-react";
 
 type ProductDetailModalProps = {
     isOpen: boolean;
@@ -46,7 +46,7 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                 {/* Right Side: 50% Content */}
                 <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-between">
                     <div>
-                        <span className="text-[12px] font-bold tracking-widest text-[#7C5800] uppercase block mb-2">
+                        <span className="inline-block text-[10px] font-bold tracking-widest text-[#7C5800] bg-[#FFDEA8] px-3 py-1 rounded-[16px] uppercase mb-3.5">
                             NEW COLLECTION
                         </span>
                         <h2 className="text-2xl md:text-3xl font-extrabold text-[#1C1917] mb-2 leading-tight">
@@ -65,21 +65,21 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                         </p>
                     </div>
 
-                    <div className="border-t border-stone-100 pt-6">
-                        <h4 className="text-[11px] font-bold tracking-wider text-stone-400 uppercase mb-3.5">
+                    <div className="bg-[#F3F3F3] border border-[#D5C4AB1A] rounded-[24px] p-6">
+                        <h4 className="text-[11px] font-bold tracking-wider text-[#7C5800] uppercase mb-3.5">
                             WHY IT'S EASY TO SELL
                         </h4>
                         <ul className="space-y-3">
                             <li className="flex items-start gap-2.5 text-[13.5px] text-[#514532]">
-                                <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                <Coins className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
                                 <span>High-margin product (earn up to 50% profit)</span>
                             </li>
                             <li className="flex items-start gap-2.5 text-[13.5px] text-[#514532]">
-                                <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                <Sparkles className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
                                 <span>Premium Scandinavian quality that sells itself</span>
                             </li>
                             <li className="flex items-start gap-2.5 text-[13.5px] text-[#514532]">
-                                <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                <Leaf className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
                                 <span>Sustainable soy wax and organic scents</span>
                             </li>
                         </ul>
