@@ -9,11 +9,7 @@ import { Store, Calendar, Award, Pencil, ShieldAlert, Loader2 } from "lucide-rea
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useGetGroupByIdQuery } from "@/redux/features/group/groupApi";
-import {
-    useGetCampaignsByGroupQuery,
-    useCreateCampaignMutation,
-    useUpdateCampaignMutation,
-} from "@/redux/features/campaign/campaignApi";
+import { useGetCampaignsByGroupQuery, useCreateCampaignMutation, useUpdateCampaignMutation } from "@/redux/features/campaign/campaignApi";
 
 interface CampaignProps {
     groupId: string;
@@ -51,9 +47,10 @@ export default function Campaign({ groupId }: CampaignProps) {
 
     const groupGoal = groupResponse?.data?.goal;
     const campaigns = campaignResponse?.data || [];
-    const activeCampaign = campaigns.find(
-        (c) => c.isActive && !c.isDeleted && new Date(c.endDate) > new Date()
-    );
+
+    console.log("campaigns", campaigns);
+
+    const activeCampaign = campaigns.find((c) => c.isActive && !c.isDeleted);
 
     const handleSaveEdit = async () => {
         if (!activeCampaign?._id) {
@@ -116,18 +113,8 @@ export default function Campaign({ groupId }: CampaignProps) {
                         </div>
                         {isEditingActiveCampaign ? (
                             <div className="space-y-3 w-full max-w-xl">
-                                <Input
-                                    value={editName}
-                                    onChange={(e) => setEditName(e.target.value)}
-                                    placeholder="Campaign name"
-                                    className="h-10 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold text-lg"
-                                />
-                                <Textarea
-                                    value={editDesc}
-                                    onChange={(e) => setEditDesc(e.target.value)}
-                                    placeholder="Campaign short description"
-                                    className="min-h-[60px] border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-sm"
-                                />
+                                <Input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Campaign name" className="h-10 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold text-lg" />
+                                <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Campaign short description" className="min-h-[60px] border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-sm" />
                             </div>
                         ) : (
                             <div>
@@ -139,26 +126,17 @@ export default function Campaign({ groupId }: CampaignProps) {
                     <div className="flex items-center gap-3 shrink-0">
                         {isEditingActiveCampaign ? (
                             <div className="flex items-center gap-2">
-                                <button
-                                    onClick={handleSaveEdit}
-                                    disabled={isUpdating}
-                                    className="px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-semibold cursor-pointer disabled:opacity-50 flex items-center gap-1"
-                                >
+                                <button onClick={handleSaveEdit} disabled={isUpdating} className="px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-semibold cursor-pointer disabled:opacity-50 flex items-center gap-1">
                                     {isUpdating && <Loader2 className="animate-spin" size={12} />}
                                     <span>Save</span>
                                 </button>
-                                <button
-                                    onClick={() => setIsEditingActiveCampaign(false)}
-                                    className="px-3 py-1.5 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold cursor-pointer"
-                                >
+                                <button onClick={() => setIsEditingActiveCampaign(false)} className="px-3 py-1.5 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold cursor-pointer">
                                     Cancel
                                 </button>
                             </div>
                         ) : (
                             <>
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide bg-green-50 text-green-700 border border-green-200">
-                                    Live / Active
-                                </span>
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide bg-green-50 text-green-700 border border-green-200">Live / Active</span>
                                 <button
                                     onClick={() => {
                                         setEditName(activeCampaign.name);
@@ -194,9 +172,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                         </div>
                         <div>
                             <span className="block text-[10px] text-[#78716C] font-semibold uppercase">End Date</span>
-                            <span className="text-sm font-bold text-[#1A1C1C]">
-                                {new Date(activeCampaign.endDate).toLocaleDateString()}
-                            </span>
+                            <span className="text-sm font-bold text-[#1A1C1C]">{new Date(activeCampaign.endDate).toLocaleDateString()}</span>
                         </div>
                     </div>
 
@@ -223,13 +199,8 @@ export default function Campaign({ groupId }: CampaignProps) {
                         <ShieldAlert size={24} />
                     </div>
                     <h3 className="text-xl font-bold text-[#1A1C1C] mb-2">No Active Fundraising Campaign</h3>
-                    <p className="text-sm text-[#78716C] mb-6">
-                        Start a new campaign so team members can share the storefront link to collect orders and raise money.
-                    </p>
-                    <button
-                        onClick={() => setShowCreateForm(true)}
-                        className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
-                    >
+                    <p className="text-sm text-[#78716C] mb-6">Start a new campaign so team members can share the storefront link to collect orders and raise money.</p>
+                    <button onClick={() => setShowCreateForm(true)} className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
                         Start New Campaign
                     </button>
                 </div>
@@ -240,10 +211,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                             <h3 className="text-xl font-bold text-[#1A1C1C]">Start Fundraising Campaign</h3>
                             <p className="text-sm text-[#78716C]">Define campaign parameters to start accepting sales.</p>
                         </div>
-                        <button
-                            onClick={() => setShowCreateForm(false)}
-                            className="text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer"
-                        >
+                        <button onClick={() => setShowCreateForm(false)} className="text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer">
                             Cancel
                         </button>
                     </div>
@@ -251,34 +219,20 @@ export default function Campaign({ groupId }: CampaignProps) {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-xl">
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-[#1A1C1C]">Campaign Name</label>
-                            <Input
-                                placeholder="e.g. Autumn Bake Sale 2026"
-                                {...register("name")}
-                                className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1"
-                            />
+                            <Input placeholder="e.g. Autumn Bake Sale 2026" {...register("name")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                             {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
                         </div>
 
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-[#1A1C1C]">Short Description</label>
-                            <Textarea
-                                placeholder="Describe what you are raising money for..."
-                                {...register("shortDescription")}
-                                className="min-h-[100px] border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1"
-                            />
-                            {errors.shortDescription && (
-                                <p className="text-red-500 text-xs">{errors.shortDescription.message}</p>
-                            )}
+                            <Textarea placeholder="Describe what you are raising money for..." {...register("shortDescription")} className="min-h-[100px] border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                            {errors.shortDescription && <p className="text-red-500 text-xs">{errors.shortDescription.message}</p>}
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-[#1A1C1C]">End Date</label>
-                                <Input
-                                    type="date"
-                                    {...register("endDate")}
-                                    className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1"
-                                />
+                                <Input type="date" {...register("endDate")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                                 {errors.endDate && <p className="text-red-500 text-xs">{errors.endDate.message}</p>}
                             </div>
 
@@ -287,21 +241,13 @@ export default function Campaign({ groupId }: CampaignProps) {
                                     <Award size={18} />
                                 </div>
                                 <div>
-                                    <span className="block text-[9px] text-[#78716C] font-semibold uppercase leading-none mb-1">
-                                        Campaign Target Goal
-                                    </span>
-                                    <span className="text-xs font-bold text-[#1A1C1C] leading-none">
-                                        SEK {(groupGoal || 0).toLocaleString()}
-                                    </span>
+                                    <span className="block text-[9px] text-[#78716C] font-semibold uppercase leading-none mb-1">Campaign Target Goal</span>
+                                    <span className="text-xs font-bold text-[#1A1C1C] leading-none">SEK {(groupGoal || 0).toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={isCreating}
-                            className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer"
-                        >
+                        <button type="submit" disabled={isCreating} className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer">
                             {isCreating ? (
                                 <>
                                     <Loader2 className="animate-spin" size={16} />
