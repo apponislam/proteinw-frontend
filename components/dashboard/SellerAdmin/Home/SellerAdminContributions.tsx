@@ -1,5 +1,6 @@
 import React from "react";
 import { ShoppingBag, Trophy, UserPlus, Rocket } from "lucide-react";
+import { useGetActivitiesQuery } from "@/redux/features/dashboard/dashboardApi";
 
 interface Contributor {
     initials: string;
@@ -8,26 +9,45 @@ interface Contributor {
     sales: string;
 }
 
-interface Activity {
-    icon: React.ReactNode;
-    title: string;
-    time: string;
-    description: string;
-}
+const formatTimeAgo = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+};
+
+const getActivityIcon = (type: string) => {
+    switch (type) {
+        case "SALE":
+            return <ShoppingBag size={20} className="text-[#D97706]" />;
+        case "MILESTONE":
+            return <Trophy size={20} className="text-[#D97706]" />;
+        case "MEMBER":
+            return <UserPlus size={20} className="text-[#D97706]" />;
+        case "CAMPAIGN":
+            return <Rocket size={20} className="text-[#D97706]" />;
+        default:
+            return <ShoppingBag size={20} className="text-[#D97706]" />;
+    }
+};
 
 const SellerAdminContributions = () => {
+    const { data: activities = [], isLoading } = useGetActivitiesQuery();
+
     const contributors: Contributor[] = [
         { initials: "SM", name: "Sofia Mårtensson", packages: "42 Units", sales: "9,240 SEK" },
         { initials: "OL", name: "Oscar Lund", packages: "38 Units", sales: "8,360 SEK" },
         { initials: "AB", name: "Alice Bergqvist", packages: "31 Units", sales: "6,820 SEK" },
         { initials: "LA", name: "Liam Andersson", packages: "29 Units", sales: "6,380 SEK" },
-    ];
-
-    const activities: Activity[] = [
-        { icon: <ShoppingBag size={20} className="text-[#D97706]" />, title: "New Sale Logged", time: "2m ago", description: "Sofia Mårtensson sold 2x 'Nordic Blend' Coffee" },
-        { icon: <Trophy size={20} className="text-[#D97706]" />, title: "Milestone Reached", time: "1h ago", description: "70% of Group Goal Achieved!" },
-        { icon: <UserPlus size={20} className="text-[#D97706]" />, title: "New Member Joined", time: "4h ago", description: "Marcus Ek joined the Class 2024 team" },
-        { icon: <Rocket size={20} className="text-[#D97706]" />, title: "Campaign Started", time: "Oct 12", description: "Class 2024 shop is now officially live" },
     ];
 
     return (
@@ -72,18 +92,28 @@ const SellerAdminContributions = () => {
                 <div className="relative z-10">
                     <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider mb-6">Recent Activity</h3>
                     <div className="space-y-4">
-                        {activities.map((activity, idx) => (
-                            <div key={idx} className="flex gap-4 p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
-                                <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center">{activity.icon}</div>
-                                <div className="flex-1">
-                                    <div className="flex items-center justify-between mb-1">
-                                        <h4 className="text-[#1A1C1C] font-medium">{activity.title}</h4>
-                                        <span className="text-[#A8A29E] text-xs">{activity.time}</span>
-                                    </div>
-                                    <p className="text-[#78716C] text-sm">{activity.description}</p>
-                                </div>
+                        {isLoading ? (
+                            <div className="flex justify-center py-8">
+                                <div className="w-6 h-6 border-2 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
-                        ))}
+                        ) : activities.length === 0 ? (
+                            <p className="text-gray-400 text-sm text-center py-8">No recent activities</p>
+                        ) : (
+                            activities.slice(0, 10).map((activity) => (
+                                <div key={activity._id} className="flex gap-4 p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
+                                    <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center">
+                                        {getActivityIcon(activity.type)}
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex items-center justify-between mb-1">
+                                            <h4 className="text-[#1A1C1C] font-medium">{activity.title}</h4>
+                                            <span className="text-[#A8A29E] text-xs">{formatTimeAgo(activity.createdAt)}</span>
+                                        </div>
+                                        <p className="text-[#78716C] text-sm">{activity.description}</p>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
