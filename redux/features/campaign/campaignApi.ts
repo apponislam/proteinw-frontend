@@ -13,6 +13,8 @@ export type TCampaign = {
     isDeleted: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    totalPackagesSold?: number;
+    totalRevenueSold?: number;
 };
 
 export type TCampaignMeta = {
@@ -100,6 +102,31 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_LIST" }] : [{ type: "Campaign", id: "ADMIN_LIST" }]),
         }),
 
+        getAllCampaignsWithStats: builder.query<TCampaignResponse, { page?: number; limit?: number; isActive?: boolean } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+
+                let page = 1;
+                let limit = 10;
+
+                if (params) {
+                    if (params.page) page = params.page;
+                    if (params.limit) limit = params.limit;
+                    if (params.isActive !== undefined) queryParams.append("isActive", String(params.isActive));
+                }
+
+                queryParams.append("page", String(page));
+                queryParams.append("limit", String(limit));
+
+                return {
+                    url: `/campaigns/admin/all?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_LIST" }] : [{ type: "Campaign", id: "ADMIN_LIST" }]),
+        }),
+
         createCampaign: builder.mutation<{ data: TCampaign }, { groupId: string; name: string; shortDescription: string; target: number; endDate: Date }>({
             query: (campaignData) => ({
                 url: "/campaigns",
@@ -159,4 +186,4 @@ const campaignApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveCampaignsQuery, useGetCampaignByCodeQuery, useGetCampaignByIdQuery, useGetCampaignsByGroupQuery, useGetAllCampaignsQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useToggleCampaignStatusMutation, useDeleteCampaignMutation } = campaignApi;
+export const { useGetActiveCampaignsQuery, useGetCampaignByCodeQuery, useGetCampaignByIdQuery, useGetCampaignsByGroupQuery, useGetAllCampaignsQuery, useGetAllCampaignsWithStatsQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useToggleCampaignStatusMutation, useDeleteCampaignMutation } = campaignApi;
