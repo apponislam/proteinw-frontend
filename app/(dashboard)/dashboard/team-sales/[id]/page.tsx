@@ -39,21 +39,27 @@ const Page = () => {
                     </div>
                     <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#F5F5F4]">
                         <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]"><Award size={16} /></div>
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                                <Award size={16} />
+                            </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Fundraising Goal</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">SEK {group.goal.toLocaleString()}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]"><Calendar size={16} /></div>
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                                <Calendar size={16} />
+                            </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">End Date</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">{group.endDate ? new Date(group.endDate).toLocaleDateString() : "N/A"}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]"><Users size={16} /></div>
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                                <Users size={16} />
+                            </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Status</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">{group.isActive ? "Active" : "Inactive"}</div>
@@ -63,12 +69,12 @@ const Page = () => {
                 </div>
             )}
 
-            <Campaign groupId={id} />
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <GroupMembers groupId={id} />
                 <Invitations groupId={id} />
             </div>
+
+            <Campaign groupId={id} />
         </div>
     );
 };
