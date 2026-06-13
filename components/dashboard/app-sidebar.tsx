@@ -57,9 +57,7 @@ export function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenu className="gap-2">
                             {menuItems.map((item) => {
-                                const isActive = item.url === "/dashboard" 
-                                    ? pathname === "/dashboard" || (pathname.startsWith("/dashboard/") && !menuItems.some((i) => i.url !== "/dashboard" && pathname.startsWith(i.url))) 
-                                    : pathname === item.url || pathname.startsWith(item.url + "/");
+                                const isActive = item.url === "/dashboard" ? pathname === "/dashboard" || (pathname.startsWith("/dashboard/") && !menuItems.some((i) => i.url !== "/dashboard" && pathname.startsWith(i.url))) : pathname === item.url || pathname.startsWith(item.url + "/");
                                 return (
                                     <SidebarMenuItem key={item.title} className={`relative px-5 py-2 transition-colors rounded-none before:absolute before:right-0 before:top-0 before:h-full before:w-1 before:bg-[#D97706] ${isActive ? "bg-[#F5F5F4] text-[#D97706] hover:text-[#D97706] before:block" : "text-[#78716C] hover:bg-[#F5F5F4] hover:text-[#D97706] before:hidden hover:before:block"}`}>
                                         <SidebarMenuButton asChild isActive={isActive} className="bg-transparent! !hover:bg-transparent p-0!">
@@ -78,9 +76,9 @@ export function AppSidebar() {
             <SidebarFooter className="p-4">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton onClick={handleLogout} className="cursor-pointer">
-                            <LogOut />
-                            <span>Logout</span>
+                        <SidebarMenuButton onClick={handleLogout} className="cursor-pointer justify-center bg-linear-to-r! from-black! to-[#FF0000]! text-white! rounded-[24px]! hover:opacity-90 transition-opacity p-3! h-auto">
+                            <LogOut className="text-white!" />
+                            <span className="text-white!">Logout</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

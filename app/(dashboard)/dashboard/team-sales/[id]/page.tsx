@@ -6,6 +6,7 @@ import { useGetGroupByIdQuery } from "@/redux/features/group/groupApi";
 import { ArrowLeft, Users, Calendar, Award } from "lucide-react";
 import Invitations from "@/components/dashboard/SellerAdmin/team-sales/GroupView/Invitations";
 import GroupMembers from "@/components/dashboard/SellerAdmin/team-sales/GroupView/GroupMembers";
+import Campaign from "@/components/dashboard/SellerAdmin/team-sales/GroupView/Campaign";
 
 const Page = () => {
     const { id } = useParams() as { id: string };
@@ -72,6 +73,8 @@ const Page = () => {
                     </div>
                 </div>
             )}
+
+            <Campaign groupId={id} />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <GroupMembers groupId={id} />
