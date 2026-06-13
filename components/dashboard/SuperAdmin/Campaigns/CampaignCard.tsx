@@ -39,8 +39,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
     const isExpired = !campaign.isActive || new Date(campaign.endDate).getTime() < new Date().getTime();
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
-            <div className="relative z-10">
+        <div className="flex flex-col justify-between h-full bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
+            <div className="relative z-10 flex flex-col">
                 <div className="mb-4">
                     <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${!isExpired ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
                         <span className={`w-2 h-2 rounded-full ${!isExpired ? "bg-green-500" : "bg-red-500"}`}></span>
@@ -77,8 +77,12 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                 <div className="mb-6 min-h-[40px] flex items-center">
                     {renderCampaignStatus(campaign.endDate, campaign.isActive)}
                 </div>
+            </div>
 
-                <button className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">Manage Campaign</button>
+            <div className="relative z-10 mt-auto">
+                <button className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
+                    Manage Campaign
+                </button>
             </div>
         </div>
     );
