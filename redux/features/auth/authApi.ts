@@ -203,6 +203,20 @@ const authApi = baseApi.injectEndpoints({
                 };
             },
         }),
+        getGroupSellers: builder.query<{ data: TUser[] }, string>({
+            query: (groupId) => ({
+                url: `/auth/group-members/${groupId}`,
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })),
+                          { type: "User", id: "LIST" },
+                      ]
+                    : [{ type: "User", id: "LIST" }],
+        }),
     }),
 });
 
@@ -227,4 +241,5 @@ export const {
     useSetUserPasswordMutation,
     useCreateAdminMutation,
     useGetAdminsWithStatsQuery,
+    useGetGroupSellersQuery,
 } = authApi;
