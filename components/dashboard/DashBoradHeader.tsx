@@ -14,7 +14,7 @@ const DashBoradHeader = () => {
 
     const user = useAppSelector(currentUser);
     const { data: unreadData } = useGetUnreadCountQuery(undefined, {
-        skip: !user,
+        skip: !user || user.role !== "SUPER_ADMIN",
     });
     const unreadCount = unreadData?.count || 0;
 
@@ -26,11 +26,15 @@ const DashBoradHeader = () => {
                         <Menu size={24} />
                     </button>
                     <div className="flex items-center gap-6">
-                        <button onClick={() => setIsNotificationsOpen(true)} className="p-2 rounded-full cursor-pointer hover:bg-[#F5F5F4] transition-all relative">
-                            <Bell className="text-[#A8A29E]" />
-                            {unreadCount > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white animate-pulse" />}
-                        </button>
-                        <div className="w-1 bg-[#F5F5F4] h-8"></div>
+                        {user?.role === "SUPER_ADMIN" && (
+                            <>
+                                <button onClick={() => setIsNotificationsOpen(true)} className="p-2 rounded-full cursor-pointer hover:bg-[#F5F5F4] transition-all relative">
+                                    <Bell className="text-[#A8A29E]" />
+                                    {unreadCount > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white animate-pulse" />}
+                                </button>
+                                <div className="w-1 bg-[#F5F5F4] h-8"></div>
+                            </>
+                        )}
                         <div className="flex items-center gap-2">
                             <div className="text-right">
                                 <h1 className="text-[#1A1C1C] font-bold text-sm">{user?.name || "Erik Sørensen"}</h1>
@@ -45,7 +49,9 @@ const DashBoradHeader = () => {
                     </div>
                 </div>
             </div>
-            <Notifications isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+            {user?.role === "SUPER_ADMIN" && (
+                <Notifications isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+            )}
         </>
     );
 };

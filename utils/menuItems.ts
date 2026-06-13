@@ -30,13 +30,13 @@ const sellerMenu: MenuItem[] = [
     { title: "Orders", url: "/dashboard/orders", icon: CreditCard },
 ];
 
-export type Role = "SUPER_ADMIN" | "SELLER_ADMIN" | "SELLER";
+export type Role = "SUPER_ADMIN" | "ADMIN" | "SELLER";
 
 export const getMenuByRole = (role: Role): MenuItem[] => {
     switch (role) {
         case "SUPER_ADMIN":
             return superAdminMenu;
-        case "SELLER_ADMIN":
+        case "ADMIN":
             return sellerAdminMenu;
         case "SELLER":
             return sellerMenu;

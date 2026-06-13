@@ -12,7 +12,7 @@ const DashboardClient = () => {
     return (
         <div>
             {activeRole === "SUPER_ADMIN" && <AdminOverview />}
-            {activeRole === "SELLER_ADMIN" && <SellerAdminOverview />}
+            {activeRole === "ADMIN" && <SellerAdminOverview />}
             {activeRole === "SELLER" && <SellerOverview />}
         </div>
     );

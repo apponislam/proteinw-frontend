@@ -22,7 +22,7 @@ export function AppSidebar() {
 
     const roleLabels: Record<string, string> = {
         SUPER_ADMIN: "SUPER ADMIN",
-        SELLER_ADMIN: "SELLER ADMIN",
+        ADMIN: "SELLER ADMIN",
         SELLER: "SELLER",
     };
 
