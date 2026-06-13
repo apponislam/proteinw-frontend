@@ -93,6 +93,7 @@ const groupApi = baseApi.injectEndpoints({
             invalidatesTags: [
                 { type: "Group", id: "ADMIN_LIST" },
                 { type: "Group", id: "PUBLIC_LIST" },
+                { type: "Group", id: "STATUS" },
             ],
         }),
 

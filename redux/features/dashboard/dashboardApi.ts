@@ -21,15 +21,29 @@ export type TActivityLog = {
     updatedAt: string;
 };
 
+export type TDashboardStatus = {
+    hasGroup: boolean;
+    hasCampaign: boolean;
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
-        getDashboardStats: builder.query<{ data: TDashboardStats }, void>({
+        getDashboardStats: builder.query<TDashboardStats, void>({
             query: () => ({
                 url: "/dashboard/stats",
                 method: "GET",
                 credentials: "include",
             }),
+        }),
+        getDashboardStatus: builder.query<TDashboardStatus, void>({
+            query: () => ({
+                url: "/dashboard/status",
+                method: "GET",
+                credentials: "include",
+            }),
+            transformResponse: (response: { data: TDashboardStatus }) => response.data,
+            providesTags: [{ type: "Group", id: "STATUS" }],
         }),
         getActivities: builder.query<TActivityLog[], void>({
             query: () => ({
@@ -71,4 +85,4 @@ const dashboardApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetDashboardStatsQuery, useGetActivitiesQuery } = dashboardApi;
+export const { useGetDashboardStatsQuery, useGetDashboardStatusQuery, useGetActivitiesQuery } = dashboardApi;
