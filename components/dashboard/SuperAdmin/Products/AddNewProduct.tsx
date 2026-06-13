@@ -60,8 +60,8 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             formData.append("subCategory", subCategory);
             if (selectedFile) formData.append("productImage", selectedFile);
 
-            await createProduct(formData).unwrap();
-            toast.success("Product created!");
+            const res = await createProduct(formData).unwrap() as any;
+            toast.success(res?.message || "Product created successfully!");
             onClose();
             // Reset form
             setName("");
@@ -69,9 +69,10 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             setCategory("");
             setSubCategory("");
             setSelectedFile(null);
-        } catch (err) {
-            console.error(err);
-            toast.error("Failed to create product");
+        } catch (err: any) {
+            // console.error(err);
+            const errorMessage = err?.data?.message || err?.message || "Failed to create product";
+            toast.error(errorMessage);
         }
     };
 
@@ -121,17 +122,15 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     <div>
                         <label className="block text-[#78716C] text-sm font-medium mb-2">Upload product image</label>
                         <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} className="hidden" />
-                        <div
-                            onClick={() => fileInputRef.current?.click()}
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer flex flex-col items-center justify-center ${isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#F5F5F4] hover:border-[#D97706]"}`}
-                        >
-                            {previewUrl && (
-                                <img src={previewUrl} alt="Preview" className="h-32 w-full object-contain mb-3 rounded-lg" />
+                        <div onClick={() => fileInputRef.current?.click()} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer flex flex-col items-center justify-center ${isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#F5F5F4] hover:border-[#D97706]"}`}>
+                            {previewUrl ? (
+                                <>
+                                    <img src={previewUrl} alt="Preview" className="h-32 w-full object-contain mb-2 rounded-lg" />
+                                    <div className="text-[#78716C] text-xs font-medium">Click to change image</div>
+                                </>
+                            ) : (
+                                <div className="text-[#78716C] text-sm py-4">Click to upload or drag and drop</div>
                             )}
-                            {selectedFile ? <div className="text-[#1A1C1C] text-sm font-medium">{selectedFile.name}</div> : <div className="text-[#78716C] text-sm py-4">Click to upload or drag and drop</div>}
                         </div>
                     </div>
                 </form>

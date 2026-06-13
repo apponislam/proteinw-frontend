@@ -75,12 +75,13 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             formData.append("subCategory", subCategory);
             if (selectedFile) formData.append("productImage", selectedFile);
 
-            await updateProduct({ productId: product._id, formData }).unwrap();
-            toast.success("Product updated!");
+            const res = await updateProduct({ productId: product._id, formData }).unwrap() as any;
+            toast.success(res?.message || "Product updated successfully!");
             onClose();
-        } catch (err) {
-            console.error(err);
-            toast.error("Failed to update product");
+        } catch (err: any) {
+            // console.error(err);
+            const errorMessage = err?.data?.message || err?.message || "Failed to update product";
+            toast.error(errorMessage);
         }
     };
 
@@ -136,10 +137,14 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                             onDrop={handleDrop}
                             className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer flex flex-col items-center justify-center ${isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#F5F5F4] hover:border-[#D97706]"}`}
                         >
-                            {previewUrl && (
-                                <img src={previewUrl} alt="Preview" className="h-32 w-full object-contain mb-3 rounded-lg" />
+                            {previewUrl ? (
+                                <>
+                                    <img src={previewUrl} alt="Preview" className="h-32 w-full object-contain mb-2 rounded-lg" />
+                                    <div className="text-[#78716C] text-xs font-medium">Click to upload new image or drag and drop</div>
+                                </>
+                            ) : (
+                                <div className="text-[#78716C] text-sm py-4">Click to upload new image or drag and drop</div>
                             )}
-                            {selectedFile ? <div className="text-[#1A1C1C] text-sm font-medium">{selectedFile.name}</div> : <div className="text-[#78716C] text-sm py-4">Click to upload new image or drag and drop</div>}
                         </div>
                     </div>
                 </form>

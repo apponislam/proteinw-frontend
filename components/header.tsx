@@ -24,8 +24,8 @@ export function Header() {
     const dispatch = useAppDispatch();
     const [scrolled, setScrolled] = useState(false);
     const user = useAppSelector(currentUser);
-    console.log("user", user);
-    console.log("user name", user?.name);
+    // console.log("user", user);
+    // console.log("user name", user?.name);
 
     const handleLogout = () => {
         dispatch(logOut());
