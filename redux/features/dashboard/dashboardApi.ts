@@ -80,7 +80,7 @@ const dashboardApi = baseApi.injectEndpoints({
                 } catch (error) {
                     // noop
                 }
-            }
+            },
         }),
     }),
 });

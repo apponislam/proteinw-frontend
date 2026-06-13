@@ -23,7 +23,8 @@ const tierApi = baseApi.injectEndpoints({
                 url: "/tiers",
                 method: "GET",
             }),
-            providesTags: (result) => (result ? [...result.map(({ _id }) => ({ type: "Tier" as const, id: _id })), { type: "Tier", id: "PUBLIC_LIST" }] : [{ type: "Tier", id: "PUBLIC_LIST" }]),
+            transformResponse: (response: { data: TTier[] }) => response.data,
+            providesTags: (result) => (Array.isArray(result) ? [...result.map(({ _id }) => ({ type: "Tier" as const, id: _id })), { type: "Tier", id: "PUBLIC_LIST" }] : [{ type: "Tier", id: "PUBLIC_LIST" }]),
         }),
 
         getTierById: builder.query<{ data: TTier }, string>({
@@ -48,7 +49,8 @@ const tierApi = baseApi.injectEndpoints({
                     credentials: "include",
                 };
             },
-            providesTags: (result) => (result ? [...result.map(({ _id }) => ({ type: "Tier" as const, id: _id })), { type: "Tier", id: "ADMIN_LIST" }] : [{ type: "Tier", id: "ADMIN_LIST" }]),
+            transformResponse: (response: { data: TTier[] }) => response.data,
+            providesTags: (result) => (Array.isArray(result) ? [...result.map(({ _id }) => ({ type: "Tier" as const, id: _id })), { type: "Tier", id: "ADMIN_LIST" }] : [{ type: "Tier", id: "ADMIN_LIST" }]),
         }),
 
         createTier: builder.mutation<{ data: TTier }, { name: string; percentage: number; minSalesVolume: number; maxSalesVolume?: number; isPopular?: boolean }>({
