@@ -7,6 +7,7 @@ import { getImageUrl } from "@/utils/getImageUrl";
 import { AlertTriangle, ArrowLeft, User, Mail, Phone, Users, Package, Plus, X, Search, Check, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface CardDetailsProps {
     campaign: TCampaign;
@@ -123,10 +124,11 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             if (deletions.length > 0) {
                 await removeMultipleProducts({ campaignId: campaign._id!, productIds: deletions }).unwrap();
             }
+            toast.success("Campaign products updated successfully!");
             setIsModalOpen(false);
         } catch (err) {
             console.error("Failed to update campaign products:", err);
-            alert("Failed to update products. Please try again.");
+            toast.error("Failed to update products. Please try again.");
         }
     };
 
