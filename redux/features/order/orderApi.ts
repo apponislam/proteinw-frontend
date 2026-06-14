@@ -59,9 +59,10 @@ export type TCreateOrderPayload = {
         productId: string;
         quantity: number;
     }>;
-    memberId?: string;
-    campaignId?: string;
-    groupId?: string;
+    memberId?: string;     // Can be user referralCode or user ObjectId
+    campaignId?: string;   // Can be campaign code or campaign ObjectId
+    referralCode?: string; // Explicit user referral code
+    campaignCode?: string; // Explicit campaign code
 };
 
 const orderApi = baseApi.injectEndpoints({

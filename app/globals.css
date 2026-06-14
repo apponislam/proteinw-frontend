@@ -125,6 +125,7 @@
     }
     html {
         @apply font-sans;
+        scroll-behavior: smooth;
     }
     [data-slot="sidebar-inner"] {
         box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.08);

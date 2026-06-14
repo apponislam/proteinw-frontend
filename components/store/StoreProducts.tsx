@@ -24,7 +24,7 @@ const products = [
 
 const StoreProducts = () => {
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div id="products-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-28">
             <div className="flex items-center justify-between gap-8 mb-12">
                 <h2 className="text-3xl font-bold text-black">Martin's Collection</h2>
                 <span className="flex-1 h-0.5 bg-[#EEEEEE]"></span>

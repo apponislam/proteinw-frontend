@@ -41,6 +41,24 @@ const campaignProductApi = baseApi.injectEndpoints({
             providesTags: (result, _, { campaignId }) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` }] : [{ type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` }]),
         }),
 
+        // Get all products in a campaign by campaign code (Public)
+        getProductsByCampaignCode: builder.query<TCampaignProductResponse, { code: string; page?: number; limit?: number }>({
+            query: ({ code, page = 1, limit = 10 }) => ({
+                url: `/campaign-products/campaign/code/${code}/products?page=${page}&limit=${limit}`,
+                method: "GET",
+            }),
+            providesTags: (result, _, { code }) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "CampaignProduct", id: `CODE_${code}` }] : [{ type: "CampaignProduct", id: `CODE_${code}` }]),
+        }),
+
+        // Get product count in a campaign by campaign code (Public)
+        getProductCountByCampaignCode: builder.query<{ data: { count: number } }, string>({
+            query: (code) => ({
+                url: `/campaign-products/campaign/code/${code}/products/count`,
+                method: "GET",
+            }),
+            providesTags: (_, __, code) => [{ type: "CampaignProduct", id: `CODE_${code}_COUNT` }],
+        }),
+
         // Get products of the logged in user's campaign (Auth required)
         getMyCampaignProducts: builder.query<TCampaignProductResponse, { page?: number; limit?: number } | void>({
             query: (params) => {
@@ -157,6 +175,8 @@ const campaignProductApi = baseApi.injectEndpoints({
 
 export const {
     useGetProductsByCampaignQuery,
+    useGetProductsByCampaignCodeQuery,
+    useGetProductCountByCampaignCodeQuery,
     useGetCampaignsByProductQuery,
     useAddProductToCampaignMutation,
     useAddMultipleProductsToCampaignMutation,
