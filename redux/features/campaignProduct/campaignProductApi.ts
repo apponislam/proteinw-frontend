@@ -60,6 +60,7 @@ const campaignProductApi = baseApi.injectEndpoints({
             invalidatesTags: (_, __, { campaignId, productId }) => [
                 { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` },
                 { type: "CampaignProduct", id: `PRODUCT_${productId}` },
+                { type: "Campaign", id: campaignId },
                 { type: "Campaign", id: "ADMIN_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
                 { type: "Product", id: "ADMIN_LIST" },
@@ -75,8 +76,9 @@ const campaignProductApi = baseApi.injectEndpoints({
                 body: { productIds },
                 credentials: "include",
             }),
-            invalidatesTags: [
+            invalidatesTags: (result, error, { campaignId }) => [
                 { type: "CampaignProduct", id: "LIST" },
+                { type: "Campaign", id: campaignId },
                 { type: "Campaign", id: "ADMIN_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
                 { type: "Product", id: "ADMIN_LIST" },
@@ -94,6 +96,7 @@ const campaignProductApi = baseApi.injectEndpoints({
             invalidatesTags: (_, __, { campaignId, productId }) => [
                 { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` },
                 { type: "CampaignProduct", id: `PRODUCT_${productId}` },
+                { type: "Campaign", id: campaignId },
                 { type: "Campaign", id: "ADMIN_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
                 { type: "Product", id: "ADMIN_LIST" },
@@ -112,6 +115,7 @@ const campaignProductApi = baseApi.injectEndpoints({
             invalidatesTags: (result, error, { campaignId, productIds }) => {
                 const tags: any[] = [
                     { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` },
+                    { type: "Campaign", id: campaignId },
                     { type: "Campaign", id: "ADMIN_LIST" },
                     { type: "Campaign", id: "PUBLIC_LIST" },
                     { type: "Product", id: "ADMIN_LIST" },

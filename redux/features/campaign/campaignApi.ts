@@ -1,5 +1,32 @@
 import { baseApi } from "../../api/baseApi";
 
+export type TCampaignSeller = {
+    _id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    totalPackagesSold: number;
+    totalRevenueSold: number;
+};
+
+export type TCampaignProduct = {
+    _id: string;
+    name: string;
+    price: number;
+    shortDescription: string;
+    category: string;
+    subCategory?: string;
+    productImage?: string;
+    totalSold: number;
+};
+
+export type TCampaignAdmin = {
+    _id: string;
+    name: string;
+    email: string;
+    phone?: string;
+};
+
 export type TCampaign = {
     _id?: string;
     name: string;
@@ -15,6 +42,9 @@ export type TCampaign = {
     updatedAt?: Date;
     totalPackagesSold?: number;
     totalRevenueSold?: number;
+    campaignAdmin?: TCampaignAdmin | null;
+    sellers?: TCampaignSeller[];
+    products?: TCampaignProduct[];
 };
 
 export type TCampaignMeta = {

@@ -1,5 +1,6 @@
 import React from "react";
 import { TCampaign } from "../../../../redux/features/campaign/campaignApi";
+import Link from "next/link";
 
 interface CampaignCardProps {
     campaign: TCampaign;
@@ -7,7 +8,7 @@ interface CampaignCardProps {
 
 const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
     const progress = campaign.target > 0 
-        ? Math.min(100, Math.round(((campaign.totalPackagesSold || 0) / campaign.target) * 100)) 
+        ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / campaign.target) * 100)) 
         : 0;
 
     const renderCampaignStatus = (endDateStr: Date | string, isActive: boolean) => {
@@ -65,11 +66,11 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     <div className="grid grid-cols-2 gap-4 ">
                         <div>
                             <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">SOLD</div>
-                            <div className="text-[#D97706] font-bold text-lg">{campaign.totalPackagesSold || 0} pcs</div>
+                            <div className="text-[#D97706] font-bold text-lg">SEK {(campaign.totalRevenueSold || 0).toLocaleString()}</div>
                         </div>
                         <div>
                             <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 text-right">TARGET</div>
-                            <div className="text-[#1A1C1C] font-bold text-lg group-hover:text-[#271900] transition-colors duration-300 text-right">{campaign.target || 0} pcs</div>
+                            <div className="text-[#1A1C1C] font-bold text-lg group-hover:text-[#271900] transition-colors duration-300 text-right">SEK {(campaign.target || 0).toLocaleString()}</div>
                         </div>
                     </div>
                 </div>
@@ -80,9 +81,12 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             </div>
 
             <div className="relative z-10 mt-auto">
-                <button className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
+                <Link 
+                    href={`/dashboard/campaigns/${campaign._id}`}
+                    className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
+                >
                     Manage Campaign
-                </button>
+                </Link>
             </div>
         </div>
     );
