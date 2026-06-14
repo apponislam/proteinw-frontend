@@ -26,6 +26,14 @@ export type TDashboardStatus = {
     hasCampaign: boolean;
 };
 
+export type TStoreInfo = {
+    validation: boolean;
+    adminName?: string;
+    groupName?: string;
+    campaignName?: string;
+    campaignProductCount?: number;
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -82,7 +90,14 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
             },
         }),
+        getStoreInfo: builder.query<TStoreInfo, { campaign: string; referral: string }>({
+            query: ({ campaign, referral }) => ({
+                url: `/dashboard/store-info?campaign=${campaign}&referral=${referral}`,
+                method: "GET",
+            }),
+            transformResponse: (response: { data: TStoreInfo }) => response.data,
+        }),
     }),
 });
 
-export const { useGetDashboardStatsQuery, useGetDashboardStatusQuery, useGetActivitiesQuery } = dashboardApi;
+export const { useGetDashboardStatsQuery, useGetDashboardStatusQuery, useGetActivitiesQuery, useGetStoreInfoQuery } = dashboardApi;
