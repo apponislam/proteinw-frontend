@@ -217,6 +217,13 @@ const authApi = baseApi.injectEndpoints({
                       ]
                     : [{ type: "User", id: "LIST" }],
         }),
+        getReferralAndCampaign: builder.query<{ data: { referralCode: string; campaignCode: string | false; campaign: string | false } }, void>({
+            query: () => ({
+                url: "/auth/referral-campaign",
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
     }),
 });
 
@@ -242,4 +249,5 @@ export const {
     useCreateAdminMutation,
     useGetAdminsWithStatsQuery,
     useGetGroupSellersQuery,
+    useGetReferralAndCampaignQuery,
 } = authApi;
