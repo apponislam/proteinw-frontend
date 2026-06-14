@@ -41,6 +41,26 @@ const campaignProductApi = baseApi.injectEndpoints({
             providesTags: (result, _, { campaignId }) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` }] : [{ type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` }]),
         }),
 
+        // Get products of the logged in user's campaign (Auth required)
+        getMyCampaignProducts: builder.query<TCampaignProductResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const page = params?.page ?? 1;
+                const limit = params?.limit ?? 10;
+                return {
+                    url: `/campaign-products/my-campaign/products?page=${page}&limit=${limit}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })),
+                          { type: "CampaignProduct", id: "MY_CAMPAIGN" },
+                      ]
+                    : [{ type: "CampaignProduct", id: "MY_CAMPAIGN" }],
+        }),
+
         // Get all campaigns for a product (Public)
         getCampaignsByProduct: builder.query<TCampaignsByProductResponse, string>({
             query: (productId) => ({
@@ -135,4 +155,12 @@ const campaignProductApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetProductsByCampaignQuery, useGetCampaignsByProductQuery, useAddProductToCampaignMutation, useAddMultipleProductsToCampaignMutation, useRemoveProductFromCampaignMutation, useRemoveMultipleProductsFromCampaignMutation } = campaignProductApi;
+export const {
+    useGetProductsByCampaignQuery,
+    useGetCampaignsByProductQuery,
+    useAddProductToCampaignMutation,
+    useAddMultipleProductsToCampaignMutation,
+    useRemoveProductFromCampaignMutation,
+    useRemoveMultipleProductsFromCampaignMutation,
+    useGetMyCampaignProductsQuery,
+} = campaignProductApi;
