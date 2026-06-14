@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateContactMutation } from "@/redux/features/contact/contactApi";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const supportFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -173,7 +174,9 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                         </div>
                         <div>
                             <p className="font-bold text-[#1A1C1C]">Support Email</p>
-                            <p className="text-[#514532]">hello@nordicarchive.fund</p>
+                            <Link href="mailto:hello@nordicarchive.fund" className="text-[#514532] hover:text-[#7C5800] hover:underline transition-colors block">
+                                hello@nordicarchive.fund
+                            </Link>
                             <p className="text-xs text-[#837560] mt-1">24/7 automated support, 12hr human response.</p>
                         </div>
                     </div>
@@ -184,7 +187,9 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                         </div>
                         <div>
                             <p className="font-bold text-[#1A1C1C]">Phone Support</p>
-                            <p className="text-[#514532]">+46 (0) 8 123 45 67</p>
+                            <Link href="tel:+4681234567" className="text-[#514532] hover:text-[#7C5800] hover:underline transition-colors block">
+                                +46 (0) 8 123 45 67
+                            </Link>
                             <p className="text-xs text-[#837560] mt-1">Mon–Fri, 9am – 5pm CET</p>
                         </div>
                     </div>
