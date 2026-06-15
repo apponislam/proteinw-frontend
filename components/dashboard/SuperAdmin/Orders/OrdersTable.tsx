@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useGetAllOrdersQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
+import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/auth/authSlice";
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -35,12 +37,24 @@ const OrdersTable = () => {
     const [page, setPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<string>("");
     const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
+    const user = useAppSelector(currentUser);
+    const isAdminOnly = user?.role === "ADMIN";
 
-    const { data: ordersData, isLoading } = useGetAllOrdersQuery({
+    const queryParams = {
         page,
         limit: 10,
         status: statusFilter ? (statusFilter as TOrderStatus) : undefined,
+    };
+
+    const { data: superAdminOrdersData, isLoading: isSuperAdminLoading } = useGetAllOrdersQuery(queryParams, {
+        skip: isAdminOnly,
     });
+    const { data: adminOrdersData, isLoading: isAdminLoading } = useGetRunningCampaignOrdersQuery(queryParams, {
+        skip: !isAdminOnly,
+    });
+
+    const ordersData = isAdminOnly ? adminOrdersData : superAdminOrdersData;
+    const isLoading = isAdminOnly ? isAdminLoading : isSuperAdminLoading;
 
     const [updateOrderStatus] = useUpdateOrderStatusMutation();
 

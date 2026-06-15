@@ -1,3 +1,6 @@
+import { AuthRedirectProvider } from "@/providers/AuthRedirectProvider";
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-    return <>{children}</>;
+    return <AuthRedirectProvider>{children}</AuthRedirectProvider>;
 }
+

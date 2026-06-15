@@ -147,6 +147,41 @@ const orderApi = baseApi.injectEndpoints({
             providesTags: [{ type: "Order", id: "STATS" }],
         }),
 
+        getRunningCampaignOrders: builder.query<TOrderResponse, { page?: number; limit?: number; status?: TOrderStatus; memberId?: string } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+
+                let page = 1;
+                let limit = 10;
+
+                if (params) {
+                    if (params.page) page = params.page;
+                    if (params.limit) limit = params.limit;
+                    if (params.status) queryParams.append("status", params.status);
+                    if (params.memberId) queryParams.append("memberId", params.memberId);
+                }
+
+                queryParams.append("page", String(page));
+                queryParams.append("limit", String(limit));
+
+                return {
+                    url: `/orders/campaign-orders?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Order" as const, id: _id })), { type: "Order", id: "ADMIN_LIST" }] : [{ type: "Order", id: "ADMIN_LIST" }]),
+        }),
+
+        getRunningCampaignStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, void>({
+            query: () => ({
+                url: "/orders/campaign-stats",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: [{ type: "Order", id: "STATS" }],
+        }),
+
         updateOrderStatus: builder.mutation<{ data: TOrder }, { orderId: string; status: TOrderStatus }>({
             query: ({ orderId, status }) => ({
                 url: `/orders/${orderId}/status`,
@@ -186,4 +221,6 @@ export const {
     useUpdateOrderStatusMutation,
     useDeleteOrderMutation,
     useGetOrderStatsQuery,
+    useGetRunningCampaignOrdersQuery,
+    useGetRunningCampaignStatsQuery,
 } = orderApi;

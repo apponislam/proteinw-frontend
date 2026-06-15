@@ -1,10 +1,23 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useGetOrderStatsQuery } from "@/redux/features/order/orderApi";
+import { useGetOrderStatsQuery, useGetRunningCampaignStatsQuery } from "@/redux/features/order/orderApi";
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/auth/authSlice";
 
 const OrdersCard = () => {
-    const { data: statsData, isLoading } = useGetOrderStatsQuery();
+    const user = useAppSelector(currentUser);
+    const isAdminOnly = user?.role === "ADMIN";
+
+    const { data: superAdminStatsData, isLoading: isSuperAdminLoading } = useGetOrderStatsQuery(undefined, {
+        skip: isAdminOnly,
+    });
+    const { data: adminStatsData, isLoading: isAdminLoading } = useGetRunningCampaignStatsQuery(undefined, {
+        skip: !isAdminOnly,
+    });
+
+    const statsData = isAdminOnly ? adminStatsData : superAdminStatsData;
+    const isLoading = isAdminOnly ? isAdminLoading : isSuperAdminLoading;
     
     const stats = statsData?.data || { totalRevenue: 0, activeOrders: 0, mtdSales: 0 };
 
