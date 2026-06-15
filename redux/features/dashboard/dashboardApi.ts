@@ -44,6 +44,30 @@ export type TSellerDashboardStats = {
     shortDescription: string;
 };
 
+export type TSellerListItem = {
+    _id: string;
+    name: string;
+    email: string;
+    group: string;
+    orders: number;
+    packages: number;
+    status: string;
+    salesLink: string;
+    code: string;
+};
+
+export type TSellersResponse = {
+    data: TSellerListItem[];
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+        hasNext: boolean;
+        hasPrev: boolean;
+    };
+};
+
 export type TSuperAdminSellersStats = {
     totalSellers: number;
     activeGroups: number;
@@ -83,6 +107,20 @@ const dashboardApi = baseApi.injectEndpoints({
                 method: "GET",
                 credentials: "include",
             }),
+        }),
+        getSuperAdminSellers: builder.query<TSellersResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) queryParams.append("page", String(params.page));
+                    if (params.limit) queryParams.append("limit", String(params.limit));
+                }
+                return {
+                    url: `/dashboard/superadmin-sellers?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
         }),
         getActivities: builder.query<TActivityLog[], void>({
             query: () => ({
@@ -136,6 +174,7 @@ export const {
     useGetDashboardStatusQuery,
     useGetSellerDashboardStatsQuery,
     useGetSuperAdminSellersStatsQuery,
+    useGetSuperAdminSellersQuery,
     useGetActivitiesQuery,
     useGetStoreInfoQuery,
 } = dashboardApi;
