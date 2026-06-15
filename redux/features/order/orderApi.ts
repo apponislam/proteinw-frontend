@@ -182,6 +182,15 @@ const orderApi = baseApi.injectEndpoints({
             providesTags: [{ type: "Order", id: "STATS" }],
         }),
 
+        getMemberOrderStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, void>({
+            query: () => ({
+                url: "/orders/seller-stats",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: [{ type: "Order", id: "STATS" }],
+        }),
+
         updateOrderStatus: builder.mutation<{ data: TOrder }, { orderId: string; status: TOrderStatus }>({
             query: ({ orderId, status }) => ({
                 url: `/orders/${orderId}/status`,
@@ -242,4 +251,5 @@ export const {
     useGetRunningCampaignOrdersQuery,
     useGetRunningCampaignStatsQuery,
     useGetCampaignContributorsQuery,
+    useGetMemberOrderStatsQuery,
 } = orderApi;

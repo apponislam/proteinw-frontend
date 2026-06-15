@@ -2,7 +2,14 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
+import { 
+    useGetAllOrdersQuery, 
+    useGetRunningCampaignOrdersQuery, 
+    useGetOrdersByMemberQuery,
+    useUpdateOrderStatusMutation, 
+    TOrder, 
+    TOrderStatus 
+} from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
@@ -33,12 +40,33 @@ const getInitials = (name: string) => {
         .toUpperCase();
 };
 
+const getPaginationRange = (currentPage: number, totalPages: number) => {
+    const delta = 2;
+    const range: (number | string)[] = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+        if (
+            i === 1 ||
+            i === totalPages ||
+            (i >= currentPage - delta && i <= currentPage + delta)
+        ) {
+            range.push(i);
+        } else if (
+            range[range.length - 1] !== "..."
+        ) {
+            range.push("...");
+        }
+    }
+
+    return range;
+};
+
 const OrdersTable = () => {
     const [page, setPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<string>("");
     const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
     const user = useAppSelector(currentUser);
-    const isAdminOnly = user?.role === "ADMIN";
+    const role = user?.role;
 
     const queryParams = {
         page,
@@ -47,15 +75,22 @@ const OrdersTable = () => {
     };
 
     const { data: superAdminOrdersData, isLoading: isSuperAdminLoading } = useGetAllOrdersQuery(queryParams, {
-        skip: isAdminOnly,
+        skip: role !== "SUPER_ADMIN",
     });
     const { data: adminOrdersData, isLoading: isAdminLoading } = useGetRunningCampaignOrdersQuery(queryParams, {
-        skip: !isAdminOnly,
+        skip: role !== "ADMIN",
+    });
+    const { data: sellerOrdersData, isLoading: isSellerLoading } = useGetOrdersByMemberQuery(queryParams, {
+        skip: role !== "SELLER",
     });
 
-    const ordersData = isAdminOnly ? adminOrdersData : superAdminOrdersData;
-    const isLoading = isAdminOnly ? isAdminLoading : isSuperAdminLoading;
+    const getOrdersData = () => {
+        if (role === "SUPER_ADMIN") return { data: superAdminOrdersData, loading: isSuperAdminLoading };
+        if (role === "ADMIN") return { data: adminOrdersData, loading: isAdminLoading };
+        return { data: sellerOrdersData, loading: isSellerLoading };
+    };
 
+    const { data: ordersData, loading: isLoading } = getOrdersData();
     const [updateOrderStatus] = useUpdateOrderStatusMutation();
 
     const ordersList = ordersData?.data || [];
@@ -168,16 +203,45 @@ const OrdersTable = () => {
                     </div>
 
                     <div className="flex items-center justify-between mt-6">
-                        <div className="text-[#78716C] text-sm">
-                            SHOWING {pagination.total > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
+                        <div className="text-[#78716C] text-sm uppercase">
+                            SHOWING {pagination.total > 0 ? ((pagination.page - 1) * pagination.limit) + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
                         </div>
                         {pagination.totalPages > 1 && (
                             <div className="flex items-center gap-2">
-                                {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
-                                    <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                                        {p}
-                                    </button>
-                                ))}
+                                <button
+                                    disabled={page === 1}
+                                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C]"
+                                >
+                                    Prev
+                                </button>
+                                {getPaginationRange(page, pagination.totalPages).map((p, idx) => {
+                                    if (p === "...") {
+                                        return (
+                                            <span key={`ellipsis-${idx}`} className="w-10 h-10 flex items-center justify-center text-[#78716C] text-sm font-semibold">
+                                                ...
+                                            </span>
+                                        );
+                                    }
+                                    return (
+                                        <button
+                                            key={`page-${p}`}
+                                            onClick={() => setPage(p as number)}
+                                            className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
+                                                p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"
+                                            }`}
+                                        >
+                                            {p}
+                                        </button>
+                                    );
+                                })}
+                                <button
+                                    disabled={page === pagination.totalPages}
+                                    onClick={() => setPage((p) => Math.min(p + 1, pagination.totalPages))}
+                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C]"
+                                >
+                                    Next
+                                </button>
                             </div>
                         )}
                     </div>
@@ -251,16 +315,25 @@ const OrdersTable = () => {
                         </div>
 
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-6">
-                            <div className="flex items-center gap-3">
-                                <span className="font-bold text-gray-700">Update Status:</span>
-                                <select value={activeSelectedOrder.status} onChange={(e) => handleStatusChange(activeSelectedOrder._id!, e.target.value as TOrderStatus)} className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#D97706] bg-white cursor-pointer">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="shipped">Shipped</option>
-                                    <option value="delivered">Delivered</option>
-                                    <option value="cancelled">Cancelled</option>
-                                </select>
-                            </div>
+                            {role !== "SELLER" ? (
+                                <div className="flex items-center gap-3">
+                                    <span className="font-bold text-gray-700">Update Status:</span>
+                                    <select value={activeSelectedOrder.status} onChange={(e) => handleStatusChange(activeSelectedOrder._id!, e.target.value as TOrderStatus)} className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#D97706] bg-white cursor-pointer">
+                                        <option value="pending">Pending</option>
+                                        <option value="confirmed">Confirmed</option>
+                                        <option value="shipped">Shipped</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-3">
+                                    <span className="font-bold text-gray-700">Status:</span>
+                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>
+                                        {activeSelectedOrder.status}
+                                    </span>
+                                </div>
+                            )}
                             <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm">
                                 Close
                             </button>

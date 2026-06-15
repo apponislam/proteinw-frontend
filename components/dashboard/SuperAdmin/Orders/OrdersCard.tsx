@@ -1,42 +1,53 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useGetOrderStatsQuery, useGetRunningCampaignStatsQuery } from "@/redux/features/order/orderApi";
+import { 
+    useGetOrderStatsQuery, 
+    useGetRunningCampaignStatsQuery,
+    useGetMemberOrderStatsQuery
+} from "@/redux/features/order/orderApi";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 
 const OrdersCard = () => {
     const user = useAppSelector(currentUser);
-    const isAdminOnly = user?.role === "ADMIN";
+    const role = user?.role;
 
     const { data: superAdminStatsData, isLoading: isSuperAdminLoading } = useGetOrderStatsQuery(undefined, {
-        skip: isAdminOnly,
+        skip: role !== "SUPER_ADMIN",
     });
     const { data: adminStatsData, isLoading: isAdminLoading } = useGetRunningCampaignStatsQuery(undefined, {
-        skip: !isAdminOnly,
+        skip: role !== "ADMIN",
+    });
+    const { data: sellerStatsData, isLoading: isSellerLoading } = useGetMemberOrderStatsQuery(undefined, {
+        skip: role !== "SELLER",
     });
 
-    const statsData = isAdminOnly ? adminStatsData : superAdminStatsData;
-    const isLoading = isAdminOnly ? isAdminLoading : isSuperAdminLoading;
-    
-    const stats = statsData?.data || { totalRevenue: 0, activeOrders: 0, mtdSales: 0 };
+    const getStatsData = () => {
+        if (role === "SUPER_ADMIN") return { data: superAdminStatsData?.data, loading: isSuperAdminLoading };
+        if (role === "ADMIN") return { data: adminStatsData?.data, loading: isAdminLoading };
+        return { data: sellerStatsData?.data, loading: isSellerLoading };
+    };
+
+    const { data, loading } = getStatsData();
+    const stats = data || { totalRevenue: 0, activeOrders: 0, mtdSales: 0 };
 
     const orderStats = [
         {
             title: "TOTAL REVENUE",
-            value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
+            value: loading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",
         },
         {
             title: "ACTIVE ORDERS",
-            value: isLoading ? "..." : stats.activeOrders.toLocaleString(),
+            value: loading ? "..." : stats.activeOrders.toLocaleString(),
             subtitle: "",
             color: "#D97706",
         },
         {
             title: "Total Sales (MTD)",
-            value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
+            value: loading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",
         },
