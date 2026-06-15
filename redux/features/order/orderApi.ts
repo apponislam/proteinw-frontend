@@ -210,8 +210,26 @@ const orderApi = baseApi.injectEndpoints({
                 { type: "Order", id: orderId },
             ],
         }),
+
+        getCampaignContributors: builder.query<{ data: TContributor[] }, void>({
+            query: () => ({
+                url: "/orders/campaign-contributors",
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
     }),
 });
+
+export type TContributor = {
+    _id: string;
+    name: string;
+    email: string;
+    referralCode: string;
+    initials: string;
+    packages: number;
+    sales: number;
+};
 
 export const {
     useCreateOrderMutation,
@@ -223,4 +241,5 @@ export const {
     useGetOrderStatsQuery,
     useGetRunningCampaignOrdersQuery,
     useGetRunningCampaignStatsQuery,
+    useGetCampaignContributorsQuery,
 } = orderApi;

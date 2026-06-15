@@ -1,6 +1,8 @@
 import React from "react";
 import { ShoppingBag, Trophy, UserPlus, Rocket } from "lucide-react";
 import { useGetActivitiesQuery } from "@/redux/features/dashboard/dashboardApi";
+import { useGetCampaignContributorsQuery } from "@/redux/features/order/orderApi";
+import Link from "next/link";
 
 interface Contributor {
     initials: string;
@@ -41,14 +43,11 @@ const getActivityIcon = (type: string) => {
 };
 
 const SellerAdminContributions = () => {
-    const { data: activities = [], isLoading } = useGetActivitiesQuery();
+    const { data: activities = [], isLoading: isActivitiesLoading } = useGetActivitiesQuery();
+    const { data: contributorsResponse, isLoading: isContributorsLoading } = useGetCampaignContributorsQuery();
 
-    const contributors: Contributor[] = [
-        { initials: "SM", name: "Sofia Mårtensson", packages: "42 Units", sales: "9,240 SEK" },
-        { initials: "OL", name: "Oscar Lund", packages: "38 Units", sales: "8,360 SEK" },
-        { initials: "AB", name: "Alice Bergqvist", packages: "31 Units", sales: "6,820 SEK" },
-        { initials: "LA", name: "Liam Andersson", packages: "29 Units", sales: "6,380 SEK" },
-    ];
+    const contributors = contributorsResponse?.data || [];
+    const isLoading = isActivitiesLoading || isContributorsLoading;
 
     return (
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -57,32 +56,48 @@ const SellerAdminContributions = () => {
                 <div className="relative z-10">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider">Top Contributors</h3>
-                        <button className="text-[#D97706] text-sm font-medium hover:text-[#7C5800] transition-colors">View all team</button>
+                        <Link href="/dashboard/team-sales" className="text-[#D97706] text-sm font-medium hover:text-[#7C5800] transition-colors">
+                            View all team
+                        </Link>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-[#E7E5E4]">
-                                    <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">NAME</th>
-                                    <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">PACKAGES SOLD</th>
-                                    <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">TOTAL SALES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {contributors.map((contributor, idx) => (
-                                    <tr key={idx} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#F5F5F4] transition-colors duration-200 rounded-md">
-                                        <td className="py-4 rounded-l-md px-2">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">{contributor.initials}</div>
-                                                <span className="text-[#1A1C1C] font-medium">{contributor.name}</span>
-                                            </div>
-                                        </td>
-                                        <td className="py-4 text-right text-[#1A1C1C] px-2">{contributor.packages}</td>
-                                        <td className="py-4 text-right text-[#D97706] font-bold rounded-r-md px-2">{contributor.sales}</td>
+                        {isContributorsLoading ? (
+                            <div className="flex justify-center py-12">
+                                <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        ) : contributors.length === 0 ? (
+                            <div className="text-center py-12 text-[#78716C]">
+                                No team members found. Invite some members to your group!
+                            </div>
+                        ) : (
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b border-[#E7E5E4]">
+                                        <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">NAME</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">PACKAGES SOLD</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">TOTAL SALES</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {contributors.map((contributor) => (
+                                        <tr key={contributor._id} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#F5F5F4] transition-colors duration-200 rounded-md">
+                                            <td className="py-4 rounded-l-md px-2">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">{contributor.initials}</div>
+                                                    <span className="text-[#1A1C1C] font-medium">{contributor.name}</span>
+                                                </div>
+                                            </td>
+                                            <td className="py-4 text-right text-[#1A1C1C] px-2">
+                                                {contributor.packages.toLocaleString()} Unit{contributor.packages !== 1 ? "s" : ""}
+                                            </td>
+                                            <td className="py-4 text-right text-[#D97706] font-bold rounded-r-md px-2">
+                                                {contributor.sales.toLocaleString()} SEK
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
                 </div>
             </div>
