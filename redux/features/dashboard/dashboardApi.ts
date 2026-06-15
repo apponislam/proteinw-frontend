@@ -39,6 +39,9 @@ export type TSellerDashboardStats = {
     totalProfit: number;
     packagesSold: number;
     daysRemaining: number;
+    goal: number;
+    groupName: string;
+    shortDescription: string;
 };
 
 const dashboardApi = baseApi.injectEndpoints({
