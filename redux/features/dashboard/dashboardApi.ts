@@ -34,6 +34,13 @@ export type TStoreInfo = {
     campaignProductCount?: number;
 };
 
+export type TSellerDashboardStats = {
+    totalSales: number;
+    totalProfit: number;
+    packagesSold: number;
+    daysRemaining: number;
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -52,6 +59,13 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             transformResponse: (response: { data: TDashboardStatus }) => response.data,
             providesTags: [{ type: "Group", id: "STATUS" }],
+        }),
+        getSellerDashboardStats: builder.query<{ data: TSellerDashboardStats }, void>({
+            query: () => ({
+                url: "/dashboard/seller-stats",
+                method: "GET",
+                credentials: "include",
+            }),
         }),
         getActivities: builder.query<TActivityLog[], void>({
             query: () => ({
@@ -100,4 +114,10 @@ const dashboardApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetDashboardStatsQuery, useGetDashboardStatusQuery, useGetActivitiesQuery, useGetStoreInfoQuery } = dashboardApi;
+export const {
+    useGetDashboardStatsQuery,
+    useGetDashboardStatusQuery,
+    useGetSellerDashboardStatsQuery,
+    useGetActivitiesQuery,
+    useGetStoreInfoQuery,
+} = dashboardApi;
