@@ -1,11 +1,20 @@
 import React from "react";
 import Image from "next/image";
+import { useGetSellerDashboardStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 
 const SellerHomeCards = () => {
+    const { data: response, isLoading } = useGetSellerDashboardStatsQuery();
+
+    const statsData = response?.data || {
+        totalSales: 0,
+        packagesSold: 0,
+        daysRemaining: 0,
+    };
+
     const stats = [
-        { label: "Total Sales", value: "42,500 SEK" },
-        { label: "Packages Sold", value: "184 Units" },
-        { label: "Days Remaining", value: "14 Days" },
+        { label: "Total Sales", value: isLoading ? "..." : `${statsData.totalSales.toLocaleString()} SEK` },
+        { label: "Packages Sold", value: isLoading ? "..." : `${statsData.packagesSold.toLocaleString()} Units` },
+        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining} Days` },
     ];
 
     return (
