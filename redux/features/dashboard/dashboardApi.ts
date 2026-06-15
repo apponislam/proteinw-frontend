@@ -89,6 +89,35 @@ export type TSuperAdminSellersStats = {
     salesRevenue: number;
 };
 
+export type TSuperAdminGroupStatsItem = {
+    _id: string;
+    groupCode: string;
+    groupName: string;
+    campaignCode: string;
+    assignedAdmin: string;
+    sellers: number;
+    packagesSold: number;
+    profitTier: string;
+    profitTierStatusText: string;
+    status: boolean;
+    deadlineDate: string | null;
+    deadlineStatusText: string;
+    revenue: number;
+    groupProfit: number;
+};
+
+export type TSuperAdminGroupsStatsResponse = {
+    data: TSuperAdminGroupStatsItem[];
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+        hasNext: boolean;
+        hasPrev: boolean;
+    };
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -131,6 +160,21 @@ const dashboardApi = baseApi.injectEndpoints({
                 }
                 return {
                     url: `/dashboard/superadmin-sellers?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+        }),
+        getSuperAdminGroupsStats: builder.query<TSuperAdminGroupsStatsResponse, { page?: number; limit?: number; sortBy?: string } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) queryParams.append("page", String(params.page));
+                    if (params.limit) queryParams.append("limit", String(params.limit));
+                    if (params.sortBy) queryParams.append("sortBy", params.sortBy);
+                }
+                return {
+                    url: `/dashboard/superadmin-groups-stats?${queryParams.toString()}`,
                     method: "GET",
                     credentials: "include",
                 };
@@ -189,6 +233,7 @@ export const {
     useGetSellerDashboardStatsQuery,
     useGetSuperAdminSellersStatsQuery,
     useGetSuperAdminSellersQuery,
+    useGetSuperAdminGroupsStatsQuery,
     useGetActivitiesQuery,
     useGetStoreInfoQuery,
 } = dashboardApi;
