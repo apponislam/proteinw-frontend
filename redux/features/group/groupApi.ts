@@ -1,5 +1,33 @@
 import { baseApi } from "../../api/baseApi";
 
+export type TTier = {
+    _id: string;
+    name: string;
+    percentage: number;
+    minSalesVolume: number;
+    maxSalesVolume?: number;
+    isPopular?: boolean;
+    isActive: boolean;
+};
+
+export type TCampaignPopulated = {
+    _id: string;
+    name: string;
+    shortDescription: string;
+    target: number;
+    endDate: string;
+    code: string;
+    tierId?: TTier;
+    isActive: boolean;
+};
+
+export type TTierInfo = {
+    totalPackagesSold: number;
+    currentTier: TTier | null;
+    nextTier: TTier | null;
+    packagesNeededForNextTier: number;
+};
+
 export type TGroup = {
     _id?: string;
     name: string;
@@ -7,12 +35,13 @@ export type TGroup = {
     goal: number;
     endDate: Date;
     code: string;
-    runningCampaignId?: string;
+    runningCampaignId?: string | TCampaignPopulated;
     createdBy?: string;
     isActive: boolean;
     isDeleted: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    tierInfo?: TTierInfo;
 };
 
 export type TGroupMeta = {
@@ -55,6 +84,15 @@ const groupApi = baseApi.injectEndpoints({
                 method: "GET",
             }),
             providesTags: (_, __, groupId) => [{ type: "Group", id: groupId }],
+        }),
+
+        getMyGroup: builder.query<{ data: TGroup }, void>({
+            query: () => ({
+                url: "/groups/my-group",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: (result) => (result?.data?._id ? [{ type: "Group", id: result.data._id }, { type: "Group", id: "MY_GROUP" }] : [{ type: "Group", id: "MY_GROUP" }]),
         }),
 
         // Admin-only endpoints (SUPER_ADMIN)
@@ -139,4 +177,14 @@ const groupApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveGroupsQuery, useGetGroupByCodeQuery, useGetGroupByIdQuery, useGetAllGroupsQuery, useCreateGroupMutation, useUpdateGroupMutation, useToggleGroupStatusMutation, useDeleteGroupMutation } = groupApi;
+export const {
+    useGetActiveGroupsQuery,
+    useGetGroupByCodeQuery,
+    useGetGroupByIdQuery,
+    useGetMyGroupQuery,
+    useGetAllGroupsQuery,
+    useCreateGroupMutation,
+    useUpdateGroupMutation,
+    useToggleGroupStatusMutation,
+    useDeleteGroupMutation,
+} = groupApi;
