@@ -14,6 +14,27 @@ const getStatusColor = (status: string) => {
     }
 };
 
+const getPaginationRange = (currentPage: number, totalPages: number) => {
+    const delta = 2;
+    const range: (number | string)[] = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+        if (
+            i === 1 ||
+            i === totalPages ||
+            (i >= currentPage - delta && i <= currentPage + delta)
+        ) {
+            range.push(i);
+        } else if (
+            range[range.length - 1] !== "..."
+        ) {
+            range.push("...");
+        }
+    }
+
+    return range;
+};
+
 const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; campaignId?: string }) => {
     const [page, setPage] = useState(1);
     const { data: response, isLoading } = useGetAllOrdersQuery(
@@ -80,7 +101,7 @@ const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; camp
                     <button
                         disabled={page === 1}
                         onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                        className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors"
+                        className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors text-[#78716C]"
                     >
                         Previous
                     </button>
@@ -90,7 +111,7 @@ const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; camp
                     <button
                         disabled={page === meta.totalPages}
                         onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
-                        className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors"
+                        className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors text-[#78716C]"
                     >
                         Next
                     </button>
@@ -132,7 +153,6 @@ const SellersTable = () => {
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-[#1A1C1C]">All Sellers</h2>
-                    <p className="text-[#78716C] text-sm mt-1">LIVE OVERVIEW</p>
                 </div>
             </div>
 
@@ -219,15 +239,42 @@ const SellersTable = () => {
                         SHOWING {startIdx} TO {endIdx} OF {meta.total} SELLERS
                     </div>
                     <div className="flex items-center gap-2">
-                        {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map((p) => (
-                            <button 
-                                key={p} 
-                                onClick={() => setPage(p)}
-                                className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
-                            >
-                                {p}
-                            </button>
-                        ))}
+                        <button
+                            disabled={page === 1}
+                            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                            className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C]"
+                        >
+                            Prev
+                        </button>
+                        
+                        {getPaginationRange(page, meta.totalPages).map((p, idx) => {
+                            if (p === "...") {
+                                return (
+                                    <span key={`ellipsis-${idx}`} className="w-10 h-10 flex items-center justify-center text-[#78716C] text-sm font-semibold">
+                                        ...
+                                    </span>
+                                );
+                            }
+                            return (
+                                <button
+                                    key={`page-${p}`}
+                                    onClick={() => setPage(p as number)}
+                                    className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
+                                        p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"
+                                    }`}
+                                >
+                                    {p}
+                                </button>
+                            );
+                        })}
+
+                        <button
+                            disabled={page === meta.totalPages}
+                            onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
+                            className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C]"
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
             )}
