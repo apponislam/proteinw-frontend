@@ -1,28 +1,34 @@
+"use client";
 import React from "react";
 import Image from "next/image";
-
-const orderStats = [
-    {
-        title: "TOTAL REVENUE",
-        value: "€142,840",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "ACTIVE ORDERS",
-        value: "1,204",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "Total Sales (MTD)",
-        value: "$42,890.00",
-        subtitle: "",
-        color: "#D97706",
-    },
-];
+import { useGetOrderStatsQuery } from "@/redux/features/order/orderApi";
 
 const OrdersCard = () => {
+    const { data: statsData, isLoading } = useGetOrderStatsQuery();
+    
+    const stats = statsData?.data || { totalRevenue: 0, activeOrders: 0, mtdSales: 0 };
+
+    const orderStats = [
+        {
+            title: "TOTAL REVENUE",
+            value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
+            subtitle: "",
+            color: "#D97706",
+        },
+        {
+            title: "ACTIVE ORDERS",
+            value: isLoading ? "..." : stats.activeOrders.toLocaleString(),
+            subtitle: "",
+            color: "#D97706",
+        },
+        {
+            title: "Total Sales (MTD)",
+            value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
+            subtitle: "",
+            color: "#D97706",
+        },
+    ];
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {orderStats.map((stat, index) => (

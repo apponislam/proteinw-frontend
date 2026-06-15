@@ -77,6 +77,7 @@ const orderApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: [
                 { type: "Order", id: "ADMIN_LIST" },
+                { type: "Order", id: "STATS" },
                 { type: "Product", id: "PUBLIC_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
             ],
@@ -137,6 +138,15 @@ const orderApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Order" as const, id: _id })), { type: "Order", id: "ADMIN_LIST" }] : [{ type: "Order", id: "ADMIN_LIST" }]),
         }),
 
+        getOrderStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, void>({
+            query: () => ({
+                url: "/orders/metrics/stats",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: [{ type: "Order", id: "STATS" }],
+        }),
+
         updateOrderStatus: builder.mutation<{ data: TOrder }, { orderId: string; status: TOrderStatus }>({
             query: ({ orderId, status }) => ({
                 url: `/orders/${orderId}/status`,
@@ -147,6 +157,7 @@ const orderApi = baseApi.injectEndpoints({
             invalidatesTags: (_, __, { orderId }) => [
                 { type: "Order", id: "ADMIN_LIST" },
                 { type: "Order", id: "MEMBER_LIST" },
+                { type: "Order", id: "STATS" },
                 { type: "Order", id: orderId },
             ],
         }),
@@ -160,10 +171,19 @@ const orderApi = baseApi.injectEndpoints({
             invalidatesTags: (_, __, orderId) => [
                 { type: "Order", id: "ADMIN_LIST" },
                 { type: "Order", id: "MEMBER_LIST" },
+                { type: "Order", id: "STATS" },
                 { type: "Order", id: orderId },
             ],
         }),
     }),
 });
 
-export const { useCreateOrderMutation, useGetOrdersByMemberQuery, useGetOrderByIdQuery, useGetAllOrdersQuery, useUpdateOrderStatusMutation, useDeleteOrderMutation } = orderApi;
+export const {
+    useCreateOrderMutation,
+    useGetOrdersByMemberQuery,
+    useGetOrderByIdQuery,
+    useGetAllOrdersQuery,
+    useUpdateOrderStatusMutation,
+    useDeleteOrderMutation,
+    useGetOrderStatsQuery,
+} = orderApi;
