@@ -26,11 +26,6 @@ const StoreHeroContent = () => {
             <div className="min-h-screen flex items-center">
                 <div className="relative flex flex-col lg:flex-row items-center w-full">
                     <div className="bg-[#FFFFFFCC] p-6 md:p-12 shadow-[0px_12px_32px_rgba(26,28,28,0.06)] backdrop-blur-3xl rounded-[24px] w-full lg:w-175 lg:relative lg:z-10 lg:-mr-12.5 space-y-6 mb-8 lg:mb-0">
-                        {storeInfo && storeInfo.validation === false && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm">
-                                Note: This store link is invalid or inactive. Displaying default demonstration store.
-                            </div>
-                        )}
                         <h1 className="text-3xl md:text-5xl font-extrabold">
                             Welcome to {adminName}'s digital store
                         </h1>
