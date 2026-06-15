@@ -2,12 +2,11 @@
 
 import React from "react";
 import GroupCard from "./GroupCard";
-import { useGetMyGroupQuery } from "@/redux/features/group/groupApi";
-import { useGetSellerDashboardStatsQuery } from "@/redux/features/dashboard/dashboardApi";
+import { useGetMyGroupQuery, useGetMyCampaignStatsQuery } from "@/redux/features/group/groupApi";
 
 const GroupCards = () => {
     const { data: myGroupData, isLoading: isGroupLoading } = useGetMyGroupQuery();
-    const { data: statsData, isLoading: isStatsLoading } = useGetSellerDashboardStatsQuery();
+    const { data: statsData, isLoading: isStatsLoading } = useGetMyCampaignStatsQuery();
 
     const isLoading = isGroupLoading || isStatsLoading;
     const group = myGroupData?.data;
@@ -23,30 +22,20 @@ const GroupCards = () => {
     }
 
     if (!group) {
-        return (
-            <div className="mt-8 bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">
-                You are not currently assigned to any fundraising group.
-            </div>
-        );
+        return <div className="mt-8 bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">You are not currently assigned to any fundraising group.</div>;
     }
 
-    const totalPackages = stats?.packagesSold || 0;
-    const totalSalesNum = stats?.totalSales || 0;
+    const totalPackages = stats?.totalPackagesSold || 0;
+    const totalSalesNum = stats?.totalRevenue || 0;
 
-    const nextTier = group?.tierInfo?.nextTier;
-    const packagesNeeded = group?.tierInfo?.packagesNeededForNextTier || 0;
+    const nextTier = stats?.nextTier;
+    const packagesNeeded = stats?.packagesNeededForNextTier || 0;
 
-    const nextTierProfitText = nextTier 
-        ? `${nextTier.percentage}%` 
-        : "Max Tier";
-    
-    const untilBonusText = nextTier 
-        ? `${packagesNeeded} package${packagesNeeded > 1 ? "s" : ""} until ${nextTier.percentage}% profit bonus`
-        : "Highest profit tier reached! 🎉";
+    const nextTierProfitText = nextTier ? `${nextTier.percentage}%` : "Max Tier";
 
-    const progress = nextTier && nextTier.minSalesVolume
-        ? Math.min(100, Math.round((totalPackages / nextTier.minSalesVolume) * 100))
-        : 100;
+    const untilBonusText = nextTier ? `${packagesNeeded} package${packagesNeeded > 1 ? "s" : ""} until ${nextTier.percentage}% profit bonus` : "Highest profit tier reached! 🎉";
+
+    const progress = nextTier && nextTier.minSalesVolume ? Math.min(100, Math.round((totalPackages / nextTier.minSalesVolume) * 100)) : 100;
 
     const formattedGroupObj = {
         _id: group._id,

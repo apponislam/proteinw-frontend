@@ -23,6 +23,15 @@ export type TCampaignPopulated = {
 
 export type TTierInfo = {
     totalPackagesSold: number;
+    totalRevenue: number;
+    currentTier: TTier | null;
+    nextTier: TTier | null;
+    packagesNeededForNextTier: number;
+};
+
+export type TGroupCampaignStats = {
+    totalPackagesSold: number;
+    totalRevenue: number;
     currentTier: TTier | null;
     nextTier: TTier | null;
     packagesNeededForNextTier: number;
@@ -99,6 +108,15 @@ const groupApi = baseApi.injectEndpoints({
                           { type: "Group", id: "MY_GROUP" },
                       ]
                     : [{ type: "Group", id: "MY_GROUP" }],
+        }),
+
+        getMyCampaignStats: builder.query<{ data: TGroupCampaignStats }, void>({
+            query: () => ({
+                url: "/groups/my-campaign-stats",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: [{ type: "Group", id: "MY_CAMPAIGN_STATS" }],
         }),
 
         // Admin-only endpoints (SUPER_ADMIN)
@@ -183,4 +201,15 @@ const groupApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveGroupsQuery, useGetGroupByCodeQuery, useGetGroupByIdQuery, useGetMyGroupQuery, useGetAllGroupsQuery, useCreateGroupMutation, useUpdateGroupMutation, useToggleGroupStatusMutation, useDeleteGroupMutation } = groupApi;
+export const {
+    useGetActiveGroupsQuery,
+    useGetGroupByCodeQuery,
+    useGetGroupByIdQuery,
+    useGetMyGroupQuery,
+    useGetMyCampaignStatsQuery,
+    useGetAllGroupsQuery,
+    useCreateGroupMutation,
+    useUpdateGroupMutation,
+    useToggleGroupStatusMutation,
+    useDeleteGroupMutation,
+} = groupApi;
