@@ -44,6 +44,13 @@ export type TSellerDashboardStats = {
     shortDescription: string;
 };
 
+export type TSuperAdminSellersStats = {
+    totalSellers: number;
+    activeGroups: number;
+    mtdOrders: number;
+    salesRevenue: number;
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -66,6 +73,13 @@ const dashboardApi = baseApi.injectEndpoints({
         getSellerDashboardStats: builder.query<{ data: TSellerDashboardStats }, void>({
             query: () => ({
                 url: "/dashboard/seller-stats",
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
+        getSuperAdminSellersStats: builder.query<{ data: TSuperAdminSellersStats }, void>({
+            query: () => ({
+                url: "/dashboard/superadmin-sellers-stats",
                 method: "GET",
                 credentials: "include",
             }),
@@ -121,6 +135,7 @@ export const {
     useGetDashboardStatsQuery,
     useGetDashboardStatusQuery,
     useGetSellerDashboardStatsQuery,
+    useGetSuperAdminSellersStatsQuery,
     useGetActivitiesQuery,
     useGetStoreInfoQuery,
 } = dashboardApi;

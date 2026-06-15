@@ -1,34 +1,38 @@
 import React from "react";
 import Image from "next/image";
-
-const sellerStats = [
-    {
-        title: "TOTAL SELLERS",
-        value: "1,248",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "ACTIVE GROUPS",
-        value: "42",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "ORDERS (MTD)",
-        value: "8,921",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "SALES REVENUE",
-        value: "$142.5k",
-        subtitle: "",
-        color: "#D97706",
-    },
-];
+import { useGetSuperAdminSellersStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 
 const SellersCard = () => {
+    const { data: response, isLoading } = useGetSuperAdminSellersStatsQuery();
+    const stats = response?.data;
+
+    const sellerStats = [
+        {
+            title: "TOTAL SELLERS",
+            value: isLoading ? "..." : (stats?.totalSellers ?? 0).toLocaleString(),
+            subtitle: "",
+            color: "#D97706",
+        },
+        {
+            title: "ACTIVE GROUPS",
+            value: isLoading ? "..." : (stats?.activeGroups ?? 0).toLocaleString(),
+            subtitle: "",
+            color: "#D97706",
+        },
+        {
+            title: "ORDERS (MTD)",
+            value: isLoading ? "..." : (stats?.mtdOrders ?? 0).toLocaleString(),
+            subtitle: "",
+            color: "#D97706",
+        },
+        {
+            title: "SALES REVENUE",
+            value: isLoading ? "..." : `${(stats?.salesRevenue ?? 0).toLocaleString()} SEK`,
+            subtitle: "",
+            color: "#D97706",
+        },
+    ];
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {sellerStats.map((stat, index) => (
