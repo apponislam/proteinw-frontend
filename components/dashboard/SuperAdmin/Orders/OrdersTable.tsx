@@ -78,7 +78,6 @@ const OrdersTable = () => {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-[#1A1C1C]">All Orders</h2>
-                    <p className="text-[#78716C] text-sm mt-1">LIVE OVERVIEW</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="text-[#78716C] text-sm font-medium">Filters:</div>
@@ -148,17 +147,16 @@ const OrdersTable = () => {
                                             </td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{groupName}</td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.customerName}</td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-[200px] truncate" title={productNames}>{productNames}</td>
+                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-[200px] truncate" title={productNames}>
+                                                {productNames}
+                                            </td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.totalPackage}</td>
                                             <td className="px-4 py-4">
                                                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
                                             </td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{dateStr}</td>
                                             <td className="px-4 py-4">
-                                                <button
-                                                    onClick={() => setSelectedOrder(order)}
-                                                    className="text-[#D97706] hover:underline text-sm font-bold"
-                                                >
+                                                <button onClick={() => setSelectedOrder(order)} className="text-[#D97706] hover:underline text-sm font-bold">
                                                     View
                                                 </button>
                                             </td>
@@ -171,18 +169,12 @@ const OrdersTable = () => {
 
                     <div className="flex items-center justify-between mt-6">
                         <div className="text-[#78716C] text-sm">
-                            SHOWING {pagination.total > 0 ? ((pagination.page - 1) * pagination.limit) + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
+                            SHOWING {pagination.total > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
                         </div>
                         {pagination.totalPages > 1 && (
                             <div className="flex items-center gap-2">
                                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
-                                    <button
-                                        key={p}
-                                        onClick={() => setPage(p)}
-                                        className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
-                                            p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"
-                                        }`}
-                                    >
+                                    <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                                         {p}
                                     </button>
                                 ))}
@@ -196,33 +188,44 @@ const OrdersTable = () => {
             {activeSelectedOrder && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
                     <div className="bg-white rounded-[24px] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl">
-                        <button
-                            onClick={() => setSelectedOrder(null)}
-                            className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg"
-                        >
+                        <button onClick={() => setSelectedOrder(null)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg">
                             ✕
                         </button>
-                        
+
                         <h3 className="text-2xl font-bold text-gray-900 mb-6">
                             Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
                         </h3>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                             <div className="space-y-4">
                                 <h4 className="font-bold text-gray-900 border-b pb-2">Customer Info</h4>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}</p>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}</p>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}</p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}
+                                </p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}
+                                </p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
+                                </p>
                                 <p className="text-sm">
                                     <span className="font-semibold text-gray-600">Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.country}
                                 </p>
                             </div>
                             <div className="space-y-4">
                                 <h4 className="font-bold text-gray-900 border-b pb-2">Campaign & Seller</h4>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Seller Name:</span> {(activeSelectedOrder.memberId as any)?.name || "Guest / Direct"}</p>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Seller Email:</span> {(activeSelectedOrder.memberId as any)?.email || "N/A"}</p>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Group Name:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}</p>
-                                <p className="text-sm"><span className="font-semibold text-gray-600">Campaign Name:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}</p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Seller Name:</span> {(activeSelectedOrder.memberId as any)?.name || "Guest / Direct"}
+                                </p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Seller Email:</span> {(activeSelectedOrder.memberId as any)?.email || "N/A"}
+                                </p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Group Name:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}
+                                </p>
+                                <p className="text-sm">
+                                    <span className="font-semibold text-gray-600">Campaign Name:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}
+                                </p>
                             </div>
                         </div>
 
@@ -233,7 +236,9 @@ const OrdersTable = () => {
                                     <div key={index} className="flex justify-between items-center text-sm bg-gray-50 p-3 rounded-xl">
                                         <div>
                                             <p className="font-semibold text-gray-900">{item.productName}</p>
-                                            <p className="text-xs text-gray-500">Qty: {item.quantity} x {item.singlePrice} SEK</p>
+                                            <p className="text-xs text-gray-500">
+                                                Qty: {item.quantity} x {item.singlePrice} SEK
+                                            </p>
                                         </div>
                                         <span className="font-bold text-gray-900">{item.lineTotal} SEK</span>
                                     </div>
@@ -248,11 +253,7 @@ const OrdersTable = () => {
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-6">
                             <div className="flex items-center gap-3">
                                 <span className="font-bold text-gray-700">Update Status:</span>
-                                <select
-                                    value={activeSelectedOrder.status}
-                                    onChange={(e) => handleStatusChange(activeSelectedOrder._id!, e.target.value as TOrderStatus)}
-                                    className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#D97706] bg-white cursor-pointer"
-                                >
+                                <select value={activeSelectedOrder.status} onChange={(e) => handleStatusChange(activeSelectedOrder._id!, e.target.value as TOrderStatus)} className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#D97706] bg-white cursor-pointer">
                                     <option value="pending">Pending</option>
                                     <option value="confirmed">Confirmed</option>
                                     <option value="shipped">Shipped</option>
@@ -260,10 +261,7 @@ const OrdersTable = () => {
                                     <option value="cancelled">Cancelled</option>
                                 </select>
                             </div>
-                            <button
-                                onClick={() => setSelectedOrder(null)}
-                                className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm"
-                            >
+                            <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm">
                                 Close
                             </button>
                         </div>
