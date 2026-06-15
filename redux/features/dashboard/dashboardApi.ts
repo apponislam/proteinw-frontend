@@ -118,6 +118,15 @@ export type TSuperAdminGroupsStatsResponse = {
     };
 };
 
+export type TSuperAdminGroupsDashboardCardsResponse = {
+    data: {
+        activeGroups: number;
+        packagesSold: number;
+        avgProfitTier: number;
+        deadlinesThisWeek: number;
+    };
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -180,6 +189,13 @@ const dashboardApi = baseApi.injectEndpoints({
                 };
             },
         }),
+        getSuperAdminGroupsDashboardCards: builder.query<TSuperAdminGroupsDashboardCardsResponse, void>({
+            query: () => ({
+                url: "/dashboard/superadmin-groups-cards",
+                method: "GET",
+                credentials: "include",
+            }),
+        }),
         getActivities: builder.query<TActivityLog[], void>({
             query: () => ({
                 url: "/activities",
@@ -234,6 +250,7 @@ export const {
     useGetSuperAdminSellersStatsQuery,
     useGetSuperAdminSellersQuery,
     useGetSuperAdminGroupsStatsQuery,
+    useGetSuperAdminGroupsDashboardCardsQuery,
     useGetActivitiesQuery,
     useGetStoreInfoQuery,
 } = dashboardApi;
