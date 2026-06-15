@@ -92,7 +92,13 @@ const groupApi = baseApi.injectEndpoints({
                 method: "GET",
                 credentials: "include",
             }),
-            providesTags: (result) => (result?.data?._id ? [{ type: "Group", id: result.data._id }, { type: "Group", id: "MY_GROUP" }] : [{ type: "Group", id: "MY_GROUP" }]),
+            providesTags: (result) =>
+                result?.data?._id
+                    ? [
+                          { type: "Group", id: result.data._id },
+                          { type: "Group", id: "MY_GROUP" },
+                      ]
+                    : [{ type: "Group", id: "MY_GROUP" }],
         }),
 
         // Admin-only endpoints (SUPER_ADMIN)
@@ -177,14 +183,4 @@ const groupApi = baseApi.injectEndpoints({
     }),
 });
 
-export const {
-    useGetActiveGroupsQuery,
-    useGetGroupByCodeQuery,
-    useGetGroupByIdQuery,
-    useGetMyGroupQuery,
-    useGetAllGroupsQuery,
-    useCreateGroupMutation,
-    useUpdateGroupMutation,
-    useToggleGroupStatusMutation,
-    useDeleteGroupMutation,
-} = groupApi;
+export const { useGetActiveGroupsQuery, useGetGroupByCodeQuery, useGetGroupByIdQuery, useGetMyGroupQuery, useGetAllGroupsQuery, useCreateGroupMutation, useUpdateGroupMutation, useToggleGroupStatusMutation, useDeleteGroupMutation } = groupApi;

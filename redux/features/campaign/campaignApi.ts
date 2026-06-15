@@ -106,6 +106,15 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "GROUP_LIST" }] : [{ type: "Campaign", id: "GROUP_LIST" }]),
         }),
 
+        getRunningCampaignByGroup: builder.query<{ data: TCampaign | null }, string>({
+            query: (groupId) => ({
+                url: `/campaigns/running-campaign/${groupId}`,
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: (result, _, groupId) => [{ type: "Campaign", id: `RUNNING_${groupId}` }],
+        }),
+
         // Admin-only endpoints
         getAllCampaigns: builder.query<TCampaignResponse, { page?: number; limit?: number; isActive?: boolean } | void>({
             query: (params) => {
@@ -216,4 +225,4 @@ const campaignApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveCampaignsQuery, useGetCampaignByCodeQuery, useGetCampaignByIdQuery, useGetCampaignsByGroupQuery, useGetAllCampaignsQuery, useGetAllCampaignsWithStatsQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useToggleCampaignStatusMutation, useDeleteCampaignMutation } = campaignApi;
+export const { useGetActiveCampaignsQuery, useGetCampaignByCodeQuery, useGetCampaignByIdQuery, useGetCampaignsByGroupQuery, useGetRunningCampaignByGroupQuery, useGetAllCampaignsQuery, useGetAllCampaignsWithStatsQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useToggleCampaignStatusMutation, useDeleteCampaignMutation } = campaignApi;
