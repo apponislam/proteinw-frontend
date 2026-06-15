@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useGetSuperAdminSellersQuery } from "@/redux/features/dashboard/dashboardApi";
+import { useGetSuperAdminSellersQuery, TSellerListItem } from "@/redux/features/dashboard/dashboardApi";
+import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { Check, Copy } from "lucide-react";
 
 const getStatusColor = (status: string) => {
@@ -11,6 +12,92 @@ const getStatusColor = (status: string) => {
         default:
             return "bg-gray-100 text-gray-800";
     }
+};
+
+const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; campaignId?: string }) => {
+    const [page, setPage] = useState(1);
+    const { data: response, isLoading } = useGetAllOrdersQuery(
+        { memberId, campaignId, page, limit: 5 },
+        { skip: !memberId }
+    );
+
+    const orders = response?.data || [];
+    const meta = response?.meta || { total: 0, totalPages: 0 };
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center py-8">
+                <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    if (orders.length === 0) {
+        return (
+            <div className="text-center py-8 text-[#78716C] bg-[#FAFAF9] rounded-lg border border-dashed border-[#E7E5E4] text-sm">
+                No orders found for this campaign.
+            </div>
+        );
+    }
+
+    return (
+        <div className="mt-4">
+            <div className="overflow-x-auto border border-[#E7E5E4] rounded-lg">
+                <table className="w-full text-left text-sm">
+                    <thead>
+                        <tr className="bg-[#FAFAF9] border-b border-[#E7E5E4]">
+                            <th className="px-4 py-3 text-[#78716C] font-semibold text-xs uppercase tracking-wider">Customer</th>
+                            <th className="px-4 py-3 text-[#78716C] font-semibold text-xs uppercase tracking-wider">Packages</th>
+                            <th className="px-4 py-3 text-[#78716C] font-semibold text-xs uppercase tracking-wider">Total Price</th>
+                            <th className="px-4 py-3 text-[#78716C] font-semibold text-xs uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.map((order) => (
+                            <tr key={order._id} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-150">
+                                <td className="px-4 py-3">
+                                    <div className="font-semibold text-[#1A1C1C]">{order.customerName}</div>
+                                    <div className="text-[#78716C] text-xs">{order.customerEmail}</div>
+                                </td>
+                                <td className="px-4 py-3 text-[#1A1C1C] font-medium">{order.totalPackage}</td>
+                                <td className="px-4 py-3 font-semibold text-[#1A1C1C]">{order.totalPrice} SEK</td>
+                                <td className="px-4 py-3">
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${
+                                        order.status === "delivered" ? "bg-green-100 text-green-800" :
+                                        order.status === "cancelled" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"
+                                    }`}>
+                                        {order.status}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {meta.totalPages > 1 && (
+                <div className="flex items-center justify-between mt-4">
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                        className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors"
+                    >
+                        Previous
+                    </button>
+                    <span className="text-xs text-[#78716C]">
+                        Page {page} of {meta.totalPages}
+                    </span>
+                    <button
+                        disabled={page === meta.totalPages}
+                        onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
+                        className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+        </div>
+    );
 };
 
 const SellersTable = () => {
@@ -27,6 +114,7 @@ const SellersTable = () => {
         hasPrev: false,
     };
 
+    const [selectedSeller, setSelectedSeller] = useState<TSellerListItem | null>(null);
     const [copiedId, setCopiedId] = useState<string | null>(null);
 
     const handleCopy = (id: string, link: string) => {
@@ -111,7 +199,12 @@ const SellersTable = () => {
                                         )}
                                     </td>
                                     <td className="px-4 py-4">
-                                        <button className="text-[#D97706] hover:underline text-sm">View</button>
+                                        <button 
+                                            onClick={() => setSelectedSeller(seller)}
+                                            className="text-[#D97706] hover:underline text-sm font-semibold"
+                                        >
+                                            View
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -135,6 +228,116 @@ const SellersTable = () => {
                                 {p}
                             </button>
                         ))}
+                    </div>
+                </div>
+            )}
+
+            {/* View Modal */}
+            {selectedSeller && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-sm transition-all duration-300">
+                    <div className="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-y-auto flex flex-col p-6 md:p-8 animate-in fade-in zoom-in-95 duration-200">
+                        {/* Header */}
+                        <div className="flex items-center justify-between border-b border-[#F5F5F4] pb-4 mb-6">
+                            <div className="flex items-center gap-3">
+                                <span className="w-12 h-12 rounded-xl bg-[#D97706] text-white flex items-center justify-center font-bold text-lg">
+                                    {selectedSeller.code}
+                                </span>
+                                <div>
+                                    <h3 className="text-xl font-bold text-[#1A1C1C]">{selectedSeller.name}</h3>
+                                    <p className="text-sm text-[#78716C]">{selectedSeller.email}</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setSelectedSeller(null)}
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#78716C] hover:text-[#1C1917] transition-colors font-bold text-lg"
+                            >
+                                &times;
+                            </button>
+                        </div>
+
+                        {/* Content Grid (Group Left, Campaign Right) */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                            {/* Left side: Group Details */}
+                            <div className="bg-[#FAFAF9] p-5 rounded-xl border border-[#E7E5E4]">
+                                <h4 className="text-sm font-bold text-[#D97706] uppercase tracking-wider mb-4">Group Details</h4>
+                                {selectedSeller.groupDetails ? (
+                                    <div className="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">Group Name</span>
+                                            <span className="font-semibold text-[#1A1C1C] mt-1 block">{selectedSeller.groupDetails.name}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">Group Code</span>
+                                            <span className="font-mono bg-[#E7E5E4] px-1.5 py-0.5 rounded text-xs text-[#1C1917] font-semibold mt-1 inline-block">
+                                                {selectedSeller.groupDetails.code}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">Goal Amount</span>
+                                            <span className="font-semibold text-[#1A1C1C] mt-1 block">{selectedSeller.groupDetails.goal.toLocaleString()} SEK</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">End Date</span>
+                                            <span className="font-semibold text-[#1A1C1C] mt-1 block">
+                                                {new Date(selectedSeller.groupDetails.endDate).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-[#78716C]">No group assigned to this seller.</p>
+                                )}
+                            </div>
+
+                            {/* Right side: Campaign Details */}
+                            <div className="bg-[#FAFAF9] p-5 rounded-xl border border-[#E7E5E4]">
+                                <h4 className="text-sm font-bold text-[#D97706] uppercase tracking-wider mb-4">Campaign Details</h4>
+                                {selectedSeller.campaignDetails ? (
+                                    <div className="grid grid-cols-2 gap-4 text-sm">
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">Campaign Name</span>
+                                            <span className="font-semibold text-[#1A1C1C] mt-1 block">{selectedSeller.campaignDetails.name}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">Campaign Code</span>
+                                            <span className="font-mono bg-[#E7E5E4] px-1.5 py-0.5 rounded text-xs text-[#1C1917] font-semibold mt-1 inline-block">
+                                                {selectedSeller.campaignDetails.code}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">Target Sales</span>
+                                            <span className="font-semibold text-[#1A1C1C] mt-1 block">{selectedSeller.campaignDetails.target.toLocaleString()} SEK</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs text-[#78716C] block uppercase font-medium">End Date</span>
+                                            <span className="font-semibold text-[#1A1C1C] mt-1 block">
+                                                {new Date(selectedSeller.campaignDetails.endDate).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-[#78716C]">No running campaign found for this seller's group.</p>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Bottom: Campaign Orders (Full Width) */}
+                        <div className="mt-4 mb-6 border-t border-[#F5F5F4] pt-6">
+                            <h4 className="text-sm font-bold text-[#D97706] uppercase tracking-wider mb-2">Campaign Orders</h4>
+                            <SellerCampaignOrders 
+                                memberId={selectedSeller._id} 
+                                campaignId={selectedSeller.campaignDetails?._id} 
+                            />
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex justify-end pt-4 border-t border-[#F5F5F4] mt-auto">
+                            <button
+                                onClick={() => setSelectedSeller(null)}
+                                className="px-5 py-2.5 bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#1A1C1C] font-semibold rounded-xl border border-[#E7E5E4] transition-colors duration-200"
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

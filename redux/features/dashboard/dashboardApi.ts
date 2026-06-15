@@ -54,6 +54,20 @@ export type TSellerListItem = {
     status: string;
     salesLink: string;
     code: string;
+    groupDetails: {
+        _id: string;
+        name: string;
+        code: string;
+        goal: number;
+        endDate: string;
+    } | null;
+    campaignDetails: {
+        _id: string;
+        name: string;
+        code: string;
+        target: number;
+        endDate: string;
+    } | null;
 };
 
 export type TSellersResponse = {
