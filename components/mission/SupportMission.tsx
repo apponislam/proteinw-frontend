@@ -40,10 +40,10 @@ export function SupportMission() {
                             {supportFeatures.map((feature, index) => (
                                 <div 
                                     key={index} 
-                                    className="flex gap-5 p-6 bg-[#EDEDED]/70 rounded-3xl transition-all duration-300 hover:bg-[#EDEDED] hover:shadow-sm"
+                                    className="flex gap-5 p-6 items-center bg-[#EDEDED]/70 rounded-3xl transition-all duration-300 hover:bg-[#EDEDED] hover:shadow-sm"
                                 >
-                                    <div className="shrink-0 text-[#7C5800] mt-1 bg-white/40 p-2.5 rounded-xl flex items-center justify-center">
-                                        <feature.icon className="w-6 h-6" />
+                                    <div className="w-14 h-14 bg-white/50 rounded-2xl flex items-center justify-center shrink-0">
+                                        <feature.icon className="w-7 h-7 text-[#7C5800]" />
                                     </div>
                                     <div className="space-y-1">
                                         <h3 className="text-lg font-bold text-[#1A1C1C]">
