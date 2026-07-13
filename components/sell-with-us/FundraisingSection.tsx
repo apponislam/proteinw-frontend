@@ -56,7 +56,7 @@ const FundraisingSection = () => {
 
                             <p className="text-gray-600 leading-relaxed">Vi har noga valt ut lättsålda kvalitetsprodukter som ljus, strumpor och delikatesser. Kvalitet som gör att kunderna gärna köper igen.</p>
 
-                            <Link href="/profit">
+                            <Link href="/products">
                                 <button className="mt-6 text-[#EFAC02] font-semibold transition-all duration-300 hover:underline hover:translate-x-1 cursor-pointer">Se hela sortimentet →</button>
                             </Link>
                         </div>
