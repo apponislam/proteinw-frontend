@@ -25,9 +25,9 @@ const FundraisingSection = () => {
                         <p className="text-gray-600 leading-relaxed">Varje elev får sin egen unika webbshop. Dela länken på sociala medier och se beställningarna rulla in i realtid. Inga säljlappar som försvinner.</p>
 
                         <div className="mt-6 flex gap-3 text-xs font-bold">
-                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl">INGA BLANKETTER</span>
-                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl">QR-KODER</span>
-                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl">Egna unika länkar</span>
+                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl uppercase">INGA BLANKETTER</span>
+                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl uppercase">QR-KODER</span>
+                            <span className="bg-[#8F8F8F1A] text-[#2D2D2D] px-4 py-2 rounded-2xl uppercase">Egna unika länkar</span>
                         </div>
                     </div>
 
