@@ -30,7 +30,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
 
     if (isGroupLoading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <Loader2 className="animate-spin text-[#D97706]" size={36} />
             </div>
         );
@@ -39,10 +39,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
     return (
         <div className="space-y-6">
             {/* Back Button */}
-            <Link
-                href="/dashboard/groups"
-                className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium mb-2"
-            >
+            <Link href="/dashboard/groups" className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium mb-2">
                 <ArrowLeft size={16} />
                 <span>Back to Groups</span>
             </Link>
@@ -52,9 +49,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)]">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                         <div>
-                            <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
-                                Group Details
-                            </span>
+                            <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Group Details</span>
                             <h1 className="text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
                             <p className="text-[#78716C] text-sm">{group.shortDescription}</p>
                         </div>
@@ -80,9 +75,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                             </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">End Date</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">
-                                    {group.endDate ? new Date(group.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A"}
-                                </div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">{group.endDate ? new Date(group.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A"}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
@@ -92,18 +85,14 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Status</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">
-                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${group.isActive ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>
-                                        {group.isActive ? "ACTIVE" : "INACTIVE"}
-                                    </span>
+                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${group.isActive ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>{group.isActive ? "ACTIVE" : "INACTIVE"}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             ) : (
-                <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] text-center text-[#78716C]">
-                    Group not found.
-                </div>
+                <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] text-center text-[#78716C]">Group not found.</div>
             )}
 
             {/* Campaigns Section fetched from /campaigns/group/:groupId */}
@@ -127,15 +116,10 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                 ) : (
                     <div className="space-y-4">
                         {campaigns.map((campaign) => {
-                            const formattedEndDate = campaign.endDate
-                                ? new Date(campaign.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-                                : "N/A";
+                            const formattedEndDate = campaign.endDate ? new Date(campaign.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A";
 
                             return (
-                                <div
-                                    key={campaign._id}
-                                    className="p-5 border border-[#E7E5E4] rounded-xl hover:border-[#D97706] transition-colors duration-200 bg-[#FAFAF9]"
-                                >
+                                <div key={campaign._id} className="p-5 border border-[#E7E5E4] rounded-xl hover:border-[#D97706] transition-colors duration-200 bg-[#FAFAF9]">
                                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                                         <div className="flex items-center gap-3">
                                             <div className={`p-2.5 rounded-xl shrink-0 ${campaign.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
@@ -144,17 +128,13 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                             <div>
                                                 <div className="flex items-center gap-2">
                                                     <h3 className="text-lg font-bold text-[#1A1C1C]">{campaign.name}</h3>
-                                                    <span className="text-xs font-semibold text-[#D97706] bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-                                                        #{campaign.code}
-                                                    </span>
+                                                    <span className="text-xs font-semibold text-[#D97706] bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">#{campaign.code}</span>
                                                 </div>
                                                 <p className="text-sm text-[#78716C] mt-0.5">{campaign.shortDescription}</p>
                                             </div>
                                         </div>
 
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${campaign.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                                            {campaign.isActive ? "Active" : "Expired / Inactive"}
-                                        </span>
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${campaign.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{campaign.isActive ? "Active" : "Expired / Inactive"}</span>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-[#E7E5E4]">
@@ -186,23 +166,27 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                 {meta && meta.totalPages > 1 && (
                     <div className="flex items-center justify-between mt-6 pt-4 border-t border-[#F5F5F4]">
                         <div className="text-[#78716C] text-sm uppercase">
-                            Showing {(page - 1) * meta.limit + 1} to {Math.min(page * meta.limit, meta.total)} of {meta.total} campaigns
+                            SHOWING {(page - 1) * meta.limit + 1} TO {Math.min(page * meta.limit, meta.total)} OF {meta.total} CAMPAIGNS
                         </div>
                         <div className="flex items-center gap-2">
                             <button
-                                onClick={() => meta.hasPrev && setPage((prev) => prev - 1)}
                                 disabled={!meta.hasPrev || isCampaignsLoading}
-                                className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                                className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
                             >
-                                Previous
+                                Prev
                             </button>
-                            <span className="text-sm text-[#78716C] font-medium px-2">
-                                Page {page} of {meta.totalPages}
-                            </span>
+
+                            {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map((p) => (
+                                <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                                    {p}
+                                </button>
+                            ))}
+
                             <button
-                                onClick={() => meta.hasNext && setPage((prev) => prev + 1)}
                                 disabled={!meta.hasNext || isCampaignsLoading}
-                                className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))}
+                                className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
                             >
                                 Next
                             </button>
