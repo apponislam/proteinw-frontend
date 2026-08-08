@@ -13,10 +13,10 @@ const SellerAdminHomeCards = () => {
     };
 
     const stats = [
-        { label: "Total Sales", value: isLoading ? "..." : `${statsData.totalSales.toLocaleString()} SEK` },
-        { label: "Total Profit", value: isLoading ? "..." : `${statsData.totalProfit.toLocaleString()} SEK` },
-        { label: "Packages Sold", value: isLoading ? "..." : `${statsData.packagesSold.toLocaleString()} Units` },
-        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining} Days` },
+        { label: "Total Sales", value: isLoading ? "..." : `${statsData.totalSales.toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon1.svg" },
+        { label: "Total Profit", value: isLoading ? "..." : `${statsData.totalProfit.toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon2.svg" },
+        { label: "Packages Sold", value: isLoading ? "..." : `${statsData.packagesSold.toLocaleString()} Units`, icon: "/dashboard/selleradmindashicon3.svg" },
+        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining} Days`, icon: "/dashboard/selleradmindashicon4.svg" },
     ];
 
     return (
@@ -24,11 +24,14 @@ const SellerAdminHomeCards = () => {
             {stats.map((stat, idx) => (
                 <div key={idx} className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group">
                     <div className="relative z-10">
+                        <div className="mb-4">
+                            <Image src={stat.icon} alt={stat.label} width={40} height={40} style={{ width: "auto", height: "auto" }} />
+                        </div>
                         <div className="text-[#78716C] group-hover:text-[#271900] text-sm font-medium uppercase tracking-wider mb-2 transition-colors duration-300">{stat.label}</div>
                         <div className="text-3xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">{stat.value}</div>
                     </div>
                     <div className="absolute bottom-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} />
+                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} style={{ width: "auto", height: "auto" }} />
                     </div>
                 </div>
             ))}

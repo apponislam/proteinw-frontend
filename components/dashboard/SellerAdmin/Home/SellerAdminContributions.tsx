@@ -1,6 +1,6 @@
-import React from "react";
-import { ShoppingBag, Trophy, UserPlus, Rocket } from "lucide-react";
-import { useGetActivitiesQuery } from "@/redux/features/dashboard/dashboardApi";
+import React, { useState, useEffect, useRef } from "react";
+import { ShoppingBag, Trophy, UserPlus, Rocket, Loader2 } from "lucide-react";
+import { useLazyGetActivitiesQuery, TActivityLog } from "@/redux/features/dashboard/dashboardApi";
 import { useGetCampaignContributorsQuery } from "@/redux/features/order/orderApi";
 import Link from "next/link";
 
@@ -43,11 +43,46 @@ const getActivityIcon = (type: string) => {
 };
 
 const SellerAdminContributions = () => {
-    const { data: activities = [], isLoading: isActivitiesLoading } = useGetActivitiesQuery();
+    const [page, setPage] = useState(1);
+    const limit = 6;
+    const [allActivities, setAllActivities] = useState<TActivityLog[]>([]);
+    const [hasNext, setHasNext] = useState(true);
+
+    const [triggerGetActivities, { isLoading: isActivitiesLoading, isFetching: isActivitiesFetching }] = useLazyGetActivitiesQuery();
     const { data: contributorsResponse, isLoading: isContributorsLoading } = useGetCampaignContributorsQuery();
 
     const contributors = contributorsResponse?.data || [];
-    const isLoading = isActivitiesLoading || isContributorsLoading;
+    const isLoading = (isActivitiesLoading && page === 1) || isContributorsLoading;
+
+    // Fetch activities lazily when page changes
+    useEffect(() => {
+        triggerGetActivities({ page, limit })
+            .unwrap()
+            .then((res) => {
+                if (res?.data) {
+                    setAllActivities((prev) => {
+                        if (page === 1) return res.data;
+                        const existingIds = new Set(prev.map((item) => item._id));
+                        const newItems = res.data.filter((item) => !existingIds.has(item._id));
+                        return [...prev, ...newItems];
+                    });
+                }
+                if (res?.meta) {
+                    setHasNext(res.meta.hasNext);
+                }
+            })
+            .catch(() => {});
+    }, [page, limit, triggerGetActivities]);
+
+    // Handle scroll for lazy loading more activities
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const handleScroll = () => {
+        if (!scrollContainerRef.current || isActivitiesFetching || !hasNext) return;
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 30) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    };
 
     return (
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -66,9 +101,7 @@ const SellerAdminContributions = () => {
                                 <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         ) : contributors.length === 0 ? (
-                            <div className="text-center py-12 text-[#78716C]">
-                                No team members found. Invite some members to your group!
-                            </div>
+                            <div className="text-center py-12 text-[#78716C]">No team members found. Invite some members to your group!</div>
                         ) : (
                             <table className="w-full">
                                 <thead>
@@ -90,9 +123,7 @@ const SellerAdminContributions = () => {
                                             <td className="py-4 text-right text-[#1A1C1C] px-2">
                                                 {contributor.packages.toLocaleString()} Unit{contributor.packages !== 1 ? "s" : ""}
                                             </td>
-                                            <td className="py-4 text-right text-[#D97706] font-bold rounded-r-md px-2">
-                                                {contributor.sales.toLocaleString()} SEK
-                                            </td>
+                                            <td className="py-4 text-right text-[#D97706] font-bold rounded-r-md px-2">{contributor.sales.toLocaleString()} SEK</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -102,32 +133,37 @@ const SellerAdminContributions = () => {
                 </div>
             </div>
 
-            {/* Recent Activity - 1/3 width */}
-            <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden">
-                <div className="relative z-10">
-                    <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider mb-6">Recent Activity</h3>
-                    <div className="space-y-4">
+            {/* Recent Activity - 1/3 width (Fixed height + Scroll Lazy Loading) */}
+            <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden flex flex-col h-[520px]">
+                <div className="relative z-10 flex flex-col h-full">
+                    <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider mb-6 flex-shrink-0">Recent Activity</h3>
+                    <div ref={scrollContainerRef} onScroll={handleScroll} className="space-y-4 overflow-y-auto flex-1 pr-1 custom-scrollbar">
                         {isLoading ? (
                             <div className="flex justify-center py-8">
                                 <div className="w-6 h-6 border-2 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
-                        ) : activities.length === 0 ? (
+                        ) : allActivities.length === 0 ? (
                             <p className="text-gray-400 text-sm text-center py-8">No recent activities</p>
                         ) : (
-                            activities.slice(0, 10).map((activity) => (
-                                <div key={activity._id} className="flex gap-4 p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
-                                    <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center">
-                                        {getActivityIcon(activity.type)}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex items-center justify-between mb-1">
-                                            <h4 className="text-[#1A1C1C] font-medium">{activity.title}</h4>
-                                            <span className="text-[#A8A29E] text-xs">{formatTimeAgo(activity.createdAt)}</span>
+                            <>
+                                {allActivities.map((activity) => (
+                                    <div key={activity._id} className="flex gap-4 p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
+                                        <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center flex-shrink-0">{getActivityIcon(activity.type)}</div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <h4 className="text-[#1A1C1C] font-medium truncate">{activity.title}</h4>
+                                                <span className="text-[#A8A29E] text-xs flex-shrink-0 ml-2">{formatTimeAgo(activity.createdAt)}</span>
+                                            </div>
+                                            <p className="text-[#78716C] text-sm line-clamp-2">{activity.description}</p>
                                         </div>
-                                        <p className="text-[#78716C] text-sm">{activity.description}</p>
                                     </div>
-                                </div>
-                            ))
+                                ))}
+                                {isActivitiesFetching && page > 1 && (
+                                    <div className="flex justify-center py-3">
+                                        <Loader2 className="w-5 h-5 text-[#D97706] animate-spin" />
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                 </div>

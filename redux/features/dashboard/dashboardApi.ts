@@ -196,13 +196,32 @@ const dashboardApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
-        getActivities: builder.query<TActivityLog[], void>({
-            query: () => ({
-                url: "/activities",
-                method: "GET",
-                credentials: "include",
-            }),
-            transformResponse: (response: { data: TActivityLog[] }) => response.data,
+        getActivities: builder.query<{ data: TActivityLog[]; meta?: { page: number; limit: number; total: number; totalPages: number; hasNext: boolean; hasPrev: boolean } }, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const page = params?.page ?? 1;
+                const limit = params?.limit ?? 10;
+                const queryParams = new URLSearchParams();
+                queryParams.append("page", page.toString());
+                queryParams.append("limit", limit.toString());
+
+                return {
+                    url: `/activities?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            transformResponse: (response: any) => {
+                if (Array.isArray(response)) {
+                    return { data: response };
+                }
+                if (response?.data && Array.isArray(response.data)) {
+                    return {
+                        data: response.data,
+                        meta: response.meta,
+                    };
+                }
+                return { data: [] };
+            },
             async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved, getState }) {
                 try {
                     await cacheDataLoaded;
@@ -214,11 +233,11 @@ const dashboardApi = baseApi.injectEndpoints({
 
                     const handleNewActivity = (activity: TActivityLog) => {
                         updateCachedData((draft) => {
-                            if (!draft) return;
-                            if (draft.some((a) => a._id === activity._id)) return;
-                            draft.unshift(activity);
-                            if (draft.length > 20) {
-                                draft.pop();
+                            if (!draft || !draft.data) return;
+                            if (draft.data.some((a) => a._id === activity._id)) return;
+                            draft.data.unshift(activity);
+                            if (draft.data.length > 20) {
+                                draft.data.pop();
                             }
                         });
                     };
@@ -243,14 +262,5 @@ const dashboardApi = baseApi.injectEndpoints({
     }),
 });
 
-export const {
-    useGetDashboardStatsQuery,
-    useGetDashboardStatusQuery,
-    useGetSellerDashboardStatsQuery,
-    useGetSuperAdminSellersStatsQuery,
-    useGetSuperAdminSellersQuery,
-    useGetSuperAdminGroupsStatsQuery,
-    useGetSuperAdminGroupsDashboardCardsQuery,
-    useGetActivitiesQuery,
-    useGetStoreInfoQuery,
-} = dashboardApi;
+export const { useGetDashboardStatsQuery, useGetDashboardStatusQuery, useGetSellerDashboardStatsQuery, useGetSuperAdminSellersStatsQuery, useGetSuperAdminSellersQuery, useGetSuperAdminGroupsStatsQuery, useGetSuperAdminGroupsDashboardCardsQuery, useGetActivitiesQuery, useLazyGetActivitiesQuery, useGetStoreInfoQuery } =
+    dashboardApi;
