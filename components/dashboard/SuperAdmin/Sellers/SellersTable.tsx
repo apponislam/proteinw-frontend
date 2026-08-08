@@ -157,7 +157,7 @@ const SellersTable = () => {
                                         {seller.salesLink === "N/A" ? (
                                             <span className="text-gray-400 text-sm">N/A</span>
                                         ) : (
-                                            <button onClick={() => handleCopy(seller._id, seller.salesLink)} className="flex items-center gap-1.5 text-[#D97706] hover:text-[#7C5800] transition-colors font-medium text-sm">
+                                            <button onClick={() => handleCopy(seller._id, seller.salesLink)} className="flex items-center gap-1.5 text-[#D97706] hover:text-[#7C5800] transition-colors font-medium text-sm cursor-pointer">
                                                 {copiedId === seller._id ? (
                                                     <>
                                                         <Check size={14} className="text-green-600" />
@@ -173,7 +173,7 @@ const SellersTable = () => {
                                         )}
                                     </td>
                                     <td className="px-4 py-4">
-                                        <button onClick={() => setSelectedSeller(seller)} className="text-[#D97706] hover:underline text-sm font-semibold">
+                                        <button onClick={() => setSelectedSeller(seller)} className="text-[#D97706] hover:underline text-sm font-semibold cursor-pointer">
                                             View
                                         </button>
                                     </td>
@@ -191,7 +191,7 @@ const SellersTable = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map((p) => (
-                            <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                                 {p}
                             </button>
                         ))}
@@ -212,7 +212,7 @@ const SellersTable = () => {
                                     <p className="text-sm text-[#78716C]">{selectedSeller.email}</p>
                                 </div>
                             </div>
-                            <button onClick={() => setSelectedSeller(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#78716C] hover:text-[#1C1917] transition-colors font-bold text-lg">
+                            <button onClick={() => setSelectedSeller(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#78716C] hover:text-[#1C191C] transition-colors font-bold text-lg cursor-pointer">
                                 &times;
                             </button>
                         </div>
@@ -282,7 +282,7 @@ const SellersTable = () => {
 
                         {/* Footer */}
                         <div className="flex justify-end pt-4 border-t border-[#F5F5F4] mt-auto">
-                            <button onClick={() => setSelectedSeller(null)} className="px-5 py-2.5 bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#1A1C1C] font-semibold rounded-xl border border-[#E7E5E4] transition-colors duration-200">
+                            <button onClick={() => setSelectedSeller(null)} className="px-5 py-2.5 bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#1A1C1C] font-semibold rounded-xl border border-[#E7E5E4] transition-colors duration-200 cursor-pointer">
                                 Close
                             </button>
                         </div>
