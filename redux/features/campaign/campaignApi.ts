@@ -27,6 +27,14 @@ export type TCampaignAdmin = {
     phone?: string;
 };
 
+export type TCampaignCreatedBy = {
+    _id?: string;
+    name?: string;
+    email?: string;
+    role?: string;
+    phone?: string;
+};
+
 export type TCampaign = {
     _id?: string;
     name: string;
@@ -35,7 +43,7 @@ export type TCampaign = {
     endDate: Date;
     code: string;
     groupId?: string;
-    createdBy?: string;
+    createdBy?: string | TCampaignCreatedBy;
     isActive: boolean;
     isDeleted: boolean;
     createdAt?: Date;

@@ -128,7 +128,6 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                             <div>
                                                 <div className="flex items-center gap-2">
                                                     <h3 className="text-lg font-bold text-[#1A1C1C]">{campaign.name}</h3>
-                                                    <span className="text-xs font-semibold text-[#D97706] bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">#{campaign.code}</span>
                                                 </div>
                                                 <p className="text-sm text-[#78716C] mt-0.5">{campaign.shortDescription}</p>
                                             </div>
@@ -137,7 +136,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${campaign.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{campaign.isActive ? "Active" : "Expired / Inactive"}</span>
                                     </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-[#E7E5E4]">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-3 border-t border-[#E7E5E4]">
                                         <div className="flex items-center gap-2">
                                             <Award size={16} className="text-[#D97706]" />
                                             <span className="text-xs text-[#78716C]">Target:</span>
@@ -148,6 +147,13 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                             <span className="text-xs text-[#78716C]">End Date:</span>
                                             <span className="text-sm font-semibold text-[#1A1C1C]">{formattedEndDate}</span>
                                         </div>
+                                        {campaign.createdBy && typeof campaign.createdBy === "object" && (
+                                            <div className="flex items-center gap-2">
+                                                <Users size={16} className="text-[#D97706]" />
+                                                <span className="text-xs text-[#78716C]">Created By:</span>
+                                                <span className="text-sm font-semibold text-[#1A1C1C]">{campaign.createdBy.name || campaign.createdBy.email || "Admin"}</span>
+                                            </div>
+                                        )}
                                         {campaign.totalPackagesSold !== undefined && (
                                             <div className="flex items-center gap-2">
                                                 <Store size={16} className="text-[#D97706]" />
