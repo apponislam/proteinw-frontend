@@ -91,41 +91,6 @@ const productApi = baseApi.injectEndpoints({
             providesTags: [{ type: "Product", id: "ADMIN_STATS" }],
         }),
 
-        // getAllProducts: builder.query<TProductResponse, Record<string, any> | void>({
-        //     query: (filters) => {
-        //         const params = new URLSearchParams();
-
-        //         // Default values
-        //         let page = 1;
-        //         let limit = 10;
-
-        //         if (filters) {
-        //             Object.entries(filters).forEach(([key, value]) => {
-        //                 if (value !== undefined && value !== null) {
-        //                     if (key === "page") {
-        //                         page = Number(value);
-        //                     } else if (key === "limit") {
-        //                         limit = Number(value);
-        //                     } else {
-        //                         params.append(key, String(value));
-        //                     }
-        //                 }
-        //             });
-        //         }
-
-        //         params.append("page", String(page));
-        //         params.append("limit", String(limit));
-
-        //         const queryString = params.toString();
-        //         return {
-        //             url: queryString ? `/products/admin/all?${queryString}` : "/products/admin/all",
-        //             method: "GET",
-        //             credentials: "include",
-        //         };
-        //     },
-        //     providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "Product", id: "ADMIN_LIST" }] : [{ type: "Product", id: "ADMIN_LIST" }]),
-        // }),
-
         getAllProducts: builder.query<TProductResponse, Record<string, any> | void>({
             query: (filters) => {
                 const params = new URLSearchParams();

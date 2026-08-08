@@ -66,7 +66,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const admin = campaign.campaignAdmin;
 
     // Fetch products page by page when modal is open
-    const { data: allProductsResponse, isFetching: isFetchingProducts } = useGetAllProductsQuery({ page, limit: 12 }, { skip: !isModalOpen });
+    const { data: allProductsResponse, isFetching: isFetchingProducts } = useGetAllProductsQuery({ page, limit: 8 }, { skip: !isModalOpen });
 
     // Reset pagination and items when modal opens
     useEffect(() => {
@@ -97,8 +97,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     // Detect scrolling to the bottom of the list
     const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
         const target = e.currentTarget;
-        // Trigger load 50px before reaching bottom
-        if (target.scrollHeight - target.scrollTop <= target.clientHeight + 50) {
+        if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) {
             if (hasNextPage && !isFetchingProducts) {
                 setPage((prev) => prev + 1);
             }
@@ -240,7 +239,9 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                             <div className="divide-y divide-[#E7E5E4]">
                                 {products.map((product) => (
                                     <div key={product._id} className="p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:bg-[#FCFBFA] transition-colors">
-                                        <div className="w-14 h-14 relative rounded-lg bg-[#F3F3F3] border border-[#E7E5E4] overflow-hidden flex items-center justify-center shrink-0">{product.productImage ? <Image src={getImageUrl(product.productImage)} alt={product.name} fill className="object-cover" /> : <Package className="text-[#A8A29E]" size={24} />}</div>
+                                        <div className="w-14 h-14 relative rounded-lg bg-[#F3F3F3] border border-[#E7E5E4] overflow-hidden flex items-center justify-center shrink-0">
+                                            {product.productImage ? <Image src={getImageUrl(product.productImage)} alt={product.name} fill className="object-cover" /> : <Package className="text-[#A8A29E]" size={24} />}
+                                        </div>
                                         <div className="grow min-w-0">
                                             <h4 className="font-bold text-base text-[#1A1C1C] truncate">{product.name}</h4>
                                             <p className="text-xs text-[#78716C] uppercase font-semibold mt-0.5">{product.category}</p>
@@ -324,7 +325,13 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                         <div className="px-6 pt-4">
                             <div className="relative">
                                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E]" size={16} />
-                                <input type="text" placeholder="Search products by name or category..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full pl-10 pr-4 py-2 bg-[#F3F3F3] border border-[#E7E5E4] rounded-xl text-sm focus:outline-none focus:border-[#D97706] transition-all" />
+                                <input
+                                    type="text"
+                                    placeholder="Search products by name or category..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2 bg-[#F3F3F3] border border-[#E7E5E4] rounded-xl text-sm focus:outline-none focus:border-[#D97706] transition-all"
+                                />
                             </div>
                         </div>
 
@@ -342,9 +349,15 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                                     {filteredAvailableProducts.map((product) => {
                                         const isSelected = selectedProductIds.includes(product._id || "");
                                         return (
-                                            <div key={product._id} onClick={() => handleToggleProduct(product._id || "")} className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}>
+                                            <div
+                                                key={product._id}
+                                                onClick={() => handleToggleProduct(product._id || "")}
+                                                className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}
+                                            >
                                                 <div className="flex items-center gap-3 min-w-0">
-                                                    <div className="w-10 h-10 relative rounded-lg bg-[#F3F3F3] border border-[#E7E5E4] overflow-hidden flex items-center justify-center shrink-0">{product.productImage ? <Image src={getImageUrl(product.productImage)} alt={product.name} fill className="object-cover" /> : <Package className="text-[#A8A29E]" size={18} />}</div>
+                                                    <div className="w-10 h-10 relative rounded-lg bg-[#F3F3F3] border border-[#E7E5E4] overflow-hidden flex items-center justify-center shrink-0">
+                                                        {product.productImage ? <Image src={getImageUrl(product.productImage)} alt={product.name} fill className="object-cover" /> : <Package className="text-[#A8A29E]" size={18} />}
+                                                    </div>
                                                     <div className="min-w-0">
                                                         <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{product.name}</h4>
                                                         <p className="text-xs text-[#78716C] mt-0.5">

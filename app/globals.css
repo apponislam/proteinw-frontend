@@ -307,3 +307,35 @@
     border: 1px solid #000 !important;
     padding: 8px !important;
 }
+
+/* Custom Scrollbar Styles */
+*::-webkit-scrollbar,
+::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+*::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
+    background: #f5f5f4 !important;
+    border-radius: 9999px !important;
+}
+
+*::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+    background: #d97706 !important;
+    border-radius: 9999px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:hover {
+    background: #b45309 !important;
+}
+
+/* Firefox & Standard Scrollbar */
+*,
+html,
+body {
+    scrollbar-width: thin !important;
+    scrollbar-color: #d97706 #f5f5f4 !important;
+}
