@@ -110,7 +110,7 @@ const GroupsTable = () => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-4">
-                                            <button className="text-[#D97706] hover:underline text-sm font-medium">View</button>
+                                            <button className="text-[#D97706] hover:underline text-sm font-medium cursor-pointer">View</button>
                                         </td>
                                     </tr>
                                 );
@@ -129,7 +129,7 @@ const GroupsTable = () => {
                     <button
                         onClick={handlePrevPage}
                         disabled={!meta.hasPrev || isLoading}
-                        className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         Previous
                     </button>
@@ -139,7 +139,7 @@ const GroupsTable = () => {
                     <button
                         onClick={handleNextPage}
                         disabled={!meta.hasNext || isLoading}
-                        className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         Next
                     </button>

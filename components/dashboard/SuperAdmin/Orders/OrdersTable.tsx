@@ -2,14 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { 
-    useGetAllOrdersQuery, 
-    useGetRunningCampaignOrdersQuery, 
-    useGetOrdersByMemberQuery,
-    useUpdateOrderStatusMutation, 
-    TOrder, 
-    TOrderStatus 
-} from "@/redux/features/order/orderApi";
+import { ChevronDown } from "lucide-react";
+import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useGetOrdersByMemberQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
@@ -45,15 +39,9 @@ const getPaginationRange = (currentPage: number, totalPages: number) => {
     const range: (number | string)[] = [];
 
     for (let i = 1; i <= totalPages; i++) {
-        if (
-            i === 1 ||
-            i === totalPages ||
-            (i >= currentPage - delta && i <= currentPage + delta)
-        ) {
+        if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
             range.push(i);
-        } else if (
-            range[range.length - 1] !== "..."
-        ) {
+        } else if (range[range.length - 1] !== "...") {
             range.push("...");
         }
     }
@@ -65,6 +53,7 @@ const OrdersTable = () => {
     const [page, setPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<string>("");
     const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
+    const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
     const user = useAppSelector(currentUser);
     const role = user?.role;
 
@@ -191,7 +180,7 @@ const OrdersTable = () => {
                                             </td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{dateStr}</td>
                                             <td className="px-4 py-4">
-                                                <button onClick={() => setSelectedOrder(order)} className="text-[#D97706] hover:underline text-sm font-bold">
+                                                <button onClick={() => setSelectedOrder(order)} className="cursor-pointer text-[#D97706] hover:underline text-sm font-bold">
                                                     View
                                                 </button>
                                             </td>
@@ -204,15 +193,11 @@ const OrdersTable = () => {
 
                     <div className="flex items-center justify-between mt-6">
                         <div className="text-[#78716C] text-sm uppercase">
-                            SHOWING {pagination.total > 0 ? ((pagination.page - 1) * pagination.limit) + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
+                            SHOWING {pagination.total > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
                         </div>
                         {pagination.totalPages > 1 && (
                             <div className="flex items-center gap-2">
-                                <button
-                                    disabled={page === 1}
-                                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C]"
-                                >
+                                <button disabled={page === 1} onClick={() => setPage((p) => Math.max(p - 1, 1))} className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed">
                                     Prev
                                 </button>
                                 {getPaginationRange(page, pagination.totalPages).map((p, idx) => {
@@ -224,13 +209,7 @@ const OrdersTable = () => {
                                         );
                                     }
                                     return (
-                                        <button
-                                            key={`page-${p}`}
-                                            onClick={() => setPage(p as number)}
-                                            className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${
-                                                p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"
-                                            }`}
-                                        >
+                                        <button key={`page-${p}`} onClick={() => setPage(p as number)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                                             {p}
                                         </button>
                                     );
@@ -238,7 +217,7 @@ const OrdersTable = () => {
                                 <button
                                     disabled={page === pagination.totalPages}
                                     onClick={() => setPage((p) => Math.min(p + 1, pagination.totalPages))}
-                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C]"
+                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
                                 >
                                     Next
                                 </button>
@@ -252,7 +231,7 @@ const OrdersTable = () => {
             {activeSelectedOrder && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
                     <div className="bg-white rounded-[24px] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl">
-                        <button onClick={() => setSelectedOrder(null)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg">
+                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg">
                             ✕
                         </button>
 
@@ -316,25 +295,57 @@ const OrdersTable = () => {
 
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-6">
                             {role !== "SELLER" ? (
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 relative">
                                     <span className="font-bold text-gray-700">Update Status:</span>
-                                    <select value={activeSelectedOrder.status} onChange={(e) => handleStatusChange(activeSelectedOrder._id!, e.target.value as TOrderStatus)} className="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#D97706] bg-white cursor-pointer">
-                                        <option value="pending">Pending</option>
-                                        <option value="confirmed">Confirmed</option>
-                                        <option value="shipped">Shipped</option>
-                                        <option value="delivered">Delivered</option>
-                                        <option value="cancelled">Cancelled</option>
-                                    </select>
+                                    <div className="relative">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
+                                            className="flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-sm hover:border-[#D97706] transition-all capitalize cursor-pointer"
+                                        >
+                                            <span
+                                                className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "confirmed" || activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : activeSelectedOrder.status === "shipped" ? "bg-blue-500" : "bg-red-500"}`}
+                                            ></span>
+                                            <span className="text-gray-800">{activeSelectedOrder.status}</span>
+                                            <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
+                                        </button>
+
+                                        {isStatusDropdownOpen && (
+                                            <>
+                                                <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
+                                                <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                    {[
+                                                        { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                        { value: "confirmed", label: "Confirmed", color: "bg-green-500", bg: "hover:bg-green-50 text-green-800" },
+                                                        { value: "shipped", label: "Shipped", color: "bg-blue-500", bg: "hover:bg-blue-50 text-blue-800" },
+                                                        { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
+                                                        { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
+                                                    ].map((opt) => (
+                                                        <button
+                                                            key={opt.value}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
+                                                                setIsStatusDropdownOpen(false);
+                                                            }}
+                                                            className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-sm font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
+                                                        >
+                                                            <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
+                                                            {opt.label}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-3">
                                     <span className="font-bold text-gray-700">Status:</span>
-                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>
-                                        {activeSelectedOrder.status}
-                                    </span>
+                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
                                 </div>
                             )}
-                            <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm">
+                            <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer">
                                 Close
                             </button>
                         </div>

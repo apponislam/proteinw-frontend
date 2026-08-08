@@ -45,7 +45,7 @@ const RecentAssigned: React.FC = () => {
                             <h2 className="text-xl font-bold text-[#1A1C1C]">Recent Assignments</h2>
                             <p className="text-[#78716C] text-sm mt-1">Latest groups mapped to pricing tiers</p>
                         </div>
-                        <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">Assign New Group</button>
+                        <button className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">Assign New Group</button>
                     </div>
                     <div className="space-y-4">
                         {assignments.map((assignment, index) => (
