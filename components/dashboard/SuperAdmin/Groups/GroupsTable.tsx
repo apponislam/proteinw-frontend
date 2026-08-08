@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { useGetSuperAdminGroupsStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 
 const getStatusColor = (status: boolean) => {
@@ -110,7 +111,9 @@ const GroupsTable = () => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-4">
-                                            <button className="text-[#D97706] hover:underline text-sm font-medium cursor-pointer">View</button>
+                                            <Link href={`/dashboard/groups/${group._id}`} className="text-[#D97706] hover:underline text-sm font-medium cursor-pointer">
+                                                View
+                                            </Link>
                                         </td>
                                     </tr>
                                 );
