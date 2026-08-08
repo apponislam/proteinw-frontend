@@ -103,7 +103,7 @@ const contactApi = baseApi.injectEndpoints({
                     socket.on("contact:deleted", handleDeleteContact);
 
                     await cacheEntryRemoved;
-                    
+
                     socket.off("contact:new", handleNewContact);
                     socket.off("contact:read", handleReadContact);
                     socket.off("contact:allRead", handleAllRead);
@@ -111,7 +111,7 @@ const contactApi = baseApi.injectEndpoints({
                 } catch (error) {
                     // noop
                 }
-            }
+            },
         }),
 
         getContactById: builder.query<TContact, string>({
@@ -153,7 +153,7 @@ const contactApi = baseApi.injectEndpoints({
                 } catch (error) {
                     // noop
                 }
-            }
+            },
         }),
 
         markAsRead: builder.mutation<TContact, string>({

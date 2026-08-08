@@ -64,7 +64,16 @@ const StoreProductsContent = () => {
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {allProducts.map((product, index) => (
-                            <StoreProductCard key={`${product._id}-${index}`} productId={product._id || ""} image={getImageUrl(product.productImage) || "/products/product1.png"} title={product.name} price={`${product.price} SEK`} rawPrice={product.price} description={product.shortDescription} adminName={adminName} />
+                            <StoreProductCard
+                                key={`${product._id}-${index}`}
+                                productId={product._id || ""}
+                                image={getImageUrl(product.productImage) || "/products/product1.png"}
+                                title={product.name}
+                                price={`${product.price} SEK`}
+                                rawPrice={product.price}
+                                description={product.shortDescription}
+                                adminName={adminName}
+                            />
                         ))}
                     </div>
                     {hasNext && (

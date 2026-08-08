@@ -213,7 +213,10 @@ const RegisterClient = () => {
                         <Link href="/auth/login" className="text-gray-700 font-medium hover:text-gray-900">
                             Sign In
                         </Link>
-                        <Link href="/auth/register" className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]">
+                        <Link
+                            href="/auth/register"
+                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
+                        >
                             Get Started
                         </Link>
                     </div>
@@ -241,7 +244,11 @@ const RegisterClient = () => {
                                 {/* Full Name */}
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">FULL NAME</label>
-                                    <Controller name="name" control={controlStep1} render={({ field }) => <input type="text" placeholder="Erik Andersson" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                    <Controller
+                                        name="name"
+                                        control={controlStep1}
+                                        render={({ field }) => <input type="text" placeholder="Erik Andersson" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                    />
                                     {errorsStep1.name && <p className="text-red-500 text-xs mt-1">{errorsStep1.name.message}</p>}
                                 </div>
 
@@ -249,12 +256,20 @@ const RegisterClient = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
-                                        <Controller name="email" control={controlStep1} render={({ field }) => <input type="email" placeholder="erik@archive.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="email"
+                                            control={controlStep1}
+                                            render={({ field }) => <input type="email" placeholder="erik@archive.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                         {errorsStep1.email && <p className="text-red-500 text-xs mt-1">{errorsStep1.email.message}</p>}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">PHONE NUMBER</label>
-                                        <Controller name="phone" control={controlStep1} render={({ field }) => <input type="tel" placeholder="+46 00 000 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="phone"
+                                            control={controlStep1}
+                                            render={({ field }) => <input type="tel" placeholder="+46 00 000 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                         {errorsStep1.phone && <p className="text-red-500 text-xs mt-1">{errorsStep1.phone.message}</p>}
                                     </div>
                                 </div>
@@ -295,7 +310,11 @@ const RegisterClient = () => {
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">PASSWORD</label>
                                     <div className="relative">
-                                        <Controller name="password" control={controlStep1} render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="password"
+                                            control={controlStep1}
+                                            render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                     </div>
                                     {errorsStep1.password && <p className="text-red-500 text-xs mt-1">{errorsStep1.password.message}</p>}
                                     <div className="mt-2 text-xs text-gray-600">
@@ -367,7 +386,11 @@ const RegisterClient = () => {
                                 {/* Organization Name */}
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">ORGANIZATION NAME</label>
-                                    <Controller name="address.organizationName" control={controlStep2} render={({ field }) => <input type="text" placeholder="Organization Name" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                    <Controller
+                                        name="address.organizationName"
+                                        control={controlStep2}
+                                        render={({ field }) => <input type="text" placeholder="Organization Name" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                    />
                                     {errorsStep2.address?.organizationName && <p className="text-red-500 text-xs mt-1">{errorsStep2.address.organizationName.message}</p>}
                                 </div>
 
@@ -395,18 +418,30 @@ const RegisterClient = () => {
                                 {/* Street */}
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">STREET</label>
-                                    <Controller name="address.street" control={controlStep2} render={({ field }) => <input type="text" placeholder="Street Address" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                    <Controller
+                                        name="address.street"
+                                        control={controlStep2}
+                                        render={({ field }) => <input type="text" placeholder="Street Address" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                    />
                                 </div>
 
                                 {/* City and State */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">CITY</label>
-                                        <Controller name="address.city" control={controlStep2} render={({ field }) => <input type="text" placeholder="City" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="address.city"
+                                            control={controlStep2}
+                                            render={({ field }) => <input type="text" placeholder="City" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">STATE</label>
-                                        <Controller name="address.state" control={controlStep2} render={({ field }) => <input type="text" placeholder="State" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="address.state"
+                                            control={controlStep2}
+                                            render={({ field }) => <input type="text" placeholder="State" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                     </div>
                                 </div>
 
@@ -414,11 +449,19 @@ const RegisterClient = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">ZIP CODE</label>
-                                        <Controller name="address.zipCode" control={controlStep2} render={({ field }) => <input type="text" placeholder="Zip Code" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="address.zipCode"
+                                            control={controlStep2}
+                                            render={({ field }) => <input type="text" placeholder="Zip Code" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">COUNTRY</label>
-                                        <Controller name="address.country" control={controlStep2} render={({ field }) => <input type="text" placeholder="Country" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                        <Controller
+                                            name="address.country"
+                                            control={controlStep2}
+                                            render={({ field }) => <input type="text" placeholder="Country" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        />
                                     </div>
                                 </div>
 
@@ -440,7 +483,11 @@ const RegisterClient = () => {
                                 {/* Goal */}
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">YOUR GOAL</label>
-                                    <Controller name="goal" control={controlStep3} render={({ field }) => <input type="number" placeholder="Enter your goal" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                    <Controller
+                                        name="goal"
+                                        control={controlStep3}
+                                        render={({ field }) => <input type="number" placeholder="Enter your goal" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                    />
                                 </div>
 
                                 {/* Sales Start Date */}

@@ -86,7 +86,7 @@ export default function Campaign({ groupId }: CampaignProps) {
 
     if (isLoading) {
         return (
-            <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] flex items-center justify-center min-h-[200px]">
+            <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] flex items-center justify-center min-h-50">
                 <Loader2 className="animate-spin text-[#D97706]" size={28} />
             </div>
         );
@@ -119,7 +119,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                 {isEditing ? (
                                     <div className="space-y-3 w-full max-w-xl">
                                         <Input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Campaign name" className="h-10 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold" />
-                                        <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Short description" className="min-h-[60px] border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-sm" />
+                                        <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Short description" className="min-h-15 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-sm" />
                                     </div>
                                 ) : (
                                     <div>
@@ -204,13 +204,19 @@ export default function Campaign({ groupId }: CampaignProps) {
                         </div>
                         <h3 className="text-xl font-bold text-[#1A1C1C] mb-2">No Fundraising Campaign</h3>
                         <p className="text-sm text-[#78716C] mb-6">Start a campaign so team members can raise money.</p>
-                        <button onClick={() => setShowCreateForm(true)} className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
+                        <button
+                            onClick={() => setShowCreateForm(true)}
+                            className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
+                        >
                             Start New Campaign
                         </button>
                     </div>
                 ) : (
                     <div className="flex justify-end">
-                        <button onClick={() => setShowCreateForm(true)} className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
+                        <button
+                            onClick={() => setShowCreateForm(true)}
+                            className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
+                        >
                             + Start New Campaign
                         </button>
                     </div>
@@ -226,7 +232,12 @@ export default function Campaign({ groupId }: CampaignProps) {
                             <button onClick={() => setShowCreateForm(false)} className="text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer">
                                 Cancel
                             </button>
-                            <button type="submit" form="create-campaign-form" disabled={isCreating} className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer">
+                            <button
+                                type="submit"
+                                form="create-campaign-form"
+                                disabled={isCreating}
+                                className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer"
+                            >
                                 {isCreating ? (
                                     <>
                                         <Loader2 className="animate-spin" size={14} />
@@ -246,7 +257,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-[#1A1C1C]">Short Description</label>
-                            <Textarea placeholder="Describe what you are raising money for..." {...register("shortDescription")} className="min-h-[100px] border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                            <Textarea placeholder="Describe what you are raising money for..." {...register("shortDescription")} className="min-h-25 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                             {errors.shortDescription && <p className="text-red-500 text-xs">{errors.shortDescription.message}</p>}
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">

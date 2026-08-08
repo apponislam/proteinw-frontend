@@ -21,7 +21,11 @@ const ProductsClient = () => {
     const categoryParam = activeCategory !== "All Products" ? activeCategory : undefined;
     const subCategoryParam = activeSubCategory || undefined;
 
-    const { data: productsResponse, isFetching, isLoading } = useGetActiveProductsQuery({
+    const {
+        data: productsResponse,
+        isFetching,
+        isLoading,
+    } = useGetActiveProductsQuery({
         category: categoryParam,
         subCategory: subCategoryParam,
         page,
@@ -54,11 +58,7 @@ const ProductsClient = () => {
     // Window scroll listener for infinite scroll
     useEffect(() => {
         const handleScroll = () => {
-            if (
-                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120 &&
-                hasNextPage &&
-                !isFetching
-            ) {
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120 && hasNextPage && !isFetching) {
                 setPage((prev) => prev + 1);
             }
         };
@@ -76,7 +76,7 @@ const ProductsClient = () => {
                         Curated high-quality products designed for community fundraising. <br className="none sm:block" /> Handpicked Scandinavian essentials that represent the NordicArchive spirit.
                     </p>
                 </div>
-                
+
                 <div className="flex flex-col lg:flex-row gap-4">
                     {/* Sidebar / Categories */}
                     <div className="w-full lg:w-80 lg:shrink-0">
@@ -93,7 +93,7 @@ const ProductsClient = () => {
                                 <Infinity className="w-4 h-4 text-[#837560]" />
                                 <span>All Products</span>
                             </li>
-                            
+
                             {/* Scented Candles */}
                             <li className="flex flex-col">
                                 <div
@@ -126,7 +126,7 @@ const ProductsClient = () => {
                                     </ul>
                                 </div>
                             </li>
-                            
+
                             {/* Premium Socks */}
                             <li
                                 onClick={() => {
@@ -139,7 +139,7 @@ const ProductsClient = () => {
                                 <span>Premium Socks</span>
                             </li>
                         </ul>
-                        
+
                         <div className="bg-[#F3F3F3] rounded-[24px] px-5 py-3.5 mt-6">
                             <div className="flex items-center gap-2">
                                 <Info className="text-[#7C5800]" size={18} />
@@ -157,25 +157,25 @@ const ProductsClient = () => {
                                 <p className="text-sm text-[#78716C]">Loading archive collection...</p>
                             </div>
                         ) : accumulatedProducts.length === 0 ? (
-                            <div className="text-center py-20 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4]">
-                                No products found in this category.
-                            </div>
+                            <div className="text-center py-20 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4]">No products found in this category.</div>
                         ) : (
                             <>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
                                     {accumulatedProducts.map((product) => (
-                                        <ProductCard 
-                                            key={product._id} 
-                                            image={getImageUrl(product.productImage)} 
-                                            title={product.name} 
-                                            price={`${product.price} SEK`} 
-                                            description={product.shortDescription} 
-                                            onViewDetails={() => setSelectedProduct({
-                                                image: getImageUrl(product.productImage),
-                                                title: product.name,
-                                                price: `${product.price} SEK`,
-                                                description: product.shortDescription,
-                                            })}
+                                        <ProductCard
+                                            key={product._id}
+                                            image={getImageUrl(product.productImage)}
+                                            title={product.name}
+                                            price={`${product.price} SEK`}
+                                            description={product.shortDescription}
+                                            onViewDetails={() =>
+                                                setSelectedProduct({
+                                                    image: getImageUrl(product.productImage),
+                                                    title: product.name,
+                                                    price: `${product.price} SEK`,
+                                                    description: product.shortDescription,
+                                                })
+                                            }
                                         />
                                     ))}
                                 </div>
@@ -194,7 +194,7 @@ const ProductsClient = () => {
             {/* Bottom Sticky Ready To Fundraise Card */}
             <div className="fixed bottom-0 left-0 right-0 z-40 p-4 md:p-6 bg-linear-to-t from-white via-white/95 to-transparent pointer-events-none">
                 <div className="container mx-auto flex justify-center">
-                    <div className="w-full sm:w-auto sm:min-w-[560px] lg:min-w-[640px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white/90 backdrop-blur-md rounded-[32px] p-4 sm:p-5 shadow-2xl border border-[#FFDEA8]/40 pointer-events-auto transition-all duration-300 hover:shadow-amber-100 hover:border-[#FFDEA8]">
+                    <div className="w-full sm:w-auto sm:min-w-140 lg:min-w-160 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white/90 backdrop-blur-md rounded-[32px] p-4 sm:p-5 shadow-2xl border border-[#FFDEA8]/40 pointer-events-auto transition-all duration-300 hover:shadow-amber-100 hover:border-[#FFDEA8]">
                         <div className="sm:pl-4">
                             <h2 className="text-xs text-[#837560] font-extrabold uppercase tracking-wider">READY TO FUNDRAISE?</h2>
                             <p className="text-sm font-semibold text-[#1A1C1C] mt-0.5">Join 500+ successful teams</p>
@@ -209,11 +209,7 @@ const ProductsClient = () => {
             </div>
 
             {/* Modal */}
-            <ProductDetailModal 
-                isOpen={!!selectedProduct} 
-                onClose={() => setSelectedProduct(null)} 
-                product={selectedProduct} 
-            />
+            <ProductDetailModal isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} product={selectedProduct} />
         </div>
     );
 };

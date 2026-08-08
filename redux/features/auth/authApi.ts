@@ -209,13 +209,7 @@ const authApi = baseApi.injectEndpoints({
                 method: "GET",
                 credentials: "include",
             }),
-            providesTags: (result) =>
-                result
-                    ? [
-                          ...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })),
-                          { type: "User", id: "LIST" },
-                      ]
-                    : [{ type: "User", id: "LIST" }],
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })), { type: "User", id: "LIST" }] : [{ type: "User", id: "LIST" }]),
         }),
         getReferralAndCampaign: builder.query<{ data: { referralCode: string; campaignCode: string | false; campaign: string | false } }, void>({
             query: () => ({

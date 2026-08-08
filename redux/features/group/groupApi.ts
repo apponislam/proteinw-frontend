@@ -201,15 +201,4 @@ const groupApi = baseApi.injectEndpoints({
     }),
 });
 
-export const {
-    useGetActiveGroupsQuery,
-    useGetGroupByCodeQuery,
-    useGetGroupByIdQuery,
-    useGetMyGroupQuery,
-    useGetMyCampaignStatsQuery,
-    useGetAllGroupsQuery,
-    useCreateGroupMutation,
-    useUpdateGroupMutation,
-    useToggleGroupStatusMutation,
-    useDeleteGroupMutation,
-} = groupApi;
+export const { useGetActiveGroupsQuery, useGetGroupByCodeQuery, useGetGroupByIdQuery, useGetMyGroupQuery, useGetMyCampaignStatsQuery, useGetAllGroupsQuery, useCreateGroupMutation, useUpdateGroupMutation, useToggleGroupStatusMutation, useDeleteGroupMutation } = groupApi;

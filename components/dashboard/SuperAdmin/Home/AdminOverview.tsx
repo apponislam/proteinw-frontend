@@ -5,23 +5,27 @@ import Image from "next/image";
 import OverviewReport from "./OverviewReport";
 import { useGetDashboardStatsQuery } from "../../../../redux/features/dashboard/dashboardApi";
 
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/auth/authSlice";
+
 const AdminOverview = () => {
-    const { data: response, isLoading } = useGetDashboardStatsQuery();
-    const stats = response?.data || {
-        totalPackagesSold: 0,
-        packageGrowth: 0,
-        topCategory: "N/A",
-        totalAdmins: 0,
-        totalSellers: 0,
-        totalGroups: 0,
-        activeCampaigns: 0,
-        totalOrders: 0,
+    const user = useAppSelector(currentUser);
+    const { data: statsData, isLoading } = useGetDashboardStatsQuery();
+    const stats = {
+        totalPackagesSold: statsData?.totalPackagesSold ?? 0,
+        packageGrowth: statsData?.packageGrowth ?? 0,
+        topCategory: statsData?.topCategory ?? "N/A",
+        totalAdmins: statsData?.totalAdmins ?? 0,
+        totalSellers: statsData?.totalSellers ?? 0,
+        totalGroups: statsData?.totalGroups ?? 0,
+        activeCampaigns: statsData?.activeCampaigns ?? 0,
+        totalOrders: statsData?.totalOrders ?? 0,
     };
 
     return (
         <div>
             <div>
-                <h1 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, Erik.</h1>
+                <h1 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, {user?.name || "Admin"}.</h1>
                 <p className="text-[#78716C] text-lg">Kungsbjörnen is currently hosting {isLoading ? "..." : stats.activeCampaigns.toLocaleString()} active campaigns across the Nordic region.</p>
             </div>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">

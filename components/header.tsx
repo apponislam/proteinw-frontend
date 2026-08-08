@@ -136,7 +136,10 @@ export function Header() {
                                 <Link href="/auth/login" className="text-sm font-medium text-foreground hover:text-[#F59E0B] transition-colors">
                                     Login
                                 </Link>
-                                <Link href="/auth/register" className="font-bold px-6 inline-flex items-center justify-center rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800]  py-3 text-sm text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">
+                                <Link
+                                    href="/auth/register"
+                                    className="font-bold px-6 inline-flex items-center justify-center rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800]  py-3 text-sm text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
+                                >
                                     Get Started
                                 </Link>
                             </>

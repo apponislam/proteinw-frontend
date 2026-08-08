@@ -31,7 +31,10 @@ export function HeroArea() {
 
                             {/* CTA Buttons */}
                             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                <Link href="/auth/register" className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-semibold px-8 py-4 rounded-[24px] shadow-lg hover:shadow-xl transition-all duration-300">
+                                <Link
+                                    href="/auth/register"
+                                    className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-semibold px-8 py-4 rounded-[24px] shadow-lg hover:shadow-xl transition-all duration-300"
+                                >
                                     Get Started
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>

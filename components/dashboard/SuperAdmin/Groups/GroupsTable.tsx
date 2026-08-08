@@ -81,9 +81,7 @@ const GroupsTable = () => {
                                     <tr key={index} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
-                                                <span className="w-10 h-10 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">
-                                                    {group.groupCode}
-                                                </span>
+                                                <span className="w-10 h-10 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">{group.groupCode}</span>
                                                 <div>
                                                     <div className="text-[#1A1C1C] font-medium">{group.groupName}</div>
                                                     <div className="text-[#78716C] text-sm">{group.campaignCode !== "N/A" ? `#${group.campaignCode}` : "N/A"}</div>
@@ -100,9 +98,7 @@ const GroupsTable = () => {
                                             </div>
                                         </td>
                                         <td className="px-4 py-4">
-                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(group.status)}`}>
-                                                {group.status ? "ACTIVE" : "PAUSED"}
-                                            </span>
+                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(group.status)}`}>{group.status ? "ACTIVE" : "PAUSED"}</span>
                                         </td>
                                         <td className="px-4 py-4">
                                             <div>
@@ -125,25 +121,16 @@ const GroupsTable = () => {
 
             <div className="flex items-center justify-between mt-6">
                 <div className="text-[#78716C] text-sm uppercase">
-                    Showing {groupsData.length > 0 ? (page - 1) * meta.limit + 1 : 0} to{" "}
-                    {Math.min(page * meta.limit, meta.total)} of {meta.total} groups
+                    Showing {groupsData.length > 0 ? (page - 1) * meta.limit + 1 : 0} to {Math.min(page * meta.limit, meta.total)} of {meta.total} groups
                 </div>
                 <div className="flex items-center gap-2">
-                    <button
-                        onClick={handlePrevPage}
-                        disabled={!meta.hasPrev || isLoading}
-                        className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                    >
+                    <button onClick={handlePrevPage} disabled={!meta.hasPrev || isLoading} className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                         Previous
                     </button>
                     <span className="text-sm text-[#78716C] font-medium px-2">
                         Page {page} of {meta.totalPages || 1}
                     </span>
-                    <button
-                        onClick={handleNextPage}
-                        disabled={!meta.hasNext || isLoading}
-                        className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                    >
+                    <button onClick={handleNextPage} disabled={!meta.hasNext || isLoading} className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                         Next
                     </button>
                 </div>

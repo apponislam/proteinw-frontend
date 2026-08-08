@@ -17,10 +17,7 @@ const StoreOrderContent = () => {
     const cartItems = useAppSelector((state) => state.cart.items);
     const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    const { data: storeInfo } = useGetStoreInfoQuery(
-        { campaign, referral },
-        { skip: !campaign || !referral }
-    );
+    const { data: storeInfo } = useGetStoreInfoQuery({ campaign, referral }, { skip: !campaign || !referral });
 
     const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -75,10 +72,10 @@ const StoreOrderContent = () => {
 
             await createOrder(orderPayload).unwrap();
             toast.success("Order placed successfully! Thank you for your support.");
-            
+
             // Clear cart
             dispatch(clearCart());
-            
+
             // Reset form
             setFormData({
                 fullName: "",
@@ -102,7 +99,9 @@ const StoreOrderContent = () => {
                 <div className="space-y-8 bg-[#E8E8E8] p-10 rounded-[24px] shadow-md">
                     <div>
                         <h2 className="text-3xl font-extrabold text-[#1A1C1C] mb-4">Completing your support</h2>
-                        <p className="text-[#514532]">Thank you for choosing to support {firstName}'s campaign ({campaignName})! We keep things simple and local.</p>
+                        <p className="text-[#514532]">
+                            Thank you for choosing to support {firstName}'s campaign ({campaignName})! We keep things simple and local.
+                        </p>
                     </div>
                     <div className="bg-[#FEF3C780] border border-[#FDE68A] rounded-[24px] flex items-start gap-4 p-6">
                         <Info size={24} className="text-[#7C5800] text-3xl h-8 w-8" />
@@ -133,7 +132,7 @@ const StoreOrderContent = () => {
                                 <p className="text-xl font-bold">{referral}</p>
                             </div>
                         )}
-                        
+
                         <div className="border-t border-gray-200 pt-4">
                             <h3 className="font-bold text-[16px] text-black mb-3">Order Summary</h3>
                             {cartItems.length === 0 ? (
@@ -142,7 +141,9 @@ const StoreOrderContent = () => {
                                 <div className="space-y-2">
                                     {cartItems.map((item) => (
                                         <div key={item.productId} className="flex justify-between text-sm">
-                                            <span className="text-gray-700">{item.name} (x{item.quantity})</span>
+                                            <span className="text-gray-700">
+                                                {item.name} (x{item.quantity})
+                                            </span>
                                             <span className="font-semibold text-black">{item.price * item.quantity} SEK</span>
                                         </div>
                                     ))}
@@ -163,22 +164,54 @@ const StoreOrderContent = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-[#837560] mb-2">FULL NAME</label>
-                                <input type="text" required name="fullName" value={formData.fullName} onChange={handleChange} placeholder="John Doe" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                                <input
+                                    type="text"
+                                    required
+                                    name="fullName"
+                                    value={formData.fullName}
+                                    onChange={handleChange}
+                                    placeholder="John Doe"
+                                    className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-[#837560] mb-2">PHONE NUMBER</label>
-                                <input type="tel" required name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="+46 00 000 00 00" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                                <input
+                                    type="tel"
+                                    required
+                                    name="phoneNumber"
+                                    value={formData.phoneNumber}
+                                    onChange={handleChange}
+                                    placeholder="+46 00 000 00 00"
+                                    className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                />
                             </div>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-[#837560] mb-2">EMAIL ADDRESS</label>
-                            <input type="email" required name="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                            <input
+                                type="email"
+                                required
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="john@example.com"
+                                className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                            />
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-[#837560] mb-2">Street</label>
-                            <input type="text" required name="street" value={formData.street} onChange={handleChange} placeholder="Uttar Badda" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                            <input
+                                type="text"
+                                required
+                                name="street"
+                                value={formData.street}
+                                onChange={handleChange}
+                                placeholder="Uttar Badda"
+                                className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                            />
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -188,13 +221,29 @@ const StoreOrderContent = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-[#837560] mb-2">Postal Code</label>
-                                <input type="text" required name="postalCode" value={formData.postalCode} onChange={handleChange} placeholder="4545" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                                <input
+                                    type="text"
+                                    required
+                                    name="postalCode"
+                                    value={formData.postalCode}
+                                    onChange={handleChange}
+                                    placeholder="4545"
+                                    className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                />
                             </div>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-[#837560] mb-2">Country</label>
-                            <input type="text" required name="country" value={formData.country} onChange={handleChange} placeholder="Sweden" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                            <input
+                                type="text"
+                                required
+                                name="country"
+                                value={formData.country}
+                                onChange={handleChange}
+                                placeholder="Sweden"
+                                className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                            />
                         </div>
 
                         <div className="flex items-start gap-3">
@@ -202,7 +251,11 @@ const StoreOrderContent = () => {
                             <label className="text-sm text-gray-600">I understand that my order will be delivered by {firstName} personally and that payment is made directly to him upon delivery.</label>
                         </div>
 
-                        <button type="submit" disabled={!formData.agree || cartItems.length === 0 || isLoading} className="w-full py-4 font-bold rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button
+                            type="submit"
+                            disabled={!formData.agree || cartItems.length === 0 || isLoading}
+                            className="w-full py-4 font-bold rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
                             {isLoading ? "Placing Order..." : "Place Delivery Order"}
                         </button>
                     </form>
@@ -214,11 +267,13 @@ const StoreOrderContent = () => {
 
 const StoreOrder = () => {
     return (
-        <Suspense fallback={
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-                <p className="text-[#78716C] text-lg">Loading order form...</p>
-            </div>
-        }>
+        <Suspense
+            fallback={
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+                    <p className="text-[#78716C] text-lg">Loading order form...</p>
+                </div>
+            }
+        >
             <StoreOrderContent />
         </Suspense>
     );

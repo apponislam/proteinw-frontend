@@ -3,10 +3,19 @@
 import React from "react";
 import GroupCard from "./GroupCard";
 import { useGetMyGroupQuery, useGetMyCampaignStatsQuery } from "@/redux/features/group/groupApi";
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/auth/authSlice";
 
 const GroupCards = () => {
-    const { data: myGroupData, isLoading: isGroupLoading } = useGetMyGroupQuery();
-    const { data: statsData, isLoading: isStatsLoading } = useGetMyCampaignStatsQuery();
+    const user = useAppSelector(currentUser);
+    const isSuperAdmin = user?.role === "SUPER_ADMIN";
+
+    const { data: myGroupData, isLoading: isGroupLoading } = useGetMyGroupQuery(undefined, {
+        skip: isSuperAdmin,
+    });
+    const { data: statsData, isLoading: isStatsLoading } = useGetMyCampaignStatsQuery(undefined, {
+        skip: isSuperAdmin,
+    });
 
     const isLoading = isGroupLoading || isStatsLoading;
     const group = myGroupData?.data;

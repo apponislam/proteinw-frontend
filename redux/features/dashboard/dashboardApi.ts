@@ -136,6 +136,7 @@ const dashboardApi = baseApi.injectEndpoints({
                 method: "GET",
                 credentials: "include",
             }),
+            transformResponse: (response: { data: TDashboardStats }) => response.data,
         }),
         getDashboardStatus: builder.query<TDashboardStatus, void>({
             query: () => ({
@@ -262,5 +263,15 @@ const dashboardApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetDashboardStatsQuery, useGetDashboardStatusQuery, useGetSellerDashboardStatsQuery, useGetSuperAdminSellersStatsQuery, useGetSuperAdminSellersQuery, useGetSuperAdminGroupsStatsQuery, useGetSuperAdminGroupsDashboardCardsQuery, useGetActivitiesQuery, useLazyGetActivitiesQuery, useGetStoreInfoQuery } =
-    dashboardApi;
+export const {
+    useGetDashboardStatsQuery,
+    useGetDashboardStatusQuery,
+    useGetSellerDashboardStatsQuery,
+    useGetSuperAdminSellersStatsQuery,
+    useGetSuperAdminSellersQuery,
+    useGetSuperAdminGroupsStatsQuery,
+    useGetSuperAdminGroupsDashboardCardsQuery,
+    useGetActivitiesQuery,
+    useLazyGetActivitiesQuery,
+    useGetStoreInfoQuery,
+} = dashboardApi;

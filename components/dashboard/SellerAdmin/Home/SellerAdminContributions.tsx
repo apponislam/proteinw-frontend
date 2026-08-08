@@ -134,9 +134,9 @@ const SellerAdminContributions = () => {
             </div>
 
             {/* Recent Activity - 1/3 width (Fixed height + Scroll Lazy Loading) */}
-            <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden flex flex-col h-[520px]">
+            <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden flex flex-col h-130">
                 <div className="relative z-10 flex flex-col h-full">
-                    <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider mb-6 flex-shrink-0">Recent Activity</h3>
+                    <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider mb-6 shrink-0">Recent Activity</h3>
                     <div ref={scrollContainerRef} onScroll={handleScroll} className="space-y-4 overflow-y-auto flex-1 pr-1 custom-scrollbar">
                         {isLoading ? (
                             <div className="flex justify-center py-8">
@@ -148,11 +148,11 @@ const SellerAdminContributions = () => {
                             <>
                                 {allActivities.map((activity) => (
                                     <div key={activity._id} className="flex gap-4 p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
-                                        <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center flex-shrink-0">{getActivityIcon(activity.type)}</div>
+                                        <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center shrink-0">{getActivityIcon(activity.type)}</div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center justify-between mb-1">
                                                 <h4 className="text-[#1A1C1C] font-medium truncate">{activity.title}</h4>
-                                                <span className="text-[#A8A29E] text-xs flex-shrink-0 ml-2">{formatTimeAgo(activity.createdAt)}</span>
+                                                <span className="text-[#A8A29E] text-xs shrink-0 ml-2">{formatTimeAgo(activity.createdAt)}</span>
                                             </div>
                                             <p className="text-[#78716C] text-sm line-clamp-2">{activity.description}</p>
                                         </div>

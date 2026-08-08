@@ -67,8 +67,8 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
             cancelButtonText: "Cancel",
             customClass: {
                 confirmButton: "rounded-lg",
-                cancelButton: "rounded-lg"
-            }
+                cancelButton: "rounded-lg",
+            },
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
@@ -77,7 +77,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                         title: "Deleted!",
                         text: "Your product has been deleted.",
                         icon: "success",
-                        confirmButtonColor: "#D97706"
+                        confirmButtonColor: "#D97706",
                     });
                 } catch (err) {
                     console.error(err);

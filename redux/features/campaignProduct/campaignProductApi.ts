@@ -70,13 +70,7 @@ const campaignProductApi = baseApi.injectEndpoints({
                     credentials: "include",
                 };
             },
-            providesTags: (result) =>
-                result
-                    ? [
-                          ...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })),
-                          { type: "CampaignProduct", id: "MY_CAMPAIGN" },
-                      ]
-                    : [{ type: "CampaignProduct", id: "MY_CAMPAIGN" }],
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Product" as const, id: _id })), { type: "CampaignProduct", id: "MY_CAMPAIGN" }] : [{ type: "CampaignProduct", id: "MY_CAMPAIGN" }]),
         }),
 
         // Get all campaigns for a product (Public)

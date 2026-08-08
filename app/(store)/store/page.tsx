@@ -15,10 +15,7 @@ const StoreContent = () => {
     const campaign = searchParams.get("campaign") || "";
     const referral = searchParams.get("referral") || "";
 
-    const { data: storeInfo, isLoading } = useGetStoreInfoQuery(
-        { campaign, referral },
-        { skip: !campaign || !referral }
-    );
+    const { data: storeInfo, isLoading } = useGetStoreInfoQuery({ campaign, referral }, { skip: !campaign || !referral });
 
     // If campaign or referral is missing, or query returned validation false
     const isInvalid = !campaign || !referral || (storeInfo && storeInfo.validation === false);
@@ -41,9 +38,7 @@ const StoreContent = () => {
                     </div>
                     <div className="space-y-2">
                         <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Invalid Store Link</h1>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-                            This fundraising link is invalid, incomplete, or the campaign is no longer active. Please contact your seller to get the correct link.
-                        </p>
+                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">This fundraising link is invalid, incomplete, or the campaign is no longer active. Please contact your seller to get the correct link.</p>
                     </div>
                     <div className="pt-2">
                         <Link href="/" className="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all w-full justify-center">
@@ -68,11 +63,13 @@ const StoreContent = () => {
 
 const Page = () => {
     return (
-        <Suspense fallback={
-            <div className="min-h-screen bg-[#FAFAF9] flex flex-col justify-center items-center">
-                <p className="text-[#78716C] text-lg">Loading store details...</p>
-            </div>
-        }>
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-[#FAFAF9] flex flex-col justify-center items-center">
+                    <p className="text-[#78716C] text-lg">Loading store details...</p>
+                </div>
+            }
+        >
             <StoreContent />
         </Suspense>
     );

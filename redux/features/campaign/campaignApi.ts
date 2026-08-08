@@ -233,4 +233,16 @@ const campaignApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveCampaignsQuery, useGetCampaignByCodeQuery, useGetCampaignByIdQuery, useGetCampaignsByGroupQuery, useGetRunningCampaignByGroupQuery, useGetAllCampaignsQuery, useGetAllCampaignsWithStatsQuery, useCreateCampaignMutation, useUpdateCampaignMutation, useToggleCampaignStatusMutation, useDeleteCampaignMutation } = campaignApi;
+export const {
+    useGetActiveCampaignsQuery,
+    useGetCampaignByCodeQuery,
+    useGetCampaignByIdQuery,
+    useGetCampaignsByGroupQuery,
+    useGetRunningCampaignByGroupQuery,
+    useGetAllCampaignsQuery,
+    useGetAllCampaignsWithStatsQuery,
+    useCreateCampaignMutation,
+    useUpdateCampaignMutation,
+    useToggleCampaignStatusMutation,
+    useDeleteCampaignMutation,
+} = campaignApi;

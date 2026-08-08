@@ -19,7 +19,7 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
     const dispatch = useAppDispatch();
     const cartItem = useAppSelector((state) => state.cart.items.find((item) => item.productId === productId));
     const quantity = cartItem ? cartItem.quantity : 0;
-    
+
     const firstName = adminName.split(" ")[0];
 
     const handleIncrement = () => {
@@ -46,7 +46,9 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
                 </div>
                 <p className="mb-4">{description}</p>
                 <div className="flex items-center justify-between gap-4">
-                    <button onClick={handleSupportClick} className="flex-1 py-3 font-bold rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">Support {firstName}</button>
+                    <button onClick={handleSupportClick} className="flex-1 py-3 font-bold rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">
+                        Support {firstName}
+                    </button>
                     <div className="flex items-center gap-4 bg-[#E2E2E2] rounded-[24px] p-1">
                         <button onClick={handleDecrement} className="w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 transition-all">
                             <Minus size={18} />

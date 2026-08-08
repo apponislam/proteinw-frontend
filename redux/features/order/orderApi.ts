@@ -59,8 +59,8 @@ export type TCreateOrderPayload = {
         productId: string;
         quantity: number;
     }>;
-    memberId?: string;     // Can be user referralCode or user ObjectId
-    campaignId?: string;   // Can be campaign code or campaign ObjectId
+    memberId?: string; // Can be user referralCode or user ObjectId
+    campaignId?: string; // Can be campaign code or campaign ObjectId
     referralCode?: string; // Explicit user referral code
     campaignCode?: string; // Explicit campaign code
 };

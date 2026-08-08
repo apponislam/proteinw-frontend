@@ -75,7 +75,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             formData.append("subCategory", subCategory);
             if (selectedFile) formData.append("productImage", selectedFile);
 
-            const res = await updateProduct({ productId: product._id, formData }).unwrap() as any;
+            const res = (await updateProduct({ productId: product._id, formData }).unwrap()) as any;
             toast.success(res?.message || "Product updated successfully!");
             onClose();
         } catch (err: any) {

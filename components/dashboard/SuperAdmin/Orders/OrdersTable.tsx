@@ -171,7 +171,7 @@ const OrdersTable = () => {
                                             </td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{groupName}</td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.customerName}</td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-[200px] truncate" title={productNames}>
+                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-50 truncate" title={productNames}>
                                                 {productNames}
                                             </td>
                                             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.totalPackage}</td>
@@ -197,7 +197,11 @@ const OrdersTable = () => {
                         </div>
                         {pagination.totalPages > 1 && (
                             <div className="flex items-center gap-2">
-                                <button disabled={page === 1} onClick={() => setPage((p) => Math.max(p - 1, 1))} className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed">
+                                <button
+                                    disabled={page === 1}
+                                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
+                                >
                                     Prev
                                 </button>
                                 {getPaginationRange(page, pagination.totalPages).map((p, idx) => {
@@ -209,7 +213,11 @@ const OrdersTable = () => {
                                         );
                                     }
                                     return (
-                                        <button key={`page-${p}`} onClick={() => setPage(p as number)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                                        <button
+                                            key={`page-${p}`}
+                                            onClick={() => setPage(p as number)}
+                                            className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
+                                        >
                                             {p}
                                         </button>
                                     );

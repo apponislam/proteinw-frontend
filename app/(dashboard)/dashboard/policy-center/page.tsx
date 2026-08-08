@@ -106,7 +106,11 @@ const PolicyCenterPage = () => {
                             <div>
                                 <JoditEditor value={termsContent} config={config} onBlur={(newContent: string) => setTermsContent(newContent)} />
                             </div>
-                            <button disabled={isSaving} className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" onClick={handleSaveTerms}>
+                            <button
+                                disabled={isSaving}
+                                className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                onClick={handleSaveTerms}
+                            >
                                 {isSaving ? "Saving..." : "Save Terms"}
                             </button>
                         </div>
@@ -118,7 +122,11 @@ const PolicyCenterPage = () => {
                             <div>
                                 <JoditEditor value={privacyContent} config={config} onBlur={(newContent: string) => setPrivacyContent(newContent)} />
                             </div>
-                            <button disabled={isSaving} className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer" onClick={handleSavePrivacy}>
+                            <button
+                                disabled={isSaving}
+                                className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                onClick={handleSavePrivacy}
+                            >
                                 {isSaving ? "Saving..." : "Save Privacy Policy"}
                             </button>
                         </div>

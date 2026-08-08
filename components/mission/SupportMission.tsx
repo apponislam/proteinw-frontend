@@ -28,30 +28,22 @@ export function SupportMission() {
                     <div className="lg:col-span-6 space-y-8">
                         <div>
                             <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1A1C1C] leading-tight mb-6">
-                                How Can We Support <br />Your Mission?
+                                How Can We Support <br />
+                                Your Mission?
                             </h2>
-                            <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
-                                We provide the framework, you provide the passion. Our ecosystem is built to scale your local impact with professional-grade tools.
-                            </p>
+                            <p className="text-lg text-gray-600 leading-relaxed max-w-xl">We provide the framework, you provide the passion. Our ecosystem is built to scale your local impact with professional-grade tools.</p>
                         </div>
 
                         {/* Features Cards */}
                         <div className="space-y-4">
                             {supportFeatures.map((feature, index) => (
-                                <div 
-                                    key={index} 
-                                    className="flex gap-5 p-6 items-center bg-[#EDEDED]/70 rounded-3xl transition-all duration-300 hover:bg-[#EDEDED] hover:shadow-sm"
-                                >
+                                <div key={index} className="flex gap-5 p-6 items-center bg-[#EDEDED]/70 rounded-3xl transition-all duration-300 hover:bg-[#EDEDED] hover:shadow-sm">
                                     <div className="w-14 h-14 bg-white/50 rounded-2xl flex items-center justify-center shrink-0">
                                         <feature.icon className="w-7 h-7 text-[#7C5800]" />
                                     </div>
                                     <div className="space-y-1">
-                                        <h3 className="text-lg font-bold text-[#1A1C1C]">
-                                            {feature.title}
-                                        </h3>
-                                        <p className="text-sm text-gray-600 leading-relaxed">
-                                            {feature.description}
-                                        </p>
+                                        <h3 className="text-lg font-bold text-[#1A1C1C]">{feature.title}</h3>
+                                        <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
                                     </div>
                                 </div>
                             ))}
@@ -59,16 +51,9 @@ export function SupportMission() {
                     </div>
 
                     {/* Right content: laptop desk image */}
-                    <div className="lg:col-span-6 relative w-full aspect-square max-w-[540px] mx-auto">
+                    <div className="lg:col-span-6 relative w-full aspect-square max-w-135 mx-auto">
                         <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl relative">
-                            <Image 
-                                src="/mission/laptop_on_desk.png" 
-                                alt="Laptop and books on a wooden desk" 
-                                fill 
-                                className="object-cover transition-transform duration-700 hover:scale-105"
-                                sizes="(max-width: 1024px) 100vw, 540px"
-                                priority
-                            />
+                            <Image src="/mission/laptop_on_desk.png" alt="Laptop and books on a wooden desk" fill className="object-cover transition-transform duration-700 hover:scale-105" sizes="(max-width: 1024px) 100vw, 540px" priority />
                         </div>
                     </div>
                 </div>

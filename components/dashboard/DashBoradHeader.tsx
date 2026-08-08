@@ -49,9 +49,7 @@ const DashBoradHeader = () => {
                     </div>
                 </div>
             </div>
-            {user?.role === "SUPER_ADMIN" && (
-                <Notifications isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
-            )}
+            {user?.role === "SUPER_ADMIN" && <Notifications isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />}
         </>
     );
 };

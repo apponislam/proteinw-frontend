@@ -1,11 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { 
-    useGetOrderStatsQuery, 
-    useGetRunningCampaignStatsQuery,
-    useGetMemberOrderStatsQuery
-} from "@/redux/features/order/orderApi";
+import { useGetOrderStatsQuery, useGetRunningCampaignStatsQuery, useGetMemberOrderStatsQuery } from "@/redux/features/order/orderApi";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 

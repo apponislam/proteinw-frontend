@@ -27,11 +27,7 @@ export function RoleProvider({ children }: { children: ReactNode }) {
         setActiveRoleState(role);
     };
 
-    return (
-        <RoleContext.Provider value={{ activeRole, setActiveRole }}>
-            {children}
-        </RoleContext.Provider>
-    );
+    return <RoleContext.Provider value={{ activeRole, setActiveRole }}>{children}</RoleContext.Provider>;
 }
 
 export function useRole() {

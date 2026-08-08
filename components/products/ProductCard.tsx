@@ -19,10 +19,7 @@ const ProductCard = ({ image, title, price, description, onViewDetails }: Produc
                     <p className="text-[#7C5800]">{price}</p>
                 </div>
                 <p className="mb-4">{description}</p>
-                <button 
-                    onClick={onViewDetails}
-                    className="bg-[#E2E2E2] cursor-pointer w-full py-3 font-semibold rounded-[24px] transition-all duration-300 hover:bg-[#d9d9d9]"
-                >
+                <button onClick={onViewDetails} className="bg-[#E2E2E2] cursor-pointer w-full py-3 font-semibold rounded-[24px] transition-all duration-300 hover:bg-[#d9d9d9]">
                     View Details
                 </button>
             </div>

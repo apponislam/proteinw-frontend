@@ -61,7 +61,10 @@ const CreatePasswordClient = () => {
                         <Link href="/auth/register" className="text-gray-700 font-medium hover:text-gray-900">
                             Sign Up
                         </Link>
-                        <Link href="/auth/register" className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]">
+                        <Link
+                            href="/auth/register"
+                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
+                        >
                             Get Started
                         </Link>
                     </div>
@@ -86,7 +89,11 @@ const CreatePasswordClient = () => {
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">NEW PASSWORD</label>
                                 <div className="relative">
-                                    <Controller name="newPassword" control={control} render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                    <Controller
+                                        name="newPassword"
+                                        control={control}
+                                        render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                    />
                                 </div>
                                 {errors.newPassword && <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>}
                             </div>
@@ -95,7 +102,11 @@ const CreatePasswordClient = () => {
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">CONFIRM PASSWORD</label>
                                 <div className="relative">
-                                    <Controller name="confirmPassword" control={control} render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
+                                    <Controller
+                                        name="confirmPassword"
+                                        control={control}
+                                        render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                    />
                                 </div>
                                 {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
                             </div>

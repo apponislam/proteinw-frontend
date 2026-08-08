@@ -4,7 +4,7 @@ let socket: Socket | null = null;
 
 export const getSocketInstance = (userId?: string): Socket => {
     const socketUrl = process.env.NEXT_PUBLIC_BASE_API || "";
-    
+
     if (!socket) {
         socket = io(socketUrl, {
             auth: { _id: userId },

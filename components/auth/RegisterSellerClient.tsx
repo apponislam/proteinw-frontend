@@ -108,17 +108,10 @@ const RegisterSellerClient = () => {
                             {/* Full Name */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">FULL NAME</label>
-                                <Controller 
-                                    name="name" 
-                                    control={control} 
-                                    render={({ field }) => (
-                                        <input 
-                                            type="text" 
-                                            placeholder="Erik Andersson" 
-                                            className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                                            {...field} 
-                                        />
-                                    )} 
+                                <Controller
+                                    name="name"
+                                    control={control}
+                                    render={({ field }) => <input type="text" placeholder="Erik Andersson" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                 />
                                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                             </div>
@@ -127,33 +120,19 @@ const RegisterSellerClient = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
-                                    <Controller 
-                                        name="email" 
-                                        control={control} 
-                                        render={({ field }) => (
-                                            <input 
-                                                type="email" 
-                                                disabled={!!emailFromQuery}
-                                                className="w-full px-4 py-3 bg-gray-100 border border-gray-200 text-gray-500 rounded-lg focus:outline-none disabled:opacity-75 disabled:cursor-not-allowed" 
-                                                {...field} 
-                                            />
-                                        )} 
+                                    <Controller
+                                        name="email"
+                                        control={control}
+                                        render={({ field }) => <input type="email" disabled={!!emailFromQuery} className="w-full px-4 py-3 bg-gray-100 border border-gray-200 text-gray-500 rounded-lg focus:outline-none disabled:opacity-75 disabled:cursor-not-allowed" {...field} />}
                                     />
                                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">PHONE NUMBER</label>
-                                    <Controller 
-                                        name="phone" 
-                                        control={control} 
-                                        render={({ field }) => (
-                                            <input 
-                                                type="tel" 
-                                                placeholder="+46 00 000 00" 
-                                                className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                                                {...field} 
-                                            />
-                                        )} 
+                                    <Controller
+                                        name="phone"
+                                        control={control}
+                                        render={({ field }) => <input type="tel" placeholder="+46 00 000 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                     />
                                     {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                                 </div>
@@ -162,17 +141,10 @@ const RegisterSellerClient = () => {
                             {/* Password */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">PASSWORD</label>
-                                <Controller 
-                                    name="password" 
-                                    control={control} 
-                                    render={({ field }) => (
-                                        <input 
-                                            type="password" 
-                                            placeholder="••••••••" 
-                                            className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                                            {...field} 
-                                        />
-                                    )} 
+                                <Controller
+                                    name="password"
+                                    control={control}
+                                    render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                 />
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                             </div>
@@ -185,12 +157,7 @@ const RegisterSellerClient = () => {
                                     render={({ field }) => (
                                         <label className="flex items-start gap-3 cursor-pointer">
                                             <div className="relative shrink-0 mt-0.5">
-                                                <input 
-                                                    type="checkbox" 
-                                                    className="sr-only peer" 
-                                                    checked={field.value} 
-                                                    onChange={(e) => field.onChange(e.target.checked)} 
-                                                />
+                                                <input type="checkbox" className="sr-only peer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
                                                 <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all">
                                                     {field.value && (
                                                         <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -213,12 +180,7 @@ const RegisterSellerClient = () => {
                                     render={({ field }) => (
                                         <label className="flex items-start gap-3 cursor-pointer">
                                             <div className="relative shrink-0 mt-0.5">
-                                                <input 
-                                                    type="checkbox" 
-                                                    className="sr-only peer" 
-                                                    checked={field.value} 
-                                                    onChange={(e) => field.onChange(e.target.checked)} 
-                                                />
+                                                <input type="checkbox" className="sr-only peer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
                                                 <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all">
                                                     {field.value && (
                                                         <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">

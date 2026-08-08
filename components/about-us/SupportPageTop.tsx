@@ -29,7 +29,13 @@ const SupportPageTop = ({ searchQuery, onSearchChange, onSearchSubmit }: Support
                         className="relative"
                     >
                         <Search className="text-[#837560] absolute left-3 top-4" />
-                        <input type="text" placeholder="Search our knowledge base..." value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} className="bg-[#E8E8E8] rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-transparent placeholder:text-[#837560] pl-10 pr-24 w-full" />
+                        <input
+                            type="text"
+                            placeholder="Search our knowledge base..."
+                            value={searchQuery}
+                            onChange={(e) => onSearchChange(e.target.value)}
+                            className="bg-[#E8E8E8] rounded-2xl px-6 py-4 text-sm outline-none focus:ring-2 focus:ring-transparent placeholder:text-[#837560] pl-10 pr-24 w-full"
+                        />
                         <button type="submit" className="absolute right-2 top-2 bottom-2 text-[#7C5800] px-3 rounded-xl font-semibold cursor-pointer">
                             Search
                         </button>

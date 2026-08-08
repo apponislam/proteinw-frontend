@@ -12,7 +12,7 @@ const AdminList = () => {
     const limit = 10;
 
     const { data: response, isLoading } = useGetAdminsWithStatsQuery({ page, limit });
-    
+
     const admins = response?.data || [];
     const meta = response?.meta;
 
@@ -55,16 +55,12 @@ const AdminList = () => {
                                         </div>
                                     </td>
                                     <td className="px-4 py-4">
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>
-                                            {admin.groupName || "UNASSIGNED"}
-                                        </span>
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>{admin.groupName || "UNASSIGNED"}</span>
                                     </td>
                                     <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.sellerCount}</td>
                                     <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.orderCount.toLocaleString()}</td>
                                     <td className="px-4 py-4">
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(admin.isActive)}`}>
-                                            {admin.isActive ? "Active" : "Disabled"}
-                                        </span>
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(admin.isActive)}`}>{admin.isActive ? "Active" : "Disabled"}</span>
                                     </td>
                                     <td className="px-4 py-4">
                                         <button className="text-[#D97706] hover:underline text-sm cursor-pointer">Edit</button>
@@ -83,13 +79,7 @@ const AdminList = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map((p) => (
-                            <button
-                                key={p}
-                                onClick={() => setPage(p)}
-                                className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${
-                                    p === meta.page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"
-                                }`}
-                            >
+                            <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === meta.page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                                 {p}
                             </button>
                         ))}

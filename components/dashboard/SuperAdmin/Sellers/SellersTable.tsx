@@ -55,7 +55,9 @@ const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; camp
                                 <td className="px-4 py-3 text-[#1A1C1C] font-medium">{order.totalPackage}</td>
                                 <td className="px-4 py-3 font-semibold text-[#1A1C1C]">{order.totalPrice} SEK</td>
                                 <td className="px-4 py-3">
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${order.status === "delivered" ? "bg-green-100 text-green-800" : order.status === "cancelled" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"}`}>{order.status}</span>
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${order.status === "delivered" ? "bg-green-100 text-green-800" : order.status === "cancelled" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"}`}>
+                                        {order.status}
+                                    </span>
                                 </td>
                             </tr>
                         ))}

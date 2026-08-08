@@ -48,9 +48,7 @@ const OverviewReport = () => {
                                     <tr key={index} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-md bg-[#F5F5F4] bg-opacity-10 flex items-center justify-center text-[#D97706] font-bold text-sm">
-                                                    {group.groupCode}
-                                                </div>
+                                                <div className="w-8 h-8 rounded-md bg-[#F5F5F4] bg-opacity-10 flex items-center justify-center text-[#D97706] font-bold text-sm">{group.groupCode}</div>
                                                 <span className="text-[#1A1C1C] font-medium">{group.groupName}</span>
                                             </div>
                                         </td>

@@ -7,14 +7,12 @@ interface CampaignCardProps {
 }
 
 const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
-    const progress = campaign.target > 0 
-        ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / campaign.target) * 100)) 
-        : 0;
+    const progress = campaign.target > 0 ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / campaign.target) * 100)) : 0;
 
     const renderCampaignStatus = (endDateStr: Date | string, isActive: boolean) => {
         const endDate = new Date(endDateStr);
         const today = new Date();
-        
+
         const formattedEndDate = endDate.toLocaleDateString("en-US", {
             year: "numeric",
             month: "numeric",
@@ -29,11 +27,11 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                 </div>
             );
         }
-        
+
         const diffTime = endDate.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
-        
+
         return <span className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300 font-medium">{daysText}</span>;
     };
 
@@ -75,13 +73,11 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     </div>
                 </div>
 
-                <div className="mb-6 min-h-[40px] flex items-center">
-                    {renderCampaignStatus(campaign.endDate, campaign.isActive)}
-                </div>
+                <div className="mb-6 min-h-10 flex items-center">{renderCampaignStatus(campaign.endDate, campaign.isActive)}</div>
             </div>
 
             <div className="relative z-10 mt-auto">
-                <Link 
+                <Link
                     href={`/dashboard/campaigns/${campaign._id}`}
                     className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
                 >

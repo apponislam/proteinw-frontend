@@ -13,7 +13,11 @@ const StoreProducts = () => {
     const [accumulatedProducts, setAccumulatedProducts] = useState<any[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
 
-    const { data: response, isFetching, isLoading } = useGetMyCampaignProductsQuery({
+    const {
+        data: response,
+        isFetching,
+        isLoading,
+    } = useGetMyCampaignProductsQuery({
         page,
         limit: 6,
     });
@@ -38,11 +42,7 @@ const StoreProducts = () => {
     // Window scroll listener for infinite scroll
     useEffect(() => {
         const handleScroll = () => {
-            if (
-                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120 &&
-                hasNextPage &&
-                !isFetching
-            ) {
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120 && hasNextPage && !isFetching) {
                 setPage((prev) => prev + 1);
             }
         };
@@ -61,11 +61,7 @@ const StoreProducts = () => {
     }
 
     if (accumulatedProducts.length === 0) {
-        return (
-            <div className="mt-8 text-center py-16 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4] shadow-xs">
-                No products found in your campaign. Please contact your campaign admin to add products.
-            </div>
-        );
+        return <div className="mt-8 text-center py-16 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4] shadow-xs">No products found in your campaign. Please contact your campaign admin to add products.</div>;
     }
 
     return (
@@ -80,12 +76,14 @@ const StoreProducts = () => {
                         price={`${product.price} SEK`}
                         description={product.shortDescription}
                         image={getImageUrl(product.productImage)}
-                        onViewDetails={() => setSelectedProduct({
-                            image: getImageUrl(product.productImage),
-                            title: product.name,
-                            price: `${product.price} SEK`,
-                            description: product.shortDescription,
-                        })}
+                        onViewDetails={() =>
+                            setSelectedProduct({
+                                image: getImageUrl(product.productImage),
+                                title: product.name,
+                                price: `${product.price} SEK`,
+                                description: product.shortDescription,
+                            })
+                        }
                     />
                 ))}
             </div>
@@ -98,11 +96,7 @@ const StoreProducts = () => {
             )}
 
             {/* Product Detail Modal */}
-            <ProductDetailModal 
-                isOpen={!!selectedProduct} 
-                onClose={() => setSelectedProduct(null)} 
-                product={selectedProduct} 
-            />
+            <ProductDetailModal isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} product={selectedProduct} />
         </div>
     );
 };
