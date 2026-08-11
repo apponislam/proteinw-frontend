@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { X } from "lucide-react";
+import { X, ChevronDown, Check } from "lucide-react";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
 
@@ -19,6 +19,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+
+    const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
+    const [isSubCatDropdownOpen, setIsSubCatDropdownOpen] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -102,20 +105,82 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
 
                     <div>
                         <label className="block text-[#78716C] text-sm font-medium mb-2">Product category</label>
-                        <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full h-12 px-4 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20">
-                            <option value="">Select category</option>
-                            <option value="Scented Candles">Scented Candles</option>
-                            <option value="Premium Socks">Premium Socks</option>
-                        </select>
+                        <div className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsCatDropdownOpen((prev) => !prev);
+                                    setIsSubCatDropdownOpen(false);
+                                }}
+                                className="w-full h-12 px-4 bg-white border border-[#F5F5F4] rounded-lg text-sm flex items-center justify-between text-[#1A1C1C] focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 transition-all cursor-pointer"
+                            >
+                                <span className={category ? "text-[#1A1C1C] font-medium" : "text-[#78716C]"}>{category || "Select category"}</span>
+                                <ChevronDown size={18} className={`text-[#78716C] transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
+                            </button>
+
+                            {isCatDropdownOpen && (
+                                <>
+                                    <div className="fixed inset-0 z-20" onClick={() => setIsCatDropdownOpen(false)}></div>
+                                    <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-lg shadow-lg border border-[#F5F5F4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        {["Scented Candles", "Premium Socks"].map((catOption) => (
+                                            <button
+                                                key={catOption}
+                                                type="button"
+                                                onClick={() => {
+                                                    setCategory(catOption);
+                                                    if (catOption !== "Scented Candles") setSubCategory("");
+                                                    setIsCatDropdownOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${category === catOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-[#1A1C1C]"}`}
+                                            >
+                                                <span>{catOption}</span>
+                                                {category === catOption && <Check size={16} className="text-[#D97706]" />}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
 
                     {category === "Scented Candles" && (
                         <div>
                             <label className="block text-[#78716C] text-sm font-medium mb-2">Subcategory</label>
-                            <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)} className="w-full h-12 px-4 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20">
-                                <option value="">Select subcategory</option>
-                                <option value="Reed Diffusers">Reed Diffusers</option>
-                            </select>
+                            <div className="relative">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsSubCatDropdownOpen((prev) => !prev);
+                                        setIsCatDropdownOpen(false);
+                                    }}
+                                    className="w-full h-12 px-4 bg-white border border-[#F5F5F4] rounded-lg text-sm flex items-center justify-between text-[#1A1C1C] focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 transition-all cursor-pointer"
+                                >
+                                    <span className={subCategory ? "text-[#1A1C1C] font-medium" : "text-[#78716C]"}>{subCategory || "Select subcategory"}</span>
+                                    <ChevronDown size={18} className={`text-[#78716C] transition-transform duration-200 ${isSubCatDropdownOpen ? "rotate-180" : ""}`} />
+                                </button>
+
+                                {isSubCatDropdownOpen && (
+                                    <>
+                                        <div className="fixed inset-0 z-20" onClick={() => setIsSubCatDropdownOpen(false)}></div>
+                                        <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-lg shadow-lg border border-[#F5F5F4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                            {["Reed Diffusers"].map((subOption) => (
+                                                <button
+                                                    key={subOption}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setSubCategory(subOption);
+                                                        setIsSubCatDropdownOpen(false);
+                                                    }}
+                                                    className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${subCategory === subOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-[#1A1C1C]"}`}
+                                                >
+                                                    <span>{subOption}</span>
+                                                    {subCategory === subOption && <Check size={16} className="text-[#D97706]" />}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     )}
 

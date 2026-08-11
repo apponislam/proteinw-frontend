@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetAllProductsQuery, useToggleProductStatusMutation, useDeleteProductMutation, type TProduct } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, ChevronDown, Check } from "lucide-react";
 import Swal from "sweetalert2";
 
 const campaignColors = ["bg-[#D97706]", "bg-[#7C3AED]", "bg-[#10B981]", "bg-[#3B82F6]"];
@@ -21,6 +21,10 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
     const [selectedSubcategory, setSelectedSubcategory] = useState<string>("All");
     const [selectedStatus, setSelectedStatus] = useState<string>("All");
     const [currentPage, setCurrentPage] = useState<number>(1);
+
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [isSubcategoryOpen, setIsSubcategoryOpen] = useState(false);
+    const [isStatusOpen, setIsStatusOpen] = useState(false);
 
     // Define categories and their subcategories
     const categories = [
@@ -120,42 +124,141 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-[#1A1C1C]">Product Archive</h2>
-                    <p className="text-[#78716C] text-sm mt-1">LIVE OVERVIEW</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="text-[#78716C] text-sm font-medium">Filter</div>
                     <div className="flex flex-wrap items-center gap-3">
-                        <select
-                            className="px-3 py-2 border border-[#F5F5F4] rounded-lg text-sm focus:outline-none focus:border-[#D97706]"
-                            value={selectedCategory}
-                            onChange={(e) => {
-                                setSelectedCategory(e.target.value);
-                                setSelectedSubcategory("All"); // Reset subcategory when category changes
-                            }}
-                        >
-                            {categories.map((cat) => (
-                                <option key={cat.value} value={cat.value}>
-                                    {cat.label}
-                                </option>
-                            ))}
-                        </select>
+                        {/* Category Custom Dropdown */}
+                        <div className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsCategoryOpen((prev) => !prev);
+                                    setIsSubcategoryOpen(false);
+                                    setIsStatusOpen(false);
+                                }}
+                                className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
+                            >
+                                <span>{categories.find((cat) => cat.value === selectedCategory)?.label}</span>
+                                <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""}`} />
+                            </button>
 
+                            {isCategoryOpen && (
+                                <>
+                                    <div className="fixed inset-0 z-20" onClick={() => setIsCategoryOpen(false)}></div>
+                                    <div className="absolute right-0 mt-2 z-30 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        {categories.map((cat) => (
+                                            <button
+                                                key={cat.value}
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedCategory(cat.value);
+                                                    setSelectedSubcategory("All");
+                                                    setCurrentPage(1);
+                                                    setIsCategoryOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedCategory === cat.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                            >
+                                                <span>{cat.label}</span>
+                                                {selectedCategory === cat.value && <Check size={14} className="text-[#D97706]" />}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+
+                        {/* Subcategory Custom Dropdown */}
                         {currentSubcategories.length > 0 && (
-                            <select className="px-3 py-2 border border-[#F5F5F4] rounded-lg text-sm focus:outline-none focus:border-[#D97706]" value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)}>
-                                <option value="All">Subcategory: All</option>
-                                {currentSubcategories.map((subcat) => (
-                                    <option key={subcat} value={subcat}>
-                                        Subcategory: {subcat}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsSubcategoryOpen((prev) => !prev);
+                                        setIsCategoryOpen(false);
+                                        setIsStatusOpen(false);
+                                    }}
+                                    className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
+                                >
+                                    <span>Subcategory: {selectedSubcategory}</span>
+                                    <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isSubcategoryOpen ? "rotate-180" : ""}`} />
+                                </button>
+
+                                {isSubcategoryOpen && (
+                                    <>
+                                        <div className="fixed inset-0 z-20" onClick={() => setIsSubcategoryOpen(false)}></div>
+                                        <div className="absolute right-0 mt-2 z-30 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedSubcategory("All");
+                                                    setCurrentPage(1);
+                                                    setIsSubcategoryOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === "All" ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                            >
+                                                <span>Subcategory: All</span>
+                                                {selectedSubcategory === "All" && <Check size={14} className="text-[#D97706]" />}
+                                            </button>
+                                            {currentSubcategories.map((subcat) => (
+                                                <button
+                                                    key={subcat}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setSelectedSubcategory(subcat);
+                                                        setCurrentPage(1);
+                                                        setIsSubcategoryOpen(false);
+                                                    }}
+                                                    className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === subcat ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                >
+                                                    <span>Subcategory: {subcat}</span>
+                                                    {selectedSubcategory === subcat && <Check size={14} className="text-[#D97706]" />}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         )}
 
-                        <select className="px-3 py-2 border border-[#F5F5F4] rounded-lg text-sm focus:outline-none focus:border-[#D97706]" value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
-                            <option value="All">Status: All</option>
-                            <option value="Active">Status: Active</option>
-                            <option value="Inactive">Status: Inactive</option>
-                        </select>
+                        {/* Status Custom Dropdown */}
+                        <div className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsStatusOpen((prev) => !prev);
+                                    setIsCategoryOpen(false);
+                                    setIsSubcategoryOpen(false);
+                                }}
+                                className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
+                            >
+                                <span>Status: {selectedStatus}</span>
+                                <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isStatusOpen ? "rotate-180" : ""}`} />
+                            </button>
+
+                            {isStatusOpen && (
+                                <>
+                                    <div className="fixed inset-0 z-20" onClick={() => setIsStatusOpen(false)}></div>
+                                    <div className="absolute right-0 mt-2 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        {["All", "Active", "Inactive"].map((status) => (
+                                            <button
+                                                key={status}
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedStatus(status);
+                                                    setCurrentPage(1);
+                                                    setIsStatusOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedStatus === status ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                            >
+                                                <span>Status: {status}</span>
+                                                {selectedStatus === status && <Check size={14} className="text-[#D97706]" />}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
