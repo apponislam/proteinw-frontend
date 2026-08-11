@@ -246,10 +246,28 @@ const StoreOrderContent = () => {
                             />
                         </div>
 
-                        <div className="flex items-start gap-3">
-                            <input type="checkbox" required name="agree" checked={formData.agree} onChange={handleChange} className="mt-1 w-5 h-5 rounded border-gray-300 text-[#FFB800] focus:ring-[#FFB800]" />
-                            <label className="text-sm text-gray-600">I understand that my order will be delivered by {firstName} personally and that payment is made directly to him upon delivery.</label>
-                        </div>
+                        <label className="flex items-start gap-3 cursor-pointer select-none">
+                            <div className="relative shrink-0 mt-0.5">
+                                <input
+                                    type="checkbox"
+                                    required
+                                    name="agree"
+                                    checked={formData.agree}
+                                    onChange={handleChange}
+                                    className="sr-only peer"
+                                />
+                                <div className="w-5 h-5 border-2 border-gray-300 rounded-md peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all bg-white shadow-xs">
+                                    {formData.agree && (
+                                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    )}
+                                </div>
+                            </div>
+                            <span className="text-sm text-gray-600">
+                                I understand that my order will be delivered by {firstName} personally and that payment is made directly to him upon delivery.
+                            </span>
+                        </label>
 
                         <button
                             type="submit"
