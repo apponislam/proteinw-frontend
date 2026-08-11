@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useGetOrdersByMemberQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
@@ -54,8 +54,20 @@ const OrdersTable = () => {
     const [statusFilter, setStatusFilter] = useState<string>("");
     const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
     const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const user = useAppSelector(currentUser);
     const role = user?.role;
+
+    const filterOptions = [
+        { value: "", label: "All Status", color: "bg-gray-400" },
+        { value: "pending", label: "Pending", color: "bg-yellow-500" },
+        { value: "confirmed", label: "Confirmed", color: "bg-green-500" },
+        { value: "shipped", label: "Shipped", color: "bg-blue-500" },
+        { value: "delivered", label: "Delivered", color: "bg-green-600" },
+        { value: "cancelled", label: "Cancelled", color: "bg-red-500" },
+    ];
+
+    const selectedFilterOption = filterOptions.find((opt) => opt.value === statusFilter) || filterOptions[0];
 
     const queryParams = {
         page,
@@ -105,22 +117,42 @@ const OrdersTable = () => {
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="text-[#78716C] text-sm font-medium">Filters:</div>
-                    <div className="flex items-center gap-3">
-                        <select
-                            value={statusFilter}
-                            onChange={(e) => {
-                                setStatusFilter(e.target.value);
-                                setPage(1);
-                            }}
-                            className="px-3 py-2 border border-[#F5F5F4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] bg-white cursor-pointer"
+                    <div className="relative">
+                        <button
+                            type="button"
+                            onClick={() => setIsFilterDropdownOpen((prev) => !prev)}
+                            className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                         >
-                            <option value="">All Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="shipped">Shipped</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="cancelled">Cancelled</option>
-                        </select>
+                            <span className={`w-2.5 h-2.5 rounded-full ${selectedFilterOption.color}`}></span>
+                            <span>{selectedFilterOption.label}</span>
+                            <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isFilterDropdownOpen ? "rotate-180" : ""}`} />
+                        </button>
+
+                        {isFilterDropdownOpen && (
+                            <>
+                                <div className="fixed inset-0 z-20" onClick={() => setIsFilterDropdownOpen(false)}></div>
+                                <div className="absolute right-0 mt-2 z-30 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                    {filterOptions.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            type="button"
+                                            onClick={() => {
+                                                setStatusFilter(opt.value);
+                                                setPage(1);
+                                                setIsFilterDropdownOpen(false);
+                                            }}
+                                            className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${statusFilter === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                        >
+                                            <div className="flex items-center gap-2.5">
+                                                <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
+                                                <span>{opt.label}</span>
+                                            </div>
+                                            {statusFilter === opt.value && <Check size={14} className="text-[#D97706]" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -159,7 +191,7 @@ const OrdersTable = () => {
                                     const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
 
                                     return (
-                                        <tr key={order._id || index} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
+                                        <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200 cursor-pointer">
                                             <td className="px-4 py-4">
                                                 <span className="text-[#D97706] font-bold">{orderIdStr}</span>
                                             </td>
