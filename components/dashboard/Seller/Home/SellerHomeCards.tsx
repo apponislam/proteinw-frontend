@@ -26,7 +26,7 @@ const SellerHomeCards = () => {
                         <div className="text-3xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">{stat.value}</div>
                     </div>
                     <div className="absolute bottom-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} />
+                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} style={{ width: "auto", height: "auto" }} />
                     </div>
                 </div>
             ))}

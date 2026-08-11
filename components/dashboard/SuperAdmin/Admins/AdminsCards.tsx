@@ -39,7 +39,7 @@ const AdminsCards = () => {
                         <div className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">{stat.subtitle}</div>
                     </div>
                     <div className="absolute bottom-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} />
+                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} style={{ width: "auto", height: "auto" }} />
                     </div>
                 </div>
             ))}
