@@ -13,7 +13,8 @@ const TierCard = ({ tier }: { tier: TTier }) => {
     const [editName, setEditName] = useState(tier.name);
     const [editPercentage, setEditPercentage] = useState(tier.percentage);
     const [editMin, setEditMin] = useState(tier.minSalesVolume);
-    const [editMax, setEditMax] = useState(tier.maxSalesVolume ?? "");
+    const [editMax, setEditMax] = useState<string | number>(tier.maxSalesVolume ?? "");
+    const [editIsPopular, setEditIsPopular] = useState(tier.isPopular || false);
 
     const handleSave = async () => {
         const toastId = toast.loading("Updating tier...");
@@ -25,12 +26,26 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                     percentage: editPercentage,
                     minSalesVolume: editMin,
                     maxSalesVolume: editMax !== "" ? Number(editMax) : undefined,
+                    isPopular: editIsPopular,
                 },
             }).unwrap();
             toast.success("Tier updated!", { id: toastId });
             setIsEditing(false);
         } catch (err: any) {
             toast.error(err?.data?.message || "Update failed", { id: toastId });
+        }
+    };
+
+    const handleTogglePopular = async () => {
+        const toastId = toast.loading(tier.isPopular ? "Removing Most Popular status..." : "Setting as Most Popular...");
+        try {
+            await updateTier({
+                tierId: tier._id!,
+                data: { isPopular: !tier.isPopular },
+            }).unwrap();
+            toast.success(tier.isPopular ? "Removed Most Popular status!" : "Marked as Most Popular!", { id: toastId });
+        } catch (err: any) {
+            toast.error(err?.data?.message || "Failed to update popularity", { id: toastId });
         }
     };
 
@@ -56,12 +71,12 @@ const TierCard = ({ tier }: { tier: TTier }) => {
     };
 
     return (
-        <div className={`relative bg-white rounded-2xl border p-6 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.05)] transition-all ${tier.isPopular ? "border-[#D97706]" : "border-[#E7E5E4]"} ${!tier.isActive ? "opacity-60" : ""}`}>
+        <div className={`relative bg-white rounded-2xl border p-6 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.05)] transition-all group ${tier.isPopular ? "border-[#D97706]" : "border-[#E7E5E4]"} ${!tier.isActive ? "opacity-60" : ""}`}>
             {tier.isPopular && (
                 <div className="absolute -top-3 left-6">
-                    <span className="inline-flex items-center gap-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                    <button onClick={handleTogglePopular} disabled={isUpdating} className="inline-flex items-center gap-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full cursor-pointer hover:scale-105 transition-transform" title="Click to toggle Most Popular status">
                         <Star size={10} fill="currentColor" /> Most Popular
-                    </span>
+                    </button>
                 </div>
             )}
 
@@ -83,19 +98,22 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                 <div className="flex items-center gap-1.5">
                     {isEditing ? (
                         <>
-                            <button onClick={handleSave} disabled={isUpdating} className="p-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 cursor-pointer disabled:opacity-50">
+                            <button onClick={handleSave} disabled={isUpdating} className="p-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 cursor-pointer disabled:opacity-50" title="Save">
                                 {isUpdating ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
                             </button>
-                            <button onClick={() => setIsEditing(false)} className="p-1.5 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <button onClick={() => setIsEditing(false)} className="p-1.5 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 cursor-pointer" title="Cancel">
                                 <X size={14} />
                             </button>
                         </>
                     ) : (
                         <>
+                            <button onClick={handleTogglePopular} disabled={isUpdating} className={`p-1.5 rounded-lg transition-colors cursor-pointer ${tier.isPopular ? "text-[#D97706] bg-amber-50 hover:bg-amber-100" : "text-gray-400 hover:text-[#D97706] hover:bg-amber-50"}`} title={tier.isPopular ? "Remove Most Popular tag" : "Set as Most Popular"}>
+                                <Star size={14} fill={tier.isPopular ? "currentColor" : "none"} />
+                            </button>
                             <button onClick={() => setIsEditing(true)} className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg cursor-pointer" title="Edit">
                                 <Pencil size={14} />
                             </button>
-                            <button onClick={handleToggle} disabled={isToggling} className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer disabled:opacity-50" title="Toggle">
+                            <button onClick={handleToggle} disabled={isToggling} className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer disabled:opacity-50" title="Toggle Active Status">
                                 {isToggling ? <Loader2 size={14} className="animate-spin" /> : tier.isActive ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
                             </button>
                             <button onClick={handleDelete} disabled={isDeleting} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer disabled:opacity-50" title="Delete">
@@ -122,16 +140,22 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                 <p className="text-xs text-[#78716C] mt-1">Profit margin</p>
             </div>
 
-            {/* Volume Range */}
+            {/* Volume Range & Edit Popular Toggle */}
             <div className="border-t border-[#F5F5F4] pt-4 space-y-2">
                 <div className="flex items-center justify-between">
                     <span className="text-xs text-[#78716C] font-semibold uppercase">Sales Volume Range</span>
                 </div>
                 {isEditing ? (
-                    <div className="flex items-center gap-2">
-                        <input type="number" value={editMin} onChange={(e) => setEditMin(Number(e.target.value))} className="w-24 text-xs px-2 py-1 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706]" placeholder="Min" />
-                        <ChevronRight size={14} className="text-[#78716C]" />
-                        <input type="number" value={editMax} onChange={(e) => setEditMax(e.target.value)} className="w-24 text-xs px-2 py-1 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706]" placeholder="Max (∞)" />
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                            <input type="number" value={editMin} onChange={(e) => setEditMin(Number(e.target.value))} className="w-24 text-xs px-2 py-1 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706]" placeholder="Min" />
+                            <ChevronRight size={14} className="text-[#78716C]" />
+                            <input type="number" value={editMax} onChange={(e) => setEditMax(e.target.value)} className="w-24 text-xs px-2 py-1 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706]" placeholder="Max (∞)" />
+                        </div>
+                        <label className="flex items-center gap-2 pt-1 cursor-pointer select-none">
+                            <input type="checkbox" checked={editIsPopular} onChange={(e) => setEditIsPopular(e.target.checked)} className="w-4 h-4 accent-[#D97706] cursor-pointer rounded" />
+                            <span className="text-xs font-bold text-[#1A1C1C]">Mark as Most Popular</span>
+                        </label>
                     </div>
                 ) : (
                     <div className="flex items-center gap-1.5 text-sm font-bold text-[#1A1C1C]">
