@@ -106,12 +106,12 @@ const ProfitRuleHead = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-semibold text-[#1A1C1C] mb-2">Min Sales (SEK)</label>
+                                    <label className="block text-sm font-semibold text-[#1A1C1C] mb-2">Min Sales (Items)</label>
                                     <input type="number" placeholder="0" {...register("minSalesVolume", { valueAsNumber: true })} className="w-full h-12 px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-sm" />
                                     {errors.minSalesVolume && <p className="text-red-500 text-xs mt-1">{errors.minSalesVolume.message}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-[#1A1C1C] mb-2">Max Sales (SEK)</label>
+                                    <label className="block text-sm font-semibold text-[#1A1C1C] mb-2">Max Sales (Items)</label>
                                     <input
                                         type="number"
                                         placeholder="Leave blank for unlimited"

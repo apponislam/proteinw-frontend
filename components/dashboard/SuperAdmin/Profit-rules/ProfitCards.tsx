@@ -159,9 +159,9 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                     </div>
                 ) : (
                     <div className="flex items-center gap-1.5 text-sm font-bold text-[#1A1C1C]">
-                        <span>SEK {tier.minSalesVolume.toLocaleString()}</span>
+                        <span>{tier.minSalesVolume.toLocaleString()} items</span>
                         <ChevronRight size={14} className="text-[#78716C]" />
-                        <span>{tier.maxSalesVolume ? `SEK ${tier.maxSalesVolume.toLocaleString()}` : "Unlimited ∞"}</span>
+                        <span>{tier.maxSalesVolume ? `${tier.maxSalesVolume.toLocaleString()} items` : "Unlimited ∞"}</span>
                     </div>
                 )}
             </div>
