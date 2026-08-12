@@ -1,20 +1,33 @@
 "use client";
 
 import React, { useState } from "react";
-import { useGetAdminsWithStatsQuery } from "../../../../redux/features/auth/authApi";
-
-const getStatusColor = (isActive: boolean) => {
-    return isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800";
-};
+import { useGetAdminsWithStatsQuery, useApproveAdminMutation } from "../../../../redux/features/auth/authApi";
+import { toast } from "sonner";
+import { CheckCircle, Loader2 } from "lucide-react";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
     const limit = 10;
+    const [approvingId, setApprovingId] = useState<string | null>(null);
 
     const { data: response, isLoading } = useGetAdminsWithStatsQuery({ page, limit });
+    const [approveAdmin] = useApproveAdminMutation();
 
     const admins = response?.data || [];
     const meta = response?.meta;
+
+    const handleApprove = async (adminId: string, adminName: string) => {
+        setApprovingId(adminId);
+        const toastId = toast.loading(`Approving admin ${adminName}...`);
+        try {
+            await approveAdmin(adminId).unwrap();
+            toast.success(`Admin ${adminName} approved successfully!`, { id: toastId });
+        } catch (err: any) {
+            toast.error(err?.data?.message || "Failed to approve admin", { id: toastId });
+        } finally {
+            setApprovingId(null);
+        }
+    };
 
     if (isLoading) {
         return <div className="mt-8 text-center text-[#78716C] py-10">Loading admins...</div>;
@@ -46,27 +59,47 @@ const AdminList = () => {
                                 </td>
                             </tr>
                         ) : (
-                            admins.map((admin) => (
-                                <tr key={admin._id} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
-                                    <td className="px-4 py-4">
-                                        <div>
-                                            <div className="text-[#1A1C1C] font-medium">{admin.name}</div>
-                                            <div className="text-[#78716C] text-sm">{admin.email}</div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-4">
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>{admin.groupName || "UNASSIGNED"}</span>
-                                    </td>
-                                    <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.sellerCount}</td>
-                                    <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.orderCount.toLocaleString()}</td>
-                                    <td className="px-4 py-4">
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(admin.isActive)}`}>{admin.isActive ? "Active" : "Disabled"}</span>
-                                    </td>
-                                    <td className="px-4 py-4">
-                                        <button className="text-[#D97706] hover:underline text-sm cursor-pointer">Edit</button>
-                                    </td>
-                                </tr>
-                            ))
+                            admins.map((admin) => {
+                                const isApproved = admin.isApproved !== undefined ? admin.isApproved : admin.isActive;
+                                const isThisApproving = approvingId === admin._id;
+
+                                return (
+                                    <tr key={admin._id} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
+                                        <td className="px-4 py-4">
+                                            <div>
+                                                <div className="text-[#1A1C1C] font-medium">{admin.name}</div>
+                                                <div className="text-[#78716C] text-sm">{admin.email}</div>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-4">
+                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>{admin.groupName || "UNASSIGNED"}</span>
+                                        </td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.sellerCount}</td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.orderCount.toLocaleString()}</td>
+                                        <td className="px-4 py-4">
+                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${isApproved ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}>
+                                                {isApproved ? "Active" : "Pending Approval"}
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-4">
+                                            {isApproved ? (
+                                                <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-md">
+                                                    <CheckCircle size={14} /> Approved
+                                                </span>
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleApprove(admin._id, admin.name)}
+                                                    disabled={approvingId !== null}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D97706] hover:bg-[#C06A06] text-white text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                                                >
+                                                    {isThisApproving ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={14} />}
+                                                    Approve Admin
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         )}
                     </tbody>
                 </table>

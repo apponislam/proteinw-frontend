@@ -26,6 +26,8 @@ export type TAdminStats = {
     name: string;
     email: string;
     isActive: boolean;
+    isApproved?: boolean;
+    approvedBy?: string;
     groupName: string | null;
     sellerCount: number;
     orderCount: number;
@@ -189,6 +191,15 @@ const authApi = baseApi.injectEndpoints({
                 body: adminInfo,
                 credentials: "include",
             }),
+            invalidatesTags: ["Admin"],
+        }),
+        approveAdmin: builder.mutation<{ message: string }, string>({
+            query: (adminId) => ({
+                url: `/auth/approve-admin/${adminId}`,
+                method: "PATCH",
+                credentials: "include",
+            }),
+            invalidatesTags: ["Admin"],
         }),
         getAdminsWithStats: builder.query<{ data: TAdminStats[]; meta: TAdminStatsMeta }, { page?: number; limit?: number } | void>({
             query: (params) => {
@@ -202,6 +213,7 @@ const authApi = baseApi.injectEndpoints({
                     credentials: "include",
                 };
             },
+            providesTags: ["Admin"],
         }),
         getGroupSellers: builder.query<{ data: TUser[] }, string>({
             query: (groupId) => ({
@@ -241,6 +253,7 @@ export const {
     useVerifyNewEmailQuery,
     useSetUserPasswordMutation,
     useCreateAdminMutation,
+    useApproveAdminMutation,
     useGetAdminsWithStatsQuery,
     useGetGroupSellersQuery,
     useGetReferralAndCampaignQuery,
