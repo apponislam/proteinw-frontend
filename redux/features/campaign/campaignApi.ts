@@ -43,6 +43,7 @@ export type TCampaign = {
     endDate: Date;
     code: string;
     groupId?: string;
+    tierId?: string;
     createdBy?: string | TCampaignCreatedBy;
     isActive: boolean;
     isDeleted: boolean;
@@ -230,6 +231,21 @@ const campaignApi = baseApi.injectEndpoints({
                 { type: "Campaign", id: campaignId },
             ],
         }),
+
+        assignTierToCampaign: builder.mutation<{ data: TCampaign }, { campaignId: string; tierId: string }>({
+            query: ({ campaignId, tierId }) => ({
+                url: `/campaigns/${campaignId}/assign-tier`,
+                method: "PATCH",
+                body: { tierId },
+                credentials: "include",
+            }),
+            invalidatesTags: (_, __, { campaignId }) => [
+                { type: "Campaign", id: "ADMIN_LIST" },
+                { type: "Campaign", id: "PUBLIC_LIST" },
+                { type: "Campaign", id: "GROUP_LIST" },
+                { type: "Campaign", id: campaignId },
+            ],
+        }),
     }),
 });
 
@@ -245,4 +261,5 @@ export const {
     useUpdateCampaignMutation,
     useToggleCampaignStatusMutation,
     useDeleteCampaignMutation,
+    useAssignTierToCampaignMutation,
 } = campaignApi;
