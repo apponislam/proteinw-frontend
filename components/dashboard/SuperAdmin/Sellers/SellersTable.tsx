@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetSuperAdminSellersQuery, TSellerListItem } from "@/redux/features/dashboard/dashboardApi";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, X } from "lucide-react";
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -214,8 +214,8 @@ const SellersTable = () => {
                                     <p className="text-sm text-[#78716C]">{selectedSeller.email}</p>
                                 </div>
                             </div>
-                            <button onClick={() => setSelectedSeller(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#78716C] hover:text-[#1C191C] transition-colors font-bold text-lg cursor-pointer">
-                                &times;
+                            <button onClick={() => setSelectedSeller(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#78716C] hover:text-[#1C191C] transition-colors cursor-pointer" title="Close">
+                                <X size={18} />
                             </button>
                         </div>
 

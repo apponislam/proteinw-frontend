@@ -17,7 +17,7 @@ const AdminsPage = () => {
                     <p className="text-[#78716C] mt-2 max-w-2xl">Manage system administrators, their functional boundaries, and monitor operational performance across the archive.</p>
                 </div>
                 <button
-                    className="inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
+                    className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
                     onClick={() => setIsModalOpen(true)}
                 >
                     <Plus size={18} />
