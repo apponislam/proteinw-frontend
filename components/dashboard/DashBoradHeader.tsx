@@ -22,7 +22,7 @@ const DashBoradHeader = () => {
         <>
             <div className="bg-white p-4 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)]">
                 <div className="flex items-center justify-between">
-                    <button onClick={toggleSidebar} className="flex items-center justify-center p-2 rounded-none bg-transparent text-[#78716C] hover:text-[#D97706] hover:bg-[#F5F5F4] transition-all duration-200">
+                    <button onClick={toggleSidebar} className="flex items-center justify-center p-2 rounded-none bg-transparent text-[#78716C] hover:text-[#D97706] hover:bg-[#F5F5F4] transition-all duration-200 cursor-pointer">
                         <Menu size={24} />
                     </button>
                     <div className="flex items-center gap-6">
@@ -35,15 +35,15 @@ const DashBoradHeader = () => {
                                 <div className="w-1 bg-[#F5F5F4] h-8"></div>
                             </>
                         )}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 cursor-pointer">
                             <div className="text-right">
                                 <h1 className="text-[#1A1C1C] font-bold text-sm">{user?.name || "Erik Sørensen"}</h1>
                                 <p className="text-[#A8A29E] text-xs font-semibold uppercase">{user?.role?.replace("_", " ") || "Super Admin"}</p>
                             </div>
                             {user?.profileImage ? (
-                                <Image src={user.profileImage} alt="avatar" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white shadow-[2px_8px_14px_0px_rgba(0,0,0,0.05)] object-cover" />
+                                <Image src={user.profileImage} alt="avatar" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white shadow-[2px_8px_14px_0px_rgba(0,0,0,0.05)] object-cover cursor-pointer" />
                             ) : (
-                                <div className="w-10 h-10 rounded-full bg-linear-to-r from-[#7C5800] to-[#FFB800] flex items-center justify-center text-white font-bold text-xs shadow-[2px_8px_14px_0px_rgba(0,0,0,0.05)]">{(user?.name || "A").charAt(0).toUpperCase()}</div>
+                                <div className="w-10 h-10 rounded-full bg-linear-to-r from-[#7C5800] to-[#FFB800] flex items-center justify-center text-white font-bold text-xs shadow-[2px_8px_14px_0px_rgba(0,0,0,0.05)] cursor-pointer">{(user?.name || "A").charAt(0).toUpperCase()}</div>
                             )}
                         </div>
                     </div>

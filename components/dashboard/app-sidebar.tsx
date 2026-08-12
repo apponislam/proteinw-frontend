@@ -61,10 +61,10 @@ export function AppSidebar() {
                                 return (
                                     <SidebarMenuItem
                                         key={item.title}
-                                        className={`relative px-5 py-2 transition-colors rounded-none before:absolute before:right-0 before:top-0 before:h-full before:w-1 before:bg-[#D97706] ${isActive ? "bg-[#F5F5F4] text-[#D97706] hover:text-[#D97706] before:block" : "text-[#78716C] hover:bg-[#F5F5F4] hover:text-[#D97706] before:hidden hover:before:block"}`}
+                                        className={`relative px-5 py-2 transition-colors rounded-none cursor-pointer before:absolute before:right-0 before:top-0 before:h-full before:w-1 before:bg-[#D97706] ${isActive ? "bg-[#F5F5F4] text-[#D97706] hover:text-[#D97706] before:block" : "text-[#78716C] hover:bg-[#F5F5F4] hover:text-[#D97706] before:hidden hover:before:block"}`}
                                     >
-                                        <SidebarMenuButton asChild isActive={isActive} className="bg-transparent! !hover:bg-transparent p-0!">
-                                            <Link href={item.url} className="flex items-center gap-2 text-inherit hover:text-inherit">
+                                        <SidebarMenuButton asChild isActive={isActive} className="bg-transparent! !hover:bg-transparent p-0! cursor-pointer">
+                                            <Link href={item.url} className="flex items-center gap-2 text-inherit hover:text-inherit cursor-pointer">
                                                 <item.icon className="text-inherit" />
                                                 <span className="text-inherit">{item.title}</span>
                                             </Link>

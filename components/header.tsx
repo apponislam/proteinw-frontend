@@ -88,12 +88,12 @@ export function Header() {
 
                     {/* Right Section - Auth Buttons */}
                     <div className="hidden md:flex items-center space-x-8">
-                        <Link href="/dashboard" title="Dashboard">
-                            <LayoutDashboard className="text-[#F59E0B] hover:scale-105 transition-transform" />
+                        <Link href="/dashboard" title="Dashboard" className="cursor-pointer">
+                            <LayoutDashboard className="text-[#F59E0B] hover:scale-105 transition-transform cursor-pointer" />
                         </Link>
                         {user ? (
                             <div className="relative avatar-dropdown-container">
-                                <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center focus:outline-none transition-all duration-200 hover:scale-105" aria-haspopup="true" aria-expanded={isDropdownOpen} title="User Menu">
+                                <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center focus:outline-none transition-all duration-200 hover:scale-105 cursor-pointer" aria-haspopup="true" aria-expanded={isDropdownOpen} title="User Menu">
                                     {user.profileImage ? (
                                         <Image src={user.profileImage} alt={user.name} width={36} height={36} className="w-9 h-9 rounded-full object-cover border border-[#F59E0B]" />
                                     ) : (
