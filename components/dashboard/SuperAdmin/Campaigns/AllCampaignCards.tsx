@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CampaignCard from "./CampaignCard";
 import { useGetAllCampaignsWithStatsQuery } from "../../../../redux/features/campaign/campaignApi";
 import { TrendingUp } from "lucide-react";
+import Pagination from "../../Pagination";
 
 const CampaignCardSkeleton = () => (
     <div className="bg-white p-6 rounded-lg border border-[#E7E5E4] animate-pulse">
@@ -32,16 +33,25 @@ const CampaignCardSkeleton = () => (
 
 const AllCampaignCards = () => {
     const [activeTab, setActiveTab] = useState<"all" | "active" | "inactive">("all");
-    const { data: response, isLoading, isFetching } = useGetAllCampaignsWithStatsQuery({ limit: 100 });
+    const [page, setPage] = useState<number>(1);
+    const limit = 9;
+
+    // Calculate isActive param based on tab filter
+    const isActiveParam = activeTab === "all" ? undefined : activeTab === "active";
+
+    const { data: response, isLoading, isFetching } = useGetAllCampaignsWithStatsQuery({
+        page,
+        limit,
+        isActive: isActiveParam,
+    });
 
     const campaigns = response?.data || [];
+    const meta = response?.meta;
 
-    const filteredCampaigns = campaigns.filter((campaign) => {
-        const isExpired = !campaign.isActive || new Date(campaign.endDate).getTime() < new Date().getTime();
-        if (activeTab === "all") return true;
-        if (activeTab === "active") return !isExpired;
-        return isExpired;
-    });
+    const handleTabChange = (tab: "all" | "active" | "inactive") => {
+        setActiveTab(tab);
+        setPage(1); // Reset to page 1 on tab change
+    };
 
     if (isLoading) {
         return (
@@ -72,20 +82,20 @@ const AllCampaignCards = () => {
                         <p className="text-[#78716C] text-sm mt-1">Managing ongoing regional fundraising initiatives</p>
                     </div>
                     <div className="flex items-center gap-3">
-                        <button onClick={() => setActiveTab("all")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "all" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button onClick={() => handleTabChange("all")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "all" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             All
                         </button>
-                        <button onClick={() => setActiveTab("active")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "active" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button onClick={() => handleTabChange("active")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "active" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Active
                         </button>
-                        <button onClick={() => setActiveTab("inactive")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "inactive" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button onClick={() => handleTabChange("inactive")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "inactive" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Inactive
                         </button>
                     </div>
                 </div>
             </div>
 
-            {filteredCampaigns.length === 0 ? (
+            {campaigns.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-[#E7E5E4] p-12 text-center">
                     <div className="h-12 w-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 text-[#D97706]">
                         <TrendingUp size={24} />
@@ -94,11 +104,18 @@ const AllCampaignCards = () => {
                     <p className="text-sm text-[#78716C]">There are no campaigns matching the current filter.</p>
                 </div>
             ) : (
-                <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isFetching ? "opacity-75 pointer-events-none" : ""}`}>
-                    {filteredCampaigns.map((campaign) => (
-                        <CampaignCard key={campaign._id} campaign={campaign} />
-                    ))}
-                </div>
+                <>
+                    <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isFetching ? "opacity-75 pointer-events-none" : ""}`}>
+                        {campaigns.map((campaign) => (
+                            <CampaignCard key={campaign._id} campaign={campaign} />
+                        ))}
+                    </div>
+
+                    {/* Pagination Component */}
+                    <div className="mt-8">
+                        <Pagination meta={meta} onPageChange={setPage} itemName="CAMPAIGNS" />
+                    </div>
+                </>
             )}
         </div>
     );
