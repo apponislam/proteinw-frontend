@@ -3,6 +3,7 @@ import { useGetAllProductsQuery, useToggleProductStatusMutation, useDeleteProduc
 import { toast } from "sonner";
 import { Pencil, Trash2, ChevronDown, Check } from "lucide-react";
 import Swal from "sweetalert2";
+import Pagination from "@/components/dashboard/Pagination";
 
 const campaignColors = ["bg-[#D97706]", "bg-[#7C3AED]", "bg-[#10B981]", "bg-[#3B82F6]"];
 
@@ -338,18 +339,8 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                 </table>
             </div>
 
-            <div className="flex items-center justify-between mt-6">
-                <div className="text-[#78716C] text-sm">
-                    SHOWING {start} TO {end} OF {total} PRODUCTS
-                </div>
-                <div className="flex items-center gap-2">
-                    {pageNumbers.map((page) => (
-                        <button key={page} onClick={() => setCurrentPage(page)} className={`cursor-pointer w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all ${page === currentPage ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            {page}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            {/* Pagination Component */}
+            <Pagination meta={data?.meta} onPageChange={setCurrentPage} itemName="PRODUCTS" />
         </div>
     );
 };

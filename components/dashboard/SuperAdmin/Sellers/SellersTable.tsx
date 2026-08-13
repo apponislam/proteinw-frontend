@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGetSuperAdminSellersQuery, TSellerListItem } from "@/redux/features/dashboard/dashboardApi";
 import { useGetAllOrdersQuery } from "@/redux/features/order/orderApi";
 import { Check, Copy, X } from "lucide-react";
+import Pagination from "@/components/dashboard/Pagination";
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -19,7 +20,7 @@ const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; camp
     const { data: response, isLoading } = useGetAllOrdersQuery({ memberId, campaignId, page, limit: 5 }, { skip: !memberId });
 
     const orders = response?.data || [];
-    const meta = response?.meta || { total: 0, totalPages: 0 };
+    const meta = response?.meta;
 
     if (isLoading) {
         return (
@@ -65,19 +66,8 @@ const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: string; camp
                 </table>
             </div>
 
-            {meta.totalPages > 1 && (
-                <div className="flex items-center justify-between mt-4">
-                    <button disabled={page === 1} onClick={() => setPage((p) => Math.max(p - 1, 1))} className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors">
-                        Previous
-                    </button>
-                    <span className="text-xs text-[#78716C]">
-                        Page {page} of {meta.totalPages}
-                    </span>
-                    <button disabled={page === meta.totalPages} onClick={() => setPage((p) => Math.min(p + 1, meta.totalPages))} className="px-3 py-1.5 bg-white border border-[#E7E5E4] rounded-lg text-xs font-medium hover:bg-[#F5F5F4] disabled:opacity-50 transition-colors">
-                        Next
-                    </button>
-                </div>
-            )}
+            {/* Pagination Component */}
+            <Pagination meta={meta} onPageChange={setPage} itemName="ORDERS" />
         </div>
     );
 };
@@ -186,20 +176,8 @@ const SellersTable = () => {
                 )}
             </div>
 
-            {!isLoading && meta.total > 0 && (
-                <div className="flex items-center justify-between mt-6">
-                    <div className="text-[#78716C] text-sm uppercase">
-                        SHOWING {startIdx} TO {endIdx} OF {meta.total} SELLERS
-                    </div>
-                    <div className="flex items-center gap-2">
-                        {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map((p) => (
-                            <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                                {p}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {/* Pagination Component */}
+            <Pagination meta={meta} onPageChange={setPage} itemName="SELLERS" />
 
             {/* View Modal */}
             {selectedSeller && (

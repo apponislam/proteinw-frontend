@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useGetSuperAdminGroupsStatsQuery } from "@/redux/features/dashboard/dashboardApi";
+import Pagination from "@/components/dashboard/Pagination";
 
 const getStatusColor = (status: boolean) => {
     return status ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800";
@@ -11,26 +12,7 @@ const GroupsTable = () => {
     const { data: response, isLoading } = useGetSuperAdminGroupsStatsQuery({ page, limit: 10 });
 
     const groupsData = response?.data || [];
-    const meta = response?.meta || {
-        page: 1,
-        limit: 10,
-        total: 0,
-        totalPages: 1,
-        hasNext: false,
-        hasPrev: false,
-    };
-
-    const handlePrevPage = () => {
-        if (meta.hasPrev) {
-            setPage((prev) => prev - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (meta.hasNext) {
-            setPage((prev) => prev + 1);
-        }
-    };
+    const meta = response?.meta;
 
     return (
         <div className="mt-8 bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
@@ -119,22 +101,8 @@ const GroupsTable = () => {
                 </table>
             </div>
 
-            <div className="flex items-center justify-between mt-6">
-                <div className="text-[#78716C] text-sm uppercase">
-                    Showing {groupsData.length > 0 ? (page - 1) * meta.limit + 1 : 0} to {Math.min(page * meta.limit, meta.total)} of {meta.total} groups
-                </div>
-                <div className="flex items-center gap-2">
-                    <button onClick={handlePrevPage} disabled={!meta.hasPrev || isLoading} className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
-                        Previous
-                    </button>
-                    <span className="text-sm text-[#78716C] font-medium px-2">
-                        Page {page} of {meta.totalPages || 1}
-                    </span>
-                    <button onClick={handleNextPage} disabled={!meta.hasNext || isLoading} className="px-4 py-2 border border-[#E7E5E4] rounded-lg text-sm font-medium text-[#78716C] hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
-                        Next
-                    </button>
-                </div>
-            </div>
+            {/* Pagination Component */}
+            <Pagination meta={meta} onPageChange={setPage} itemName="GROUPS" />
         </div>
     );
 };

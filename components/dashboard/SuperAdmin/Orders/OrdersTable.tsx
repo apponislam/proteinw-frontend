@@ -7,6 +7,7 @@ import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useGetOrdersByM
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
+import Pagination from "@/components/dashboard/Pagination";
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -32,21 +33,6 @@ const getInitials = (name: string) => {
         .join("")
         .slice(0, 2)
         .toUpperCase();
-};
-
-const getPaginationRange = (currentPage: number, totalPages: number) => {
-    const delta = 2;
-    const range: (number | string)[] = [];
-
-    for (let i = 1; i <= totalPages; i++) {
-        if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
-            range.push(i);
-        } else if (range[range.length - 1] !== "...") {
-            range.push("...");
-        }
-    }
-
-    return range;
 };
 
 const OrdersTable = () => {
@@ -223,47 +209,8 @@ const OrdersTable = () => {
                         </table>
                     </div>
 
-                    <div className="flex items-center justify-between mt-6">
-                        <div className="text-[#78716C] text-sm uppercase">
-                            SHOWING {pagination.total > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} TO {Math.min(pagination.page * pagination.limit, pagination.total)} OF {pagination.total} ORDERS
-                        </div>
-                        {pagination.totalPages > 1 && (
-                            <div className="flex items-center gap-2">
-                                <button
-                                    disabled={page === 1}
-                                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
-                                >
-                                    Prev
-                                </button>
-                                {getPaginationRange(page, pagination.totalPages).map((p, idx) => {
-                                    if (p === "...") {
-                                        return (
-                                            <span key={`ellipsis-${idx}`} className="w-10 h-10 flex items-center justify-center text-[#78716C] text-sm font-semibold">
-                                                ...
-                                            </span>
-                                        );
-                                    }
-                                    return (
-                                        <button
-                                            key={`page-${p}`}
-                                            onClick={() => setPage(p as number)}
-                                            className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === page ? "bg-[#D97706] text-white font-bold" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
-                                        >
-                                            {p}
-                                        </button>
-                                    );
-                                })}
-                                <button
-                                    disabled={page === pagination.totalPages}
-                                    onClick={() => setPage((p) => Math.min(p + 1, pagination.totalPages))}
-                                    className="px-3 h-10 rounded-lg flex items-center justify-center text-sm font-medium border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-50 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
-                                >
-                                    Next
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                    {/* Pagination Component */}
+                    <Pagination meta={pagination} onPageChange={setPage} itemName="ORDERS" />
                 </>
             )}
 
