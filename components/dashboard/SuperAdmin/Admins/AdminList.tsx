@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { CheckCircle, Loader2, Edit3, KeyRound } from "lucide-react";
 import AdminEditModal from "./AdminEditModal";
 import AdminChangePasswordModal from "./AdminChangePasswordModal";
+import Pagination from "../../Pagination";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
@@ -145,20 +146,8 @@ const AdminList = () => {
                 </table>
             </div>
 
-            {meta && meta.total > 0 && (
-                <div className="flex items-center justify-between mt-6">
-                    <div className="text-[#78716C] text-sm">
-                        SHOWING {(meta.page - 1) * meta.limit + 1} TO {Math.min(meta.page * meta.limit, meta.total)} OF {meta.total} ADMINS
-                    </div>
-                    <div className="flex items-center gap-2">
-                        {Array.from({ length: meta.totalPages }, (_, i) => i + 1).map((p) => (
-                            <button key={p} onClick={() => setPage(p)} className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-all cursor-pointer ${p === meta.page ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                                {p}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {/* Pagination Component */}
+            <Pagination meta={meta} onPageChange={setPage} itemName="ADMINS" />
 
             {/* Edit Admin Modal */}
             <AdminEditModal
