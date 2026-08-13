@@ -1,0 +1,139 @@
+"use client";
+
+import React from "react";
+import { X, User, Phone, Mail, MapPin, Target, Briefcase, Calendar, ShieldCheck, Group } from "lucide-react";
+import { TAdminStats, useGetUserByIdQuery } from "@/redux/features/auth/authApi";
+
+interface AdminViewModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    admin: TAdminStats | null;
+}
+
+const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin }) => {
+    const adminId = admin?._id || "";
+    const { data: response, isLoading } = useGetUserByIdQuery(adminId, { skip: !isOpen || !adminId });
+
+    if (!isOpen || !admin) return null;
+
+    const userDetails = (response as any)?.data?.data || (response as any)?.data || response;
+    const user = userDetails || admin;
+    const address = (userDetails as any)?.address;
+
+    return (
+        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
+            <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-5 right-5 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+                >
+                    <X size={20} />
+                </button>
+
+                {/* Header Profile Badge */}
+                <div className="flex items-center gap-4 border-b border-[#F5F5F4] pb-6 mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#7C5800] to-[#D97706] text-white font-bold text-xl flex items-center justify-center shadow-md uppercase">
+                        {(admin.name || "A").slice(0, 2)}
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-[#1A1C1C]">{admin.name}</h2>
+                        <div className="flex items-center gap-2 mt-1">
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">
+                                ADMIN
+                            </span>
+                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved || admin.isActive ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>
+                                {admin.isApproved || admin.isActive ? "Approved" : "Pending Approval"}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {isLoading ? (
+                    <div className="py-12 text-center text-[#78716C]">Loading admin details...</div>
+                ) : (
+                    <div className="space-y-5">
+                        {/* Basic Info */}
+                        <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
+                            <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Account Overview</h3>
+                            
+                            <div className="flex items-center gap-3 text-sm">
+                                <Mail size={16} className="text-[#D97706]" />
+                                <span className="text-[#78716C] w-24">Email:</span>
+                                <span className="font-semibold text-[#1A1C1C]">{user.email || "N/A"}</span>
+                            </div>
+
+                            <div className="flex items-center gap-3 text-sm">
+                                <Phone size={16} className="text-[#D97706]" />
+                                <span className="text-[#78716C] w-24">Phone:</span>
+                                <span className="font-semibold text-[#1A1C1C]">{user.phone || "N/A"}</span>
+                            </div>
+
+                            <div className="flex items-center gap-3 text-sm">
+                                <Briefcase size={16} className="text-[#D97706]" />
+                                <span className="text-[#78716C] w-24">Profession:</span>
+                                <span className="font-semibold text-[#1A1C1C]">{user.profession || "N/A"}</span>
+                            </div>
+
+                            {user.goal !== undefined && (
+                                <div className="flex items-center gap-3 text-sm">
+                                    <Target size={16} className="text-[#D97706]" />
+                                    <span className="text-[#78716C] w-24">Sales Goal:</span>
+                                    <span className="font-semibold text-[#1A1C1C]">{user.goal.toLocaleString()} SEK</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Assigned Group & Stats */}
+                        <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
+                            <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Performance & Assignment</h3>
+
+                            <div className="flex items-center gap-3 text-sm">
+                                <Group size={16} className="text-[#D97706]" />
+                                <span className="text-[#78716C] w-24">Group:</span>
+                                <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>
+                                    {admin.groupName || "UNASSIGNED"}
+                                </span>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 pt-2">
+                                <div className="bg-white p-3 rounded-lg border border-[#E7E5E4] text-center">
+                                    <div className="text-xl font-bold text-[#1A1C1C]">{admin.sellerCount}</div>
+                                    <div className="text-xs text-[#78716C] uppercase font-medium">Sellers</div>
+                                </div>
+                                <div className="bg-white p-3 rounded-lg border border-[#E7E5E4] text-center">
+                                    <div className="text-xl font-bold text-[#1A1C1C]">{admin.orderCount.toLocaleString()}</div>
+                                    <div className="text-xs text-[#78716C] uppercase font-medium">Orders</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Address Details */}
+                        {address && (
+                            <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-2 border border-[#E7E5E4]">
+                                <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                    <MapPin size={14} className="text-[#D97706]" /> Address Info
+                                </h3>
+                                <p className="text-sm text-[#1A1C1C] font-medium">
+                                    {[address.street, address.city, address.state, address.zipCode, address.country].filter(Boolean).join(", ") || "No address provided."}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Footer Close Button */}
+                <div className="mt-6 pt-4 border-t border-[#F5F5F4] flex justify-end">
+                    <button
+                        onClick={onClose}
+                        className="px-5 py-2 bg-[#D97706] hover:bg-[#C06A06] text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default AdminViewModal;

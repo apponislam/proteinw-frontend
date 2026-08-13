@@ -64,7 +64,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
             setZipCode(addr.zipCode || "");
             setCountry(addr.country || "");
         }
-    }, [userData, admin]);
+    }, [userData, admin, isOpen]);
 
     // Close custom dropdown when clicking outside
     useEffect(() => {
@@ -164,9 +164,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                         className="w-full h-11 px-3 border border-[#F5F5F4] rounded-md text-sm bg-white text-[#1A1C1C] flex items-center justify-between hover:border-[#D97706] focus:outline-none focus:border-[#D97706] transition-colors cursor-pointer"
                                     >
-                                        <span className={selectedProfessionLabel ? "text-[#1A1C1C]" : "text-[#78716C]"}>
-                                            {selectedProfessionLabel || "Select Profession"}
-                                        </span>
+                                        <span className={selectedProfessionLabel ? "text-[#1A1C1C]" : "text-[#78716C]"}>{selectedProfessionLabel || "Select Profession"}</span>
                                         <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
 
@@ -182,9 +180,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                                                             setProfession(p.value);
                                                             setIsDropdownOpen(false);
                                                         }}
-                                                        className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between cursor-pointer transition-colors ${
-                                                            isSelected ? "bg-amber-50 text-[#D97706] font-semibold" : "text-[#1A1C1C] hover:bg-[#FAFAF9]"
-                                                        }`}
+                                                        className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between cursor-pointer transition-colors ${isSelected ? "bg-amber-50 text-[#D97706] font-semibold" : "text-[#1A1C1C] hover:bg-[#FAFAF9]"}`}
                                                     >
                                                         <span>{p.label}</span>
                                                         {isSelected && <Check size={16} className="text-[#D97706]" />}

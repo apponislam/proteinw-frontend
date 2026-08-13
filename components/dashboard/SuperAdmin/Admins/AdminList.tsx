@@ -3,9 +3,10 @@
 import React, { useState } from "react";
 import { useGetAdminsWithStatsQuery, useApproveAdminMutation, TAdminStats } from "../../../../redux/features/auth/authApi";
 import { toast } from "sonner";
-import { CheckCircle, Loader2, Edit3, KeyRound } from "lucide-react";
+import { CheckCircle, Loader2, Edit3, KeyRound, Eye } from "lucide-react";
 import AdminEditModal from "./AdminEditModal";
 import AdminChangePasswordModal from "./AdminChangePasswordModal";
+import AdminViewModal from "./AdminViewModal";
 import Pagination from "../../Pagination";
 
 const AdminList = () => {
@@ -15,6 +16,7 @@ const AdminList = () => {
 
     // Modal states
     const [selectedAdmin, setSelectedAdmin] = useState<TAdminStats | null>(null);
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
 
@@ -35,6 +37,16 @@ const AdminList = () => {
         } finally {
             setApprovingId(null);
         }
+    };
+
+    const handleOpenViewModal = (admin: TAdminStats) => {
+        setSelectedAdmin(admin);
+        setIsViewModalOpen(true);
+    };
+
+    const handleCloseViewModal = () => {
+        setIsViewModalOpen(false);
+        setSelectedAdmin(null);
     };
 
     const handleOpenEditModal = (admin: TAdminStats) => {
@@ -123,6 +135,13 @@ const AdminList = () => {
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-2">
                                                 <button
+                                                    onClick={() => handleOpenViewModal(admin)}
+                                                    className="p-1.5 rounded-lg bg-amber-50 text-[#D97706] hover:bg-[#D97706] hover:text-white transition-colors cursor-pointer"
+                                                    title="View Admin Details"
+                                                >
+                                                    <Eye size={16} />
+                                                </button>
+                                                <button
                                                     onClick={() => handleOpenEditModal(admin)}
                                                     className="p-1.5 rounded-lg bg-amber-50 text-[#D97706] hover:bg-[#D97706] hover:text-white transition-colors cursor-pointer"
                                                     title="Edit Admin"
@@ -148,6 +167,13 @@ const AdminList = () => {
 
             {/* Pagination Component */}
             <Pagination meta={meta} onPageChange={setPage} itemName="ADMINS" />
+
+            {/* View Admin Modal */}
+            <AdminViewModal
+                isOpen={isViewModalOpen}
+                onClose={handleCloseViewModal}
+                admin={selectedAdmin}
+            />
 
             {/* Edit Admin Modal */}
             <AdminEditModal
