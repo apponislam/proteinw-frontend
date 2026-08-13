@@ -203,12 +203,20 @@ const authApi = baseApi.injectEndpoints({
         }),
         updateUserBySuperAdmin: builder.mutation<{ data: TUser }, { userId: string; body: FormData | Record<string, any> }>({
             query: ({ userId, body }) => ({
-                url: `/users/${userId}`,
+                url: `/auth/users/${userId}`,
                 method: "PATCH",
                 body,
                 credentials: "include",
             }),
             invalidatesTags: ["Admin", "User"],
+        }),
+        getUserById: builder.query<{ data: TUser }, string>({
+            query: (userId) => ({
+                url: `/auth/users/${userId}`,
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: (result, error, userId) => [{ type: "User", id: userId }],
         }),
         getAdminsWithStats: builder.query<{ data: TAdminStats[]; meta: TAdminStatsMeta }, { page?: number; limit?: number } | void>({
             query: (params) => {
@@ -264,6 +272,7 @@ export const {
     useCreateAdminMutation,
     useApproveAdminMutation,
     useUpdateUserBySuperAdminMutation,
+    useGetUserByIdQuery,
     useGetAdminsWithStatsQuery,
     useGetGroupSellersQuery,
     useGetReferralAndCampaignQuery,
