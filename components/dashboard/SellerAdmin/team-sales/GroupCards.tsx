@@ -7,6 +7,7 @@ import { useGetMyGroupQuery } from "@/redux/features/group/groupApi";
 import { useGetRunningCampaignStatsQuery } from "@/redux/features/order/orderApi";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
+import { Plus } from "lucide-react";
 
 const GroupCards = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,17 +62,18 @@ const GroupCards = () => {
                     <div className="col-span-full bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">You are not assigned to any group yet. Click below to start a new group!</div>
                 )}
 
-                {!group && (
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group flex flex-col justify-center items-center text-center min-h-62.5"
-                    >
-                        <div className="relative z-10">
-                            <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300 mb-2">Start New Group</h3>
-                            <p className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Add your next class or team</p>
+                <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group flex flex-col justify-center items-center text-center min-h-62.5 cursor-pointer"
+                >
+                    <div className="relative z-10 flex flex-col items-center">
+                        <div className="w-12 h-12 rounded-full bg-amber-50 group-hover:bg-white text-[#D97706] flex items-center justify-center mb-3 transition-colors duration-300 shadow-xs">
+                            <Plus size={24} />
                         </div>
-                    </button>
-                )}
+                        <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300 mb-1">Start New Group</h3>
+                        <p className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Add your next class or team</p>
+                    </div>
+                </button>
             </div>
 
             <CreateGroupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
