@@ -3,17 +3,19 @@
 import React, { useState } from "react";
 import { useGetAdminsWithStatsQuery, useApproveAdminMutation, TAdminStats } from "../../../../redux/features/auth/authApi";
 import { toast } from "sonner";
-import { CheckCircle, Loader2, Edit3 } from "lucide-react";
+import { CheckCircle, Loader2, Edit3, KeyRound } from "lucide-react";
 import AdminEditModal from "./AdminEditModal";
+import AdminChangePasswordModal from "./AdminChangePasswordModal";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
     const limit = 10;
     const [approvingId, setApprovingId] = useState<string | null>(null);
 
-    // Edit modal states
+    // Modal states
     const [selectedAdmin, setSelectedAdmin] = useState<TAdminStats | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
 
     const { data: response, isLoading } = useGetAdminsWithStatsQuery({ page, limit });
     const [approveAdmin] = useApproveAdminMutation();
@@ -41,6 +43,16 @@ const AdminList = () => {
 
     const handleCloseEditModal = () => {
         setIsEditModalOpen(false);
+        setSelectedAdmin(null);
+    };
+
+    const handleOpenChangePasswordModal = (admin: TAdminStats) => {
+        setSelectedAdmin(admin);
+        setIsChangePasswordModalOpen(true);
+    };
+
+    const handleCloseChangePasswordModal = () => {
+        setIsChangePasswordModalOpen(false);
         setSelectedAdmin(null);
     };
 
@@ -75,7 +87,7 @@ const AdminList = () => {
                             </tr>
                         ) : (
                             admins.map((admin) => {
-                                const isApproved = admin.isApproved !== undefined ? admin.isApproved : admin.isActive;
+                                const isApproved = admin.isApproved === true || (admin.isApproved === undefined && admin.isActive);
                                 const isThisApproving = approvingId === admin._id;
 
                                 return (
@@ -92,32 +104,36 @@ const AdminList = () => {
                                         <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.sellerCount}</td>
                                         <td className="px-4 py-4 text-[#1A1C1C] font-medium">{admin.orderCount.toLocaleString()}</td>
                                         <td className="px-4 py-4">
-                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${isApproved ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}>
-                                                {isApproved ? "Active" : "Pending Approval"}
-                                            </span>
+                                            {isApproved ? (
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                                    <CheckCircle size={14} /> Approved
+                                                </span>
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleApprove(admin._id, admin.name)}
+                                                    disabled={isThisApproving}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D97706] hover:bg-[#C06A06] text-white text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                                                >
+                                                    {isThisApproving ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={14} />}
+                                                    Approve Admin
+                                                </button>
+                                            )}
                                         </td>
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-2">
-                                                {isApproved ? (
-                                                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-md">
-                                                        <CheckCircle size={14} /> Approved
-                                                    </span>
-                                                ) : (
-                                                    <button
-                                                        onClick={() => handleApprove(admin._id, admin.name)}
-                                                        disabled={isThisApproving}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D97706] hover:bg-[#C06A06] text-white text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer disabled:opacity-50"
-                                                    >
-                                                        {isThisApproving ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={14} />}
-                                                        Approve Admin
-                                                    </button>
-                                                )}
                                                 <button
                                                     onClick={() => handleOpenEditModal(admin)}
                                                     className="p-1.5 rounded-lg bg-amber-50 text-[#D97706] hover:bg-[#D97706] hover:text-white transition-colors cursor-pointer"
                                                     title="Edit Admin"
                                                 >
                                                     <Edit3 size={16} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleOpenChangePasswordModal(admin)}
+                                                    className="p-1.5 rounded-lg bg-amber-50 text-[#D97706] hover:bg-[#D97706] hover:text-white transition-colors cursor-pointer"
+                                                    title="Change Password"
+                                                >
+                                                    <KeyRound size={16} />
                                                 </button>
                                             </div>
                                         </td>
@@ -148,6 +164,13 @@ const AdminList = () => {
             <AdminEditModal
                 isOpen={isEditModalOpen}
                 onClose={handleCloseEditModal}
+                admin={selectedAdmin}
+            />
+
+            {/* Change Password Modal */}
+            <AdminChangePasswordModal
+                isOpen={isChangePasswordModalOpen}
+                onClose={handleCloseChangePasswordModal}
                 admin={selectedAdmin}
             />
         </div>
