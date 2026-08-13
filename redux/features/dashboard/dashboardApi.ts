@@ -260,6 +260,21 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             transformResponse: (response: { data: TStoreInfo }) => response.data,
         }),
+        getSuperAdminAdminsStats: builder.query<{
+            data: {
+                totalAdmins: number;
+                approvedAdmins: number;
+                unapprovedAdmins: number;
+                unassignedGroupAdmins: number;
+            };
+        }, void>({
+            query: () => ({
+                url: "/dashboard/superadmin-admins-stats",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: ["Admin"],
+        }),
     }),
 });
 
@@ -274,4 +289,5 @@ export const {
     useGetActivitiesQuery,
     useLazyGetActivitiesQuery,
     useGetStoreInfoQuery,
+    useGetSuperAdminAdminsStatsQuery,
 } = dashboardApi;

@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { useGetSuperAdminAdminsStatsQuery } from "../../../../redux/features/dashboard/dashboardApi";
 
+/* PREVIOUS STATIC CODE (COMMENTED OUT):
 const adminStats = [
     {
         title: "ACTIVE ADMINS",
@@ -27,11 +31,48 @@ const adminStats = [
         color: "#D97706",
     },
 ];
+*/
 
 const AdminsCards = () => {
+    const { data: response, isLoading } = useGetSuperAdminAdminsStatsQuery();
+    const stats = response?.data;
+
+    const cardsData = [
+        {
+            title: "TOTAL ADMINS",
+            value: stats ? stats.totalAdmins : "--",
+            subtitle: "All system controllers",
+        },
+        {
+            title: "APPROVED ADMINS",
+            value: stats ? stats.approvedAdmins : "--",
+            subtitle: "Active & approved",
+        },
+        {
+            title: "UNAPPROVED ADMINS",
+            value: stats ? stats.unapprovedAdmins : "--",
+            subtitle: "Pending super admin approval",
+        },
+        {
+            title: "UNASSIGNED GROUP ADMINS",
+            value: stats ? stats.unassignedGroupAdmins : "--",
+            subtitle: "No group assigned yet",
+        },
+    ];
+
+    if (isLoading) {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] animate-pulse h-32" />
+                ))}
+            </div>
+        );
+    }
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {adminStats.map((stat, index) => (
+            {cardsData.map((stat, index) => (
                 <div key={index} className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group cursor-pointer">
                     <div className="relative z-10">
                         <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider mb-2 group-hover:text-[#271900] transition-colors duration-300">{stat.title}</div>
