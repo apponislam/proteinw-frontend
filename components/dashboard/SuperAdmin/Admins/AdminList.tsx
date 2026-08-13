@@ -1,14 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { useGetAdminsWithStatsQuery, useApproveAdminMutation } from "../../../../redux/features/auth/authApi";
+import { useGetAdminsWithStatsQuery, useApproveAdminMutation, TAdminStats } from "../../../../redux/features/auth/authApi";
 import { toast } from "sonner";
-import { CheckCircle, Loader2 } from "lucide-react";
+import { CheckCircle, Loader2, Edit3 } from "lucide-react";
+import AdminEditModal from "./AdminEditModal";
 
 const AdminList = () => {
     const [page, setPage] = useState(1);
     const limit = 10;
     const [approvingId, setApprovingId] = useState<string | null>(null);
+
+    // Edit modal states
+    const [selectedAdmin, setSelectedAdmin] = useState<TAdminStats | null>(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const { data: response, isLoading } = useGetAdminsWithStatsQuery({ page, limit });
     const [approveAdmin] = useApproveAdminMutation();
@@ -27,6 +32,16 @@ const AdminList = () => {
         } finally {
             setApprovingId(null);
         }
+    };
+
+    const handleOpenEditModal = (admin: TAdminStats) => {
+        setSelectedAdmin(admin);
+        setIsEditModalOpen(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setIsEditModalOpen(false);
+        setSelectedAdmin(null);
     };
 
     if (isLoading) {
@@ -82,20 +97,29 @@ const AdminList = () => {
                                             </span>
                                         </td>
                                         <td className="px-4 py-4">
-                                            {isApproved ? (
-                                                <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-md">
-                                                    <CheckCircle size={14} /> Approved
-                                                </span>
-                                            ) : (
+                                            <div className="flex items-center gap-2">
+                                                {isApproved ? (
+                                                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-md">
+                                                        <CheckCircle size={14} /> Approved
+                                                    </span>
+                                                ) : (
+                                                    <button
+                                                        onClick={() => handleApprove(admin._id, admin.name)}
+                                                        disabled={isThisApproving}
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D97706] hover:bg-[#C06A06] text-white text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                                                    >
+                                                        {isThisApproving ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={14} />}
+                                                        Approve Admin
+                                                    </button>
+                                                )}
                                                 <button
-                                                    onClick={() => handleApprove(admin._id, admin.name)}
-                                                    disabled={approvingId !== null}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D97706] hover:bg-[#C06A06] text-white text-xs font-bold rounded-lg shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                                                    onClick={() => handleOpenEditModal(admin)}
+                                                    className="p-1.5 rounded-lg bg-amber-50 text-[#D97706] hover:bg-[#D97706] hover:text-white transition-colors cursor-pointer"
+                                                    title="Edit Admin"
                                                 >
-                                                    {isThisApproving ? <Loader2 size={12} className="animate-spin" /> : <CheckCircle size={14} />}
-                                                    Approve Admin
+                                                    <Edit3 size={16} />
                                                 </button>
-                                            )}
+                                            </div>
                                         </td>
                                     </tr>
                                 );
@@ -119,6 +143,13 @@ const AdminList = () => {
                     </div>
                 </div>
             )}
+
+            {/* Edit Admin Modal */}
+            <AdminEditModal
+                isOpen={isEditModalOpen}
+                onClose={handleCloseEditModal}
+                admin={selectedAdmin}
+            />
         </div>
     );
 };
