@@ -33,6 +33,8 @@ export type TProductResponse = {
 export type TProductStats = {
     total: number;
     active: number;
+    assigned: number;
+    unassigned: number;
 };
 
 const productApi = baseApi.injectEndpoints({
