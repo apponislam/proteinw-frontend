@@ -103,8 +103,8 @@ const RegisterSellerForm = () => {
                         Kungsbörnen
                     </Link>
                     <div className="flex gap-4 items-center">
-                        <Link href={loginUrl} className="text-gray-700 font-medium hover:text-amber-600 transition">
-                            Sign In
+                        <Link href={loginUrl} className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-[#7C5800] border border-amber-200 hover:bg-amber-100 rounded-full font-bold text-sm transition-all shadow-xs">
+                            <span>Sign In</span>
                         </Link>
                     </div>
                 </div>

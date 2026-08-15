@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ const memberLoginSchema = z.object({
 
 type MemberLoginFormValues = z.infer<typeof memberLoginSchema>;
 
-const LoginMemberClient = () => {
+const LoginMemberForm = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const searchParams = useSearchParams();
@@ -83,8 +83,8 @@ const LoginMemberClient = () => {
                         Kungsbörnen
                     </Link>
                     <div className="flex gap-4 items-center">
-                        <Link href={registerUrl} className="text-gray-700 font-medium hover:text-amber-600 transition">
-                            Sign Up
+                        <Link href={registerUrl} className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-[#7C5800] border border-amber-200 hover:bg-amber-100 rounded-full font-bold text-sm transition-all shadow-xs">
+                            <span>Register</span>
                         </Link>
                     </div>
                 </div>
@@ -183,6 +183,14 @@ const LoginMemberClient = () => {
                 </div>
             </main>
         </div>
+    );
+};
+
+const LoginMemberClient = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading login...</div>}>
+            <LoginMemberForm />
+        </Suspense>
     );
 };
 

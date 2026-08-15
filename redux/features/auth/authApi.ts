@@ -286,4 +286,3 @@ export const {
     useGetGroupSellersQuery,
     useGetReferralAndCampaignQuery,
 } = authApi;
-

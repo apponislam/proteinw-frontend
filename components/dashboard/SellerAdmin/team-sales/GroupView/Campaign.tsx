@@ -239,7 +239,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                     {!showCreateForm ? (
                         <div
                             onClick={() => setShowCreateForm(true)}
-                            className="bg-amber-50/50 hover:bg-amber-50 border-2 border-dashed border-[#FFB800]/60 hover:border-[#D97706] rounded-2xl p-6 flex flex-col items-center justify-center text-center min-h-[280px] cursor-pointer transition-all duration-300 group shadow-[0px_0px_20px_0px_rgba(0,0,0,0.02)]"
+                            className="bg-amber-50/50 hover:bg-amber-50 border-2 border-dashed border-[#FFB800]/60 hover:border-[#D97706] rounded-2xl p-6 flex flex-col items-center justify-center text-center min-h-70 cursor-pointer transition-all duration-300 group shadow-[0px_0px_20px_0px_rgba(0,0,0,0.02)]"
                         >
                             <div className="w-14 h-14 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <Plus size={28} />
