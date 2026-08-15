@@ -47,7 +47,7 @@ export default function Campaign({ groupId }: CampaignProps) {
         resolver: zodResolver(campaignFormSchema),
     });
     const campaigns: TCampaign[] = campaignResponse?.data || [];
-    console.log("campaigns", campaigns);
+    // console.log("campaigns", campaigns);
 
     const handleSaveEdit = async (campaign: TCampaign) => {
         if (!campaign._id) return;

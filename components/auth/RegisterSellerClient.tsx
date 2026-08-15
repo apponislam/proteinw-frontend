@@ -7,8 +7,9 @@ import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterSellerMutation } from "@/redux/features/auth/authApi";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/features/auth/authSlice";
+import { useJoinGroupByInvitationCodeMutation } from "@/redux/features/sellerGroup/sellerGroupApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, currentToken } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -28,6 +29,8 @@ const RegisterSellerForm = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const searchParams = useSearchParams();
+    const token = useSelector(currentToken);
+
     const emailFromQuery = searchParams.get("email") || "";
     const codeFromQuery = searchParams.get("code") || "";
 
@@ -37,8 +40,31 @@ const RegisterSellerForm = () => {
     }).toString()}`;
 
     const [registerSeller, { isLoading }] = useRegisterSellerMutation();
+    const [joinGroupByInvitationCode] = useJoinGroupByInvitationCodeMutation();
 
     const codeParam = searchParams.get("code") || codeFromQuery;
+
+    // If user is ALREADY logged in and visits invitation link with code, automatically join group & redirect
+    useEffect(() => {
+        if (!token) return;
+
+        if (codeParam) {
+            const handleAutoJoin = async () => {
+                const toastId = toast.loading("Joining group with invitation code...");
+                try {
+                    await joinGroupByInvitationCode({ code: codeParam }).unwrap();
+                    toast.success("Successfully joined the group!", { id: toastId });
+                } catch (err: any) {
+                    toast.error(err?.data?.message || "Failed to join group with code.", { id: toastId });
+                } finally {
+                    router.push("/dashboard");
+                }
+            };
+            handleAutoJoin();
+        } else {
+            router.push("/dashboard");
+        }
+    }, [token, codeParam, joinGroupByInvitationCode, router]);
 
     const {
         control,

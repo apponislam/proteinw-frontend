@@ -7,8 +7,9 @@ import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginWithInvitationCodeMutation } from "@/redux/features/auth/authApi";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/features/auth/authSlice";
+import { useJoinGroupByInvitationCodeMutation } from "@/redux/features/sellerGroup/sellerGroupApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, currentToken } from "@/redux/features/auth/authSlice";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,11 +26,35 @@ const LoginMemberForm = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const searchParams = useSearchParams();
+    const token = useSelector(currentToken);
 
     const emailFromQuery = searchParams.get("email") || "";
     const codeFromQuery = searchParams.get("code") || "";
 
     const [loginWithInvitationCode, { isLoading }] = useLoginWithInvitationCodeMutation();
+    const [joinGroupByInvitationCode] = useJoinGroupByInvitationCodeMutation();
+
+    // If user is ALREADY logged in and visits invitation link with code, automatically join group & redirect
+    useEffect(() => {
+        if (!token) return;
+
+        if (codeFromQuery) {
+            const handleAutoJoin = async () => {
+                const toastId = toast.loading("Joining group with invitation code...");
+                try {
+                    await joinGroupByInvitationCode({ code: codeFromQuery }).unwrap();
+                    toast.success("Successfully joined the group!", { id: toastId });
+                } catch (err: any) {
+                    toast.error(err?.data?.message || "Failed to join group with code.", { id: toastId });
+                } finally {
+                    router.push("/dashboard");
+                }
+            };
+            handleAutoJoin();
+        } else {
+            router.push("/dashboard");
+        }
+    }, [token, codeFromQuery, joinGroupByInvitationCode, router]);
 
     const {
         control,

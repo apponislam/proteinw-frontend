@@ -1,21 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
+import { useJoinGroupByInvitationCodeMutation } from "@/redux/features/sellerGroup/sellerGroupApi";
+import { toast } from "sonner";
 
 export function AuthRedirectProvider({ children }: { children: React.ReactNode }) {
     const user = useAppSelector(currentUser);
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [isMounted, setIsMounted] = useState(false);
+    const [joinGroupByInvitationCode] = useJoinGroupByInvitationCodeMutation();
+
+    const code = searchParams.get("code");
 
     useEffect(() => {
         setIsMounted(true);
         if (user) {
-            router.replace("/dashboard");
+            if (code) {
+                const handleAutoJoin = async () => {
+                    const toastId = toast.loading("Joining group with invitation code...");
+                    try {
+                        await joinGroupByInvitationCode({ code }).unwrap();
+                        toast.success("Successfully joined the group!", { id: toastId });
+                    } catch (err: any) {
+                        toast.error(err?.data?.message || "Failed to join group with code.", { id: toastId });
+                    } finally {
+                        router.replace("/dashboard");
+                    }
+                };
+                handleAutoJoin();
+            } else {
+                router.replace("/dashboard");
+            }
         }
-    }, [user, router]);
+    }, [user, code, joinGroupByInvitationCode, router]);
 
     // Show a loading spinner during rehydration or while redirecting logged-in users
     if (!isMounted || user) {

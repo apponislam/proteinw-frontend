@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import GroupCard from "./GroupCard";
 import CreateGroupModal from "./CreateGroupModal";
-import { useGetMyGroupQuery } from "@/redux/features/group/groupApi";
-import { useGetRunningCampaignStatsQuery } from "@/redux/features/order/orderApi";
+import { useGetMyGroupsQuery, TGroup } from "@/redux/features/group/groupApi";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { Plus } from "lucide-react";
@@ -15,51 +14,52 @@ const GroupCards = () => {
     const user = useAppSelector(currentUser);
     const isSuperAdmin = user?.role === "SUPER_ADMIN";
 
-    const { data: myGroupData, isLoading: isGroupLoading } = useGetMyGroupQuery(undefined, {
+    const { data: myGroupsData, isLoading } = useGetMyGroupsQuery(undefined, {
         skip: isSuperAdmin,
     });
-    const { data: statsData, isLoading: isStatsLoading } = useGetRunningCampaignStatsQuery(undefined, {
-        skip: isSuperAdmin || !myGroupData?.data?._id,
-    });
 
-    const isLoading = isGroupLoading || isStatsLoading;
-    const group = myGroupData?.data;
-    const stats = statsData?.data;
+    const groups: TGroup[] = myGroupsData?.data || [];
 
     if (isLoading) {
         return (
             <div className="text-center py-12">
                 <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-[#78716C] text-sm">Loading your group information...</p>
+                <p className="text-[#78716C] text-sm">Loading your groups information...</p>
             </div>
         );
     }
 
-    const totalSalesNum = stats?.totalRevenue || 0;
-    const totalPackages = group?.tierInfo?.totalPackagesSold || 0;
-    const nextTier = group?.tierInfo?.nextTier;
-    const packagesNeeded = group?.tierInfo?.packagesNeededForNextTier || 0;
-
-    const nextTierProfitText = nextTier ? `${nextTier.percentage}%` : "Max Tier";
-
-    const untilBonusText = nextTier ? `${packagesNeeded} package${packagesNeeded > 1 ? "s" : ""} until ${nextTier.percentage}% profit bonus` : "Highest profit tier reached! 🎉";
-
     return (
         <>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {group ? (
-                    <GroupCard
-                        className=""
-                        id={group._id || ""}
-                        name={group.name}
-                        campaignName={((group as any)?.runningCampaignId as any)?.name || "No active campaign"}
-                        activeSellers="Active"
-                        totalSales={`${totalPackages} package${totalPackages !== 1 ? "s" : ""} (${totalSalesNum.toLocaleString()} SEK)`}
-                        nextTierProfit={nextTierProfitText}
-                        untilBonus={untilBonusText}
-                    />
+                {groups.length > 0 ? (
+                    groups.map((group) => {
+                        const totalPackages = group.tierInfo?.totalPackagesSold || (group as any).totalPackagesSold || 0;
+                        const totalSalesNum = group.tierInfo?.totalRevenue || (group as any).totalRevenue || 0;
+                        const nextTier = group.tierInfo?.nextTier || (group as any).nextTier;
+                        const packagesNeeded = group.tierInfo?.packagesNeededForNextTier || (group as any).packagesNeededForNextTier || 0;
+
+                        const nextTierProfitText = nextTier ? `${nextTier.percentage}%` : "Max Tier";
+                        const untilBonusText = nextTier ? `${packagesNeeded} package${packagesNeeded > 1 ? "s" : ""} until ${nextTier.percentage}% profit bonus` : "Highest profit tier reached! 🎉";
+
+                        const campaignName = (group as any)?.runningCampaign?.name || ((group as any)?.runningCampaignId as any)?.name || "No active campaign";
+
+                        return (
+                            <GroupCard
+                                key={group._id}
+                                className=""
+                                id={group._id || ""}
+                                name={group.name}
+                                campaignName={campaignName}
+                                activeSellers={group.isActive ? "Active" : "Inactive"}
+                                totalSales={`${totalPackages} package${totalPackages !== 1 ? "s" : ""} (${totalSalesNum.toLocaleString()} SEK)`}
+                                nextTierProfit={nextTierProfitText}
+                                untilBonus={untilBonusText}
+                            />
+                        );
+                    })
                 ) : (
-                    <div className="col-span-full bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">You are not assigned to any group yet. Click below to start a new group!</div>
+                    <div className="col-span-full bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">You don't have any groups yet. Click below to start a new group!</div>
                 )}
 
                 <button

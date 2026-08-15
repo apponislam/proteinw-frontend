@@ -107,6 +107,30 @@ const groupApi = baseApi.injectEndpoints({
                     : [{ type: "Group", id: "MY_GROUP" }],
         }),
 
+        getMyGroups: builder.query<TGroupResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                let page = 1;
+                let limit = 10;
+                if (params) {
+                    if (params.page) page = params.page;
+                    if (params.limit) limit = params.limit;
+                }
+                queryParams.append("page", String(page));
+                queryParams.append("limit", String(limit));
+
+                return {
+                    url: `/groups/my-groups?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) =>
+                result
+                    ? [...result.data.map(({ _id }) => ({ type: "Group" as const, id: _id })), { type: "Group", id: "MY_GROUPS_LIST" }]
+                    : [{ type: "Group", id: "MY_GROUPS_LIST" }],
+        }),
+
         getMyCampaignStats: builder.query<{ data: TGroupCampaignStats }, void>({
             query: () => ({
                 url: "/groups/my-campaign-stats",
@@ -198,4 +222,4 @@ const groupApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveGroupsQuery, useGetGroupByCodeQuery, useGetGroupByIdQuery, useGetMyGroupQuery, useGetMyCampaignStatsQuery, useGetAllGroupsQuery, useCreateGroupMutation, useUpdateGroupMutation, useToggleGroupStatusMutation, useDeleteGroupMutation } = groupApi;
+export const { useGetActiveGroupsQuery, useGetGroupByCodeQuery, useGetGroupByIdQuery, useGetMyGroupQuery, useGetMyGroupsQuery, useGetMyCampaignStatsQuery, useGetAllGroupsQuery, useCreateGroupMutation, useUpdateGroupMutation, useToggleGroupStatusMutation, useDeleteGroupMutation } = groupApi;
