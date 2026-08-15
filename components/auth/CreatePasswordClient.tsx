@@ -24,6 +24,9 @@ const CreatePasswordClient = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const token = searchParams.get("token") || "";
+    const email = searchParams.get("email") || "";
+    const code = searchParams.get("code") || "";
+    const isMember = searchParams.get("isMember") === "true";
 
     const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
@@ -43,7 +46,16 @@ const CreatePasswordClient = () => {
         try {
             await resetPassword({ token, newPassword: data.newPassword }).unwrap();
             toast.success("Password reset successfully!");
-            router.push("/auth/reset-successful");
+
+            if (isMember) {
+                const loginParams = new URLSearchParams({
+                    ...(email && { email }),
+                    ...(code && { code }),
+                }).toString();
+                router.push(`/auth/member/login?${loginParams}`);
+            } else {
+                router.push("/auth/reset-successful");
+            }
         } catch (err: any) {
             toast.error(err.data?.message || "Failed to reset password");
             console.error("Reset password failed:", err);

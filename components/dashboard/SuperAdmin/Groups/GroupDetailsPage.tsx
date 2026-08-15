@@ -65,8 +65,8 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                 <Award size={18} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Fundraising Goal</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">SEK {(group.goal || 0).toLocaleString()}</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Fundraising Group</div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">{group.name}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
@@ -74,8 +74,8 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                 <Calendar size={18} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">End Date</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">{group.endDate ? new Date(group.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A"}</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Group Code</div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">{group.code}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
@@ -117,12 +117,13 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                     <div className="space-y-4">
                         {campaigns.map((campaign) => {
                             const formattedEndDate = campaign.endDate ? new Date(campaign.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A";
+                            const isCampaignActive = campaign.status === "ACTIVE";
 
                             return (
                                 <div key={campaign._id} className="p-5 border border-[#E7E5E4] rounded-xl hover:border-[#D97706] transition-colors duration-200 bg-[#FAFAF9]">
                                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                                         <div className="flex items-center gap-3">
-                                            <div className={`p-2.5 rounded-xl shrink-0 ${campaign.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
+                                            <div className={`p-2.5 rounded-xl shrink-0 ${isCampaignActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
                                                 <Store size={20} />
                                             </div>
                                             <div>
@@ -133,7 +134,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                             </div>
                                         </div>
 
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${campaign.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{campaign.isActive ? "Active" : "Expired / Inactive"}</span>
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${isCampaignActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{isCampaignActive ? "Active" : (campaign.status || "Expired / Inactive")}</span>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-3 border-t border-[#E7E5E4]">

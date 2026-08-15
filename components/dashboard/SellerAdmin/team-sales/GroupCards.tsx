@@ -52,7 +52,7 @@ const GroupCards = () => {
                         className=""
                         id={group._id || ""}
                         name={group.name}
-                        campaignName={(group?.runningCampaignId as any)?.name || "No active campaign"}
+                        campaignName={((group as any)?.runningCampaignId as any)?.name || "No active campaign"}
                         activeSellers="Active"
                         totalSales={`${totalPackages} package${totalPackages !== 1 ? "s" : ""} (${totalSalesNum.toLocaleString()} SEK)`}
                         nextTierProfit={nextTierProfitText}

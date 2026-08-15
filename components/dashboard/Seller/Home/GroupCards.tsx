@@ -49,7 +49,7 @@ const GroupCards = () => {
     const formattedGroupObj = {
         _id: group._id,
         name: group.name,
-        campaignName: (group.runningCampaignId as any)?.name || "No running campaign",
+        campaignName: ((group as any).runningCampaignId as any)?.name || "No running campaign",
         activeSellers: "Active",
         totalSales: `${totalPackages} package${totalPackages !== 1 ? "s" : ""} (${totalSalesNum.toLocaleString()} SEK)`,
         nextTierProfit: nextTierProfitText,

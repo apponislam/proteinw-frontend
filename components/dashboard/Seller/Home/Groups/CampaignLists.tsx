@@ -37,7 +37,7 @@ const CampaignLists = () => {
         );
     }
 
-    const isCampaignActive = campaign.isActive;
+    const isCampaignActive = campaign.status === "ACTIVE";
     const daysLeftNum = campaign.endDate 
         ? Math.max(0, Math.ceil((new Date(campaign.endDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
         : 0;

@@ -74,6 +74,11 @@ const LoginMemberForm = () => {
         ...(codeFromQuery && { code: codeFromQuery }),
     }).toString()}`;
 
+    const forgotPasswordUrl = `/auth/member/forgot-password?${new URLSearchParams({
+        ...(emailFromQuery && { email: emailFromQuery }),
+        ...(codeFromQuery && { code: codeFromQuery }),
+    }).toString()}`;
+
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
@@ -92,61 +97,61 @@ const LoginMemberForm = () => {
 
             {/* Main Content */}
             <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
-                <div className="w-full max-w-xl">
-                    <div className="bg-white border-dashed rounded-lg p-8 sm:p-12">
+                <div className="w-full max-w-md">
+                    <div className="bg-white border border-gray-100 shadow-[0px_4px_25px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10">
                         {/* Title */}
-                        <div className="text-center mb-10">
-                            <h1 className="text-black text-xl text-center font-extrabold mb-4">Kungsbjörnen</h1>
-                            <h2 className="text-3xl text-gray-900 font-bold">Member Sign In</h2>
-                            <p className="text-sm text-gray-600 mt-2">Sign in to your team member account.</p>
+                        <div className="text-center mb-8">
+                            <h1 className="text-[#1A1C1C] text-xl font-extrabold tracking-tight mb-1">Kungsbjörnen</h1>
+                            <h2 className="text-2xl text-gray-900 font-bold">Member Sign In</h2>
+                            <p className="text-sm text-gray-500 mt-1">Sign in to your team member account.</p>
                         </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                             {/* Hidden Code Input */}
                             <input type="hidden" {...register("code")} />
 
                             {/* Email */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Email Address</label>
                                 <input
                                     type="email"
-                                    placeholder="Enter your email"
+                                    placeholder="name@example.com"
                                     {...register("email")}
-                                    className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gray-400 font-medium"
+                                    className="w-full px-4 py-3 bg-gray-100/80 border border-gray-200 focus:border-[#D97706] focus:bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all font-medium"
                                 />
-                                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                                {errors.email && <p className="text-red-500 text-xs mt-1 font-medium">{errors.email.message}</p>}
                             </div>
 
                             {/* Password */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Password</label>
                                 <input
                                     type="password"
-                                    placeholder="Enter your password"
+                                    placeholder="••••••••"
                                     {...register("password")}
-                                    className="w-full px-4 py-3 bg-[#f8f9fa] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-gray-400 font-medium"
+                                    className="w-full px-4 py-3 bg-gray-100/80 border border-gray-200 focus:border-[#D97706] focus:bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all font-medium"
                                 />
-                                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+                                {errors.password && <p className="text-red-500 text-xs mt-1 font-medium">{errors.password.message}</p>}
                             </div>
 
                             {/* Remember me & Forgot Password */}
-                            <div className="flex items-center justify-between pt-2">
+                            <div className="flex items-center justify-between pt-1">
                                 <Controller
                                     name="remember"
                                     control={control}
                                     render={({ field }) => (
-                                        <label className="flex items-center gap-2 cursor-pointer">
+                                        <label className="flex items-center gap-2 cursor-pointer select-none">
                                             <input
                                                 type="checkbox"
                                                 checked={field.value}
                                                 onChange={(e) => field.onChange(e.target.checked)}
-                                                className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                                                className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
                                             />
-                                            <span className="text-sm text-gray-600">Remember me</span>
+                                            <span className="text-xs font-medium text-gray-600">Remember me</span>
                                         </label>
                                     )}
                                 />
-                                <Link href="/auth/forgot-password" className="text-sm font-semibold text-amber-600 hover:text-amber-700">
+                                <Link href={forgotPasswordUrl} className="text-xs font-bold text-amber-600 hover:text-amber-700 transition-colors">
                                     Forgot Password?
                                 </Link>
                             </div>
@@ -155,11 +160,11 @@ const LoginMemberForm = () => {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 cursor-pointer disabled:opacity-50"
+                                className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none rounded-[24px] gap-2 cursor-pointer disabled:opacity-50 mt-2"
                             >
                                 {isLoading ? (
                                     <>
-                                        <Loader2 className="animate-spin" size={20} />
+                                        <Loader2 className="animate-spin" size={18} />
                                         <span>Signing In...</span>
                                     </>
                                 ) : (
@@ -172,9 +177,9 @@ const LoginMemberForm = () => {
                         </form>
 
                         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-xs text-gray-600">
                                 Don't have an account yet?{" "}
-                                <Link href={registerUrl} className="font-bold text-[#7C5800] hover:underline">
+                                <Link href={registerUrl} className="font-bold text-[#7C5800] hover:underline ml-1">
                                     Register here
                                 </Link>
                             </p>
