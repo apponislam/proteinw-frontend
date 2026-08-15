@@ -5,7 +5,6 @@ import { useAddMultipleProductsToCampaignMutation, useRemoveMultipleProductsFrom
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { AlertTriangle, ArrowLeft, User, Mail, Phone, Users, Package, Plus, X, Search, Check, Loader2 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -145,7 +144,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                 </button>
                 <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${!isExpired ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
                     <span className={`w-2 h-2 rounded-full ${!isExpired ? "bg-green-500" : "bg-red-500"}`}></span>
-                    {!isExpired ? "ACTIVE" : (campaign.status || "EXPIRED")}
+                    {!isExpired ? "ACTIVE" : campaign.status || "EXPIRED"}
                 </span>
             </div>
 
