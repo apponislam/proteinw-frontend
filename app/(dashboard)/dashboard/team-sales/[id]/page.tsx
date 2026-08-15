@@ -44,7 +44,7 @@ const Page = () => {
                             </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Fundraising Goal</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">SEK {group.goal.toLocaleString()}</div>
+                                {/* <div className="text-sm font-bold text-[#1A1C1C]">SEK {group.goal.toLocaleString()}</div> */}
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
@@ -53,7 +53,7 @@ const Page = () => {
                             </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">End Date</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">{group.endDate ? new Date(group.endDate).toLocaleDateString() : "N/A"}</div>
+                                {/* <div className="text-sm font-bold text-[#1A1C1C]">{group.endDate ? new Date(group.endDate).toLocaleDateString() : "N/A"}</div> */}
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">

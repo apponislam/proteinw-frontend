@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,22 +17,32 @@ const sellerRegisterSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
     phone: z.string().min(5, "Please enter a valid phone number"),
     password: z.string().min(8, "Password must be at least 8 characters"),
+    code: z.string().optional(),
     terms: z.boolean().refine((val) => val === true, "You must agree to the terms"),
     age: z.boolean().refine((val) => val === true, "You must be 18+"),
 });
 
 type SellerRegisterFormValues = z.infer<typeof sellerRegisterSchema>;
 
-const RegisterSellerClient = () => {
+const RegisterSellerForm = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const searchParams = useSearchParams();
     const emailFromQuery = searchParams.get("email") || "";
+    const codeFromQuery = searchParams.get("code") || "";
+
+    const loginUrl = `/auth/member/login?${new URLSearchParams({
+        ...(emailFromQuery && { email: emailFromQuery }),
+        ...(codeFromQuery && { code: codeFromQuery }),
+    }).toString()}`;
 
     const [registerSeller, { isLoading }] = useRegisterSellerMutation();
 
+    const codeParam = searchParams.get("code") || codeFromQuery;
+
     const {
         control,
+        register,
         handleSubmit,
         setValue,
         formState: { errors },
@@ -43,6 +53,7 @@ const RegisterSellerClient = () => {
             email: emailFromQuery,
             phone: "",
             password: "",
+            code: codeParam || "",
             terms: false,
             age: false,
         },
@@ -52,10 +63,15 @@ const RegisterSellerClient = () => {
         if (emailFromQuery) {
             setValue("email", emailFromQuery);
         }
-    }, [emailFromQuery, setValue]);
+        if (codeParam) {
+            setValue("code", codeParam);
+        }
+    }, [emailFromQuery, codeParam, setValue]);
 
     const onSubmit = async (data: SellerRegisterFormValues) => {
         const toastId = toast.loading("Creating seller account...");
+        const codeToSend = data.code || codeParam || searchParams.get("code") || "";
+
         try {
             const formData = new FormData();
             formData.append(
@@ -65,6 +81,7 @@ const RegisterSellerClient = () => {
                     email: data.email,
                     phone: data.phone,
                     password: data.password,
+                    code: codeToSend,
                 }),
             );
 
@@ -86,7 +103,7 @@ const RegisterSellerClient = () => {
                         Kungsbörnen
                     </Link>
                     <div className="flex gap-4 items-center">
-                        <Link href="/auth/login" className="text-gray-700 font-medium hover:text-gray-900">
+                        <Link href={loginUrl} className="text-gray-700 font-medium hover:text-amber-600 transition">
                             Sign In
                         </Link>
                     </div>
@@ -105,6 +122,9 @@ const RegisterSellerClient = () => {
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            {/* Hidden Code Input */}
+                            <input type="hidden" {...register("code")} />
+
                             {/* Full Name */}
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">FULL NAME</label>
@@ -215,10 +235,27 @@ const RegisterSellerClient = () => {
                                 )}
                             </button>
                         </form>
+
+                        <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+                            <p className="text-sm text-gray-600">
+                                Already have an invitation code or account?{" "}
+                                <Link href={loginUrl} className="font-bold text-[#7C5800] hover:underline">
+                                    Sign in here
+                                </Link>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </main>
         </div>
+    );
+};
+
+const RegisterSellerClient = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading registration...</div>}>
+            <RegisterSellerForm />
+        </Suspense>
     );
 };
 

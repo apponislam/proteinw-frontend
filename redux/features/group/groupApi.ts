@@ -41,10 +41,7 @@ export type TGroup = {
     _id?: string;
     name: string;
     shortDescription: string;
-    goal: number;
-    endDate: Date;
     code: string;
-    runningCampaignId?: string | TCampaignPopulated;
     createdBy?: string;
     isActive: boolean;
     isDeleted: boolean;
@@ -145,7 +142,7 @@ const groupApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Group" as const, id: _id })), { type: "Group", id: "ADMIN_LIST" }] : [{ type: "Group", id: "ADMIN_LIST" }]),
         }),
 
-        createGroup: builder.mutation<{ data: TGroup }, { name: string; shortDescription: string; goal: number; endDate: Date }>({
+        createGroup: builder.mutation<{ data: TGroup }, { name: string; shortDescription: string }>({
             query: (groupData) => ({
                 url: "/groups",
                 method: "POST",

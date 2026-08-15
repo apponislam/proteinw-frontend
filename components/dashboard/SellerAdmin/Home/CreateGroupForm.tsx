@@ -12,10 +12,6 @@ import { useCreateGroupMutation } from "@/redux/features/group/groupApi";
 const groupFormSchema = z.object({
     name: z.string().min(2, "Group name must be at least 2 characters"),
     shortDescription: z.string().min(2, "Short description must be at least 2 characters"),
-    goal: z.string().min(1, "Goal is required"),
-    endDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-        message: "Invalid end date",
-    }),
 });
 
 type GroupFormValues = z.infer<typeof groupFormSchema>;
@@ -38,8 +34,6 @@ export default function CreateGroupForm() {
             await createGroup({
                 name: data.name,
                 shortDescription: data.shortDescription,
-                goal: Number(data.goal),
-                endDate: new Date(data.endDate),
             }).unwrap();
             toast.success("Group created successfully!", { id: toastId });
             reset();
@@ -66,20 +60,6 @@ export default function CreateGroupForm() {
                     <label className="text-sm font-semibold text-[#1A1C1C]">Short Description</label>
                     <Textarea placeholder="Enter description of your fundraising group" {...register("shortDescription")} className="min-h-25 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                     {errors.shortDescription && <p className="text-red-500 text-xs">{errors.shortDescription.message}</p>}
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-[#1A1C1C]">Goal Amount (SEK)</label>
-                        <Input type="number" placeholder="e.g. 5000" {...register("goal")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
-                        {errors.goal && <p className="text-red-500 text-xs">{errors.goal.message}</p>}
-                    </div>
-
-                    <div className="space-y-2">
-                        <label className="text-sm font-semibold text-[#1A1C1C]">End Date</label>
-                        <Input type="date" {...register("endDate")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
-                        {errors.endDate && <p className="text-red-500 text-xs">{errors.endDate.message}</p>}
-                    </div>
                 </div>
 
                 <button

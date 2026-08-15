@@ -36,15 +36,9 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
     const onSubmit = async (data: GroupFormValues) => {
         const toastId = toast.loading("Creating group...");
         try {
-            // Default Goal & End Date for group creation
-            const goal = 100;
-            const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-
             await createGroup({
                 name: data.className,
                 shortDescription: data.shortDescription,
-                goal,
-                endDate,
             }).unwrap();
 
             toast.success("Group created successfully!", { id: toastId });

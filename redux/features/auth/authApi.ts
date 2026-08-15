@@ -69,6 +69,14 @@ const authApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
+        loginWithInvitationCode: builder.mutation<AuthResponse, { email: string; password: string; code: string }>({
+            query: (body) => ({
+                url: "/auth/login-invitation",
+                method: "POST",
+                body,
+                credentials: "include",
+            }),
+        }),
         refreshToken: builder.mutation<RefreshTokenResponse, void>({
             query: () => ({
                 url: "/auth/refresh-token",
@@ -254,6 +262,7 @@ export const {
     useLoginMutation,
     useRegisterMutation,
     useRegisterSellerMutation,
+    useLoginWithInvitationCodeMutation,
     useRefreshTokenMutation,
     useLogoutMutation,
     useGetMeQuery,
@@ -277,3 +286,4 @@ export const {
     useGetGroupSellersQuery,
     useGetReferralAndCampaignQuery,
 } = authApi;
+
