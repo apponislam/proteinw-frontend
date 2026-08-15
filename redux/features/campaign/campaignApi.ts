@@ -45,7 +45,7 @@ export type TCampaign = {
     groupId?: string;
     tierId?: string;
     createdBy?: string | TCampaignCreatedBy;
-    isActive: boolean;
+    status?: "ACTIVE" | "DRAFT" | "FULFILMENT" | "COMPLETED";
     isDeleted: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -99,12 +99,12 @@ const campaignApi = baseApi.injectEndpoints({
         }),
 
         // Protected endpoints
-        getCampaignsByGroup: builder.query<TCampaignResponse, { groupId: string; page?: number; limit?: number; isActive?: boolean }>({
-            query: ({ groupId, page = 1, limit = 10, isActive }) => {
+        getCampaignsByGroup: builder.query<TCampaignResponse, { groupId: string; page?: number; limit?: number; status?: string }>({
+            query: ({ groupId, page = 1, limit = 10, status }) => {
                 const params = new URLSearchParams();
                 params.append("page", String(page));
                 params.append("limit", String(limit));
-                if (isActive !== undefined) params.append("isActive", String(isActive));
+                if (status) params.append("status", status);
 
                 return {
                     url: `/campaigns/group/${groupId}?${params.toString()}`,
@@ -125,7 +125,7 @@ const campaignApi = baseApi.injectEndpoints({
         }),
 
         // Admin-only endpoints
-        getAllCampaigns: builder.query<TCampaignResponse, { page?: number; limit?: number; isActive?: boolean } | void>({
+        getAllCampaigns: builder.query<TCampaignResponse, { page?: number; limit?: number; status?: string } | void>({
             query: (params) => {
                 const queryParams = new URLSearchParams();
 
@@ -135,7 +135,7 @@ const campaignApi = baseApi.injectEndpoints({
                 if (params) {
                     if (params.page) page = params.page;
                     if (params.limit) limit = params.limit;
-                    if (params.isActive !== undefined) queryParams.append("isActive", String(params.isActive));
+                    if (params.status) queryParams.append("status", params.status);
                 }
 
                 queryParams.append("page", String(page));
@@ -150,7 +150,7 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_LIST" }] : [{ type: "Campaign", id: "ADMIN_LIST" }]),
         }),
 
-        getAllCampaignsWithStats: builder.query<TCampaignResponse, { page?: number; limit?: number; isActive?: boolean } | void>({
+        getAllCampaignsWithStats: builder.query<TCampaignResponse, { page?: number; limit?: number; status?: string } | void>({
             query: (params) => {
                 const queryParams = new URLSearchParams();
 
@@ -160,7 +160,7 @@ const campaignApi = baseApi.injectEndpoints({
                 if (params) {
                     if (params.page) page = params.page;
                     if (params.limit) limit = params.limit;
-                    if (params.isActive !== undefined) queryParams.append("isActive", String(params.isActive));
+                    if (params.status) queryParams.append("status", params.status);
                 }
 
                 queryParams.append("page", String(page));

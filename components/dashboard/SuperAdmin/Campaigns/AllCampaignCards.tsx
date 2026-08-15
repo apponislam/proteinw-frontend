@@ -36,13 +36,13 @@ const AllCampaignCards = () => {
     const [page, setPage] = useState<number>(1);
     const limit = 9;
 
-    // Calculate isActive param based on tab filter
-    const isActiveParam = activeTab === "all" ? undefined : activeTab === "active";
+    // Calculate status param based on tab filter
+    const statusParam = activeTab === "all" ? undefined : activeTab === "active" ? "ACTIVE" : "FULFILMENT";
 
     const { data: response, isLoading, isFetching } = useGetAllCampaignsWithStatsQuery({
         page,
         limit,
-        isActive: isActiveParam,
+        status: statusParam,
     });
 
     const campaigns = response?.data || [];

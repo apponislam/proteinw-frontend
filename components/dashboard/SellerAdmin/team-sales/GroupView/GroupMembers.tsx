@@ -19,8 +19,8 @@ export default function GroupMembers({ groupId }: GroupMembersProps) {
                         <Users size={20} />
                     </div>
                     <div>
-                        <h3 className="text-xl font-bold text-[#1A1C1C]">Active Sellers / Team Members</h3>
-                        <p className="text-sm text-[#78716C]">Sellers actively selling in this fundraising campaign.</p>
+                        <h3 className="text-xl font-bold text-[#1A1C1C]">Group members</h3>
+                        <p className="text-sm text-[#78716C]">Members actively participating in this group.</p>
                     </div>
                 </div>
             </div>

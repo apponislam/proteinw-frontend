@@ -6,6 +6,7 @@ import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { AlertTriangle, ArrowLeft, User, Mail, Phone, Users, Package, Plus, X, Search, Check, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
 
@@ -14,6 +15,7 @@ interface CardDetailsProps {
 }
 
 const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState<"sellers" | "products">("sellers");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -27,7 +29,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
 
     const endDate = new Date(campaign.endDate);
     const today = new Date();
-    const isExpired = !campaign.isActive || endDate.getTime() < today.getTime();
+    const isExpired = campaign.status !== "ACTIVE" || endDate.getTime() < today.getTime();
 
     const formattedEndDate = endDate.toLocaleDateString("en-US", {
         year: "numeric",
@@ -137,13 +139,13 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
         <div className="space-y-8">
             {/* Header / Breadcrumb */}
             <div className="flex items-center justify-between">
-                <Link href="/dashboard/campaigns" className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors">
+                <button onClick={() => router.back()} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer">
                     <ArrowLeft size={16} />
-                    <span>Back to Campaigns</span>
-                </Link>
+                    <span>Back</span>
+                </button>
                 <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${!isExpired ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
                     <span className={`w-2 h-2 rounded-full ${!isExpired ? "bg-green-500" : "bg-red-500"}`}></span>
-                    {!isExpired ? "ACTIVE" : "EXPIRED"}
+                    {!isExpired ? "ACTIVE" : (campaign.status || "EXPIRED")}
                 </span>
             </div>
 
