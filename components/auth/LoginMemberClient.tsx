@@ -140,14 +140,24 @@ const LoginMemberForm = () => {
                                     name="remember"
                                     control={control}
                                     render={({ field }) => (
-                                        <label className="flex items-center gap-2 cursor-pointer select-none">
-                                            <input
-                                                type="checkbox"
-                                                checked={field.value}
-                                                onChange={(e) => field.onChange(e.target.checked)}
-                                                className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
-                                            />
-                                            <span className="text-xs font-medium text-gray-600">Remember me</span>
+                                        <label htmlFor="member-remember" className="flex items-center gap-2.5 cursor-pointer select-none">
+                                            <div className="relative shrink-0">
+                                                <input
+                                                    type="checkbox"
+                                                    id="member-remember"
+                                                    className="sr-only peer"
+                                                    checked={field.value}
+                                                    onChange={(e) => field.onChange(e.target.checked)}
+                                                />
+                                                <div className="w-5 h-5 border-2 border-gray-300 rounded-md peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all bg-white shadow-xs">
+                                                    {field.value && (
+                                                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <span className="text-xs font-medium text-gray-700">Remember me</span>
                                         </label>
                                     )}
                                 />
