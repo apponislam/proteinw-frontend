@@ -14,6 +14,8 @@ const GroupCards = () => {
         skip: isSuperAdmin,
     });
 
+    console.log(myJoinedGroupsData);
+
     const groups = myJoinedGroupsData?.data || [];
 
     if (isLoading) {

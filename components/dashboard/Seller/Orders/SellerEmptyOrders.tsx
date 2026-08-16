@@ -81,7 +81,6 @@ const SellerEmptyOrders = () => {
 
                 {/* Right Side QR Code section inside the SAME card */}
                 <div className="lg:w-100 shrink-0 bg-[#F3F3F3] rounded-xl p-6 flex flex-col items-center justify-center text-center border border-stone-200/80">
-                    <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider mb-1 uppercase">SCAN TO SHOP</h3>
                     <div className="mb-3">
                         <img
                             src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shopLink)}`}
@@ -98,7 +97,7 @@ const SellerEmptyOrders = () => {
                             }}
                         />
                     </div>
-                    <span className="text-[#D97706] text-[11px] font-bold tracking-tight">Your Referral QR Code</span>
+                    <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase">SCAN TO SHOP</h3>
                 </div>
             </div>
 
@@ -106,7 +105,7 @@ const SellerEmptyOrders = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Card 1: Social Reach */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.06)] border border-stone-100 hover:border-amber-200 transition-all duration-200 flex flex-col justify-between">
-                    <Image src="/dashboard/orders/ordericon1.svg" width={24} height={24} alt="ordericon1" className="mb-4"></Image>
+                    <Image src="/dashboard/orders/ordericon1.svg" width={24} height={24} style={{ width: "auto", height: "auto" }} alt="ordericon1" className="mb-4" />
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Social Reach</h4>
                         <p className="text-sm text-[#78716C] leading-relaxed">Post your link on Instagram to reach 40% more supporters.</p>
@@ -115,7 +114,7 @@ const SellerEmptyOrders = () => {
 
                 {/* Card 2: Team Effort */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.06)] border border-stone-100 hover:border-amber-200 transition-all duration-200 flex flex-col justify-between">
-                    <Image src="/dashboard/orders/ordericon2.svg" width={24} height={24} alt="ordericon1" className="mb-4"></Image>
+                    <Image src="/dashboard/orders/ordericon2.svg" width={24} height={24} style={{ width: "auto", height: "auto" }} alt="ordericon2" className="mb-4" />
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Team Effort</h4>
                         <p className="text-sm text-[#78716C] leading-relaxed">Top-performing classes share their link at least twice a week.</p>
@@ -124,7 +123,7 @@ const SellerEmptyOrders = () => {
 
                 {/* Card 3: Goal Tracking */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.06)] border border-stone-100 hover:border-amber-200 transition-all duration-200 flex flex-col justify-between">
-                    <Image src="/dashboard/orders/ordericon3.svg" width={24} height={24} alt="ordericon1" className="mb-4"></Image>
+                    <Image src="/dashboard/orders/ordericon3.svg" width={24} height={24} style={{ width: "auto", height: "auto" }} alt="ordericon3" className="mb-4" />
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Goal Tracking</h4>
                         <p className="text-sm text-[#78716C] leading-relaxed">You&apos;re only $500 away from unlocking the silver archive badge.</p>

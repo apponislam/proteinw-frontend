@@ -124,6 +124,22 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result, _, groupId) => [{ type: "Campaign", id: `RUNNING_${groupId}` }],
         }),
 
+        getRunningCampaignForSeller: builder.query<TCampaignResponse, { groupId: string; page?: number; limit?: number; status?: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED" }>({
+            query: ({ groupId, page = 1, limit = 9, status }) => {
+                const queryParams = new URLSearchParams();
+                queryParams.append("page", String(page));
+                queryParams.append("limit", String(limit));
+                if (status) queryParams.append("status", status);
+
+                return {
+                    url: `/campaigns/seller/running-campaign/${groupId}?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result, _, { groupId }) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: `SELLER_RUNNING_${groupId}` }] : [{ type: "Campaign", id: `SELLER_RUNNING_${groupId}` }]),
+        }),
+
         // Admin-only endpoints
         getAllCampaigns: builder.query<TCampaignResponse, { page?: number; limit?: number; status?: string } | void>({
             query: (params) => {
@@ -255,6 +271,7 @@ export const {
     useGetCampaignByIdQuery,
     useGetCampaignsByGroupQuery,
     useGetRunningCampaignByGroupQuery,
+    useGetRunningCampaignForSellerQuery,
     useGetAllCampaignsQuery,
     useGetAllCampaignsWithStatsQuery,
     useCreateCampaignMutation,
