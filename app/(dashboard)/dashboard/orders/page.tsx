@@ -3,8 +3,16 @@
 import React from "react";
 import OrdersCard from "@/components/dashboard/SuperAdmin/Orders/OrdersCard";
 import OrdersTable from "@/components/dashboard/SuperAdmin/Orders/OrdersTable";
+import SellerOrdersView from "@/components/dashboard/Seller/Orders/SellerOrdersView";
+import { useRole } from "@/components/dashboard/RoleProvider";
 
 const OrdersPage = () => {
+    const { activeRole } = useRole();
+
+    if (activeRole === "SELLER") {
+        return <SellerOrdersView />;
+    }
+
     return (
         <div>
             <div className="flex items-center justify-between mb-8">
