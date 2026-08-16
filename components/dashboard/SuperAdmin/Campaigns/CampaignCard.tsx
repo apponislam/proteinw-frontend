@@ -48,7 +48,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             day: "numeric",
         });
 
-        if (status !== "ACTIVE" || endDate.getTime() < today.getTime()) {
+        if (status === "FULFILMENT" || status === "COMPLETED" || endDate.getTime() < today.getTime()) {
             return (
                 <div className="space-y-1">
                     <div className="text-red-500 font-bold text-xs uppercase">Ended on {formattedEndDate}</div>
@@ -64,16 +64,16 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
         return <span className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300 font-medium">{daysText}</span>;
     };
 
-    const isExpired = campaign.status !== "ACTIVE" || new Date(campaign.endDate).getTime() < new Date().getTime();
+    const isEndedOrInactive = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED" || new Date(campaign.endDate).getTime() < new Date().getTime();
 
     return (
         <div className="flex flex-col justify-between h-full bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
             <div className="relative z-10 flex flex-col">
                 {/* Header Status Badge */}
                 <div className="mb-4">
-                    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${!isExpired ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                        <span className={`w-2 h-2 rounded-full ${!isExpired ? "bg-green-500" : "bg-red-500"}`}></span>
-                        {!isExpired ? "ACTIVE" : (campaign.status || "EXPIRED")}
+                    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${currentOption.bg} ${currentOption.text}`}>
+                        <span className={`w-2 h-2 rounded-full ${currentOption.dot}`}></span>
+                        {currentOption.label}
                     </span>
                 </div>
 

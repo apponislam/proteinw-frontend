@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { TCampaign } from "../../../../../redux/features/campaign/campaignApi";
+import { TCampaign, useUpdateCampaignStatusMutation } from "../../../../../redux/features/campaign/campaignApi";
 import { useGetCampaignSellersQuery } from "@/redux/features/campaignSeller/campaignSellerApi";
-import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone, ChevronDown, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import SellersList from "./SellersList";
 import ProductsList from "./ProductsList";
@@ -15,8 +15,18 @@ interface CardDetailsProps {
     campaign: TCampaign;
 }
 
+const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; label: string; bg: string; text: string; dot: string }[] = [
+    { value: "DRAFT", label: "DRAFT", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
+    { value: "ACTIVE", label: "ACTIVE", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
+    { value: "FULFILMENT", label: "FULFILMENT", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
+    { value: "COMPLETED", label: "COMPLETED", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
+];
+
 const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const router = useRouter();
+    const [updateCampaignStatus, { isLoading: isUpdating }] = useUpdateCampaignStatusMutation();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     const [activeTab, setActiveTab] = useState<"sellers" | "products">("sellers");
     const [isProductModalOpen, setIsProductModalOpen] = useState(false);
     const [isSellerModalOpen, setIsSellerModalOpen] = useState(false);
@@ -34,6 +44,23 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const endDate = new Date(campaign.endDate);
     const today = new Date();
     const isExpired = campaign.status !== "ACTIVE" || endDate.getTime() < today.getTime();
+
+    const currentStatusStr = campaign.status || "DRAFT";
+    const currentOption = statusOptions.find((opt) => opt.value === currentStatusStr) || statusOptions[0];
+
+    const handleStatusSelect = async (status: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED") => {
+        if (!campaignId || status === currentStatusStr) {
+            setIsDropdownOpen(false);
+            return;
+        }
+        try {
+            await updateCampaignStatus({ campaignId, status }).unwrap();
+        } catch (error) {
+            console.error("Failed to update campaign status:", error);
+        } finally {
+            setIsDropdownOpen(false);
+        }
+    };
 
     const formattedEndDate = endDate.toLocaleDateString("en-US", {
         year: "numeric",
@@ -62,7 +89,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
         },
         {
             title: `END DATE: ${formattedEndDate}`,
-            value: !isExpired ? getDaysLeft() : "Expired",
+            value: currentStatusStr,
             subtitle: "CAMPAIGN STATUS",
         },
     ];
@@ -75,10 +102,51 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                     <ArrowLeft size={16} />
                     <span>Back</span>
                 </button>
-                <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${!isExpired ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                    <span className={`w-2 h-2 rounded-full ${!isExpired ? "bg-green-500" : "bg-red-500"}`}></span>
-                    {!isExpired ? "ACTIVE" : campaign.status || "EXPIRED"}
-                </span>
+
+                {/* Status Dropdown Picker for Details Page */}
+                <div className="relative">
+                    <button
+                        type="button"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsDropdownOpen((prev) => !prev);
+                        }}
+                        disabled={isUpdating}
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all border border-stone-200 hover:border-amber-400 ${currentOption.bg} ${currentOption.text}`}
+                        title="Change Status"
+                    >
+                        <span className={`w-2 h-2 rounded-full ${currentOption.dot} ${isUpdating ? "animate-ping" : ""}`}></span>
+                        <span>{isUpdating ? "UPDATING..." : currentOption.label}</span>
+                        <ChevronDown size={14} className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                    </button>
+
+                    {isDropdownOpen && (
+                        <>
+                            <div className="fixed inset-0 z-20" onClick={() => setIsDropdownOpen(false)}></div>
+                            <div className="absolute right-0 mt-2 z-30 w-44 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                {statusOptions.map((opt) => (
+                                    <button
+                                        key={opt.value}
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleStatusSelect(opt.value);
+                                        }}
+                                        className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${
+                                            currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${opt.dot}`}></span>
+                                            <span>{opt.label}</span>
+                                        </div>
+                                        {currentStatusStr === opt.value && <Check size={14} className="text-[#D97706]" />}
+                                    </button>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
 
             {/* Title / Description Area */}
@@ -90,8 +158,8 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             {/* Quick Metrics Grid */}
             <CampaignMetricsGrid stats={stats} />
 
-            {/* Expired Deletion Warning inline */}
-            {isExpired && (
+            {/* Auto-Deletion Warning banner for Fulfilment or Completed campaigns */}
+            {(currentStatusStr === "FULFILMENT" || currentStatusStr === "COMPLETED") && (
                 <div className="flex gap-3 bg-red-50 p-4 rounded-xl border border-red-100">
                     <AlertTriangle className="text-red-600 shrink-0 mt-0.5" size={18} />
                     <div>

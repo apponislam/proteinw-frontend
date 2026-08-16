@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import CampaignCard from "./CampaignCard";
 import { useGetAllCampaignsWithStatsQuery } from "../../../../redux/features/campaign/campaignApi";
 import { TrendingUp } from "lucide-react";
@@ -34,15 +35,21 @@ const CampaignCardSkeleton = () => (
 type TTabFilter = "ALL" | "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED";
 
 const AllCampaignCards = () => {
-    const [activeTab, setActiveTab] = useState<TTabFilter>("ALL");
-    const [page, setPage] = useState<number>(1);
-    const limit = 9;
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
-    // Calculate status param based on tab filter
+    // Read current status from URL search params
+    const statusQuery = searchParams.get("status")?.toUpperCase();
+    const pageQuery = Number(searchParams.get("page")) || 1;
+
+    const validStatuses: TTabFilter[] = ["DRAFT", "ACTIVE", "FULFILMENT", "COMPLETED"];
+    const activeTab: TTabFilter = validStatuses.includes(statusQuery as TTabFilter) ? (statusQuery as TTabFilter) : "ALL";
+
+    const limit = 9;
     const statusParam = activeTab !== "ALL" ? activeTab : undefined;
 
     const { data: response, isLoading, isFetching } = useGetAllCampaignsWithStatsQuery({
-        page,
+        page: pageQuery,
         limit,
         status: statusParam,
     });
@@ -51,8 +58,20 @@ const AllCampaignCards = () => {
     const meta = response?.meta;
 
     const handleTabChange = (tab: TTabFilter) => {
-        setActiveTab(tab);
-        setPage(1); // Reset to page 1 on tab change
+        const params = new URLSearchParams(searchParams.toString());
+        if (tab === "ALL") {
+            params.delete("status");
+        } else {
+            params.set("status", tab);
+        }
+        params.set("page", "1");
+        router.push(`/dashboard/campaigns?${params.toString()}`);
+    };
+
+    const handlePageChange = (newPage: number) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", String(newPage));
+        router.push(`/dashboard/campaigns?${params.toString()}`);
     };
 
     if (isLoading) {
@@ -84,19 +103,19 @@ const AllCampaignCards = () => {
                         <p className="text-[#78716C] text-sm mt-1">Explore and manage regional fundraising initiatives</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
-                        <button onClick={() => handleTabChange("ALL")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("ALL")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             All
                         </button>
-                        <button onClick={() => handleTabChange("DRAFT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "DRAFT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("DRAFT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "DRAFT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Draft
                         </button>
-                        <button onClick={() => handleTabChange("ACTIVE")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("ACTIVE")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Active
                         </button>
-                        <button onClick={() => handleTabChange("FULFILMENT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("FULFILMENT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Fulfilment
                         </button>
-                        <button onClick={() => handleTabChange("COMPLETED")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("COMPLETED")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Completed
                         </button>
                     </div>
@@ -113,7 +132,7 @@ const AllCampaignCards = () => {
                 </div>
             ) : (
                 <>
-                    <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isFetching ? "opacity-75 pointer-events-none" : ""}`}>
+                    <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isFetching ? "opacity-75" : ""}`}>
                         {campaigns.map((campaign) => (
                             <CampaignCard key={campaign._id} campaign={campaign} />
                         ))}
@@ -121,7 +140,7 @@ const AllCampaignCards = () => {
 
                     {/* Pagination Component */}
                     <div className="mt-8">
-                        <Pagination meta={meta} onPageChange={setPage} itemName="CAMPAIGNS" />
+                        <Pagination meta={meta} onPageChange={handlePageChange} itemName="CAMPAIGNS" />
                     </div>
                 </>
             )}
