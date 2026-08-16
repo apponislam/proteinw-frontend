@@ -220,13 +220,14 @@ const campaignApi = baseApi.injectEndpoints({
             ],
         }),
 
-        toggleCampaignStatus: builder.mutation<{ data: TCampaign }, string>({
-            query: (campaignId) => ({
-                url: `/campaigns/${campaignId}/toggle-status`,
+        updateCampaignStatus: builder.mutation<{ data: TCampaign }, { campaignId: string; status: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED" }>({
+            query: ({ campaignId, status }) => ({
+                url: `/campaigns/${campaignId}/status`,
                 method: "PATCH",
+                body: { status },
                 credentials: "include",
             }),
-            invalidatesTags: (_, __, campaignId) => [
+            invalidatesTags: (_, __, { campaignId }) => [
                 { type: "Campaign", id: "ADMIN_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
                 { type: "Campaign", id: "GROUP_LIST" },
@@ -276,7 +277,7 @@ export const {
     useGetAllCampaignsWithStatsQuery,
     useCreateCampaignMutation,
     useUpdateCampaignMutation,
-    useToggleCampaignStatusMutation,
+    useUpdateCampaignStatusMutation,
     useDeleteCampaignMutation,
     useAssignTierToCampaignMutation,
 } = campaignApi;

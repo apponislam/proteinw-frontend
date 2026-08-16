@@ -72,6 +72,9 @@ const Pagination: React.FC<PaginationProps> = ({
     const total = meta.total || 0;
     const totalPages = meta.totalPages || Math.ceil(total / limit) || 1;
 
+    // If only 1 page or less, don't show pagination bar at all
+    if (totalPages <= 1) return null;
+
     const hasPrev = meta.hasPrev !== undefined ? meta.hasPrev : page > 1;
     const hasNext = meta.hasNext !== undefined ? meta.hasNext : page < totalPages;
 

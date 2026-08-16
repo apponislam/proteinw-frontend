@@ -31,13 +31,15 @@ const CampaignCardSkeleton = () => (
     </div>
 );
 
+type TTabFilter = "ALL" | "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED";
+
 const AllCampaignCards = () => {
-    const [activeTab, setActiveTab] = useState<"all" | "active" | "inactive">("all");
+    const [activeTab, setActiveTab] = useState<TTabFilter>("ALL");
     const [page, setPage] = useState<number>(1);
     const limit = 9;
 
     // Calculate status param based on tab filter
-    const statusParam = activeTab === "all" ? undefined : activeTab === "active" ? "ACTIVE" : "FULFILMENT";
+    const statusParam = activeTab !== "ALL" ? activeTab : undefined;
 
     const { data: response, isLoading, isFetching } = useGetAllCampaignsWithStatsQuery({
         page,
@@ -48,7 +50,7 @@ const AllCampaignCards = () => {
     const campaigns = response?.data || [];
     const meta = response?.meta;
 
-    const handleTabChange = (tab: "all" | "active" | "inactive") => {
+    const handleTabChange = (tab: TTabFilter) => {
         setActiveTab(tab);
         setPage(1); // Reset to page 1 on tab change
     };
@@ -59,8 +61,8 @@ const AllCampaignCards = () => {
                 <div className="mb-8">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <div>
-                            <h2 className="text-xl font-bold text-[#1A1C1C]">Active Campaigns</h2>
-                            <p className="text-[#78716C] text-sm mt-1">Managing ongoing regional fundraising initiatives</p>
+                            <h2 className="text-xl font-bold text-[#1A1C1C]">All Campaigns</h2>
+                            <p className="text-[#78716C] text-sm mt-1">Explore and manage regional fundraising initiatives</p>
                         </div>
                     </div>
                 </div>
@@ -78,18 +80,24 @@ const AllCampaignCards = () => {
             <div className="mb-8">
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A1C1C]">Active Campaigns</h2>
-                        <p className="text-[#78716C] text-sm mt-1">Managing ongoing regional fundraising initiatives</p>
+                        <h2 className="text-xl font-bold text-[#1A1C1C]">All Campaigns</h2>
+                        <p className="text-[#78716C] text-sm mt-1">Explore and manage regional fundraising initiatives</p>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <button onClick={() => handleTabChange("all")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "all" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <button onClick={() => handleTabChange("ALL")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             All
                         </button>
-                        <button onClick={() => handleTabChange("active")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "active" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button onClick={() => handleTabChange("DRAFT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "DRAFT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            Draft
+                        </button>
+                        <button onClick={() => handleTabChange("ACTIVE")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Active
                         </button>
-                        <button onClick={() => handleTabChange("inactive")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "inactive" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            Inactive
+                        <button onClick={() => handleTabChange("FULFILMENT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            Fulfilment
+                        </button>
+                        <button onClick={() => handleTabChange("COMPLETED")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                            Completed
                         </button>
                     </div>
                 </div>
