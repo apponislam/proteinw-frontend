@@ -191,6 +191,32 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_LIST" }] : [{ type: "Campaign", id: "ADMIN_LIST" }]),
         }),
 
+        getAllCampaignsSummary: builder.query<TCampaignResponse, { page?: number; limit?: number; status?: string; search?: string } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+
+                let page = 1;
+                let limit = 10;
+
+                if (params) {
+                    if (params.page) page = params.page;
+                    if (params.limit) limit = params.limit;
+                    if (params.status) queryParams.append("status", params.status);
+                    if (params.search) queryParams.append("search", params.search);
+                }
+
+                queryParams.append("page", String(page));
+                queryParams.append("limit", String(limit));
+
+                return {
+                    url: `/campaigns/admin/summary?${queryParams.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_SUMMARY" }] : [{ type: "Campaign", id: "ADMIN_SUMMARY" }]),
+        }),
+
         createCampaign: builder.mutation<{ data: TCampaign }, { groupId: string; name: string; shortDescription: string; target: number; endDate: Date }>({
             query: (campaignData) => ({
                 url: "/campaigns",
@@ -275,6 +301,7 @@ export const {
     useGetRunningCampaignForSellerQuery,
     useGetAllCampaignsQuery,
     useGetAllCampaignsWithStatsQuery,
+    useGetAllCampaignsSummaryQuery,
     useCreateCampaignMutation,
     useUpdateCampaignMutation,
     useUpdateCampaignStatusMutation,
