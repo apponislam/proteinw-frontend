@@ -89,21 +89,25 @@ export type TSuperAdminSellersStats = {
     salesRevenue: number;
 };
 
+export type TAssignedAdmin = {
+    _id?: string;
+    name?: string;
+    email?: string;
+    phone?: string;
+};
+
 export type TSuperAdminGroupStatsItem = {
     _id: string;
     groupCode: string;
     groupName: string;
-    campaignCode: string;
-    assignedAdmin: string;
+    assignedAdmin?: string | TAssignedAdmin | null;
     sellers: number;
+    activeCampaigns?: number;
     packagesSold: number;
-    profitTier: string;
-    profitTierStatusText: string;
+    revenue?: number;
+    groupProfit?: number;
     status: boolean;
-    deadlineDate: string | null;
-    deadlineStatusText: string;
-    revenue: number;
-    groupProfit: number;
+    createdAt?: string;
 };
 
 export type TSuperAdminGroupsStatsResponse = {

@@ -28,11 +28,11 @@ const GroupsTable = () => {
                         <tr className="bg-[#FAFAF9]">
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GROUP NAME</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ASSIGNED ADMIN</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">SELLERS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PACKAGES SOLD</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PROFIT TIER</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">SELLERS</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">ACTIVE CAMPAIGNS</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">PACKAGES SOLD</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">REVENUE</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">DEADLINE</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ACTIONS</th>
                         </tr>
                     </thead>
@@ -51,42 +51,32 @@ const GroupsTable = () => {
                             </tr>
                         ) : (
                             groupsData.map((group, index) => {
-                                const formattedDeadline = group.deadlineDate
-                                    ? new Date(group.deadlineDate).toLocaleDateString("en-US", {
-                                          month: "short",
-                                          day: "numeric",
-                                          year: "numeric",
-                                      })
-                                    : "N/A";
+                                const adminName = typeof group.assignedAdmin === "object" ? group.assignedAdmin?.name : group.assignedAdmin;
+                                const adminEmail = typeof group.assignedAdmin === "object" ? group.assignedAdmin?.email : null;
 
                                 return (
-                                    <tr key={index} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
+                                    <tr key={group._id || index} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
-                                                <span className="w-10 h-10 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">{group.groupCode}</span>
+                                                <span className="w-10 h-10 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm shrink-0">{group.groupCode || "GP"}</span>
                                                 <div>
                                                     <div className="text-[#1A1C1C] font-medium">{group.groupName}</div>
-                                                    <div className="text-[#78716C] text-sm">{group.campaignCode !== "N/A" ? `#${group.campaignCode}` : "N/A"}</div>
+                                                    <div className="text-[#78716C] text-xs">Code: {group.groupCode}</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{group.assignedAdmin}</td>
-                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{group.sellers}</td>
-                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{group.packagesSold.toLocaleString()}</td>
                                         <td className="px-4 py-4">
                                             <div>
-                                                <div className="text-[#D97706] font-bold">{group.profitTier}</div>
-                                                <div className="text-[#78716C] text-xs">{group.profitTierStatusText}</div>
+                                                <div className="text-[#1A1C1C] font-medium">{adminName || "UNASSIGNED"}</div>
+                                                {adminEmail && <div className="text-[#78716C] text-xs">{adminEmail}</div>}
                                             </div>
                                         </td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium text-center">{group.sellers ?? 0}</td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium text-center">{group.activeCampaigns ?? 0}</td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium text-center">{(group.packagesSold ?? 0).toLocaleString()}</td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">SEK {(group.revenue ?? 0).toLocaleString()}</td>
                                         <td className="px-4 py-4">
                                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(group.status)}`}>{group.status ? "ACTIVE" : "PAUSED"}</span>
-                                        </td>
-                                        <td className="px-4 py-4">
-                                            <div>
-                                                <div className="text-[#1A1C1C] font-medium">{formattedDeadline}</div>
-                                                <div className="text-[#78716C] text-xs">{group.deadlineStatusText}</div>
-                                            </div>
                                         </td>
                                         <td className="px-4 py-4">
                                             <Link href={`/dashboard/groups/${group._id}`} className="text-[#D97706] hover:underline text-sm font-medium cursor-pointer">
