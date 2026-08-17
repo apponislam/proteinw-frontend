@@ -7,8 +7,8 @@ import { TrendingUp, Star, Pencil, Trash2, ToggleLeft, ToggleRight, Loader2, Che
 
 const TierCard = ({ tier }: { tier: TTier }) => {
     const [updateTier, { isLoading: isUpdating }] = useUpdateTierMutation();
-    const [toggleStatus, { isLoading: isToggling }] = useToggleTierStatusMutation();
-    const [deleteTier, { isLoading: isDeleting }] = useDeleteTierMutation();
+    // const [toggleStatus, { isLoading: isToggling }] = useToggleTierStatusMutation();
+    // const [deleteTier, { isLoading: isDeleting }] = useDeleteTierMutation();
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(tier.name);
     const [editPercentage, setEditPercentage] = useState(tier.percentage);
@@ -49,32 +49,37 @@ const TierCard = ({ tier }: { tier: TTier }) => {
         }
     };
 
-    const handleToggle = async () => {
-        const toastId = toast.loading(tier.isActive ? "Deactivating..." : "Activating...");
-        try {
-            await toggleStatus(tier._id!).unwrap();
-            toast.success(`Tier ${tier.isActive ? "deactivated" : "activated"}!`, { id: toastId });
-        } catch (err: any) {
-            toast.error(err?.data?.message || "Toggle failed", { id: toastId });
-        }
-    };
+    // const handleToggle = async () => {
+    //     const toastId = toast.loading(tier.isActive ? "Deactivating..." : "Activating...");
+    //     try {
+    //         await toggleStatus(tier._id!).unwrap();
+    //         toast.success(`Tier ${tier.isActive ? "deactivated" : "activated"}!`, { id: toastId });
+    //     } catch (err: any) {
+    //         toast.error(err?.data?.message || "Toggle failed", { id: toastId });
+    //     }
+    // };
 
-    const handleDelete = async () => {
-        if (!confirm(`Delete tier "${tier.name}"? This cannot be undone.`)) return;
-        const toastId = toast.loading("Deleting tier...");
-        try {
-            await deleteTier(tier._id!).unwrap();
-            toast.success("Tier deleted!", { id: toastId });
-        } catch (err: any) {
-            toast.error(err?.data?.message || "Delete failed", { id: toastId });
-        }
-    };
+    // const handleDelete = async () => {
+    //     if (!confirm(`Delete tier "${tier.name}"? This cannot be undone.`)) return;
+    //     const toastId = toast.loading("Deleting tier...");
+    //     try {
+    //         await deleteTier(tier._id!).unwrap();
+    //         toast.success("Tier deleted!", { id: toastId });
+    //     } catch (err: any) {
+    //         toast.error(err?.data?.message || "Delete failed", { id: toastId });
+    //     }
+    // };
 
     return (
         <div className={`relative bg-white rounded-2xl border p-6 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.05)] transition-all group ${tier.isPopular ? "border-[#D97706]" : "border-[#E7E5E4]"} ${!tier.isActive ? "opacity-60" : ""}`}>
             {tier.isPopular && (
                 <div className="absolute -top-3 left-6">
-                    <button onClick={handleTogglePopular} disabled={isUpdating} className="inline-flex items-center gap-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full cursor-pointer hover:scale-105 transition-transform" title="Click to toggle Most Popular status">
+                    <button
+                        onClick={handleTogglePopular}
+                        disabled={isUpdating}
+                        className="inline-flex items-center gap-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full cursor-pointer hover:scale-105 transition-transform"
+                        title="Click to toggle Most Popular status"
+                    >
                         <Star size={10} fill="currentColor" /> Most Popular
                     </button>
                 </div>
@@ -107,18 +112,25 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                         </>
                     ) : (
                         <>
-                            <button onClick={handleTogglePopular} disabled={isUpdating} className={`p-1.5 rounded-lg transition-colors cursor-pointer ${tier.isPopular ? "text-[#D97706] bg-amber-50 hover:bg-amber-100" : "text-gray-400 hover:text-[#D97706] hover:bg-amber-50"}`} title={tier.isPopular ? "Remove Most Popular tag" : "Set as Most Popular"}>
+                            <button
+                                onClick={handleTogglePopular}
+                                disabled={isUpdating}
+                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${tier.isPopular ? "text-[#D97706] bg-amber-50 hover:bg-amber-100" : "text-gray-400 hover:text-[#D97706] hover:bg-amber-50"}`}
+                                title={tier.isPopular ? "Remove Most Popular tag" : "Set as Most Popular"}
+                            >
                                 <Star size={14} fill={tier.isPopular ? "currentColor" : "none"} />
                             </button>
                             <button onClick={() => setIsEditing(true)} className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg cursor-pointer" title="Edit">
                                 <Pencil size={14} />
                             </button>
+                            {/* 
                             <button onClick={handleToggle} disabled={isToggling} className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg cursor-pointer disabled:opacity-50" title="Toggle Active Status">
                                 {isToggling ? <Loader2 size={14} className="animate-spin" /> : tier.isActive ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
                             </button>
                             <button onClick={handleDelete} disabled={isDeleting} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg cursor-pointer disabled:opacity-50" title="Delete">
                                 {isDeleting ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
                             </button>
+                            */}
                         </>
                     )}
                 </div>

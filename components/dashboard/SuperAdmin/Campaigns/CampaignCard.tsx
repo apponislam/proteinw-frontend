@@ -94,6 +94,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     <p className="text-[#78716C] text-sm mt-1 group-hover:text-[#271900] transition-colors duration-300">{campaign.shortDescription}</p>
                 </div>
 
+                {/* Commented out original progress target box */}
+                {/* 
                 <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
                     <div className="mb-4">
                         <div className="flex items-center justify-between mb-2">
@@ -114,6 +116,55 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                             <div className="text-[#1A1C1C] font-bold text-lg group-hover:text-[#271900] transition-colors duration-300 text-right">SEK {(campaign.target || 0).toLocaleString()}</div>
                         </div>
                     </div>
+                </div>
+                */}
+
+                {/* Tier Progress Details Box */}
+                <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
+                    {(() => {
+                        const totalSold = campaign.totalPackagesSold || 0;
+                        const nextMin = campaign.nextTier?.minSalesVolume || (campaign.currentTier?.maxSalesVolume ? campaign.currentTier.maxSalesVolume + 1 : 150);
+                        const currentMin = campaign.currentTier?.minSalesVolume || 0;
+                        const range = Math.max(1, nextMin - currentMin);
+                        const progressPct = campaign.nextTier ? Math.min(100, Math.max(0, Math.round(((totalSold - currentMin) / range) * 100))) : 100;
+
+                        return (
+                            <>
+                                <div className="mb-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Tier Progress</span>
+                                        <span className="text-[#D97706] font-bold">{progressPct}%</span>
+                                    </div>
+                                    <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300"
+                                            style={{ width: `${progressPct}%` }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 uppercase">CURRENT TIER</div>
+                                        <div className="text-[#D97706] font-bold text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
+                                            {campaign.currentTier ? `${campaign.currentTier.percentage}%` : "0%"}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 text-right uppercase">NEXT TIER NEEDED</div>
+                                        <div className="text-[#1A1C1C] font-bold text-base group-hover:text-[#271900] transition-colors duration-300 text-right">
+                                            {campaign.nextTier ? (
+                                                <>
+                                                    {campaign.packagesNeededForNextTier || 0} PKGS <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
+                                                </>
+                                            ) : (
+                                                "MAX TIER"
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        );
+                    })()}
                 </div>
 
                 <div className="mb-6 min-h-10 flex items-center">{renderCampaignStatus(campaign.endDate, campaign.status)}</div>

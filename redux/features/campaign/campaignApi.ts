@@ -35,6 +35,14 @@ export type TCampaignCreatedBy = {
     phone?: string;
 };
 
+export type TTierSummary = {
+    _id: string;
+    name: string;
+    percentage: number;
+    minSalesVolume: number;
+    maxSalesVolume?: number;
+};
+
 export type TCampaign = {
     _id?: string;
     name: string;
@@ -54,6 +62,9 @@ export type TCampaign = {
     campaignAdmin?: TCampaignAdmin | null;
     sellers?: TCampaignSeller[];
     products?: TCampaignProduct[];
+    currentTier?: TTierSummary | null;
+    nextTier?: TTierSummary | null;
+    packagesNeededForNextTier?: number;
 };
 
 export type TCampaignMeta = {
