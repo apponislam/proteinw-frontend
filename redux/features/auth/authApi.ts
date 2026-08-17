@@ -28,7 +28,7 @@ export type TAdminStats = {
     isActive: boolean;
     isApproved?: boolean;
     approvedBy?: string;
-    groupName: string | null;
+    groupName: string | string[] | null;
     sellerCount: number;
     orderCount: number;
 };

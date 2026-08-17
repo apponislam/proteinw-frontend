@@ -90,10 +90,52 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
 
                             <div className="flex items-center gap-3 text-sm">
                                 <Group size={16} className="text-[#D97706]" />
-                                <span className="text-[#78716C] w-24">Group:</span>
-                                <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>
-                                    {admin.groupName || "UNASSIGNED"}
-                                </span>
+                                <span className="text-[#78716C] w-24">Group(s):</span>
+                                {Array.isArray(admin.groupName) ? (
+                                    admin.groupName.length > 0 ? (
+                                        <div className="relative group/modalpaper inline-block cursor-pointer">
+                                            {/* Paper stack card preview */}
+                                            <div className="relative pt-1 pb-1 px-3 bg-white border border-[#E7E5E4] rounded-lg shadow-xs transition-all duration-200 group-hover/modalpaper:border-[#D97706] group-hover/modalpaper:shadow-md">
+                                                {admin.groupName.length > 1 && (
+                                                    <>
+                                                        <div className="absolute -top-1 left-2 right-2 h-full bg-stone-100 border border-stone-200 rounded-lg -z-10 transition-transform group-hover/modalpaper:-top-1.5" />
+                                                        {admin.groupName.length > 2 && (
+                                                            <div className="absolute -top-2 left-4 right-4 h-full bg-amber-50/60 border border-amber-200/50 rounded-lg -z-20 transition-transform group-hover/modalpaper:-top-2.5" />
+                                                        )}
+                                                    </>
+                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-xs font-bold text-[#1A1C1C] truncate max-w-40">{admin.groupName[0]}</span>
+                                                    {admin.groupName.length > 1 && (
+                                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-[#D97706]">
+                                                            +{admin.groupName.length - 1}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Hover Card list popup */}
+                                            <div className="absolute left-0 top-full mt-2 hidden group-hover/modalpaper:flex flex-col gap-1.5 z-50 p-3 bg-white rounded-xl shadow-2xl border border-stone-200 min-w-48 max-w-xs animate-in fade-in zoom-in-95 duration-150">
+                                                <div className="text-[10px] font-bold text-[#78716C] uppercase tracking-wider mb-1">
+                                                    Assigned Groups ({admin.groupName.length})
+                                                </div>
+                                                <div className="max-h-40 overflow-y-auto space-y-1 pr-1">
+                                                    {admin.groupName.map((g, idx) => (
+                                                        <div key={idx} className="px-2.5 py-1 rounded-md bg-amber-50 text-[#D97706] text-xs font-semibold border border-amber-200/60">
+                                                            {g}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <span className="font-semibold px-2.5 py-0.5 rounded-full text-xs bg-gray-200 text-gray-700">UNASSIGNED</span>
+                                    )
+                                ) : (
+                                    <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>
+                                        {admin.groupName || "UNASSIGNED"}
+                                    </span>
+                                )}
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 pt-2">

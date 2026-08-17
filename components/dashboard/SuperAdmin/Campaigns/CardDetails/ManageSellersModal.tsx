@@ -3,11 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Search, Check, Loader2, User } from "lucide-react";
 import { toast } from "sonner";
-import {
-    useGetCampaignSellersQuery,
-    useAddSellersToCampaignMutation,
-    useRemoveSellersFromCampaignMutation,
-} from "@/redux/features/campaignSeller/campaignSellerApi";
+import { useGetCampaignSellersQuery, useAddSellersToCampaignMutation, useRemoveSellersFromCampaignMutation } from "@/redux/features/campaignSeller/campaignSellerApi";
 import { useGetGroupSellersQuery } from "@/redux/features/sellerGroup/sellerGroupApi";
 
 interface ManageSellersModalProps {
@@ -18,13 +14,7 @@ interface ManageSellersModalProps {
     initialSellers?: any[];
 }
 
-const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
-    isOpen,
-    onClose,
-    campaignId,
-    groupId,
-    initialSellers = [],
-}) => {
+const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose, campaignId, groupId, initialSellers = [] }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSellerIds, setSelectedSellerIds] = useState<string[]>([]);
 
@@ -52,9 +42,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
     if (!isOpen) return null;
 
     const handleToggleSeller = (sellerId: string) => {
-        setSelectedSellerIds((prev) =>
-            prev.includes(sellerId) ? prev.filter((id) => id !== sellerId) : [...prev, sellerId]
-        );
+        setSelectedSellerIds((prev) => (prev.includes(sellerId) ? prev.filter((id) => id !== sellerId) : [...prev, sellerId]));
     };
 
     const handleSave = async () => {
@@ -63,25 +51,24 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
         const deletions = initialIds.filter((id) => !selectedSellerIds.includes(id));
 
         try {
+            let resMsg = "";
             if (additions.length > 0) {
-                await addSellersToCampaign({ campaignId, sellerIds: additions }).unwrap();
+                const addRes = await addSellersToCampaign({ campaignId, sellerIds: additions }).unwrap();
+                resMsg = addRes?.message || resMsg;
             }
             if (deletions.length > 0) {
-                await removeSellersFromCampaign({ campaignId, sellerIds: deletions }).unwrap();
+                const delRes = await removeSellersFromCampaign({ campaignId, sellerIds: deletions }).unwrap();
+                resMsg = delRes?.message || resMsg;
             }
-            toast.success("Campaign sellers updated successfully!");
+            toast.success(resMsg || "Campaign sellers updated successfully!");
             onClose();
-        } catch (err) {
-            console.error("Failed to update campaign sellers:", err);
-            toast.error("Failed to update sellers. Please try again.");
+        } catch (err: any) {
+            const errorMsg = err?.data?.message || err?.message || "Failed to update sellers. Please try again.";
+            toast.error(errorMsg);
         }
     };
 
-    const filteredSellers = groupSellers.filter(
-        (seller: any) =>
-            (seller?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase()) ||
-            (seller?.email || "").toLowerCase().includes((searchTerm || "").toLowerCase())
-    );
+    const filteredSellers = groupSellers.filter((seller: any) => (seller?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase()) || (seller?.email || "").toLowerCase().includes((searchTerm || "").toLowerCase()));
 
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
@@ -127,9 +114,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
                                 <div
                                     key={seller._id}
                                     onClick={() => handleToggleSeller(seller._id || "")}
-                                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                                        isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"
-                                    }`}
+                                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}
                                 >
                                     <div className="flex items-center gap-3 min-w-0">
                                         <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center shrink-0 font-bold text-sm">
@@ -141,13 +126,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
                                         </div>
                                     </div>
 
-                                    <div
-                                        className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${
-                                            isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"
-                                        }`}
-                                    >
-                                        {isSelected && <Check size={14} strokeWidth={3} />}
-                                    </div>
+                                    <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>{isSelected && <Check size={14} strokeWidth={3} />}</div>
                                 </div>
                             );
                         })
@@ -158,18 +137,10 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
                 <div className="px-6 py-4 border-t border-[#E7E5E4] flex items-center justify-between bg-[#F8F6F4]">
                     <span className="text-xs font-semibold text-[#78716C]">{selectedSellerIds.length} sellers selected</span>
                     <div className="flex items-center gap-3">
-                        <button
-                            onClick={onClose}
-                            className="px-4 py-2 border border-[#E7E5E4] hover:bg-[#F3F3F3] text-sm font-semibold rounded-xl transition-all cursor-pointer text-[#1A1C1C]"
-                            disabled={isAdding || isRemoving}
-                        >
+                        <button onClick={onClose} className="px-4 py-2 border border-[#E7E5E4] hover:bg-[#F3F3F3] text-sm font-semibold rounded-xl transition-all cursor-pointer text-[#1A1C1C]" disabled={isAdding || isRemoving}>
                             Cancel
                         </button>
-                        <button
-                            onClick={handleSave}
-                            className="px-5 py-2 bg-[#D97706] hover:bg-[#B45309] text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
-                            disabled={isAdding || isRemoving}
-                        >
+                        <button onClick={handleSave} className="px-5 py-2 bg-[#D97706] hover:bg-[#B45309] text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50" disabled={isAdding || isRemoving}>
                             {isAdding || isRemoving ? "Saving..." : "Save Changes"}
                         </button>
                     </div>

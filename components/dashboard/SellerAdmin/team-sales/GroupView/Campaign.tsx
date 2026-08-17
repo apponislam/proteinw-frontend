@@ -306,15 +306,17 @@ export default function Campaign({ groupId }: CampaignProps) {
 
             {/* ── If no campaigns exist and form is not open ─────────────── */}
             {campaigns.length === 0 && !showCreateForm && (
-                <div
-                    onClick={() => setShowCreateForm(true)}
-                    className="bg-amber-50/50 hover:bg-amber-50 border-2 border-dashed border-[#FFB800]/60 hover:border-[#D97706] rounded-2xl p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 group max-w-md mx-auto"
-                >
-                    <div className="w-16 h-16 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <Plus size={32} />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        onClick={() => setShowCreateForm(true)}
+                        className="bg-amber-50/50 hover:bg-amber-50 border-2 border-dashed border-[#FFB800]/60 hover:border-[#D97706] rounded-2xl p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 group min-h-70"
+                    >
+                        <div className="w-16 h-16 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <Plus size={32} />
+                        </div>
+                        <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Start New Campaign</h3>
+                        <p className="text-xs text-[#78716C] mt-1">Start a campaign so team members can raise money.</p>
                     </div>
-                    <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Start New Campaign</h3>
-                    <p className="text-xs text-[#78716C] mt-1">Start a campaign so team members can raise money.</p>
                 </div>
             )}
 
