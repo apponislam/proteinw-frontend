@@ -287,6 +287,14 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             providesTags: [{ type: "Campaign", id: "PROFIT_SUMMARY" }, "Order", "Tier"],
         }),
+        getActiveCampaignsOverview: builder.query<{ data: { totalGoal: number; activeCampaigns: number; totalSold: number } }, void>({
+            query: () => ({
+                url: "/dashboard/active-campaigns-overview",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: ["Campaign"],
+        }),
     }),
 });
 
@@ -303,4 +311,5 @@ export const {
     useGetStoreInfoQuery,
     useGetSuperAdminAdminsStatsQuery,
     useGetTotalDistributedProfitQuery,
+    useGetActiveCampaignsOverviewQuery,
 } = dashboardApi;

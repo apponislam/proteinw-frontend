@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { TCampaign, useUpdateCampaignStatusMutation } from "../../../../redux/features/campaign/campaignApi";
 import Link from "next/link";
-import { ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check, Calendar } from "lucide-react";
 
 interface CampaignCardProps {
     campaign: TCampaign;
@@ -48,11 +48,15 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             day: "numeric",
         });
 
-        if (status === "FULFILMENT" || status === "COMPLETED" || endDate.getTime() < today.getTime()) {
+        const isEnded = status === "FULFILMENT" || status === "COMPLETED";
+
+        if (isEnded) {
             return (
-                <div className="space-y-1">
-                    <div className="text-red-500 font-bold text-xs uppercase">Ended on {formattedEndDate}</div>
-                    <div className="text-[#78716C] text-xs leading-relaxed">This campaign will be automatically deleted in 2 months.</div>
+                <div className="w-full flex items-center justify-between text-xs font-semibold">
+                    <div className="text-red-500 font-bold flex items-center gap-1.5">
+                        <Calendar size={15} className="shrink-0" />
+                        <span>Campaign Ended</span>
+                    </div>
                 </div>
             );
         }
@@ -61,10 +65,18 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
 
-        return <span className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300 font-medium">{daysText}</span>;
+        return (
+            <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold">
+                <span className="group-hover:text-[#271900] transition-colors duration-300 flex items-center gap-1.5">
+                    <Calendar size={15} className="text-[#D97706] shrink-0" />
+                    <span>{daysText}</span>
+                </span>
+                <span className="text-[#1A1C1C] group-hover:text-[#271900] transition-colors font-bold">{formattedEndDate}</span>
+            </div>
+        );
     };
 
-    const isEndedOrInactive = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED" || new Date(campaign.endDate).getTime() < new Date().getTime();
+    // const isEndedOrInactive = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED" || new Date(campaign.endDate).getTime() < new Date().getTime();
 
     return (
         <div className="flex flex-col justify-between h-full bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
@@ -145,9 +157,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                                             e.stopPropagation();
                                             handleStatusSelect(opt.value);
                                         }}
-                                        className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${
-                                            currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"
-                                        }`}
+                                        className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className={`w-2 h-2 rounded-full ${opt.dot}`}></span>

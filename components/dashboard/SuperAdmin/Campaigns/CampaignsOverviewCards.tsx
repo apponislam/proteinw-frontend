@@ -1,34 +1,36 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-
-const campaignStats = [
-    {
-        title: "TOTAL GOAL",
-        value: "€1.2M",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "ACTIVE Campaign",
-        value: "24",
-        subtitle: "",
-        color: "#D97706",
-    },
-    {
-        title: "AVG. CONVERSION",
-        value: "18.2%",
-        subtitle: "",
-        color: "#D97706",
-    },
-];
+import { useGetActiveCampaignsOverviewQuery } from "@/redux/features/dashboard/dashboardApi";
 
 const CampaignsOverviewCards = () => {
+    const { data: response, isLoading } = useGetActiveCampaignsOverviewQuery();
+    const overview = response?.data || { totalGoal: 0, activeCampaigns: 0, totalSold: 0 };
+
+    const campaignStats = [
+        {
+            title: "TOTAL GOAL",
+            value: isLoading ? "..." : `SEK ${(overview.totalGoal || 0).toLocaleString()}`,
+            color: "#D97706",
+        },
+        {
+            title: "ACTIVE CAMPAIGNS",
+            value: isLoading ? "..." : (overview.activeCampaigns || 0).toLocaleString(),
+            color: "#D97706",
+        },
+        {
+            title: "TOTAL SOLD",
+            value: isLoading ? "..." : `SEK ${(overview.totalSold || 0).toLocaleString()}`,
+            color: "#D97706",
+        },
+    ];
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {campaignStats.map((stat, index) => (
                 <div key={index} className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group cursor-pointer">
                     <div className="relative z-10">
-                        {stat.subtitle && <div className="text-[#D97706] text-sm font-bold mb-2 group-hover:text-[#271900] transition-colors duration-300">{stat.subtitle}</div>}
                         <div className="text-3xl font-bold text-[#1A1C1C] mb-2 group-hover:text-[#271900] transition-colors duration-300">{stat.value}</div>
                         <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">{stat.title}</div>
                     </div>

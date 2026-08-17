@@ -48,14 +48,16 @@ const OverviewReport = () => {
                                     <tr key={index} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-md bg-[#F5F5F4] bg-opacity-10 flex items-center justify-center text-[#D97706] font-bold text-sm">{group.groupCode}</div>
+                                                <div className="w-8 h-8 rounded-md bg-[#F5F5F4] bg-opacity-10 flex items-center justify-center text-[#D97706] font-bold text-sm">{group.groupCode || "GP"}</div>
                                                 <span className="text-[#1A1C1C] font-medium">{group.groupName}</span>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-4 text-[#78716C]">{group.assignedAdmin}</td>
-                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{group.packagesSold.toLocaleString()}</td>
-                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{group.revenue.toLocaleString()} SEK</td>
-                                        <td className="px-4 py-4 text-[#D97706] font-bold">{group.groupProfit.toLocaleString()} SEK</td>
+                                        <td className="px-4 py-4 text-[#78716C]">
+                                            {typeof group.assignedAdmin === "object" ? group.assignedAdmin?.name || "UNASSIGNED" : group.assignedAdmin || "UNASSIGNED"}
+                                        </td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{(group.packagesSold ?? 0).toLocaleString()}</td>
+                                        <td className="px-4 py-4 text-[#1A1C1C] font-medium">{(group.revenue ?? 0).toLocaleString()} SEK</td>
+                                        <td className="px-4 py-4 text-[#D97706] font-bold">{(group.groupProfit ?? 0).toLocaleString()} SEK</td>
                                     </tr>
                                 );
                             })
