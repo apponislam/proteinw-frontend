@@ -55,6 +55,10 @@ export type TGroup = {
     isDeleted: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    sellerCount?: number;
+    invitationCount?: number;
+    totalCampaigns?: number;
+    activeCampaigns?: number;
     tierInfo?: TTierInfo;
 };
 

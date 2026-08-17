@@ -32,19 +32,34 @@ const Page = () => {
 
             {group && (
                 <div className="bg-white px-6 py-5 rounded-2xl border border-[#E7E5E4] shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)]">
-                    <div className="mb-4">
-                        <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Class / Team Group</span>
-                        <h1 className="text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
-                        <p className="text-[#78716C] text-sm">{group.shortDescription}</p>
+                    <div className="mb-4 flex items-start justify-between">
+                        <div>
+                            <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Class / Team Group</span>
+                            <h1 className="text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
+                            <p className="text-[#78716C] text-sm">{group.shortDescription}</p>
+                        </div>
+                        <div className="text-xs text-[#78716C] font-semibold flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 shrink-0">
+                            <Calendar size={14} className="text-[#D97706]" />
+                            <span>Created: {group.createdAt ? new Date(group.createdAt).toLocaleDateString() : "N/A"}</span>
+                        </div>
                     </div>
                     <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#F5F5F4]">
+                        <div className="flex items-center gap-2.5">
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                                <Users size={16} />
+                            </div>
+                            <div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Total Sellers</div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">{group.sellerCount ?? 0}</div>
+                            </div>
+                        </div>
                         <div className="flex items-center gap-2.5">
                             <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
                                 <Award size={16} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Fundraising Goal</div>
-                                {/* <div className="text-sm font-bold text-[#1A1C1C]">SEK {group.goal.toLocaleString()}</div> */}
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Active Campaigns</div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">{group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}</div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
@@ -52,17 +67,8 @@ const Page = () => {
                                 <Calendar size={16} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">End Date</div>
-                                {/* <div className="text-sm font-bold text-[#1A1C1C]">{group.endDate ? new Date(group.endDate).toLocaleDateString() : "N/A"}</div> */}
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
-                                <Users size={16} />
-                            </div>
-                            <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Status</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">{group.isActive ? "Active" : "Inactive"}</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Pending Invitations</div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">{group.invitationCount ?? 0}</div>
                             </div>
                         </div>
                     </div>
