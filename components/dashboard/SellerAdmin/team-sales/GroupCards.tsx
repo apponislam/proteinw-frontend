@@ -3,22 +3,26 @@
 import React, { useState } from "react";
 import GroupCard from "./GroupCard";
 import CreateGroupModal from "./CreateGroupModal";
-import { useGetMyGroupsQuery, TGroup } from "@/redux/features/group/groupApi";
+import { useGetMyGroupsQuery, TMyGroupSummary } from "@/redux/features/group/groupApi";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { Plus } from "lucide-react";
+import Pagination from "@/components/dashboard/Pagination";
 
 const GroupCards = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [page, setPage] = useState(1);
 
     const user = useAppSelector(currentUser);
     const isSuperAdmin = user?.role === "SUPER_ADMIN";
 
-    const { data: myGroupsData, isLoading } = useGetMyGroupsQuery(undefined, {
-        skip: isSuperAdmin,
-    });
+    const { data: myGroupsData, isLoading } = useGetMyGroupsQuery(
+        { page, limit: 9 },
+        { skip: isSuperAdmin }
+    );
 
-    const groups: TGroup[] = myGroupsData?.data || [];
+    const groups: TMyGroupSummary[] = myGroupsData?.data || [];
+    const meta = myGroupsData?.meta;
 
     if (isLoading) {
         return (
@@ -33,38 +37,16 @@ const GroupCards = () => {
         <>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {groups.length > 0 ? (
-                    groups.map((group) => {
-                        const totalPackages = group.tierInfo?.totalPackagesSold || (group as any).totalPackagesSold || 0;
-                        const totalSalesNum = group.tierInfo?.totalRevenue || (group as any).totalRevenue || 0;
-                        const nextTier = group.tierInfo?.nextTier || (group as any).nextTier;
-                        const packagesNeeded = group.tierInfo?.packagesNeededForNextTier || (group as any).packagesNeededForNextTier || 0;
-
-                        const nextTierProfitText = nextTier ? `${nextTier.percentage}%` : "Max Tier";
-                        const untilBonusText = nextTier ? `${packagesNeeded} package${packagesNeeded > 1 ? "s" : ""} until ${nextTier.percentage}% profit bonus` : "Highest profit tier reached! 🎉";
-
-                        const campaignName = (group as any)?.runningCampaign?.name || ((group as any)?.runningCampaignId as any)?.name || "No active campaign";
-
-                        return (
-                            <GroupCard
-                                key={group._id}
-                                className=""
-                                id={group._id || ""}
-                                name={group.name}
-                                campaignName={campaignName}
-                                activeSellers={group.isActive ? "Active" : "Inactive"}
-                                totalSales={`${totalPackages} package${totalPackages !== 1 ? "s" : ""} (${totalSalesNum.toLocaleString()} SEK)`}
-                                nextTierProfit={nextTierProfitText}
-                                untilBonus={untilBonusText}
-                            />
-                        );
-                    })
+                    groups.map((group) => (
+                        <GroupCard key={group._id} group={group} />
+                    ))
                 ) : (
                     <div className="col-span-full bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">You don't have any groups yet. Click below to start a new group!</div>
                 )}
 
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group flex flex-col justify-center items-center text-center min-h-62.5 cursor-pointer"
+                    className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group flex flex-col justify-center items-center text-center min-h-62.5 cursor-pointer border border-[#E7E5E4]"
                 >
                     <div className="relative z-10 flex flex-col items-center">
                         <div className="w-12 h-12 rounded-full bg-amber-50 group-hover:bg-white text-[#D97706] flex items-center justify-center mb-3 transition-colors duration-300 shadow-xs">
@@ -75,6 +57,12 @@ const GroupCards = () => {
                     </div>
                 </button>
             </div>
+
+            {meta && (
+                <div className="mt-8">
+                    <Pagination meta={meta} onPageChange={setPage} itemName="GROUPS" />
+                </div>
+            )}
 
             <CreateGroupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </>

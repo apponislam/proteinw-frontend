@@ -37,17 +37,44 @@ export type TGroupCampaignStats = {
     packagesNeededForNextTier: number;
 };
 
+export type TGroupCreatedBy = {
+    _id?: string;
+    name?: string;
+    email?: string;
+    role?: string;
+    phone?: string;
+};
+
 export type TGroup = {
     _id?: string;
     name: string;
     shortDescription: string;
     code: string;
-    createdBy?: string;
+    createdBy?: string | TGroupCreatedBy;
     isActive: boolean;
     isDeleted: boolean;
     createdAt?: Date;
     updatedAt?: Date;
     tierInfo?: TTierInfo;
+};
+
+export type TMyGroupSummary = {
+    _id: string;
+    name: string;
+    shortDescription: string;
+    code: string;
+    createdBy?: TGroupCreatedBy;
+    isActive: boolean;
+    isDeleted: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
+    totalCampaigns: number;
+    activeCampaigns: number;
+    packagesSold: number;
+    totalSales: number;
+    activeCampaignPackagesSold: number;
+    activeCampaignTotalSales: number;
+    totalSellers: number;
 };
 
 export type TGroupMeta = {
@@ -61,6 +88,11 @@ export type TGroupMeta = {
 
 export type TGroupResponse = {
     data: TGroup[];
+    meta: TGroupMeta;
+};
+
+export type TMyGroupResponse = {
+    data: TMyGroupSummary[];
     meta: TGroupMeta;
 };
 
@@ -107,7 +139,7 @@ const groupApi = baseApi.injectEndpoints({
                     : [{ type: "Group", id: "MY_GROUP" }],
         }),
 
-        getMyGroups: builder.query<TGroupResponse, { page?: number; limit?: number } | void>({
+        getMyGroups: builder.query<TMyGroupResponse, { page?: number; limit?: number } | void>({
             query: (params) => {
                 const queryParams = new URLSearchParams();
                 let page = 1;
