@@ -65,6 +65,7 @@ export type TCampaign = {
     currentTier?: TTierSummary | null;
     nextTier?: TTierSummary | null;
     packagesNeededForNextTier?: number;
+    sellersCount?: number;
 };
 
 export type TCampaignMeta = {

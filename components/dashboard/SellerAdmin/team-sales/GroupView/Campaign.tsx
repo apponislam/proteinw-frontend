@@ -188,42 +188,111 @@ export default function Campaign({ groupId }: CampaignProps) {
                                         </div>
                                     </div>
 
-                                    {/* Metrics breakdown */}
-                                    <div className="space-y-2.5">
-                                        <div className="p-3 bg-[#FDFDFD] border border-[#F5F5F4] rounded-xl flex items-center gap-3">
-                                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706] shrink-0">
-                                                <Award size={16} />
-                                            </div>
-                                            <div>
-                                                <span className="block text-[10px] text-[#78716C] font-semibold uppercase">Campaign Target</span>
-                                                <span className="text-xs font-bold text-[#1A1C1C]">SEK {campaign.target.toLocaleString()}</span>
-                                            </div>
-                                        </div>
+                                    {/* SELLERS, SOLD and TARGET metrics box */}
+                                    <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
+                                        {(() => {
+                                            const totalSellers = campaign.sellersCount ?? (campaign as any).totalSellers ?? (campaign as any).sellerCount ?? 0;
+                                            return (
+                                                <div className="grid grid-cols-3 gap-2">
+                                                    <div>
+                                                        <div className="text-[#78716C] text-xs uppercase font-semibold">SELLERS</div>
+                                                        <div className="text-[#D97706] font-bold text-lg">{totalSellers}</div>
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <div className="text-[#78716C] text-xs uppercase font-semibold">SOLD</div>
+                                                        <div className="text-[#D97706] font-bold text-lg">SEK {(campaign.totalRevenueSold || 0).toLocaleString()}</div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="text-[#78716C] text-xs uppercase font-semibold">TARGET</div>
+                                                        <div className="text-[#1A1C1C] font-bold text-lg">SEK {(campaign.target || 0).toLocaleString()}</div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
 
-                                        <div className={`p-3 border rounded-xl flex items-center gap-3 ${!isCampaignActive ? "bg-red-50 border-red-100" : "bg-[#FDFDFD] border-[#F5F5F4]"}`}>
-                                            <div className={`p-2 rounded-lg shrink-0 ${!isCampaignActive ? "bg-red-100 text-red-500" : "bg-amber-50 text-[#D97706]"}`}>
-                                                <Calendar size={16} />
-                                            </div>
-                                            <div>
-                                                <span className="block text-[10px] text-[#78716C] font-semibold uppercase">End Date</span>
-                                                <span className="text-xs font-bold text-[#1A1C1C]">{safeDate(campaign.endDate)}</span>
-                                                {!isCampaignActive && <span className="block text-[9px] text-red-500 font-semibold mt-0.5">{deletesIn > 0 ? `Auto-deleted in ${deletesIn} days` : "Scheduled for deletion"}</span>}
-                                            </div>
-                                        </div>
+                                    {/* Tier Progress Details Box */}
+                                    <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
+                                        {(() => {
+                                            const totalSold = campaign.totalPackagesSold || 0;
+                                            const nextMin = campaign.nextTier?.minSalesVolume || (campaign.currentTier?.maxSalesVolume ? campaign.currentTier.maxSalesVolume + 1 : 150);
+                                            const currentMin = campaign.currentTier?.minSalesVolume || 0;
+                                            const range = Math.max(1, nextMin - currentMin);
+                                            const progressPct = campaign.nextTier ? Math.min(100, Math.max(0, Math.round(((totalSold - currentMin) / range) * 100))) : 100;
 
-                                        <div className="p-3 bg-[#FDFDFD] border border-[#F5F5F4] rounded-xl flex items-center gap-3">
-                                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706] shrink-0">
-                                                <Store size={16} />
-                                            </div>
-                                            <div>
-                                                <span className="block text-[10px] text-[#78716C] font-semibold uppercase">Campaign Code</span>
-                                                <span className="text-xs font-bold text-[#1A1C1C]">{campaign.code}</span>
-                                            </div>
-                                        </div>
+                                            return (
+                                                <>
+                                                    <div className="mb-4">
+                                                        <div className="flex items-center justify-between mb-2">
+                                                            <span className="text-[#78716C] text-sm font-semibold">Tier Progress</span>
+                                                            <span className="text-[#D97706] font-bold">{progressPct}%</span>
+                                                        </div>
+                                                        <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
+                                                            <div className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300" style={{ width: `${progressPct}%` }} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <div className="text-[#78716C] text-xs uppercase font-semibold">CURRENT TIER</div>
+                                                            <div className="text-[#D97706] font-bold text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
+                                                                {campaign.currentTier ? `${campaign.currentTier.percentage}%` : "0%"}
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="text-[#78716C] text-xs text-right uppercase font-semibold">NEXT TIER NEEDED</div>
+                                                            <div className="text-[#1A1C1C] font-bold text-base text-right">
+                                                                {campaign.nextTier ? (
+                                                                    <>
+                                                                        {campaign.packagesNeededForNextTier || 0} PKGS <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
+                                                                    </>
+                                                                ) : (
+                                                                    "MAX TIER"
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            );
+                                        })()}
+                                    </div>
+
+                                    {/* Deadline / Status row */}
+                                    <div className="mb-2 min-h-8 flex items-center w-full">
+                                        {(() => {
+                                            const endDate = new Date(campaign.endDate);
+                                            const today = new Date();
+                                            const formattedEndDate = endDate.toLocaleDateString("en-US", { year: "numeric", month: "numeric", day: "numeric" });
+                                            const isEnded = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED";
+
+                                            if (isEnded) {
+                                                return (
+                                                    <div className="w-full flex items-center justify-between text-xs font-semibold">
+                                                        <div className="text-red-500 font-bold flex items-center gap-1.5">
+                                                            <Calendar size={15} className="shrink-0" />
+                                                            <span>Campaign Ended</span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+
+                                            const diffTime = endDate.getTime() - today.getTime();
+                                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                            const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
+
+                                            return (
+                                                <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold">
+                                                    <span className="flex items-center gap-1.5">
+                                                        <Calendar size={15} className="text-[#D97706] shrink-0" />
+                                                        <span>{daysText}</span>
+                                                    </span>
+                                                    <span className="text-[#1A1C1C] font-bold">{formattedEndDate}</span>
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
 
-                                <div className="mt-4 pt-3 border-t border-[#F5F5F4]">
+                                <div className="pt-3 border-t border-[#F5F5F4]">
                                     <Link
                                         href={`/dashboard/team-sales/${groupId}/${campaign._id}`}
                                         className="w-full h-9 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"

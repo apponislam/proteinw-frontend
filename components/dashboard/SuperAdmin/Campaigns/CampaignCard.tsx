@@ -136,10 +136,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                                         <span className="text-[#D97706] font-bold">{progressPct}%</span>
                                     </div>
                                     <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
-                                        <div
-                                            className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300"
-                                            style={{ width: `${progressPct}%` }}
-                                        />
+                                        <div className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300" style={{ width: `${progressPct}%` }} />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
@@ -167,7 +164,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     })()}
                 </div>
 
-                <div className="mb-6 min-h-10 flex items-center">{renderCampaignStatus(campaign.endDate, campaign.status)}</div>
+                <div className="mb-2 min-h-10 flex items-center">{renderCampaignStatus(campaign.endDate, campaign.status)}</div>
             </div>
 
             {/* Bottom Actions Row */}
