@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useGetAllCampaignsSummaryQuery } from "@/redux/features/campaign/campaignApi";
+import { useGetTotalDistributedProfitQuery } from "@/redux/features/dashboard/dashboardApi";
 import Pagination from "../../Pagination";
 import AssignGroupModal from "./AssignGroupModal";
 
@@ -10,9 +11,11 @@ const RecentAssigned: React.FC = () => {
     const [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: summaryResponse, isLoading } = useGetAllCampaignsSummaryQuery({ page, limit: 5 });
+    const { data: profitResponse, isLoading: isProfitLoading } = useGetTotalDistributedProfitQuery();
 
     const recentCampaigns = summaryResponse?.data || [];
     const meta = summaryResponse?.meta;
+    const totalProfit = profitResponse?.data?.totalDistributedProfit ?? 0;
 
     return (
         <div className="mt-8">
@@ -84,7 +87,9 @@ const RecentAssigned: React.FC = () => {
                     <Image src="/dashboard/superadmin/overleyleftbottom.png" alt="" width={117} height={129} className="absolute left-0 bottom-0 opacity-50" />
                     <div className="relative z-10 text-center">
                         <div className="text-[#F59E0B] text-center text-sm mb-2">Total Distributed Profit</div>
-                        <div className="text-4xl text-center font-bold text-[#FBBF24]">SEK {(meta?.total ? (meta.total * 5000).toLocaleString() : "842,500")}</div>
+                        <div className="text-4xl text-center font-bold text-[#FBBF24]">
+                            {isProfitLoading ? "Loading..." : `SEK ${totalProfit.toLocaleString()}`}
+                        </div>
                     </div>
                 </div>
             </div>

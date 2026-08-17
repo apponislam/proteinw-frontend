@@ -79,8 +79,8 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({
 
     const filteredSellers = groupSellers.filter(
         (seller: any) =>
-            seller.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            seller.email.toLowerCase().includes(searchTerm.toLowerCase())
+            (seller?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase()) ||
+            (seller?.email || "").toLowerCase().includes((searchTerm || "").toLowerCase())
     );
 
     return (

@@ -98,7 +98,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-            <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-stone-100">
+            <div onClick={(e) => e.stopPropagation()} className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-stone-100">
                 <div className="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
                     <div className="flex items-center gap-2 text-[#1A1C1C]">
                         <Layers className="text-[#D97706]" size={20} />

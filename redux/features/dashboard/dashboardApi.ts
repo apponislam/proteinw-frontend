@@ -275,6 +275,14 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             providesTags: ["Admin"],
         }),
+        getTotalDistributedProfit: builder.query<{ data: { totalDistributedProfit: number } }, void>({
+            query: () => ({
+                url: "/dashboard/total-distributed-profit",
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: [{ type: "Campaign", id: "PROFIT_SUMMARY" }, "Order", "Tier"],
+        }),
     }),
 });
 
@@ -290,4 +298,5 @@ export const {
     useLazyGetActivitiesQuery,
     useGetStoreInfoQuery,
     useGetSuperAdminAdminsStatsQuery,
+    useGetTotalDistributedProfitQuery,
 } = dashboardApi;

@@ -240,13 +240,22 @@ const authApi = baseApi.injectEndpoints({
             },
             providesTags: ["Admin"],
         }),
-        getGroupSellers: builder.query<{ data: TUser[] }, string>({
-            query: (groupId) => ({
-                url: `/auth/group-members/${groupId}`,
-                method: "GET",
-                credentials: "include",
-            }),
-            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })), { type: "User", id: "LIST" }] : [{ type: "User", id: "LIST" }]),
+        getGroupSellers: builder.query<{ data: TUser[]; meta?: TAdminStatsMeta }, { groupId: string; page?: number; limit?: number } | string>({
+            query: (args) => {
+                const groupId = typeof args === "string" ? args : args.groupId;
+                const queryParams = new URLSearchParams();
+                if (typeof args !== "string") {
+                    if (args.page) queryParams.append("page", String(args.page));
+                    if (args.limit) queryParams.append("limit", String(args.limit));
+                }
+                const queryString = queryParams.toString();
+                return {
+                    url: queryString ? `/auth/group-members/${groupId}?${queryString}` : `/auth/group-members/${groupId}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) => (result?.data ? [...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })), { type: "User", id: "LIST" }] : [{ type: "User", id: "LIST" }]),
         }),
         getReferralAndCampaign: builder.query<{ data: { referralCode: string; campaignCode: string | false; campaign: string | false } }, void>({
             query: () => ({

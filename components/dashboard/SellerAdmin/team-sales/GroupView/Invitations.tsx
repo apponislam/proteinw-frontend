@@ -5,6 +5,7 @@ import { useGetInvitationsByGroupQuery, useSendInvitationMutation, useCancelInvi
 import { Mail, Trash2, Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import Pagination from "@/components/dashboard/Pagination";
 
 interface InvitationsProps {
     groupId: string;
@@ -12,9 +13,13 @@ interface InvitationsProps {
 
 export default function Invitations({ groupId }: InvitationsProps) {
     const [email, setEmail] = useState("");
-    const { data: invitationsData, isLoading, refetch } = useGetInvitationsByGroupQuery({ groupId });
+    const [page, setPage] = useState(1);
+    const { data: invitationsData, isLoading, refetch } = useGetInvitationsByGroupQuery({ groupId, page, limit: 10 });
     const [sendInvitation, { isLoading: isSending }] = useSendInvitationMutation();
     const [cancelInvitation, { isLoading: isCancelling }] = useCancelInvitationMutation();
+
+    const invitations = invitationsData?.data || [];
+    const meta = invitationsData?.meta;
 
     const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,54 +85,60 @@ export default function Invitations({ groupId }: InvitationsProps) {
                     <div className="flex items-center justify-center py-8">
                         <Loader2 className="animate-spin text-[#D97706]" size={28} />
                     </div>
-                ) : !invitationsData?.data || invitationsData.data.length === 0 ? (
+                ) : !invitations || invitations.length === 0 ? (
                     <div className="text-center py-8 text-[#78716C] text-sm">
                         No invitations sent yet. Invite your first team member above!
                     </div>
                 ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="border-b border-[#F5F5F4] text-xs font-semibold text-[#78716C] uppercase tracking-wider">
-                                    <th className="py-3 px-4">Email Address</th>
-                                    <th className="py-3 px-4">Status</th>
-                                    <th className="py-3 px-4">Sent At</th>
-                                    <th className="py-3 px-4 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-[#F5F5F4] text-sm text-[#1C1917]">
-                                {invitationsData.data.map((invite) => (
-                                    <tr key={invite._id} className="hover:bg-[#FDFDFD] transition-colors">
-                                        <td className="py-4 px-4 font-medium">{invite.email}</td>
-                                        <td className="py-4 px-4">
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
-                                                ${invite.status === "accepted" ? "bg-green-50 text-green-700 border border-green-200" : 
-                                                  invite.status === "declined" ? "bg-red-50 text-red-700 border border-red-200" : 
-                                                  "bg-amber-50 text-amber-700 border border-amber-200 animate-pulse"}`}
-                                            >
-                                                {invite.status}
-                                            </span>
-                                        </td>
-                                        <td className="py-4 px-4 text-[#78716C]">
-                                            {invite.createdAt ? new Date(invite.createdAt).toLocaleDateString() : "N/A"}
-                                        </td>
-                                        <td className="py-4 px-4 text-right">
-                                            {invite.status === "pending" && (
-                                                <button 
-                                                    onClick={() => invite._id && handleCancel(invite._id)}
-                                                    disabled={isCancelling}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#F5F5F4] text-red-600 hover:bg-red-50 hover:border-red-200 transition-all text-xs font-semibold cursor-pointer disabled:opacity-50"
-                                                >
-                                                    <Trash2 size={14} />
-                                                    <span>Cancel</span>
-                                                </button>
-                                            )}
-                                        </td>
+                    <>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b border-[#F5F5F4] text-xs font-semibold text-[#78716C] uppercase tracking-wider">
+                                        <th className="py-3 px-4">Email Address</th>
+                                        <th className="py-3 px-4">Status</th>
+                                        <th className="py-3 px-4">Sent At</th>
+                                        <th className="py-3 px-4 text-right">Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody className="divide-y divide-[#F5F5F4] text-sm text-[#1C1917]">
+                                    {invitations.map((invite) => (
+                                        <tr key={invite._id} className="hover:bg-[#FDFDFD] transition-colors">
+                                            <td className="py-4 px-4 font-medium">{invite.email}</td>
+                                            <td className="py-4 px-4">
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
+                                                    ${invite.status === "accepted" ? "bg-green-50 text-green-700 border border-green-200" : 
+                                                      invite.status === "declined" ? "bg-red-50 text-red-700 border border-red-200" : 
+                                                      "bg-amber-50 text-amber-700 border border-amber-200 animate-pulse"}`}
+                                                >
+                                                    {invite.status}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-4 text-[#78716C]">
+                                                {invite.createdAt ? new Date(invite.createdAt).toLocaleDateString() : "N/A"}
+                                            </td>
+                                            <td className="py-4 px-4 text-right">
+                                                {invite.status === "pending" && (
+                                                    <button 
+                                                        onClick={() => invite._id && handleCancel(invite._id)}
+                                                        disabled={isCancelling}
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#F5F5F4] text-red-600 hover:bg-red-50 hover:border-red-200 transition-all text-xs font-semibold cursor-pointer disabled:opacity-50"
+                                                    >
+                                                        <Trash2 size={14} />
+                                                        <span>Cancel</span>
+                                                    </button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="mt-6">
+                            <Pagination meta={meta} onPageChange={setPage} itemName="INVITATIONS" />
+                        </div>
+                    </>
                 )}
             </div>
         </div>
