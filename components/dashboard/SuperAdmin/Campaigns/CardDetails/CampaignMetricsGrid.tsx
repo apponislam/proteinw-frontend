@@ -2,19 +2,66 @@
 
 import React from "react";
 import Image from "next/image";
+import { TCampaign } from "@/redux/features/campaign/campaignApi";
 
 interface CampaignMetricsGridProps {
-    stats: Array<{
+    campaign: TCampaign;
+    stats?: Array<{
         title: string;
         value: string;
         subtitle?: string;
     }>;
 }
 
-const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ stats }) => {
+const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, stats: customStats }) => {
+    // Calculate metrics directly inside CampaignMetricsGrid component
+    const profitPercentage = campaign.currentTier?.percentage || 40;
+    const estProfit = Math.round(((campaign.totalRevenueSold || 0) * profitPercentage) / 100);
+    const targetRevenue = campaign.target || 0;
+    const sekProgress = targetRevenue > 0 ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / targetRevenue) * 100)) : 0;
+    const packagesNeeded = campaign.packagesNeededForNextTier;
+
+    const endDate = new Date(campaign.endDate);
+    const today = new Date();
+    const formattedEndDate = endDate.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+
+    const getDaysLeft = () => {
+        const diffTime = endDate.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays < 0) return "Expired";
+        if (diffDays === 0) return "Ends today";
+        return `In ${diffDays} days`;
+    };
+
+    const currentStatusStr = campaign.status || "DRAFT";
+
+    const defaultStats = [
+        {
+            title: targetRevenue > 0 ? `GOAL: SEK ${targetRevenue.toLocaleString()} (${sekProgress}%)` : `GOAL: SEK 0`,
+            value: `${campaign.totalPackagesSold || 0} pcs`,
+            subtitle: packagesNeeded && packagesNeeded > 0 ? `NEXT TIER: ${packagesNeeded} PCS NEEDED` : "TOTAL SOLD",
+        },
+        {
+            title: `EST. PROFIT (${profitPercentage}%): SEK ${estProfit.toLocaleString()}`,
+            value: `SEK ${(campaign.totalRevenueSold || 0).toLocaleString()}`,
+            subtitle: "REVENUE RAISED",
+        },
+        {
+            title: `END DATE: ${formattedEndDate}`,
+            value: currentStatusStr,
+            subtitle: `STATUS (${getDaysLeft()})`,
+        },
+    ];
+
+    const displayStats = customStats || defaultStats;
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stats.map((stat, idx) => (
+            {displayStats.map((stat, idx) => (
                 <div
                     key={idx}
                     className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group cursor-pointer"

@@ -78,30 +78,6 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
         return `In ${diffDays} days`;
     };
 
-    const profitPercentage = campaign.currentTier?.percentage || 40;
-    const estProfit = Math.round(((campaign.totalRevenueSold || 0) * profitPercentage) / 100);
-    const targetRevenue = campaign.target || 0;
-    const sekProgress = targetRevenue > 0 ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / targetRevenue) * 100)) : 0;
-    const packagesNeeded = campaign.packagesNeededForNextTier;
-
-    const stats = [
-        {
-            title: targetRevenue > 0 ? `GOAL: SEK ${targetRevenue.toLocaleString()} (${sekProgress}%)` : `GOAL: SEK 0`,
-            value: `${campaign.totalPackagesSold || 0} pcs`,
-            subtitle: packagesNeeded && packagesNeeded > 0 ? `NEXT TIER: ${packagesNeeded} PCS NEEDED` : "TOTAL SOLD",
-        },
-        {
-            title: `EST. PROFIT (${profitPercentage}%): SEK ${estProfit.toLocaleString()}`,
-            value: `SEK ${(campaign.totalRevenueSold || 0).toLocaleString()}`,
-            subtitle: "REVENUE RAISED",
-        },
-        {
-            title: `END DATE: ${formattedEndDate}`,
-            value: currentStatusStr,
-            subtitle: `STATUS (${getDaysLeft()})`,
-        },
-    ];
-
     return (
         <div className="space-y-8">
             {/* Header / Breadcrumb */}
@@ -164,7 +140,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             </div>
 
             {/* Quick Metrics Grid */}
-            <CampaignMetricsGrid stats={stats} />
+            <CampaignMetricsGrid campaign={campaign} />
 
             {/* Auto-Deletion Warning banner for Fulfilment or Completed campaigns */}
             {(currentStatusStr === "FULFILMENT" || currentStatusStr === "COMPLETED") && (
