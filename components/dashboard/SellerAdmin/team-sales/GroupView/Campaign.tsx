@@ -198,10 +198,10 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                         <div className="text-[#78716C] text-xs uppercase font-semibold">SELLERS</div>
                                                         <div className="text-[#D97706] font-bold text-lg">{totalSellers}</div>
                                                     </div>
-                                                    <div className="text-center">
+                                                     <div className="text-center">
                                                         <div className="text-[#78716C] text-xs uppercase font-semibold">SOLD</div>
-                                                        <div className="text-[#D97706] font-bold text-lg">SEK {(campaign.totalRevenueSold || 0).toLocaleString()}</div>
-                                                    </div>
+                                                        <div className="text-[#D97706] font-bold text-lg">{campaign.totalPackagesSold || 0} pcs</div>
+                                                     </div>
                                                     <div className="text-right">
                                                         <div className="text-[#78716C] text-xs uppercase font-semibold">TARGET</div>
                                                         <div className="text-[#1A1C1C] font-bold text-lg">SEK {(campaign.target || 0).toLocaleString()}</div>

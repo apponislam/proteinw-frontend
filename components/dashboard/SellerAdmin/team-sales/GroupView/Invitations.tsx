@@ -52,12 +52,12 @@ export default function Invitations({ groupId }: InvitationsProps) {
 
     return (
         <div className="bg-white p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] mt-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#F5F5F4] pb-6 mb-6">
+            <div className="flex flex-col gap-4 border-b border-[#F5F5F4] pb-6 mb-6">
                 <div>
                     <h3 className="text-xl font-bold text-[#1A1C1C]">Invite Members</h3>
                     <p className="text-sm text-[#78716C]">Invite sellers or team members to join your fundraising group.</p>
                 </div>
-                <form onSubmit={handleSend} className="flex items-center gap-2 max-w-md w-full">
+                <form onSubmit={handleSend} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-lg">
                     <div className="relative flex-1">
                         <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E]" size={18} />
                         <Input 
@@ -71,7 +71,7 @@ export default function Invitations({ groupId }: InvitationsProps) {
                     <button 
                         type="submit"
                         disabled={isSending}
-                        className="inline-flex items-center gap-2 h-11 px-5 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer shrink-0"
+                        className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer shrink-0"
                     >
                         {isSending ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} />}
                         <span>Invite</span>

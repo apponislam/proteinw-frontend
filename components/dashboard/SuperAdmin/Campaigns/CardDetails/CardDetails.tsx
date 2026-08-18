@@ -5,6 +5,8 @@ import { TCampaign, useUpdateCampaignStatusMutation } from "../../../../../redux
 import { useGetCampaignSellersQuery } from "@/redux/features/campaignSeller/campaignSellerApi";
 import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone, ChevronDown, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/auth/authSlice";
 import SellersList from "./SellersList";
 import ProductsList from "./ProductsList";
 import CampaignMetricsGrid from "./CampaignMetricsGrid";
@@ -24,6 +26,9 @@ const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; l
 
 const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const router = useRouter();
+    const user = useAppSelector(currentUser);
+    const isSuperAdmin = user?.role === "SUPER_ADMIN";
+
     const [updateCampaignStatus, { isLoading: isUpdating }] = useUpdateCampaignStatusMutation();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -51,7 +56,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const currentOption = statusOptions.find((opt) => opt.value === currentStatusStr) || statusOptions[0];
 
     const handleStatusSelect = async (status: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED") => {
-        if (!campaignId || status === currentStatusStr) {
+        if (!campaignId || status === currentStatusStr || !isSuperAdmin) {
             setIsDropdownOpen(false);
             return;
         }
@@ -87,50 +92,57 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                     <span>Back</span>
                 </button>
 
-                {/* Status Dropdown Picker for Details Page */}
-                <div className="relative">
-                    <button
-                        type="button"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsDropdownOpen((prev) => !prev);
-                        }}
-                        disabled={isUpdating}
-                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all border border-stone-200 hover:border-amber-400 ${currentOption.bg} ${currentOption.text}`}
-                        title="Change Status"
-                    >
-                        <span className={`w-2 h-2 rounded-full ${currentOption.dot} ${isUpdating ? "animate-ping" : ""}`}></span>
-                        <span>{isUpdating ? "UPDATING..." : currentOption.label}</span>
-                        <ChevronDown size={14} className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
-                    </button>
+                {/* Status Badge / Dropdown Picker for Details Page */}
+                {isSuperAdmin ? (
+                    <div className="relative">
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsDropdownOpen((prev) => !prev);
+                            }}
+                            disabled={isUpdating}
+                            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all border border-stone-200 hover:border-amber-400 ${currentOption.bg} ${currentOption.text}`}
+                            title="Change Status"
+                        >
+                            <span className={`w-2 h-2 rounded-full ${currentOption.dot} ${isUpdating ? "animate-ping" : ""}`}></span>
+                            <span>{isUpdating ? "UPDATING..." : currentOption.label}</span>
+                            <ChevronDown size={14} className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                        </button>
 
-                    {isDropdownOpen && (
-                        <>
-                            <div className="fixed inset-0 z-20" onClick={() => setIsDropdownOpen(false)}></div>
-                            <div className="absolute right-0 mt-2 z-30 w-44 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                {statusOptions.map((opt) => (
-                                    <button
-                                        key={opt.value}
-                                        type="button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleStatusSelect(opt.value);
-                                        }}
-                                        className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${
-                                            currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"
-                                        }`}
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <span className={`w-2 h-2 rounded-full ${opt.dot}`}></span>
-                                            <span>{opt.label}</span>
-                                        </div>
-                                        {currentStatusStr === opt.value && <Check size={14} className="text-[#D97706]" />}
-                                    </button>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
+                        {isDropdownOpen && (
+                            <>
+                                <div className="fixed inset-0 z-20" onClick={() => setIsDropdownOpen(false)}></div>
+                                <div className="absolute right-0 mt-2 z-30 w-44 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                    {statusOptions.map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleStatusSelect(opt.value);
+                                            }}
+                                            className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${
+                                                currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"
+                                            }`}
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <span className={`w-2 h-2 rounded-full ${opt.dot}`}></span>
+                                                <span>{opt.label}</span>
+                                            </div>
+                                            {currentStatusStr === opt.value && <Check size={14} className="text-[#D97706]" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                ) : (
+                    <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border border-stone-200 ${currentOption.bg} ${currentOption.text}`}>
+                        <span className={`w-2 h-2 rounded-full ${currentOption.dot}`}></span>
+                        <span>{currentOption.label}</span>
+                    </div>
+                )}
             </div>
 
             {/* Title / Description Area */}
@@ -158,25 +170,25 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                 {/* Left/Middle Column: Tabs for Sellers & Products */}
                 <div className="lg:col-span-2 space-y-4">
                     {/* Tab Header */}
-                    <div className="flex items-center justify-between border-b border-[#E7E5E4] pb-0.5">
-                        <div className="flex gap-6">
-                            <button onClick={() => setActiveTab("sellers")} className={`pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "sellers" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#E7E5E4] pb-2 sm:pb-0.5 gap-3">
+                        <div className="flex gap-4 sm:gap-6 w-full sm:w-auto">
+                            <button onClick={() => setActiveTab("sellers")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "sellers" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
                                 <Users size={16} />
                                 Sellers ({currentCampaignSellers.length}){activeTab === "sellers" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
                             </button>
-                            <button onClick={() => setActiveTab("products")} className={`pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "products" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
+                            <button onClick={() => setActiveTab("products")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "products" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
                                 <Package size={16} />
                                 Products ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
                             </button>
                         </div>
                         {activeTab === "sellers" && (
-                            <button onClick={() => setIsSellerModalOpen(true)} className="mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
+                            <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
                                 <Plus size={14} />
                                 Manage Sellers
                             </button>
                         )}
                         {activeTab === "products" && (
-                            <button onClick={() => setIsProductModalOpen(true)} className="mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
+                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
                                 <Plus size={14} />
                                 Manage Products
                             </button>
@@ -184,11 +196,11 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                     </div>
 
                     {/* Tab Body */}
-                    <div className="bg-white rounded-lg border border-[#E7E5E4] overflow-hidden shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
-                        <div className={activeTab === "sellers" ? "block" : "hidden"}>
+                    <div className="bg-white rounded-lg border border-[#E7E5E4] overflow-hidden max-w-full shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+                        <div className={activeTab === "sellers" ? "block w-full overflow-x-auto" : "hidden"}>
                             <SellersList sellers={currentCampaignSellers} />
                         </div>
-                        <div className={activeTab === "products" ? "block" : "hidden"}>
+                        <div className={activeTab === "products" ? "block w-full overflow-x-auto" : "hidden"}>
                             <ProductsList campaignId={campaignId} fallbackProducts={products} onTotalCount={setApiProductCount} />
                         </div>
                     </div>
@@ -210,14 +222,14 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                                     </div>
                                 </div>
                                 <div className="space-y-2 pt-2 border-t border-[#E7E5E4] text-xs text-[#78716C]">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 min-w-0">
                                         <Mail size={16} className="shrink-0" />
-                                        <span className="truncate">{admin.email}</span>
+                                        <span className="truncate block" title={admin.email}>{admin.email}</span>
                                     </div>
                                     {admin.phone ? (
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 min-w-0">
                                             <Phone size={16} className="shrink-0" />
-                                            <span>{admin.phone}</span>
+                                            <span className="truncate block">{admin.phone}</span>
                                         </div>
                                     ) : (
                                         <div className="flex items-center gap-2 opacity-50">
