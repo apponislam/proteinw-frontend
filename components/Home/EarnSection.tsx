@@ -11,7 +11,7 @@ const EarnSection = () => {
     const totalProfit = totalProducts * pricePerPackage;
 
     return (
-        <section className="h-screen flex items-center bg-white">
+        <section className="xd:h-screen flex items-center bg-white py-10">
             <div className="container mx-auto px-6">
                 {/* Center Box */}
                 <div className="bg-white rounded-3xl shadow-[0px_20px_25px_-5px_rgba(0,0,0,0.1)] overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-150">

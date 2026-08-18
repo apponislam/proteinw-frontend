@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Trophy, GraduationCap, Users, Target } from "lucide-react";
+import { Trophy, GraduationCap, Users, Target, Eye, EyeOff } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,8 +19,12 @@ const step1Schema = z.object({
     phone: z.string().min(5, "Please enter a valid phone number"),
     profession: z.string().min(1, "Please select your profession"),
     password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
     terms: z.boolean().refine((val) => val === true, "You must agree to the terms"),
     age: z.boolean().refine((val) => val === true, "You must be 18+"),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
 });
 
 // Step 2 Schema (Address fields)
@@ -54,6 +58,8 @@ const RegisterClient = () => {
     const professionFromQuery = searchParams.get("profession");
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedProfession, setSelectedProfession] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [register, { isLoading: isRegisterLoading }] = useRegisterMutation();
     const [updateProfile, { isLoading: isUpdateLoading }] = useUpdateProfileMutation();
     const token = useSelector(currentToken);
@@ -72,6 +78,7 @@ const RegisterClient = () => {
         control: controlStep1,
         handleSubmit: handleSubmitStep1,
         setValue: setValueStep1,
+        watch: watchStep1,
         formState: { errors: errorsStep1 },
     } = useForm<Step1Values>({
         resolver: zodResolver(step1Schema),
@@ -81,10 +88,14 @@ const RegisterClient = () => {
             phone: "",
             profession: "",
             password: "",
+            confirmPassword: "",
             terms: false,
             age: false,
         },
     });
+
+    const passwordValue = watchStep1("password");
+    const confirmPasswordValue = watchStep1("confirmPassword");
 
     // Step 2 Form
     const {
@@ -313,13 +324,80 @@ const RegisterClient = () => {
                                         <Controller
                                             name="password"
                                             control={controlStep1}
-                                            render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                            render={({ field }) => <input type={showPassword ? "text" : "password"} placeholder="••••••••" className="w-full px-4 py-3 pr-10 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                         />
+                                        <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none">
+                                            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                        </button>
                                     </div>
                                     {errorsStep1.password && <p className="text-red-500 text-xs mt-1">{errorsStep1.password.message}</p>}
-                                    <div className="mt-2 text-xs text-gray-600">
-                                        <span className="font-semibold">STRENGTH:</span> <span className="text-blue-600">MODERATE</span>
+
+                                    {/* Password Strength Indicator */}
+                                    {(() => {
+                                        const getPasswordStrength = (pass: string) => {
+                                            if (!pass) return { score: 0, label: "" };
+                                            let score = 0;
+                                            if (pass.length >= 8) score += 1;
+                                            if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score += 1;
+                                            if (/[0-9]/.test(pass)) score += 1;
+                                            if (/[^A-Za-z0-9]/.test(pass) || pass.length >= 12) score += 1;
+
+                                            if (score <= 1) return { score: 1, label: "WEAK" };
+                                            if (score === 2) return { score: 2, label: "FAIR" };
+                                            if (score === 3) return { score: 3, label: "MODERATE" };
+                                            return { score: 4, label: "STRONG" };
+                                        };
+
+                                        const strength = getPasswordStrength(passwordValue || "");
+
+                                        return (
+                                            <div className="mt-2 text-xs text-gray-600">
+                                                <div className="mb-2">
+                                                    <span className="font-semibold">STRENGTH:</span> <span className="text-blue-600 font-semibold">{strength.label}</span>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    {[1, 2, 3, 4].map((step) => (
+                                                        <div key={step} className={`h-1.5 w-full rounded-2xl transition-all duration-300 ${strength.score > 0 && step <= strength.score ? "bg-[#7C5800]" : "bg-[#7C58004D]"}`} />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        );
+                                    })()}
+                                </div>
+                                {/* Confirm Password */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">CONFIRM PASSWORD</label>
+                                    <div className="relative">
+                                        <Controller
+                                            name="confirmPassword"
+                                            control={controlStep1}
+                                            render={({ field }) => (
+                                                <input
+                                                    type={showConfirmPassword ? "text" : "password"}
+                                                    placeholder="••••••••"
+                                                    className="w-full px-4 py-3 pr-10 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none"
+                                        >
+                                            {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                        </button>
                                     </div>
+                                    {/* Confirm Password Error Message */}
+                                    {errorsStep1.confirmPassword ? (
+                                        <p className="text-red-500 text-xs mt-1">{errorsStep1.confirmPassword.message}</p>
+                                    ) : (
+                                        confirmPasswordValue &&
+                                        passwordValue &&
+                                        confirmPasswordValue !== passwordValue && (
+                                            <p className="text-red-500 text-xs mt-1">Passwords do not match</p>
+                                        )
+                                    )}
                                 </div>
 
                                 {/* Terms & Conditions */}

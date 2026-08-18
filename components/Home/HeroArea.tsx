@@ -19,10 +19,8 @@ export function HeroArea() {
                         <div className="space-y-8">
                             <div className="space-y-6">
                                 <h1 className="text-4xl sm:text-[72px] font-bold text-[#1A1C1C] leading-tight">
-                                    Raise money for
-                                    <br />
-                                    your <span className="text-transparent bg-clip-text bg-linear-to-r from-[#7C5800] to-[#F59E0B]">dreams</span> with
-                                    <br />
+                                    Raise money for <br className="hidden md:block" />
+                                    your <span className="text-transparent bg-clip-text bg-linear-to-r from-[#7C5800] to-[#F59E0B]">dreams</span> with <br className="hidden md:block" />
                                     Kungsbjörnen
                                 </h1>
 

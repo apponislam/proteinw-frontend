@@ -24,8 +24,6 @@ export function Header() {
     const dispatch = useAppDispatch();
     const [scrolled, setScrolled] = useState(false);
     const user = useAppSelector(currentUser);
-    // console.log("user", user);
-    // console.log("user name", user?.name);
 
     const handleLogout = () => {
         dispatch(logOut());
@@ -166,11 +164,11 @@ export function Header() {
                             ))}
                             <div className="pt-4 pb-3 border-t border-border/40">
                                 {user ? (
-                                    <div className="px-5 space-y-4">
+                                    <div className="space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                                            {/* <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                                                 <LayoutDashboard className="text-[#F59E0B]" />
-                                            </Link>
+                                            </Link> */}
                                             <div className="flex items-center space-x-3">
                                                 {user.profileImage ? (
                                                     <Image src={user.profileImage} alt={user.name} width={36} height={36} className="w-9 h-9 rounded-full object-cover border border-border" />
@@ -205,7 +203,7 @@ export function Header() {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center px-5 space-x-4">
+                                    <div className="flex items-center space-x-4">
                                         <Link href="/dashboard" onClick={() => setIsOpen(false)}>
                                             <LayoutDashboard className="text-[#F59E0B]" />
                                         </Link>
