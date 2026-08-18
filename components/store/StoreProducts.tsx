@@ -51,10 +51,10 @@ const StoreProductsContent = () => {
 
     return (
         <div id="products-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-28">
-            <div className="flex items-center justify-between gap-8 mb-12">
-                <h2 className="text-3xl font-bold text-black">{firstName}'s Collection</h2>
-                <span className="flex-1 h-0.5 bg-[#EEEEEE]"></span>
-                <p className="text-[#A8A29E] whitespace-nowrap">{totalCount} PRODUCTS AVAILABLE</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-8 mb-12">
+                <h2 className="text-2xl sm:text-3xl font-bold text-black">{firstName}'s Collection</h2>
+                <span className="hidden sm:block flex-1 h-0.5 bg-[#EEEEEE]"></span>
+                <p className="text-[#A8A29E] text-xs sm:text-sm whitespace-nowrap">{totalCount} PRODUCTS AVAILABLE</p>
             </div>
             {allProducts.length === 0 && !isFetching ? (
                 <div className="text-center py-12">

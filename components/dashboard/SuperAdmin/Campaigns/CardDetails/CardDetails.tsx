@@ -37,6 +37,8 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const { data: campaignSellersResponse } = useGetCampaignSellersQuery(campaignId, { skip: !campaignId });
     const currentCampaignSellers = campaignSellersResponse?.data || campaign.sellers || [];
     const products = campaign.products || [];
+    const [apiProductCount, setApiProductCount] = useState<number | null>(null);
+    const totalProductsCount = apiProductCount ?? products.length;
     const admin = campaign.campaignAdmin;
 
     const progress = campaign.target > 0 ? Math.min(100, Math.round(((campaign.totalPackagesSold || 0) / campaign.target) * 100)) : 0;
@@ -76,21 +78,27 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
         return `In ${diffDays} days`;
     };
 
+    const profitPercentage = campaign.currentTier?.percentage || 40;
+    const estProfit = Math.round(((campaign.totalRevenueSold || 0) * profitPercentage) / 100);
+    const targetRevenue = campaign.target || 0;
+    const sekProgress = targetRevenue > 0 ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / targetRevenue) * 100)) : 0;
+    const packagesNeeded = campaign.packagesNeededForNextTier;
+
     const stats = [
         {
-            title: `GOAL: ${campaign.target || 0} PCS (${progress}%)`,
+            title: targetRevenue > 0 ? `GOAL: SEK ${targetRevenue.toLocaleString()} (${sekProgress}%)` : `GOAL: SEK 0`,
             value: `${campaign.totalPackagesSold || 0} pcs`,
-            subtitle: "TOTAL SOLD",
+            subtitle: packagesNeeded && packagesNeeded > 0 ? `NEXT TIER: ${packagesNeeded} PCS NEEDED` : "TOTAL SOLD",
         },
         {
-            title: `EST. PROFIT: SEK ${Math.round((campaign.totalRevenueSold || 0) * 0.4).toLocaleString()}`,
+            title: `EST. PROFIT (${profitPercentage}%): SEK ${estProfit.toLocaleString()}`,
             value: `SEK ${(campaign.totalRevenueSold || 0).toLocaleString()}`,
             subtitle: "REVENUE RAISED",
         },
         {
             title: `END DATE: ${formattedEndDate}`,
             value: currentStatusStr,
-            subtitle: "CAMPAIGN STATUS",
+            subtitle: `STATUS (${getDaysLeft()})`,
         },
     ];
 
@@ -182,7 +190,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                             </button>
                             <button onClick={() => setActiveTab("products")} className={`pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "products" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
                                 <Package size={16} />
-                                Products ({products.length}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
+                                Products ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
                             </button>
                         </div>
                         {activeTab === "sellers" && (
@@ -200,7 +208,14 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                     </div>
 
                     {/* Tab Body */}
-                    <div className="bg-white rounded-lg border border-[#E7E5E4] overflow-hidden shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">{activeTab === "sellers" ? <SellersList sellers={currentCampaignSellers} /> : <ProductsList products={products} />}</div>
+                    <div className="bg-white rounded-lg border border-[#E7E5E4] overflow-hidden shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+                        <div className={activeTab === "sellers" ? "block" : "hidden"}>
+                            <SellersList sellers={currentCampaignSellers} />
+                        </div>
+                        <div className={activeTab === "products" ? "block" : "hidden"}>
+                            <ProductsList campaignId={campaignId} fallbackProducts={products} onTotalCount={setApiProductCount} />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Right Column: Campaign Contact / Admin Info Card */}
