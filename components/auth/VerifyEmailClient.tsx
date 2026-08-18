@@ -14,11 +14,9 @@ const VerifyEmailClient = () => {
 
     const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
     const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
-    const { data, error, isLoading, isSuccess, isError } = useVerifyEmailQuery(
-        { email, token },
-        { skip: !email || !token }
-    );
+    const { data, error, isLoading, isSuccess, isError } = useVerifyEmailQuery({ email, token }, { skip: !email || !token });
 
     const [resendEmail, { isLoading: isResending }] = useResendVerificationEmailMutation();
 
@@ -33,6 +31,8 @@ const VerifyEmailClient = () => {
             setStatus("loading");
         } else if (isSuccess) {
             setStatus("success");
+            const resData = data as any;
+            setSuccessMessage(resData?.message || "Email verified successfully.");
         } else if (isError) {
             setStatus("error");
             const errData = error as any;
@@ -56,27 +56,27 @@ const VerifyEmailClient = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
+            {/* <header className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                     <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
                         Kungsbjörnen
                     </Link>
                     <div className="flex gap-4 items-center">
-                        <Link href="/auth/login" className="text-gray-700 font-medium hover:text-gray-900">
-                            Log In
+                        <Link href="/" className="text-gray-700 font-medium hover:text-gray-900">
+                            Home
                         </Link>
                         <Link
-                            href="/auth/register"
+                            href="/dashboard"
                             className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
                         >
-                            Get Started
+                            Go to Dashboard
                         </Link>
                     </div>
                 </div>
-            </header>
-
+            </header> */}
             {/* Main Content */}
-            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
+            {/* min-h-[calc(100vh-80px)] */}
+            <main className="flex items-center justify-center min-h-screen px-4 py-12">
                 <div className="w-full max-w-md">
                     <div className="bg-white border-dashed rounded-lg p-8 shadow-sm">
                         {/* Logo */}
@@ -101,17 +101,17 @@ const VerifyEmailClient = () => {
                                 <div className="flex justify-center mb-4">
                                     <CheckCircle className="w-16 h-16 text-green-500" strokeWidth={1.5} />
                                 </div>
-                                <h2 className="text-2xl text-gray-900 font-bold">Email Verified!</h2>
-                                <p className="text-gray-600 text-sm mt-2 mb-6">
-                                    Your email <span className="font-semibold text-gray-800">{email}</span> has been successfully verified. You can now log in to your account.
-                                </p>
+                                <h2 className="text-2xl text-gray-900 font-bold mb-4">Email Verified!</h2>
+                                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                                    <p className="text-green-800 text-sm font-medium">{successMessage}</p>
+                                </div>
                                 <div className="space-y-3">
-                                    <Link
-                                        href="/auth/login"
-                                        className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2"
-                                    >
-                                        Proceed to Login
+                                    {/* <Link href="/dashboard" className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2">
+                                        Go to Dashboard
                                         <span>→</span>
+                                    </Link> */}
+                                    <Link href="/" className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px]">
+                                        Back to Homepage
                                     </Link>
                                 </div>
                             </div>
@@ -123,8 +123,8 @@ const VerifyEmailClient = () => {
                                 <div className="flex justify-center mb-4">
                                     <XCircle className="w-16 h-16 text-red-500" strokeWidth={1.5} />
                                 </div>
-                                <h2 className="text-2xl text-gray-900 font-bold">Verification Failed</h2>
-                                <div className="bg-red-50 border border-red-200 rounded-lg p-4 my-6">
+                                <h2 className="text-2xl text-gray-900 font-bold mb-4">Verification Failed</h2>
+                                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
                                     <p className="text-red-700 text-sm">{errorMessage}</p>
                                 </div>
                                 <div className="space-y-3">
@@ -137,11 +137,11 @@ const VerifyEmailClient = () => {
                                             {isResending ? "Resending..." : "Resend Verification Email"}
                                         </button>
                                     )}
-                                    <Link
-                                        href="/auth/login"
-                                        className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px]"
-                                    >
-                                        Back to Login
+                                    <Link href="/dashboard" className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2">
+                                        Go to Dashboard
+                                    </Link>
+                                    <Link href="/" className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px]">
+                                        Back to Homepage
                                     </Link>
                                 </div>
                             </div>

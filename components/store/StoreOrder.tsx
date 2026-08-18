@@ -32,7 +32,7 @@ const StoreOrderContent = () => {
         street: "",
         city: "",
         postalCode: "",
-        country: "",
+        locality: "",
         agree: false,
     });
 
@@ -60,7 +60,7 @@ const StoreOrderContent = () => {
                     street: formData.street,
                     city: formData.city,
                     postalCode: formData.postalCode,
-                    country: formData.country,
+                    locality: formData.locality,
                 },
                 items: cartItems.map((item) => ({
                     productId: item.productId,
@@ -84,7 +84,7 @@ const StoreOrderContent = () => {
                 street: "",
                 city: "",
                 postalCode: "",
-                country: "",
+                locality: "",
                 agree: false,
             });
         } catch (err: any) {
@@ -209,7 +209,7 @@ const StoreOrderContent = () => {
                                 name="street"
                                 value={formData.street}
                                 onChange={handleChange}
-                                placeholder="Uttar Badda"
+                                placeholder="Storgatan 12"
                                 className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                             />
                         </div>
@@ -217,7 +217,7 @@ const StoreOrderContent = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-[#837560] mb-2">City</label>
-                                <input type="text" required name="city" value={formData.city} onChange={handleChange} placeholder="Dhaka" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
+                                <input type="text" required name="city" value={formData.city} onChange={handleChange} placeholder="Stockholm" className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all" />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-[#837560] mb-2">Postal Code</label>
@@ -227,19 +227,19 @@ const StoreOrderContent = () => {
                                     name="postalCode"
                                     value={formData.postalCode}
                                     onChange={handleChange}
-                                    placeholder="4545"
+                                    placeholder="111 22"
                                     className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-[#837560] mb-2">Country</label>
+                            <label className="block text-sm font-medium text-[#837560] mb-2">Locality</label>
                             <input
                                 type="text"
                                 required
-                                name="country"
-                                value={formData.country}
+                                name="locality"
+                                value={formData.locality}
                                 onChange={handleChange}
                                 placeholder="Sweden"
                                 className="w-full px-4 py-3 rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"

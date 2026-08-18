@@ -201,7 +201,7 @@ const SellerOrdersTable = () => {
                                     <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
                                 </p>
                                 <p className="text-sm">
-                                    <span className="font-semibold text-gray-600">Shipping Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.country}
+                                    <span className="font-semibold text-gray-600">Shipping Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
                                 </p>
                             </div>
                             <div className="space-y-4">

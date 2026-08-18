@@ -12,7 +12,7 @@ export type TOrderAddress = {
     street: string;
     city: string;
     postalCode: string;
-    country: string;
+    locality: string;
 };
 
 export type TOrderStatus = "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
