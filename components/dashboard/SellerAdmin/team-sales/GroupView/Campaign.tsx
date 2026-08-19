@@ -239,21 +239,21 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             );
                                         })()}
                                     </div>
-                                </div>
 
-                                <div className="pt-3 border-t border-[#F5F5F4]">
-                                    <Link
-                                        href={`/dashboard/team-sales/${groupId}/${campaign._id}`}
-                                        className="w-full h-9 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
-                                    >
-                                        Manage Campaign
-                                    </Link>
+                                    <div className="pt-3 border-t border-[#F5F5F4]">
+                                        <Link
+                                            href={`/dashboard/team-sales/${groupId}/${campaign._id}`}
+                                            className="w-full h-9 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
+                                        >
+                                            Manage Campaign
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         );
                     })}
 
-                    {/* Start New Campaign Grid Card / Inline Form */}
+                    {/* Start New Campaign Grid Card / Form */}
                     {!showCreateForm ? (
                         <div
                             onClick={() => setShowCreateForm(true)}
@@ -266,7 +266,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                             <p className="text-xs text-[#78716C] mt-1 max-w-50">Define parameters to start accepting sales for your group.</p>
                         </div>
                     ) : (
-                        <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} variant="inline" />
+                        <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} />
                     )}
                 </div>
             )}
@@ -289,7 +289,7 @@ export default function Campaign({ groupId }: CampaignProps) {
 
             {/* ── If no campaigns exist and form IS open ──────────────────── */}
             {campaigns.length === 0 && showCreateForm && (
-                <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} variant="standalone" />
+                <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} />
             )}
         </div>
     );

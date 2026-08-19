@@ -35,10 +35,9 @@ export type CampaignFormValues = z.infer<typeof campaignFormSchema>;
 interface CreateCampaignFormProps {
     groupId: string;
     onClose: () => void;
-    variant?: "inline" | "standalone";
 }
 
-export function CreateCampaignForm({ groupId, onClose, variant = "standalone" }: CreateCampaignFormProps) {
+export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps) {
     const [createCampaign, { isLoading: isCreating }] = useCreateCampaignMutation();
 
     const {
@@ -83,75 +82,6 @@ export function CreateCampaignForm({ groupId, onClose, variant = "standalone" }:
             toast.error(err?.data?.message || "Failed to start campaign", { id: toastId });
         }
     };
-
-    if (variant === "inline") {
-        return (
-            <div className="bg-white p-5 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] flex flex-col justify-between h-full">
-                <div>
-                    <div className="flex justify-between items-center border-b border-[#F5F5F4] pb-3 mb-4">
-                        <h4 className="text-sm font-bold text-[#1A1C1C]">Start Campaign</h4>
-                        <button type="button" onClick={onClose} className="text-xs text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer">
-                            Cancel
-                        </button>
-                    </div>
-                    <form id="create-campaign-form-inline" onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-                        <div className="space-y-1">
-                            <label className="text-xs font-semibold text-[#1A1C1C]">Campaign Name</label>
-                            <Input placeholder="e.g. Autumn Bake Sale" {...register("name")} className="h-9 text-xs border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706]" />
-                            {errors.name && <p className="text-red-500 text-[10px]">{errors.name.message}</p>}
-                        </div>
-                        <div className="space-y-1">
-                            <label className="text-xs font-semibold text-[#1A1C1C]">Short Description</label>
-                            <Textarea placeholder="Describe your goal..." {...register("shortDescription")} className="min-h-16 text-xs border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706]" />
-                            {errors.shortDescription && <p className="text-red-500 text-[10px]">{errors.shortDescription.message}</p>}
-                        </div>
-                        <div className="space-y-1">
-                            <label className="text-xs font-semibold text-[#1A1C1C]">Target Goal (SEK)</label>
-                            <Input type="number" placeholder="5000" {...register("target")} className="h-9 text-xs border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706]" />
-                            {errors.target && <p className="text-red-500 text-[10px]">{errors.target.message}</p>}
-                        </div>
-                        <div className="space-y-1">
-                            <label className="text-xs font-semibold text-[#1A1C1C]">End Date</label>
-                            <Input
-                                type="date"
-                                min={todayStr}
-                                max={maxDateStr}
-                                onClick={(e) => {
-                                    try {
-                                        e.currentTarget.showPicker();
-                                    } catch {}
-                                }}
-                                {...register("endDate")}
-                                className="h-9 text-xs border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] cursor-pointer"
-                            />
-                            <p className="text-[10px] text-[#7C5800]">Maximum 3-week/21-day period</p>
-                            {errors.endDate && <p className="text-red-500 text-[10px]">{errors.endDate.message}</p>}
-                        </div>
-                    </form>
-                </div>
-                <div className="pt-4 border-t border-[#F5F5F4] mt-4 flex justify-end gap-2">
-                    <button type="button" onClick={onClose} className="px-3 py-1.5 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold cursor-pointer">
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        form="create-campaign-form-inline"
-                        disabled={isCreating}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 py-1.5 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer"
-                    >
-                        {isCreating ? (
-                            <>
-                                <Loader2 className="animate-spin" size={12} />
-                                <span>Starting...</span>
-                            </>
-                        ) : (
-                            "Start Campaign"
-                        )}
-                    </button>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-white p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] max-w-xl">
