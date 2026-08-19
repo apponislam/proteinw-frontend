@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLogoutMutation } from "../../redux/features/auth/authApi";
 import { useDispatch } from "react-redux";
-import { logOut } from "../../redux/features/auth/authSlice";
+import { performFullLogout } from "@/redux/utils/logout";
 import { toast } from "sonner";
 
 export function AppSidebar() {
@@ -30,12 +30,12 @@ export function AppSidebar() {
         const toastId = toast.loading("Logging out...");
         try {
             await logoutApi().unwrap();
-            dispatch(logOut());
-
+        } catch (error) {
+            // Ignore API logout error if session expired
+        } finally {
+            performFullLogout();
             toast.success("You have been successfully logged out.", { id: toastId });
             router.push("/auth/login");
-        } catch (error) {
-            toast.error("Failed to logout. Please try again.", { id: toastId });
         }
     };
 

@@ -6,6 +6,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Notifications from "./Notifications";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { currentUser, logOut } from "@/redux/features/auth/authSlice";
+import { performFullLogout } from "@/redux/utils/logout";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import { useGetUnreadCountQuery } from "@/redux/features/contact/contactApi";
 import { useRouter } from "next/navigation";
@@ -54,9 +55,9 @@ const DashBoradHeader = () => {
         } catch (err) {
             // Ignore API logout error if token already expired
         } finally {
-            dispatch(logOut());
+            performFullLogout();
             toast.success("Logged out successfully", { id: toastId });
-            router.push("/login");
+            router.push("/auth/login");
         }
     };
 

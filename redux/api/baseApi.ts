@@ -41,10 +41,20 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
                 result = await baseQuery(args, api, extraOptions);
             } else {
                 api.dispatch(logOut());
+                api.dispatch(baseApi.util.resetApiState());
+                if (typeof window !== "undefined") {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                }
                 return { error: { status: 401, data: "Session expired" } };
             }
         } else {
             api.dispatch(logOut());
+            api.dispatch(baseApi.util.resetApiState());
+            if (typeof window !== "undefined") {
+                localStorage.clear();
+                sessionStorage.clear();
+            }
             return { error: { status: 401, data: "Session expired" } };
         }
     }

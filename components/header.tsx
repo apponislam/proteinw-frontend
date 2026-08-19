@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { currentUser, logOut } from "@/redux/features/auth/authSlice";
+import { performFullLogout } from "@/redux/utils/logout";
 import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, Menu, X } from "lucide-react";
 
@@ -26,7 +27,7 @@ export function Header() {
     const user = useAppSelector(currentUser);
 
     const handleLogout = () => {
-        dispatch(logOut());
+        performFullLogout();
         setIsDropdownOpen(false);
         setIsOpen(false);
         router.push("/auth/login");
