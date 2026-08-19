@@ -229,7 +229,7 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_SUMMARY" }] : [{ type: "Campaign", id: "ADMIN_SUMMARY" }]),
         }),
 
-        createCampaign: builder.mutation<{ data: TCampaign }, { groupId: string; name: string; shortDescription: string; target: number; endDate: Date; addAllGroupSellers?: boolean }>({
+        createCampaign: builder.mutation<{ data: TCampaign }, { groupId: string; name: string; shortDescription: string; target: number; endDate: Date; addAllGroupSellers?: boolean; sellerIds?: string[] }>({
             query: (campaignData) => ({
                 url: "/campaigns",
                 method: "POST",
