@@ -94,7 +94,13 @@ const CampaignLists = () => {
                         {campaignsList.map((campaign) => {
                             const isCampaignActive = campaign.status === "ACTIVE";
                             const daysLeftNum = campaign.endDate
-                                ? Math.max(0, Math.ceil((new Date(campaign.endDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+                                ? (() => {
+                                      const now = new Date();
+                                      const end = new Date(campaign.endDate);
+                                      const nowStart = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+                                      const endStart = Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate());
+                                      return Math.max(0, Math.round((endStart - nowStart) / (1000 * 60 * 60 * 24)));
+                                  })()
                                 : 0;
                             const totalRevenue = campaign.totalRevenueSold || 0;
                             const target = campaign.target || 1;

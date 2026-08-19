@@ -210,7 +210,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                         {(() => {
                                             const endDate = new Date(campaign.endDate);
                                             const today = new Date();
-                                            const formattedEndDate = endDate.toLocaleDateString("en-US", { year: "numeric", month: "numeric", day: "numeric" });
+                                            const formattedEndDate = endDate.toLocaleDateString("en-US", { year: "numeric", month: "numeric", day: "numeric", timeZone: "UTC" });
                                             const isEnded = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED";
 
                                             if (isEnded) {
@@ -224,8 +224,9 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 );
                                             }
 
-                                            const diffTime = endDate.getTime() - today.getTime();
-                                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                            const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+                                            const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
+                                            const diffDays = Math.max(0, Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24)));
                                             const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
 
                                             return (

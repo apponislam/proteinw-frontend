@@ -46,6 +46,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             year: "numeric",
             month: "numeric",
             day: "numeric",
+            timeZone: "UTC",
         });
 
         const isEnded = status === "FULFILMENT" || status === "COMPLETED";
@@ -61,8 +62,9 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             );
         }
 
-        const diffTime = endDate.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+        const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
+        const diffDays = Math.max(0, Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24)));
         const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
 
         return (
