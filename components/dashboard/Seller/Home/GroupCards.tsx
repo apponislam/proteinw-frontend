@@ -8,11 +8,15 @@ import { currentUser } from "@/redux/features/auth/authSlice";
 
 const GroupCards = () => {
     const user = useAppSelector(currentUser);
-    const isSuperAdmin = user?.role === "SUPER_ADMIN";
+    const isSuperAdminOrAdmin = user?.role === "SUPER_ADMIN" || user?.role === "ADMIN";
 
     const { data: myJoinedGroupsData, isLoading } = useGetMyJoinedGroupsQuery(undefined, {
-        skip: isSuperAdmin,
+        skip: isSuperAdminOrAdmin,
     });
+
+    if (isSuperAdminOrAdmin) {
+        return null;
+    }
 
     console.log(myJoinedGroupsData);
 
