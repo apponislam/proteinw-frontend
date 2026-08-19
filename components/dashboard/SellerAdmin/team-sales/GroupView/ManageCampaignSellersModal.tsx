@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, X, Check, Loader2 } from "lucide-react";
+import { Search, X, Check, Loader2, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useGetGroupSellersQuery } from "@/redux/features/auth/authApi";
 
@@ -19,25 +19,20 @@ export function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave,
     const [tempSelected, setTempSelected] = useState<string[]>(selectedSellerIds);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredSellers = sellers.filter(
-        (seller) =>
-            seller.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            seller.email?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredSellers = (sellers as any[]).filter((seller) => {
+        const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
+        const name = (userObj?.name || "").toLowerCase();
+        const email = (userObj?.email || "").toLowerCase();
+        const query = searchQuery.toLowerCase();
+        return name.includes(query) || email.includes(query);
+    });
 
     const toggleSeller = (id: string) => {
+        if (!id) return;
         if (tempSelected.includes(id)) {
             setTempSelected(tempSelected.filter((sId) => sId !== id));
         } else {
             setTempSelected([...tempSelected, id]);
-        }
-    };
-
-    const handleSelectAll = () => {
-        if (tempSelected.length === sellers.length) {
-            setTempSelected([]);
-        } else {
-            setTempSelected(sellers.map((s) => s._id));
         }
     };
 
@@ -74,13 +69,8 @@ export function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave,
 
                     <div className="flex items-center justify-between text-xs pt-1">
                         <span className="font-semibold text-gray-700">
-                            {tempSelected.length} of {sellers.length} sellers selected
+                            {tempSelected.length} sellers selected
                         </span>
-                        {sellers.length > 0 && (
-                            <button type="button" onClick={handleSelectAll} className="text-[#D97706] font-semibold hover:underline cursor-pointer">
-                                {tempSelected.length === sellers.length ? "Deselect All" : "Select All"}
-                            </button>
-                        )}
                     </div>
 
                     {/* Sellers List */}
@@ -93,21 +83,26 @@ export function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave,
                         ) : filteredSellers.length === 0 ? (
                             <div className="py-8 text-center text-xs text-gray-500">{searchQuery ? "No sellers match your search." : "No members found in this group."}</div>
                         ) : (
-                            filteredSellers.map((seller) => {
-                                const isChecked = tempSelected.includes(seller._id);
+                            filteredSellers.map((seller: any) => {
+                                const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
+                                const sellerUserId = userObj._id || seller._id || "";
+                                const sellerName = userObj.name || "Unnamed Member";
+                                const sellerEmail = userObj.email || "";
+
+                                const isChecked = tempSelected.includes(sellerUserId);
                                 return (
-                                    <label
-                                        key={seller._id}
-                                        onClick={() => toggleSeller(seller._id)}
+                                    <div
+                                        key={seller._id || sellerUserId}
+                                        onClick={() => toggleSeller(sellerUserId)}
                                         className="flex items-center justify-between p-3 hover:bg-gray-50/80 cursor-pointer transition-colors select-none"
                                     >
                                         <div className="flex items-center gap-3 min-w-0">
                                             <div className="w-8 h-8 rounded-full bg-amber-100 text-[#7C5800] font-bold text-xs flex items-center justify-center shrink-0">
-                                                {seller.name ? seller.name.charAt(0).toUpperCase() : "S"}
+                                                {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={14} />}
                                             </div>
                                             <div className="min-w-0">
-                                                <p className="text-xs font-semibold text-[#1A1C1C] truncate">{seller.name || "Unnamed Member"}</p>
-                                                <p className="text-[11px] text-[#78716C] truncate">{seller.email}</p>
+                                                <p className="text-xs font-semibold text-[#1A1C1C] truncate">{sellerName}</p>
+                                                <p className="text-[11px] text-[#78716C] truncate">{sellerEmail}</p>
                                             </div>
                                         </div>
 
@@ -117,7 +112,7 @@ export function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave,
                                                 {isChecked && <Check size={14} className="text-white stroke-3" />}
                                             </div>
                                         </div>
-                                    </label>
+                                    </div>
                                 );
                             })
                         )}

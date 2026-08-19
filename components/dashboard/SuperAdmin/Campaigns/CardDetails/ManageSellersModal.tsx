@@ -31,9 +31,16 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
     const currentCampaignSellers = campaignSellersResponse?.data || initialSellers;
     const groupSellers = groupSellersResponse?.data || [];
 
+    const getUserId = (s: any) => {
+        if (!s) return "";
+        if (s.sellerId && typeof s.sellerId === "object") return s.sellerId._id || "";
+        if (s.sellerId && typeof s.sellerId === "string") return s.sellerId;
+        return s._id || "";
+    };
+
     useEffect(() => {
         if (isOpen) {
-            const currentIds = currentCampaignSellers.map((s: any) => s._id || "");
+            const currentIds = currentCampaignSellers.map(getUserId).filter(Boolean);
             setSelectedSellerIds(currentIds);
             setSearchTerm("");
         }
@@ -42,11 +49,12 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
     if (!isOpen) return null;
 
     const handleToggleSeller = (sellerId: string) => {
+        if (!sellerId) return;
         setSelectedSellerIds((prev) => (prev.includes(sellerId) ? prev.filter((id) => id !== sellerId) : [...prev, sellerId]));
     };
 
     const handleSave = async () => {
-        const initialIds = currentCampaignSellers.map((s: any) => s._id || "");
+        const initialIds = currentCampaignSellers.map(getUserId).filter(Boolean);
         const additions = selectedSellerIds.filter((id) => !initialIds.includes(id));
         const deletions = initialIds.filter((id) => !selectedSellerIds.includes(id));
 
@@ -68,7 +76,13 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
         }
     };
 
-    const filteredSellers = groupSellers.filter((seller: any) => (seller?.name || "").toLowerCase().includes((searchTerm || "").toLowerCase()) || (seller?.email || "").toLowerCase().includes((searchTerm || "").toLowerCase()));
+    const filteredSellers = groupSellers.filter((seller: any) => {
+        const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
+        const name = (userObj?.name || "").toLowerCase();
+        const email = (userObj?.email || "").toLowerCase();
+        const query = searchTerm.toLowerCase();
+        return name.includes(query) || email.includes(query);
+    });
 
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
@@ -109,24 +123,32 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                         <div className="text-center text-sm text-[#78716C] py-8">No sellers found matching your search.</div>
                     ) : (
                         filteredSellers.map((seller: any) => {
-                            const isSelected = selectedSellerIds.includes(seller._id || "");
+                            const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
+                            const sellerUserId = userObj._id || seller._id || "";
+                            const sellerName = userObj.name || "Unnamed Member";
+                            const sellerEmail = userObj.email || "";
+
+                            const isSelected = selectedSellerIds.includes(sellerUserId);
+
                             return (
                                 <div
-                                    key={seller._id}
-                                    onClick={() => handleToggleSeller(seller._id || "")}
+                                    key={seller._id || sellerUserId}
+                                    onClick={() => handleToggleSeller(sellerUserId)}
                                     className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}
                                 >
                                     <div className="flex items-center gap-3 min-w-0">
                                         <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center shrink-0 font-bold text-sm">
-                                            <User size={18} />
+                                            {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={18} />}
                                         </div>
                                         <div className="min-w-0">
-                                            <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{seller.name}</h4>
-                                            <p className="text-xs text-[#78716C] mt-0.5 truncate">{seller.email}</p>
+                                            <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{sellerName}</h4>
+                                            <p className="text-xs text-[#78716C] mt-0.5 truncate">{sellerEmail}</p>
                                         </div>
                                     </div>
 
-                                    <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>{isSelected && <Check size={14} strokeWidth={3} />}</div>
+                                    <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>
+                                        {isSelected && <Check size={14} strokeWidth={3} />}
+                                    </div>
                                 </div>
                             );
                         })
