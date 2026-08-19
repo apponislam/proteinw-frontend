@@ -38,7 +38,7 @@ export const campaignFormSchema = z.object({
 
             return d >= today && d <= maxDate;
         },
-        { message: "End date must be between today and 21 days from today" }
+        { message: "End date must be between today and 21 days from today" },
     ),
     addAllGroupSellers: z.boolean(),
 });
@@ -65,11 +65,7 @@ function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClos
     const [tempSelected, setTempSelected] = useState<string[]>(selectedSellerIds);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredSellers = sellers.filter(
-        (seller) =>
-            seller.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            seller.email?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredSellers = sellers.filter((seller) => seller.name?.toLowerCase().includes(searchQuery.toLowerCase()) || seller.email?.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const toggleSeller = (id: string) => {
         if (tempSelected.includes(id)) {
@@ -110,12 +106,7 @@ function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClos
                 <div className="p-5 space-y-3">
                     <div className="relative">
                         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <Input
-                            placeholder="Search sellers by name or email..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9 h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]"
-                        />
+                        <Input placeholder="Search sellers by name or email..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9 h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]" />
                     </div>
 
                     <div className="flex items-center justify-between text-xs pt-1">
@@ -123,11 +114,7 @@ function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClos
                             {tempSelected.length} of {sellers.length} sellers selected
                         </span>
                         {sellers.length > 0 && (
-                            <button
-                                type="button"
-                                onClick={handleSelectAll}
-                                className="text-[#D97706] font-semibold hover:underline cursor-pointer"
-                            >
+                            <button type="button" onClick={handleSelectAll} className="text-[#D97706] font-semibold hover:underline cursor-pointer">
                                 {tempSelected.length === sellers.length ? "Deselect All" : "Select All"}
                             </button>
                         )}
@@ -141,22 +128,14 @@ function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClos
                                 <span>Loading sellers...</span>
                             </div>
                         ) : filteredSellers.length === 0 ? (
-                            <div className="py-8 text-center text-xs text-gray-500">
-                                {searchQuery ? "No sellers match your search." : "No members found in this group."}
-                            </div>
+                            <div className="py-8 text-center text-xs text-gray-500">{searchQuery ? "No sellers match your search." : "No members found in this group."}</div>
                         ) : (
                             filteredSellers.map((seller) => {
                                 const isChecked = tempSelected.includes(seller._id);
                                 return (
-                                    <label
-                                        key={seller._id}
-                                        onClick={() => toggleSeller(seller._id)}
-                                        className="flex items-center justify-between p-3 hover:bg-gray-50/80 cursor-pointer transition-colors select-none"
-                                    >
+                                    <label key={seller._id} onClick={() => toggleSeller(seller._id)} className="flex items-center justify-between p-3 hover:bg-gray-50/80 cursor-pointer transition-colors select-none">
                                         <div className="flex items-center gap-3 min-w-0">
-                                            <div className="w-8 h-8 rounded-full bg-amber-100 text-[#7C5800] font-bold text-xs flex items-center justify-center shrink-0">
-                                                {seller.name ? seller.name.charAt(0).toUpperCase() : "S"}
-                                            </div>
+                                            <div className="w-8 h-8 rounded-full bg-amber-100 text-[#7C5800] font-bold text-xs flex items-center justify-center shrink-0">{seller.name ? seller.name.charAt(0).toUpperCase() : "S"}</div>
                                             <div className="min-w-0">
                                                 <p className="text-xs font-semibold text-[#1A1C1C] truncate">{seller.name || "Unnamed Member"}</p>
                                                 <p className="text-[11px] text-[#78716C] truncate">{seller.email}</p>
@@ -165,9 +144,7 @@ function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClos
 
                                         {/* Checkbox */}
                                         <div className="relative shrink-0 ml-3">
-                                            <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-all ${isChecked ? "border-[#7C5800] bg-[#7C5800]" : "border-gray-300"}`}>
-                                                {isChecked && <Check size={14} className="text-white stroke-[3]" />}
-                                            </div>
+                                            <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-all ${isChecked ? "border-[#7C5800] bg-[#7C5800]" : "border-gray-300"}`}>{isChecked && <Check size={14} className="text-white stroke-3" />}</div>
                                         </div>
                                     </label>
                                 );
@@ -178,18 +155,10 @@ function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClos
 
                 {/* Modal Footer */}
                 <div className="flex justify-end items-center gap-3 p-4 border-t border-[#F5F5F4] bg-gray-50/50">
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-xl text-xs font-semibold cursor-pointer"
-                    >
+                    <button type="button" onClick={onClose} className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-xl text-xs font-semibold cursor-pointer">
                         Cancel
                     </button>
-                    <button
-                        type="button"
-                        onClick={handleApply}
-                        className="px-5 py-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white rounded-full text-xs font-bold shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
-                    >
+                    <button type="button" onClick={handleApply} className="px-5 py-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white rounded-full text-xs font-bold shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
                         Save Selection ({tempSelected.length})
                     </button>
                 </div>
@@ -293,12 +262,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                 <div className="text-[#D97706] shrink-0">
                                     <Award size={18} />
                                 </div>
-                                <input
-                                    type="number"
-                                    placeholder="e.g. 5000"
-                                    {...register("target")}
-                                    className="w-full bg-transparent text-xs font-bold text-[#1A1C1C] focus:outline-none p-0 border-none h-5"
-                                />
+                                <input type="number" placeholder="e.g. 5000" {...register("target")} className="w-full bg-transparent text-xs font-bold text-[#1A1C1C] focus:outline-none p-0 border-none h-5" />
                             </div>
                             {errors.target && <p className="text-red-500 text-[11px]">{errors.target.message}</p>}
                         </div>
@@ -326,11 +290,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                     <div className="pt-2 space-y-3">
                         <label className="flex items-center gap-3 cursor-pointer select-none">
                             <div className="relative shrink-0">
-                                <input
-                                    type="checkbox"
-                                    className="sr-only peer"
-                                    {...register("addAllGroupSellers")}
-                                />
+                                <input type="checkbox" className="sr-only peer" {...register("addAllGroupSellers")} />
                                 <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all">
                                     {addAllGroupSellersValue && (
                                         <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -339,19 +299,13 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                     )}
                                 </div>
                             </div>
-                            <span className="text-xs text-gray-700 font-medium">
-                                Automatically add all current group members/sellers to this campaign
-                            </span>
+                            <span className="text-xs text-gray-700 font-medium">Automatically add all current group members/sellers to this campaign</span>
                         </label>
 
                         {/* Select Sellers / Manage Campaign Sellers button */}
                         {!addAllGroupSellersValue && (
                             <div className="flex items-center gap-3 pl-8">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsManageSellersOpen(true)}
-                                    className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#D97706] text-[#D97706] hover:bg-amber-50 rounded-xl text-xs font-semibold cursor-pointer transition-colors"
-                                >
+                                <button type="button" onClick={() => setIsManageSellersOpen(true)} className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#D97706] text-[#D97706] hover:bg-amber-50 rounded-xl text-xs font-semibold cursor-pointer transition-colors">
                                     <Users size={14} />
                                     <span>Select Sellers / Manage Campaign Sellers</span>
                                 </button>
@@ -366,11 +320,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                     </div>
 
                     <div className="pt-4 border-t border-[#F5F5F4] mt-6 flex justify-end items-center gap-3">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl text-xs font-semibold cursor-pointer"
-                        >
+                        <button type="button" onClick={onClose} className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl text-xs font-semibold cursor-pointer">
                             Cancel
                         </button>
                         <button
@@ -392,14 +342,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
             </div>
 
             {/* Manage Campaign Sellers Modal */}
-            {isManageSellersOpen && (
-                <ManageCampaignSellersModal
-                    groupId={groupId}
-                    selectedSellerIds={selectedSellerIds}
-                    onSave={(sellerIds) => setSelectedSellerIds(sellerIds)}
-                    onClose={() => setIsManageSellersOpen(false)}
-                />
-            )}
+            {isManageSellersOpen && <ManageCampaignSellersModal groupId={groupId} selectedSellerIds={selectedSellerIds} onSave={(sellerIds) => setSelectedSellerIds(sellerIds)} onClose={() => setIsManageSellersOpen(false)} />}
         </>
     );
 }
