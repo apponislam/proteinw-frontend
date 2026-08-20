@@ -31,6 +31,9 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
         if (newCampaigns.length > 0) {
             if (page === 1) {
                 setAccumulatedCampaigns(newCampaigns);
+                if (onSelectCampaign && !selectedCampaignId) {
+                    onSelectCampaign(newCampaigns[0]);
+                }
             } else {
                 setAccumulatedCampaigns((prev) => {
                     const existingIds = new Set(prev.map((c) => c._id));
@@ -39,7 +42,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
                 });
             }
         }
-    }, [newCampaigns, page]);
+    }, [newCampaigns, page, onSelectCampaign, selectedCampaignId]);
 
     const currentCampaign = accumulatedCampaigns.find((c) => c._id === selectedCampaignId) || accumulatedCampaigns[0];
 

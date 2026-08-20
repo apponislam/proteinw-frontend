@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import SellerAdminHomeCards from "./SellerAdminHomeCards";
-import SellerAdminFundraisingTarget from "./SellerAdminFundraisingTarget";
+import React, { useState } from "react";
+import SellerAdminStatsSection from "./SellerAdminStatsSection";
 import SellerAdminContributions from "./SellerAdminContributions";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
@@ -13,6 +12,7 @@ import CampaignList from "./CamPaignList";
 const SellerAdminOverview = () => {
     const user = useAppSelector(currentUser);
     const { data: statusData, isLoading: isStatusLoading } = useGetDashboardStatusQuery();
+    const [selectedCampaignId, setSelectedCampaignId] = useState<string>("");
 
     if (isStatusLoading) {
         return (
@@ -35,12 +35,14 @@ const SellerAdminOverview = () => {
                         <h2 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, {user?.name || "Erik"}!</h2>
                         <p className="text-[#78716C] text-lg">Your campaign is active and performing well.</p>
                     </div>
-                    <CampaignList />
+                    <CampaignList
+                        selectedCampaignId={selectedCampaignId}
+                        onSelectCampaign={(campaign) => setSelectedCampaignId(campaign._id || "")}
+                    />
                 </div>
             </div>
 
-            <SellerAdminHomeCards />
-            <SellerAdminFundraisingTarget />
+            <SellerAdminStatsSection campaignId={selectedCampaignId} />
             <SellerAdminContributions />
         </div>
     );

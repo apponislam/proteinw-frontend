@@ -2,8 +2,12 @@ import React from "react";
 import Image from "next/image";
 import { useGetSellerDashboardStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 
-const SellerAdminHomeCards = () => {
-    const { data: response, isLoading } = useGetSellerDashboardStatsQuery();
+interface SellerAdminHomeCardsProps {
+    campaignId?: string;
+}
+
+const SellerAdminHomeCards: React.FC<SellerAdminHomeCardsProps> = ({ campaignId }) => {
+    const { data: response, isLoading } = useGetSellerDashboardStatsQuery(campaignId);
     
     const statsData = response?.data || {
         totalSales: 0,

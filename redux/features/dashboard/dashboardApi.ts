@@ -40,8 +40,10 @@ export type TSellerDashboardStats = {
     packagesSold: number;
     daysRemaining: number;
     goal: number;
-    groupName: string;
-    shortDescription: string;
+    current?: number;
+    remaining?: number;
+    groupName?: string;
+    shortDescription?: string;
 };
 
 export type TSellerListItem = {
@@ -151,12 +153,15 @@ const dashboardApi = baseApi.injectEndpoints({
             transformResponse: (response: { data: TDashboardStatus }) => response.data,
             providesTags: [{ type: "Group", id: "STATUS" }],
         }),
-        getSellerDashboardStats: builder.query<{ data: TSellerDashboardStats }, void>({
-            query: () => ({
-                url: "/dashboard/seller-stats",
-                method: "GET",
-                credentials: "include",
-            }),
+        getSellerDashboardStats: builder.query<{ data: TSellerDashboardStats }, string | void>({
+            query: (campaignId) => {
+                const url = campaignId ? `/dashboard/seller-stats?campaignId=${campaignId}` : "/dashboard/seller-stats";
+                return {
+                    url,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
         }),
         getSuperAdminSellersStats: builder.query<{ data: TSuperAdminSellersStats }, void>({
             query: () => ({

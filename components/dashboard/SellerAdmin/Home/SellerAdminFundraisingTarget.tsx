@@ -1,18 +1,24 @@
 import React from "react";
 import { useGetSellerDashboardStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 
-const SellerAdminFundraisingTarget = () => {
-    const { data: response, isLoading } = useGetSellerDashboardStatsQuery();
+interface SellerAdminFundraisingTargetProps {
+    campaignId?: string;
+}
+
+const SellerAdminFundraisingTarget: React.FC<SellerAdminFundraisingTargetProps> = ({ campaignId }) => {
+    const { data: response, isLoading } = useGetSellerDashboardStatsQuery(campaignId);
 
     const statsData = response?.data || {
         totalSales: 0,
         goal: 0,
+        current: 0,
+        remaining: 0,
         shortDescription: "",
     };
 
-    const totalSales = statsData.totalSales;
-    const goal = statsData.goal;
-    const remaining = Math.max(0, goal - totalSales);
+    const totalSales = statsData.current ?? statsData.totalSales ?? 0;
+    const goal = statsData.goal ?? 0;
+    const remaining = statsData.remaining ?? Math.max(0, goal - totalSales);
     const progressPercent = goal > 0 ? Math.min(Math.round((totalSales / goal) * 100), 100) : 0;
 
     return (
