@@ -8,6 +8,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { useGetDashboardStatusQuery } from "@/redux/features/dashboard/dashboardApi";
 import CreateGroupForm from "./CreateGroupForm";
+import CampaignList from "./CamPaignList";
 
 const SellerAdminOverview = () => {
     const user = useAppSelector(currentUser);
@@ -29,9 +30,15 @@ const SellerAdminOverview = () => {
         <div>
             <div>
                 <h1 className="text-sm text-[#7C5800] mb-3">COORDINATOR DASHBOARD</h1>
-                <h2 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, {user?.name || "Erik"}!</h2>
-                <p className="text-[#78716C] text-lg">Your campaign is active and performing well.</p>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h2 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, {user?.name || "Erik"}!</h2>
+                        <p className="text-[#78716C] text-lg">Your campaign is active and performing well.</p>
+                    </div>
+                    <CampaignList />
+                </div>
             </div>
+
             <SellerAdminHomeCards />
             <SellerAdminFundraisingTarget />
             <SellerAdminContributions />

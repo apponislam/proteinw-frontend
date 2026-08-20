@@ -229,6 +229,33 @@ const campaignApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "ADMIN_SUMMARY" }] : [{ type: "Campaign", id: "ADMIN_SUMMARY" }]),
         }),
 
+        getMyCampaigns: builder.query<
+            TCampaignResponse | { data: TCampaign[] },
+            { page?: number; limit?: number; status?: string; search?: string } | void
+        >({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) queryParams.append("page", String(params.page));
+                    if (params.limit) queryParams.append("limit", String(params.limit));
+                    if (params.status) queryParams.append("status", params.status);
+                    if (params.search) queryParams.append("search", params.search);
+                }
+                const queryString = queryParams.toString();
+                return {
+                    url: queryString ? `/campaigns/my-campaigns?${queryString}` : "/campaigns/my-campaigns",
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) => {
+                const data = Array.isArray(result) ? result : result?.data;
+                return data && Array.isArray(data)
+                    ? [...data.map(({ _id }) => ({ type: "Campaign" as const, id: _id })), { type: "Campaign", id: "MY_CAMPAIGNS" }]
+                    : [{ type: "Campaign", id: "MY_CAMPAIGNS" }];
+            },
+        }),
+
         createCampaign: builder.mutation<{ data: TCampaign }, { groupId: string; name: string; shortDescription: string; target: number; endDate: Date; addAllGroupSellers?: boolean; sellerIds?: string[] }>({
             query: (campaignData) => ({
                 url: "/campaigns",
@@ -314,6 +341,7 @@ export const {
     useGetAllCampaignsQuery,
     useGetAllCampaignsWithStatsQuery,
     useGetAllCampaignsSummaryQuery,
+    useGetMyCampaignsQuery,
     useCreateCampaignMutation,
     useUpdateCampaignMutation,
     useUpdateCampaignStatusMutation,

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, User, Phone, Mail, MapPin, Target, Briefcase, Calendar, ShieldCheck, Group } from "lucide-react";
+import { X, Phone, Mail, MapPin, Briefcase, Group } from "lucide-react";
 import { TAdminStats, useGetUserByIdQuery } from "@/redux/features/auth/authApi";
 
 interface AdminViewModalProps {
@@ -24,27 +24,18 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
         <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
             <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                 {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-5 right-5 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-                >
+                <button onClick={onClose} className="absolute top-5 right-5 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer">
                     <X size={20} />
                 </button>
 
                 {/* Header Profile Badge */}
                 <div className="flex items-center gap-4 border-b border-[#F5F5F4] pb-6 mb-6">
-                    <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#7C5800] to-[#D97706] text-white font-bold text-xl flex items-center justify-center shadow-md uppercase">
-                        {(admin.name || "A").slice(0, 2)}
-                    </div>
+                    <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#7C5800] to-[#D97706] text-white font-bold text-xl flex items-center justify-center shadow-md uppercase">{(admin.name || "A").slice(0, 2)}</div>
                     <div>
                         <h2 className="text-xl font-bold text-[#1A1C1C]">{admin.name}</h2>
                         <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">
-                                ADMIN
-                            </span>
-                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved || admin.isActive ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>
-                                {admin.isApproved || admin.isActive ? "Approved" : "Pending Approval"}
-                            </span>
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">ADMIN</span>
+                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved || admin.isActive ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>{admin.isApproved || admin.isActive ? "Approved" : "Pending Approval"}</span>
                         </div>
                     </div>
                 </div>
@@ -56,7 +47,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                         {/* Basic Info */}
                         <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
                             <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Account Overview</h3>
-                            
+
                             <div className="flex items-center gap-3 text-sm">
                                 <Mail size={16} className="text-[#D97706]" />
                                 <span className="text-[#78716C] w-24">Email:</span>
@@ -74,14 +65,6 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                 <span className="text-[#78716C] w-24">Profession:</span>
                                 <span className="font-semibold text-[#1A1C1C]">{user.profession || "N/A"}</span>
                             </div>
-
-                            {user.goal !== undefined && (
-                                <div className="flex items-center gap-3 text-sm">
-                                    <Target size={16} className="text-[#D97706]" />
-                                    <span className="text-[#78716C] w-24">Sales Goal:</span>
-                                    <span className="font-semibold text-[#1A1C1C]">{user.goal.toLocaleString()} SEK</span>
-                                </div>
-                            )}
                         </div>
 
                         {/* Assigned Group & Stats */}
@@ -99,26 +82,18 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                                 {admin.groupName.length > 1 && (
                                                     <>
                                                         <div className="absolute -top-1 left-2 right-2 h-full bg-stone-100 border border-stone-200 rounded-lg -z-10 transition-transform group-hover/modalpaper:-top-1.5" />
-                                                        {admin.groupName.length > 2 && (
-                                                            <div className="absolute -top-2 left-4 right-4 h-full bg-amber-50/60 border border-amber-200/50 rounded-lg -z-20 transition-transform group-hover/modalpaper:-top-2.5" />
-                                                        )}
+                                                        {admin.groupName.length > 2 && <div className="absolute -top-2 left-4 right-4 h-full bg-amber-50/60 border border-amber-200/50 rounded-lg -z-20 transition-transform group-hover/modalpaper:-top-2.5" />}
                                                     </>
                                                 )}
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-xs font-bold text-[#1A1C1C] truncate max-w-40">{admin.groupName[0]}</span>
-                                                    {admin.groupName.length > 1 && (
-                                                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-[#D97706]">
-                                                            +{admin.groupName.length - 1}
-                                                        </span>
-                                                    )}
+                                                    {admin.groupName.length > 1 && <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-[#D97706]">+{admin.groupName.length - 1}</span>}
                                                 </div>
                                             </div>
 
                                             {/* Hover Card list popup */}
                                             <div className="absolute left-0 top-full mt-2 hidden group-hover/modalpaper:flex flex-col gap-1.5 z-50 p-3 bg-white rounded-xl shadow-2xl border border-stone-200 min-w-48 max-w-xs animate-in fade-in zoom-in-95 duration-150">
-                                                <div className="text-[10px] font-bold text-[#78716C] uppercase tracking-wider mb-1">
-                                                    Assigned Groups ({admin.groupName.length})
-                                                </div>
+                                                <div className="text-[10px] font-bold text-[#78716C] uppercase tracking-wider mb-1">Assigned Groups ({admin.groupName.length})</div>
                                                 <div className="max-h-40 overflow-y-auto space-y-1 pr-1">
                                                     {admin.groupName.map((g, idx) => (
                                                         <div key={idx} className="px-2.5 py-1 rounded-md bg-amber-50 text-[#D97706] text-xs font-semibold border border-amber-200/60">
@@ -132,9 +107,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                         <span className="font-semibold px-2.5 py-0.5 rounded-full text-xs bg-gray-200 text-gray-700">UNASSIGNED</span>
                                     )
                                 ) : (
-                                    <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>
-                                        {admin.groupName || "UNASSIGNED"}
-                                    </span>
+                                    <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>{admin.groupName || "UNASSIGNED"}</span>
                                 )}
                             </div>
 
@@ -156,9 +129,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                 <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                     <MapPin size={14} className="text-[#D97706]" /> Address Info
                                 </h3>
-                                <p className="text-sm text-[#1A1C1C] font-medium">
-                                    {[address.street, address.city, address.state, address.zipCode, address.country].filter(Boolean).join(", ") || "No address provided."}
-                                </p>
+                                <p className="text-sm text-[#1A1C1C] font-medium">{[address.street, address.city, address.state, address.zipCode, address.country].filter(Boolean).join(", ") || "No address provided."}</p>
                             </div>
                         )}
                     </div>
@@ -166,10 +137,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
 
                 {/* Footer Close Button */}
                 <div className="mt-6 pt-4 border-t border-[#F5F5F4] flex justify-end">
-                    <button
-                        onClick={onClose}
-                        className="px-5 py-2 bg-[#D97706] hover:bg-[#C06A06] text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer"
-                    >
+                    <button onClick={onClose} className="px-5 py-2 bg-[#D97706] hover:bg-[#C06A06] text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer">
                         Close
                     </button>
                 </div>

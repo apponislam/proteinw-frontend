@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Loader2, User, Phone, MapPin, Target, Briefcase } from "lucide-react";
+import { X, Loader2, User, Phone, MapPin, Briefcase } from "lucide-react";
 import { useUpdateProfileMutation, useGetMeQuery } from "@/redux/features/auth/authApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setUser, currentToken, UserProfession } from "@/redux/features/auth/authSlice";
@@ -63,7 +63,6 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
             formData.append("name", name);
             if (phone) formData.append("phone", phone);
             if (profession) formData.append("profession", profession);
-            if (goal) formData.append("goal", String(goal));
 
             const addressObj = {
                 street,
@@ -155,20 +154,6 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                                         </option>
                                     ))}
                                 </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Sales Goal (SEK)</label>
-                            <div className="relative">
-                                <Target className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                                <input
-                                    type="number"
-                                    value={goal}
-                                    onChange={(e) => setGoal(e.target.value ? Number(e.target.value) : "")}
-                                    className="w-full pl-10 pr-4 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]"
-                                    placeholder="e.g. 5000"
-                                />
                             </div>
                         </div>
                     </div>
