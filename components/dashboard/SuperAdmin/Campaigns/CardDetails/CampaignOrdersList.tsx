@@ -96,7 +96,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
     return (
         <div className="w-full">
             {/* Filter Header */}
-            <div className="p-4 border-b border-[#E7E5E4] bg-[#FAF9F6] flex items-center justify-between gap-4">
+            <div className="p-4 border-b border-[#E7E5E4] bg-[#FAF9F6] rounded-t-xl flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                     <ShoppingBag size={18} className="text-[#D97706]" />
                     <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Orders ({pagination.total})</span>
@@ -115,7 +115,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                     {isFilterDropdownOpen && (
                         <>
                             <div className="fixed inset-0 z-20" onClick={() => setIsFilterDropdownOpen(false)}></div>
-                            <div className="absolute right-0 mt-1.5 z-30 w-44 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                            <div className="absolute right-0 bottom-full mb-1.5 z-30 w-44 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                 {filterOptions.map((opt) => (
                                     <button
                                         key={opt.value}
@@ -205,9 +205,11 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                         </tbody>
                     </table>
 
-                    <div className="p-4 border-t border-[#E7E5E4]">
-                        <Pagination meta={pagination} onPageChange={setPage} itemName="ORDERS" />
-                    </div>
+                    {pagination.totalPages && pagination.totalPages > 1 ? (
+                        <div className="p-4 border-t border-[#E7E5E4]">
+                            <Pagination meta={pagination} onPageChange={setPage} itemName="ORDERS" />
+                        </div>
+                    ) : null}
                 </div>
             )}
 

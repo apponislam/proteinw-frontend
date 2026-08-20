@@ -226,7 +226,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             </div>
 
             {/* Bottom Orders Component */}
-            <div className="bg-white rounded-xl border border-[#E7E5E4] overflow-hidden shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+            <div className="bg-white rounded-xl border border-[#E7E5E4] shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
                 <CampaignOrdersList campaignId={campaignId} />
             </div>
 
