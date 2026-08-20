@@ -14,12 +14,14 @@ interface ManageSellersModalProps {
     initialSellers?: any[];
 }
 
-const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose, campaignId, groupId, initialSellers = [] }) => {
+const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose, campaignId, groupId: rawGroupId, initialSellers = [] }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSellerIds, setSelectedSellerIds] = useState<string[]>([]);
 
+    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any)._id || "" : String(rawGroupId || "");
+
     const { data: groupSellersResponse, isLoading: isFetchingGroupSellers } = useGetGroupSellersQuery(groupId, {
-        skip: !groupId || !isOpen,
+        skip: !groupId || typeof groupId !== "string" || !isOpen,
     });
     const { data: campaignSellersResponse } = useGetCampaignSellersQuery(campaignId, {
         skip: !campaignId || !isOpen,

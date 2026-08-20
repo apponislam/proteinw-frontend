@@ -12,8 +12,12 @@ interface ManageCampaignSellersModalProps {
     onClose: () => void;
 }
 
-export function ManageCampaignSellersModal({ groupId, selectedSellerIds, onSave, onClose }: ManageCampaignSellersModalProps) {
-    const { data: sellersData, isLoading } = useGetGroupSellersQuery(groupId);
+export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSellerIds, onSave, onClose }: ManageCampaignSellersModalProps) {
+    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any)._id || "" : String(rawGroupId || "");
+
+    const { data: sellersData, isLoading } = useGetGroupSellersQuery(groupId, {
+        skip: !groupId || typeof groupId !== "string",
+    });
     const sellers = sellersData?.data || [];
 
     const [tempSelected, setTempSelected] = useState<string[]>(selectedSellerIds);

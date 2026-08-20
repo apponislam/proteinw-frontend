@@ -29,7 +29,7 @@ const sellerGroupApi = baseApi.injectEndpoints({
                 method: "POST",
                 body,
             }),
-            invalidatesTags: ["SellerGroup", "Group"],
+            invalidatesTags: ["SellerGroup", "Group", { type: "User", id: "LIST" }],
         }),
 
         // Join group by invitation code (Seller)
@@ -39,7 +39,7 @@ const sellerGroupApi = baseApi.injectEndpoints({
                 method: "POST",
                 body,
             }),
-            invalidatesTags: ["SellerGroup", "Group"],
+            invalidatesTags: ["SellerGroup", "Group", { type: "User", id: "LIST" }],
         }),
 
         // Get seller's joined groups (Seller)

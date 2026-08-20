@@ -255,7 +255,17 @@ const authApi = baseApi.injectEndpoints({
                     credentials: "include",
                 };
             },
-            providesTags: (result) => (result?.data ? [...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })), { type: "User", id: "LIST" }] : [{ type: "User", id: "LIST" }]),
+            providesTags: (result, error, args) => {
+                const groupId = typeof args === "string" ? args : args.groupId;
+                return result?.data
+                    ? [
+                          ...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })),
+                          { type: "User", id: "LIST" },
+                          "SellerGroup",
+                          { type: "Group", id: groupId },
+                      ]
+                    : [{ type: "User", id: "LIST" }, "SellerGroup", { type: "Group", id: groupId }];
+            },
         }),
         getReferralAndCampaign: builder.query<{ data: { referralCode: string; campaignCode: string | false; campaign: string | false } }, void>({
             query: () => ({

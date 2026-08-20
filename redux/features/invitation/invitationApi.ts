@@ -50,6 +50,8 @@ const invitationApi = baseApi.injectEndpoints({
                 { type: "Invitation", id: "ADMIN_LIST" },
                 { type: "Group", id: "ADMIN_LIST" },
                 { type: "Group", id: "PUBLIC_LIST" },
+                "SellerGroup",
+                { type: "User", id: "LIST" },
             ],
         }),
 

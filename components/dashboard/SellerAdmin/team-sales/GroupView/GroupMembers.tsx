@@ -9,9 +9,14 @@ interface GroupMembersProps {
     groupId: string;
 }
 
-export default function GroupMembers({ groupId }: GroupMembersProps) {
+export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps) {
     const [page, setPage] = useState(1);
-    const { data: membersData, isLoading } = useGetGroupSellersQuery({ groupId, page, limit: 10 });
+    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any)._id || "" : String(rawGroupId || "");
+
+    const { data: membersData, isLoading } = useGetGroupSellersQuery(
+        { groupId, page, limit: 10 },
+        { skip: !groupId || typeof groupId !== "string" }
+    );
 
     const members = membersData?.data || [];
     const meta = membersData?.meta;
