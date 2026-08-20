@@ -1,11 +1,9 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, Search, Check, Loader2, Package } from "lucide-react";
 import { toast } from "sonner";
 import { getImageUrl } from "@/utils/getImageUrl";
-import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import { useGetProductsWithCampaignStatusQuery } from "@/redux/features/product/productApi";
 import {
     useAddMultipleProductsToCampaignMutation,
     useRemoveMultipleProductsFromCampaignMutation,
@@ -26,48 +24,50 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
+    const [initialCampaignProductIds, setInitialCampaignProductIds] = useState<string[]>([]);
     const [page, setPage] = useState(1);
-    const [accumulatedProducts, setAccumulatedProducts] = useState<any[]>([]);
 
     const [addMultipleProducts, { isLoading: isAdding }] = useAddMultipleProductsToCampaignMutation();
     const [removeMultipleProducts, { isLoading: isRemoving }] = useRemoveMultipleProductsFromCampaignMutation();
 
-    const { data: allProductsResponse, isFetching: isFetchingProducts } = useGetAllProductsQuery(
-        { page, limit: 8 },
-        { skip: !isOpen }
+    const { data: response, isFetching } = useGetProductsWithCampaignStatusQuery(
+        { campaignId, page, limit: 10, search: searchTerm },
+        { skip: !isOpen || !campaignId }
     );
+
+    const products = response?.data || [];
+    const meta = response?.meta;
+    const hasNextPage = meta?.hasNext || false;
 
     useEffect(() => {
         if (isOpen) {
-            setPage(1);
-            setAccumulatedProducts([]);
-            setSelectedProductIds(initialProducts.map((p: any) => p._id || ""));
             setSearchTerm("");
+            setPage(1);
+            setSelectedProductIds([]);
+            setInitialCampaignProductIds([]);
         }
-    }, [isOpen, initialProducts]);
+    }, [isOpen]);
 
     useEffect(() => {
-        if (allProductsResponse?.data) {
-            if (page === 1) {
-                setAccumulatedProducts(allProductsResponse.data);
-            } else {
-                setAccumulatedProducts((prev) => {
-                    const existingIds = new Set(prev.map((p) => p._id));
-                    const newItems = allProductsResponse.data.filter((p: any) => !existingIds.has(p._id));
-                    return [...prev, ...newItems];
-                });
-            }
+        if (searchTerm) {
+            setPage(1);
         }
-    }, [allProductsResponse, page]);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        if (isOpen && products.length > 0) {
+            const addedIds = products.filter((p) => p.isAdded).map((p) => p._id || "").filter(Boolean);
+            setInitialCampaignProductIds((prev) => Array.from(new Set([...prev, ...addedIds])));
+            setSelectedProductIds((prev) => Array.from(new Set([...prev, ...addedIds])));
+        }
+    }, [isOpen, products]);
 
     if (!isOpen) return null;
-
-    const hasNextPage = allProductsResponse?.meta?.hasNext || false;
 
     const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
         const target = e.currentTarget;
         if (target.scrollTop + target.clientHeight >= target.scrollHeight - 80) {
-            if (hasNextPage && !isFetchingProducts) {
+            if (hasNextPage && !isFetching) {
                 setPage((prev) => prev + 1);
             }
         }
@@ -80,9 +80,8 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
     };
 
     const handleSave = async () => {
-        const initialIds = initialProducts.map((p: any) => p._id || "");
-        const additions = selectedProductIds.filter((id) => !initialIds.includes(id));
-        const deletions = initialIds.filter((id) => !selectedProductIds.includes(id));
+        const additions = selectedProductIds.filter((id) => !initialCampaignProductIds.includes(id));
+        const deletions = initialCampaignProductIds.filter((id) => !selectedProductIds.includes(id));
 
         try {
             if (additions.length > 0) {
@@ -98,12 +97,6 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
             toast.error("Failed to update products. Please try again.");
         }
     };
-
-    const filteredProducts = accumulatedProducts.filter(
-        (product: any) =>
-            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.category.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
@@ -132,16 +125,16 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
 
                 {/* Body - Lazy Loading Product List */}
                 <div onScroll={handleScroll} className="p-6 overflow-y-auto space-y-3 grow min-h-0">
-                    {accumulatedProducts.length === 0 && isFetchingProducts ? (
+                    {products.length === 0 && isFetching ? (
                         <div className="flex items-center justify-center py-8">
                             <Loader2 className="animate-spin text-[#D97706]" size={24} />
                             <span className="text-sm text-[#78716C] ml-2">Loading products...</span>
                         </div>
-                    ) : filteredProducts.length === 0 ? (
+                    ) : products.length === 0 ? (
                         <div className="text-center text-sm text-[#78716C] py-8">No products found matching your search.</div>
                     ) : (
                         <>
-                            {filteredProducts.map((product: any) => {
+                            {products.map((product: any) => {
                                 const isSelected = selectedProductIds.includes(product._id || "");
                                 return (
                                     <div
@@ -177,7 +170,7 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
                                     </div>
                                 );
                             })}
-                            {isFetchingProducts && (
+                            {isFetching && (
                                 <div className="flex items-center justify-center py-4">
                                     <Loader2 className="animate-spin text-[#D97706]" size={20} />
                                     <span className="text-xs text-[#78716C] ml-2">Loading more...</span>

@@ -47,11 +47,11 @@ const Footer = () => {
                                 </Link>
                             </li>
 
-                            {/* <li>
-                                <Link href="/cookie-policy" className="hover:text-[#EFAC02] transition-colors">
-                                    Cookie Policy
+                            <li>
+                                <Link href="/mission" className="hover:text-[#EFAC02] transition-colors">
+                                    Mission
                                 </Link>
-                            </li> */}
+                            </li>
                         </ul>
                     </div>
 
@@ -61,14 +61,8 @@ const Footer = () => {
 
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/contact-support" className="hover:text-[#EFAC02] transition-colors">
+                                <Link href="/about-us" className="hover:text-[#EFAC02] transition-colors">
                                     Contact Support
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link href="/support-portal" className="hover:text-[#EFAC02] transition-colors">
-                                    Support Portal
                                 </Link>
                             </li>
                         </ul>
@@ -79,8 +73,18 @@ const Footer = () => {
                         <h3 className="text-lg font-semibold mb-5">Legal</h3>
 
                         <ul className="space-y-3 text-sm text-gray-600">
-                            <li>Phone: +00 6543765**</li>
-                            <li>E-mail: example@gmail.com</li>
+                            <li>
+                                Phone:{" "}
+                                <a href="tel:+46081234567" className="hover:text-[#7c5800] transition-colors">
+                                    +46 (0) 8 123 45 67
+                                </a>
+                            </li>
+                            <li>
+                                E-mail:{" "}
+                                <a href="mailto:hello@nordicarchive.fund" className="hover:text-[#7c5800] transition-colors">
+                                    hello@nordicarchive.fund
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

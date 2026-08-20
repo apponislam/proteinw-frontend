@@ -93,6 +93,45 @@ const productApi = baseApi.injectEndpoints({
             providesTags: [{ type: "Product", id: "ADMIN_STATS" }],
         }),
 
+        getProductsWithCampaignStatus: builder.query<
+            { data: (TProduct & { isAdded: boolean })[]; meta: TProductMeta },
+            { campaignId: string; page?: number; limit?: number; search?: string }
+        >({
+            query: ({ campaignId, page = 1, limit = 10, search }) => {
+                const params = new URLSearchParams();
+                params.append("page", String(page));
+                params.append("limit", String(limit));
+                if (search) params.append("search", search);
+
+                return {
+                    url: `/products/admin/campaign/${campaignId}?${params.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            serializeQueryArgs: ({ queryArgs }) => {
+                return `CAMPAIGN_PRODUCTS_STATUS_${queryArgs.campaignId}`;
+            },
+            merge: (currentCache, newItems, { arg }) => {
+                if (arg.page === 1) {
+                    return newItems;
+                }
+                const existingIds = new Set(currentCache.data.map((p) => p._id));
+                const filteredNew = newItems.data.filter((p) => !existingIds.has(p._id));
+                return {
+                    ...newItems,
+                    data: [...currentCache.data, ...filteredNew],
+                };
+            },
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg;
+            },
+            providesTags: (result, error, { campaignId }) => [
+                { type: "Product", id: `CAMPAIGN_STATUS_${campaignId}` },
+                { type: "Product", id: "ADMIN_LIST" },
+            ],
+        }),
+
         getAllProducts: builder.query<TProductResponse, Record<string, any> | void>({
             query: (filters) => {
                 const params = new URLSearchParams();
@@ -198,4 +237,14 @@ const productApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useGetActiveProductsQuery, useGetProductByIdQuery, useGetAllProductsQuery, useGetProductStatsQuery, useCreateProductMutation, useUpdateProductMutation, useToggleProductStatusMutation, useDeleteProductMutation } = productApi;
+export const {
+    useGetActiveProductsQuery,
+    useGetProductByIdQuery,
+    useGetAllProductsQuery,
+    useGetProductsWithCampaignStatusQuery,
+    useGetProductStatsQuery,
+    useCreateProductMutation,
+    useUpdateProductMutation,
+    useToggleProductStatusMutation,
+    useDeleteProductMutation,
+} = productApi;

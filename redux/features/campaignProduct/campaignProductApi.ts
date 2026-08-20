@@ -109,7 +109,9 @@ const campaignProductApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: (result, error, { campaignId }) => [
+                { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` },
                 { type: "CampaignProduct", id: "LIST" },
+                { type: "Product", id: `CAMPAIGN_STATUS_${campaignId}` },
                 { type: "Campaign", id: campaignId },
                 { type: "Campaign", id: "ADMIN_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
@@ -128,6 +130,7 @@ const campaignProductApi = baseApi.injectEndpoints({
             invalidatesTags: (_, __, { campaignId, productId }) => [
                 { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` },
                 { type: "CampaignProduct", id: `PRODUCT_${productId}` },
+                { type: "Product", id: `CAMPAIGN_STATUS_${campaignId}` },
                 { type: "Campaign", id: campaignId },
                 { type: "Campaign", id: "ADMIN_LIST" },
                 { type: "Campaign", id: "PUBLIC_LIST" },
@@ -147,6 +150,7 @@ const campaignProductApi = baseApi.injectEndpoints({
             invalidatesTags: (result, error, { campaignId, productIds }) => {
                 const tags: any[] = [
                     { type: "CampaignProduct", id: `CAMPAIGN_${campaignId}` },
+                    { type: "Product", id: `CAMPAIGN_STATUS_${campaignId}` },
                     { type: "Campaign", id: campaignId },
                     { type: "Campaign", id: "ADMIN_LIST" },
                     { type: "Campaign", id: "PUBLIC_LIST" },
