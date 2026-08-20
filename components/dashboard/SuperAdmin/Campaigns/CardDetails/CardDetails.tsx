@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { TCampaign, useUpdateCampaignStatusMutation } from "../../../../../redux/features/campaign/campaignApi";
 import { useGetCampaignSellersQuery } from "@/redux/features/campaignSeller/campaignSellerApi";
-import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone, ChevronDown, Check } from "lucide-react";
+import { toast } from "sonner";
+import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone, ChevronDown, Check, ShoppingBag } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
@@ -12,6 +13,7 @@ import ProductsList from "./ProductsList";
 import CampaignMetricsGrid from "./CampaignMetricsGrid";
 import ManageSellersModal from "./ManageSellersModal";
 import ManageProductsModal from "./ManageProductsModal";
+import CampaignOrdersList from "./CampaignOrdersList";
 
 interface CardDetailsProps {
     campaign: TCampaign;
@@ -46,12 +48,6 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const totalProductsCount = apiProductCount ?? products.length;
     const admin = campaign.campaignAdmin;
 
-    const progress = campaign.target > 0 ? Math.min(100, Math.round(((campaign.totalPackagesSold || 0) / campaign.target) * 100)) : 0;
-
-    const endDate = new Date(campaign.endDate);
-    const today = new Date();
-    const isExpired = campaign.status !== "ACTIVE" || endDate.getTime() < today.getTime();
-
     const currentStatusStr = campaign.status || "DRAFT";
     const currentOption = statusOptions.find((opt) => opt.value === currentStatusStr) || statusOptions[0];
 
@@ -62,60 +58,41 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
         }
         try {
             await updateCampaignStatus({ campaignId, status }).unwrap();
-        } catch (error) {
-            console.error("Failed to update campaign status:", error);
+            toast.success(`Campaign status updated to ${status}`);
+        } catch (err: any) {
+            toast.error(err?.data?.message || "Failed to update campaign status");
         } finally {
             setIsDropdownOpen(false);
         }
     };
 
-    const formattedEndDate = endDate.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        timeZone: "UTC",
-    });
-
-    const getDaysLeft = () => {
-        const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
-        const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
-        const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
-        if (diffDays < 0) return "Expired";
-        if (diffDays === 0) return "Ends today";
-        return `In ${diffDays} days`;
-    };
-
     return (
         <div className="space-y-8">
-            {/* Header / Breadcrumb */}
+            {/* Top Navigation */}
             <div className="flex items-center justify-between">
-                <button onClick={() => router.back()} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer">
+                <button onClick={() => router.back()} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium">
                     <ArrowLeft size={16} />
-                    <span>Back</span>
+                    <span>Back to Campaigns</span>
                 </button>
 
-                {/* Status Badge / Dropdown Picker for Details Page */}
+                {/* Status Dropdown */}
                 {isSuperAdmin ? (
                     <div className="relative">
                         <button
                             type="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsDropdownOpen((prev) => !prev);
-                            }}
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             disabled={isUpdating}
-                            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer transition-all border border-stone-200 hover:border-amber-400 ${currentOption.bg} ${currentOption.text}`}
-                            title="Change Status"
+                            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border border-stone-200 shadow-xs hover:shadow-md transition-all cursor-pointer ${currentOption.bg} ${currentOption.text}`}
                         >
-                            <span className={`w-2 h-2 rounded-full ${currentOption.dot} ${isUpdating ? "animate-ping" : ""}`}></span>
-                            <span>{isUpdating ? "UPDATING..." : currentOption.label}</span>
+                            <span className={`w-2 h-2 rounded-full ${currentOption.dot}`}></span>
+                            <span>{currentOption.label}</span>
                             <ChevronDown size={14} className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                         </button>
 
                         {isDropdownOpen && (
                             <>
                                 <div className="fixed inset-0 z-20" onClick={() => setIsDropdownOpen(false)}></div>
-                                <div className="absolute right-0 mt-2 z-30 w-44 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                <div className="absolute right-0 mt-1.5 z-30 w-40 bg-white rounded-xl shadow-xl border border-stone-200 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                     {statusOptions.map((opt) => (
                                         <button
                                             key={opt.value}
@@ -184,13 +161,13 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                             </button>
                         </div>
                         {activeTab === "sellers" && (
-                            <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
+                            <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
                                 <Plus size={14} />
                                 Manage Sellers
                             </button>
                         )}
                         {activeTab === "products" && (
-                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs">
+                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
                                 <Plus size={14} />
                                 Manage Products
                             </button>
@@ -246,6 +223,11 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                         )}
                     </div>
                 </div>
+            </div>
+
+            {/* Bottom Orders Component */}
+            <div className="bg-white rounded-xl border border-[#E7E5E4] overflow-hidden shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+                <CampaignOrdersList campaignId={campaignId} />
             </div>
 
             {/* Modals */}

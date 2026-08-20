@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Search, X, Check, Loader2, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useGetGroupSellersQuery } from "@/redux/features/auth/authApi";
+import { useGetGroupSellersQuery } from "@/redux/features/sellerGroup/sellerGroupApi";
 
 interface ManageCampaignSellersModalProps {
     groupId: string;

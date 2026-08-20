@@ -227,6 +227,24 @@ const orderApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
+        getOrdersByCampaign: builder.query<TOrderResponse, { campaignId: string; page?: number; limit?: number; status?: TOrderStatus } | string>({
+            query: (args) => {
+                const campaignId = typeof args === "string" ? args : args.campaignId;
+                const queryParams = new URLSearchParams();
+                if (typeof args !== "string") {
+                    if (args.page) queryParams.append("page", String(args.page));
+                    if (args.limit) queryParams.append("limit", String(args.limit));
+                    if (args.status) queryParams.append("status", args.status);
+                }
+                const queryString = queryParams.toString();
+                return {
+                    url: queryString ? `/orders/campaign/${campaignId}?${queryString}` : `/orders/campaign/${campaignId}`,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+            providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Order" as const, id: _id })), { type: "Order", id: "CAMPAIGN_LIST" }] : [{ type: "Order", id: "CAMPAIGN_LIST" }]),
+        }),
     }),
 });
 
@@ -252,4 +270,5 @@ export const {
     useGetRunningCampaignStatsQuery,
     useGetCampaignContributorsQuery,
     useGetMemberOrderStatsQuery,
+    useGetOrdersByCampaignQuery,
 } = orderApi;
