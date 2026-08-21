@@ -76,13 +76,13 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
         <>
             <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose}></div>
             <div className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] z-50 flex flex-col animate-in slide-in-from-right duration-200">
-                <div className="flex items-center justify-between p-6 border-b border-[#F5F5F4]">
-                    <div className="flex items-center gap-3">
-                        <Bell className="text-[#D97706]" />
-                        <h2 className="text-xl font-bold text-[#1A1C1C]">Message Notifications</h2>
-                        {unreadCount > 0 && <span className="bg-[#D97706]/10 text-[#D97706] text-xs font-bold px-2 py-0.5 rounded-full">{unreadCount} new</span>}
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#F5F5F4] gap-2">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-wrap">
+                        <Bell className="text-[#D97706] shrink-0" />
+                        <h2 className="text-base sm:text-xl font-bold text-[#1A1C1C] truncate">Message Notifications</h2>
+                        {unreadCount > 0 && <span className="bg-[#D97706]/10 text-[#D97706] text-xs font-bold px-2 py-0.5 rounded-full shrink-0">{unreadCount} new</span>}
                     </div>
-                    <button onClick={onClose} className="p-2 rounded-full hover:bg-[#F5F5F4] transition-all cursor-pointer">
+                    <button onClick={onClose} className="p-1.5 sm:p-2 rounded-full hover:bg-[#F5F5F4] transition-all cursor-pointer shrink-0">
                         <X size={20} className="text-[#78716C]" />
                     </button>
                 </div>
