@@ -146,47 +146,8 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
 
             {/* Split Details Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left/Middle Column: Tabs for Sellers & Products */}
-                <div className="lg:col-span-2 space-y-4">
-                    {/* Tab Header */}
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#E7E5E4] pb-2 sm:pb-0.5 gap-3">
-                        <div className="flex gap-4 sm:gap-6 w-full sm:w-auto">
-                            <button onClick={() => setActiveTab("sellers")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "sellers" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
-                                <Users size={16} />
-                                Sellers ({currentCampaignSellers.length}){activeTab === "sellers" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
-                            </button>
-                            <button onClick={() => setActiveTab("products")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "products" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
-                                <Package size={16} />
-                                Products ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
-                            </button>
-                        </div>
-                        {activeTab === "sellers" && (
-                            <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
-                                <Plus size={14} />
-                                Manage Sellers
-                            </button>
-                        )}
-                        {activeTab === "products" && (
-                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
-                                <Plus size={14} />
-                                Manage Products
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Tab Body */}
-                    <div className="bg-white rounded-lg border border-[#E7E5E4] overflow-hidden max-w-full shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
-                        <div className={activeTab === "sellers" ? "block w-full overflow-x-auto" : "hidden"}>
-                            <SellersList sellers={currentCampaignSellers} />
-                        </div>
-                        <div className={activeTab === "products" ? "block w-full overflow-x-auto" : "hidden"}>
-                            <ProductsList campaignId={campaignId} fallbackProducts={products} onTotalCount={setApiProductCount} />
-                        </div>
-                    </div>
-                </div>
-
-                {/* Right Column: Campaign Contact / Admin Info Card */}
-                <div className="space-y-4">
+                {/* Campaign Contact / Admin Info Card - Shows first on Mobile, Right Column on Desktop */}
+                <div className="lg:col-span-1 lg:order-2 space-y-4">
                     <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Contact</h3>
                     <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
                         {admin ? (
@@ -221,6 +182,45 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                         ) : (
                             <div className="text-sm text-[#78716C] italic text-center py-4">No admin user assigned to this campaign.</div>
                         )}
+                    </div>
+                </div>
+
+                {/* Left/Middle Column: Tabs for Sellers & Products */}
+                <div className="lg:col-span-2 lg:order-1 space-y-4">
+                    {/* Tab Header */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-[#E7E5E4] pb-2 sm:pb-0.5 gap-3">
+                        <div className="flex gap-4 sm:gap-6 w-full sm:w-auto">
+                            <button onClick={() => setActiveTab("sellers")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "sellers" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
+                                <Users size={16} />
+                                Sellers ({currentCampaignSellers.length}){activeTab === "sellers" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
+                            </button>
+                            <button onClick={() => setActiveTab("products")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "products" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
+                                <Package size={16} />
+                                Products ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
+                            </button>
+                        </div>
+                        {activeTab === "sellers" && (
+                            <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
+                                <Plus size={14} />
+                                Manage Sellers
+                            </button>
+                        )}
+                        {activeTab === "products" && (
+                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-[#D97706] bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
+                                <Plus size={14} />
+                                Manage Products
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Tab Body */}
+                    <div className="bg-white rounded-lg border border-[#E7E5E4] overflow-hidden max-w-full shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+                        <div className={activeTab === "sellers" ? "block w-full overflow-x-auto" : "hidden"}>
+                            <SellersList sellers={currentCampaignSellers} />
+                        </div>
+                        <div className={activeTab === "products" ? "block w-full overflow-x-auto" : "hidden"}>
+                            <ProductsList campaignId={campaignId} fallbackProducts={products} onTotalCount={setApiProductCount} />
+                        </div>
                     </div>
                 </div>
             </div>

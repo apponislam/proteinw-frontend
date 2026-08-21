@@ -113,16 +113,13 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                             <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">SOLD</div>
                             <div className="text-[#D97706] font-bold text-lg">SEK {(campaign.totalRevenueSold || 0).toLocaleString()}</div>
                         </div>
-                        <div>
-                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 text-right">TARGET</div>
-                            <div className="text-[#1A1C1C] font-bold text-lg group-hover:text-[#271900] transition-colors duration-300 text-right">SEK {(campaign.target || 0).toLocaleString()}</div>
-                        </div>
-                    </div>
+                <div className="mb-3 sm:mb-4">
+                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300 line-clamp-2">{campaign.name}</h3>
+                    <p className="text-[#78716C] text-xs sm:text-sm mt-1 group-hover:text-[#271900] transition-colors duration-300 line-clamp-2">{campaign.shortDescription}</p>
                 </div>
-                */}
 
                 {/* Tier Progress Details Box */}
-                <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
+                <div className="bg-[#F3F3F3] p-3 sm:py-4 sm:px-6 rounded-2xl sm:rounded-[24px] mb-3 sm:mb-4">
                     {(() => {
                         const totalSold = campaign.totalPackagesSold || 0;
                         const nextMin = campaign.nextTier?.minSalesVolume || (campaign.currentTier?.maxSalesVolume ? campaign.currentTier.maxSalesVolume + 1 : 150);
@@ -132,25 +129,25 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
 
                         return (
                             <>
-                                <div className="mb-4">
+                                <div className="mb-3 sm:mb-4">
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Tier Progress</span>
-                                        <span className="text-[#D97706] font-bold">{progressPct}%</span>
+                                        <span className="text-[#78716C] text-xs sm:text-sm group-hover:text-[#271900] transition-colors duration-300">Tier Progress</span>
+                                        <span className="text-[#D97706] font-bold text-xs sm:text-sm">{progressPct}%</span>
                                     </div>
                                     <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
                                         <div className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300" style={{ width: `${progressPct}%` }} />
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-2 gap-2 sm:gap-4">
                                     <div>
-                                        <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 uppercase">CURRENT TIER</div>
-                                        <div className="text-[#D97706] font-bold text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
+                                        <div className="text-[#78716C] text-[10px] sm:text-xs group-hover:text-[#271900] transition-colors duration-300 uppercase">CURRENT TIER</div>
+                                        <div className="text-[#D97706] font-bold text-xs sm:text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
                                             {campaign.currentTier ? `${campaign.currentTier.percentage}%` : "0%"}
                                         </div>
                                     </div>
                                     <div>
-                                        <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 text-right uppercase">NEXT TIER NEEDED</div>
-                                        <div className="text-[#1A1C1C] font-bold text-base group-hover:text-[#271900] transition-colors duration-300 text-right">
+                                        <div className="text-[#78716C] text-[10px] sm:text-xs group-hover:text-[#271900] transition-colors duration-300 text-right uppercase">NEXT TIER NEEDED</div>
+                                        <div className="text-[#1A1C1C] font-bold text-xs sm:text-base group-hover:text-[#271900] transition-colors duration-300 text-right truncate">
                                             {campaign.nextTier ? (
                                                 <>
                                                     {campaign.packagesNeededForNextTier || 0} PKGS <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
@@ -166,20 +163,20 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     })()}
                 </div>
 
-                <div className="mb-2 min-h-10 flex items-center">{renderCampaignStatus(campaign.endDate, campaign.status)}</div>
+                <div className="mb-2 min-h-8 sm:min-h-10 flex items-center">{renderCampaignStatus(campaign.endDate, campaign.status)}</div>
             </div>
 
             {/* Bottom Actions Row */}
-            <div className="relative z-10 mt-auto flex items-center gap-3">
+            <div className="relative z-10 mt-auto flex items-center gap-2 sm:gap-3 pt-2">
                 <Link
                     href={`/dashboard/campaigns/${campaign._id}`}
-                    className="flex-1 h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 py-2.5 text-sm font-bold text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none"
+                    className="flex-1 min-w-0 h-9 sm:h-10 inline-flex items-center justify-center gap-1.5 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none truncate"
                 >
-                    Manage Campaign
+                    <span className="truncate">Manage Campaign</span>
                 </Link>
 
                 {/* Status Dropdown Picker for SuperAdmin */}
-                <div className="relative">
+                <div className="relative shrink-0">
                     <button
                         type="button"
                         onClick={(e) => {
@@ -187,18 +184,18 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                             setIsDropdownOpen((prev) => !prev);
                         }}
                         disabled={isUpdating}
-                        className={`h-10 px-3 rounded-full text-xs font-semibold cursor-pointer transition-all border border-stone-200 hover:border-amber-400 flex items-center gap-1.5 ${currentOption.bg} ${currentOption.text}`}
+                        className={`h-9 sm:h-10 px-2.5 sm:px-3 rounded-full text-xs font-semibold cursor-pointer transition-all border border-stone-200 hover:border-amber-400 flex items-center justify-center gap-1.5 ${currentOption.bg} ${currentOption.text}`}
                         title="Update Campaign Status"
                     >
-                        <span className={`w-2 h-2 rounded-full ${currentOption.dot} ${isUpdating ? "animate-ping" : ""}`}></span>
-                        <span>{isUpdating ? "..." : currentOption.label}</span>
-                        <ChevronDown size={14} className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                        <span className={`w-2 h-2 rounded-full ${currentOption.dot} ${isUpdating ? "animate-ping" : ""} shrink-0`}></span>
+                        <span className="truncate">{isUpdating ? "..." : currentOption.label}</span>
+                        <ChevronDown size={14} className={`shrink-0 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                     </button>
 
                     {isDropdownOpen && (
                         <>
                             <div className="fixed inset-0 z-20" onClick={() => setIsDropdownOpen(false)}></div>
-                            <div className="absolute right-0 bottom-12 z-30 w-44 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                            <div className="absolute right-0 bottom-11 sm:bottom-12 z-30 w-44 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                 {statusOptions.map((opt) => (
                                     <button
                                         key={opt.value}

@@ -49,38 +49,38 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
             {/* Group Header Info */}
             {group ? (
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)]">
-                    <div className="mb-4 flex items-start justify-between">
+                    <div className="mb-4 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                         <div>
                             <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Group Details</span>
-                            <h1 className="text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
+                            <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
                             <p className="text-[#78716C] text-sm">{group.shortDescription}</p>
                         </div>
-                        <div className="flex flex-col items-end gap-2 shrink-0">
+                        <div className="flex flex-col sm:items-end gap-2 shrink-0">
                             {typeof group.createdBy === "object" && group.createdBy && (
-                                <div className="flex items-center gap-3 bg-amber-50/70 p-3 rounded-2xl border border-amber-200/80">
+                                <div className="flex items-center gap-3 bg-amber-50/70 p-3 rounded-2xl border border-amber-200/80 w-full sm:w-auto">
                                     <div className="w-9 h-9 rounded-xl bg-linear-to-br from-[#7C5800] to-[#FFB800] text-white flex items-center justify-center font-extrabold text-sm shadow-xs shrink-0">
                                         {(group.createdBy.name || "A").charAt(0).toUpperCase()}
                                     </div>
-                                    <div className="text-left leading-tight">
+                                    <div className="text-left leading-tight min-w-0">
                                         <div className="text-[10px] text-[#78716C] font-semibold uppercase tracking-wider">Created By</div>
-                                        <div className="text-xs font-bold text-[#1A1C1C] mt-0.5">{group.createdBy.name || "Admin"}</div>
-                                        <div className="text-[11px] text-[#78716C] font-medium flex items-center gap-2 mt-1">
+                                        <div className="text-xs font-bold text-[#1A1C1C] mt-0.5 truncate">{group.createdBy.name || "Admin"}</div>
+                                        <div className="text-[11px] text-[#78716C] font-medium flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                                             {group.createdBy.phone && <span className="text-[#D97706] font-semibold">{group.createdBy.phone}</span>}
-                                            {group.createdBy.email && <span>{group.createdBy.email}</span>}
+                                            {group.createdBy.email && <span className="truncate">{group.createdBy.email}</span>}
                                         </div>
                                     </div>
                                 </div>
                             )}
-                            <div className="text-xs text-[#78716C] font-semibold flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
+                            <div className="text-xs text-[#78716C] font-semibold flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200 w-fit">
                                 <Calendar size={14} className="text-[#D97706]" />
                                 <span>Created: {group.createdAt ? new Date(group.createdAt).toLocaleDateString() : "N/A"}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#F5F5F4]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-[#F5F5F4]">
                         <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706] shrink-0">
                                 <Users size={18} />
                             </div>
                             <div>
@@ -89,7 +89,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706] shrink-0">
                                 <Award size={18} />
                             </div>
                             <div>
@@ -98,7 +98,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706]">
+                            <div className="p-2 bg-amber-50 rounded-lg text-[#D97706] shrink-0">
                                 <Calendar size={18} />
                             </div>
                             <div>
