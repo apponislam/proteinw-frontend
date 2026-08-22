@@ -33,11 +33,22 @@ const campaignSellerApi = baseApi.injectEndpoints({
         }),
 
         // Get seller's joined campaigns (Seller)
-        getMyJoinedCampaigns: builder.query<TMyJoinedCampaignsResponse, void>({
-            query: () => ({
-                url: "/campaign-sellers/my-campaigns",
-                method: "GET",
-            }),
+        getMyJoinedCampaigns: builder.query<
+            TMyJoinedCampaignsResponse,
+            { page?: number; limit?: number; status?: string } | void
+        >({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params?.page) queryParams.append("page", String(params.page));
+                if (params?.limit) queryParams.append("limit", String(params.limit));
+                if (params?.status) queryParams.append("status", params.status);
+
+                const queryString = queryParams.toString();
+                return {
+                    url: queryString ? `/campaign-sellers/my-campaigns?${queryString}` : "/campaign-sellers/my-campaigns",
+                    method: "GET",
+                };
+            },
             providesTags: ["CampaignSeller"],
         }),
 
