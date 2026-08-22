@@ -163,6 +163,16 @@ const dashboardApi = baseApi.injectEndpoints({
                 };
             },
         }),
+        getAsSellerDashboardStats: builder.query<{ data: TSellerDashboardStats }, string | void>({
+            query: (campaignId) => {
+                const url = campaignId ? `/dashboard/as-seller-stats?campaignId=${campaignId}` : "/dashboard/as-seller-stats";
+                return {
+                    url,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+        }),
         getSuperAdminSellersStats: builder.query<{ data: TSuperAdminSellersStats }, void>({
             query: () => ({
                 url: "/dashboard/superadmin-sellers-stats",
@@ -307,6 +317,7 @@ export const {
     useGetDashboardStatsQuery,
     useGetDashboardStatusQuery,
     useGetSellerDashboardStatsQuery,
+    useGetAsSellerDashboardStatsQuery,
     useGetSuperAdminSellersStatsQuery,
     useGetSuperAdminSellersQuery,
     useGetSuperAdminGroupsStatsQuery,
