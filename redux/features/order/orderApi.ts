@@ -84,12 +84,13 @@ const orderApi = baseApi.injectEndpoints({
         }),
 
         // Protected endpoints (auth required)
-        getOrdersByMember: builder.query<TOrderResponse, { page?: number; limit?: number; status?: TOrderStatus }>({
-            query: ({ page = 1, limit = 10, status }) => {
+        getOrdersByMember: builder.query<TOrderResponse, { page?: number; limit?: number; status?: TOrderStatus; campaignId?: string }>({
+            query: ({ page = 1, limit = 10, status, campaignId }) => {
                 const params = new URLSearchParams();
                 params.append("page", String(page));
                 params.append("limit", String(limit));
                 if (status) params.append("status", status);
+                if (campaignId) params.append("campaignId", campaignId);
 
                 return {
                     url: `/orders/member?${params.toString()}`,
@@ -182,12 +183,17 @@ const orderApi = baseApi.injectEndpoints({
             providesTags: [{ type: "Order", id: "STATS" }],
         }),
 
-        getMemberOrderStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, void>({
-            query: () => ({
-                url: "/orders/seller-stats",
-                method: "GET",
-                credentials: "include",
-            }),
+        getMemberOrderStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, { campaignId?: string } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params?.campaignId) queryParams.append("campaignId", params.campaignId);
+                const url = queryParams.toString() ? `/orders/seller-stats?${queryParams.toString()}` : "/orders/seller-stats";
+                return {
+                    url,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
             providesTags: [{ type: "Order", id: "STATS" }],
         }),
 

@@ -49,6 +49,15 @@ export type TSellerDashboardStats = {
     shopUrl?: string;
 };
 
+export type TAsSellerCampaignInfo = {
+    campaignId: string;
+    name: string;
+    shortDescription: string;
+    campaignCode: string;
+    referralCode: string;
+    shopUrl: string;
+};
+
 export type TSellerListItem = {
     _id: string;
     name: string;
@@ -169,6 +178,16 @@ const dashboardApi = baseApi.injectEndpoints({
         getAsSellerDashboardStats: builder.query<{ data: TSellerDashboardStats }, string | void>({
             query: (campaignId) => {
                 const url = campaignId ? `/dashboard/as-seller-stats?campaignId=${campaignId}` : "/dashboard/as-seller-stats";
+                return {
+                    url,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
+        }),
+        getAsSellerCampaignInfo: builder.query<{ data: TAsSellerCampaignInfo }, string | void>({
+            query: (campaignId) => {
+                const url = campaignId ? `/dashboard/as-seller-campaign-info?campaignId=${campaignId}` : "/dashboard/as-seller-campaign-info";
                 return {
                     url,
                     method: "GET",
@@ -321,6 +340,7 @@ export const {
     useGetDashboardStatusQuery,
     useGetSellerDashboardStatsQuery,
     useGetAsSellerDashboardStatsQuery,
+    useGetAsSellerCampaignInfoQuery,
     useGetSuperAdminSellersStatsQuery,
     useGetSuperAdminSellersQuery,
     useGetSuperAdminGroupsStatsQuery,

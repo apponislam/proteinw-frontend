@@ -21,7 +21,11 @@ const getStatusColor = (status: string) => {
     }
 };
 
-const SellerOrdersTable = () => {
+interface SellerOrdersTableProps {
+    campaignId?: string;
+}
+
+const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => {
     const [page, setPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<string>("");
     const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
@@ -42,6 +46,7 @@ const SellerOrdersTable = () => {
         page,
         limit: 10,
         status: statusFilter ? (statusFilter as TOrderStatus) : undefined,
+        campaignId: campaignId || undefined,
     };
 
     const { data: sellerOrdersData, isLoading } = useGetOrdersByMemberQuery(queryParams);

@@ -3,8 +3,12 @@ import React from "react";
 import Image from "next/image";
 import { useGetMemberOrderStatsQuery } from "@/redux/features/order/orderApi";
 
-const SellerOrdersCard = () => {
-    const { data: sellerStatsData, isLoading } = useGetMemberOrderStatsQuery();
+interface SellerOrdersCardProps {
+    campaignId?: string;
+}
+
+const SellerOrdersCard: React.FC<SellerOrdersCardProps> = ({ campaignId }) => {
+    const { data: sellerStatsData, isLoading } = useGetMemberOrderStatsQuery({ campaignId });
 
     const stats = sellerStatsData?.data || { totalRevenue: 0, activeOrders: 0, mtdSales: 0 };
 

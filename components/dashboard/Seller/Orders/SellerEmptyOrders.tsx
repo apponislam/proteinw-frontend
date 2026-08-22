@@ -1,29 +1,38 @@
 "use client";
 
 import React, { useState } from "react";
-import { useGetReferralAndCampaignQuery } from "@/redux/features/auth/authApi";
+import { useGetAsSellerCampaignInfoQuery } from "@/redux/features/dashboard/dashboardApi";
 import Image from "next/image";
 
-const SellerEmptyOrders = () => {
-    const { data: refData } = useGetReferralAndCampaignQuery();
+interface SellerEmptyOrdersProps {
+    campaignId?: string;
+}
+
+const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => {
+    const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || undefined);
     const [copied, setCopied] = useState(false);
 
-    // Build unique seller shop link
-    const referralCode = refData?.data?.referralCode || "";
-    const shopLink = typeof window !== "undefined" && referralCode ? `${window.location.origin}/shop?ref=${referralCode}` : "https://proteinw.com/shop";
+    const infoData = campaignInfoResponse?.data;
+    const shopLink = infoData?.shopUrl || "";
 
     const handleCopyLink = () => {
+        if (!shopLink) return;
         navigator.clipboard.writeText(shopLink);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
     const handleShareSocials = () => {
-        if (navigator.share) {
+        const shareTitle = infoData?.name ? `Support ${infoData.name}` : "Support my Fundraiser";
+        const shareText = infoData?.shortDescription
+            ? `${infoData.shortDescription} — Buy delicious products from my shop link to support our fundraiser!`
+            : "Buy delicious products from my shop link to support our fundraiser!";
+
+        if (navigator.share && shopLink) {
             navigator
                 .share({
-                    title: "Support my 2024 Fundraiser",
-                    text: "Buy delicious products from my shop link to support our fundraiser!",
+                    title: shareTitle,
+                    text: shareText,
                     url: shopLink,
                 })
                 .catch(() => {});
@@ -41,7 +50,9 @@ const SellerEmptyOrders = () => {
                     <div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-[#D97706] text-xs font-bold mb-4">★ Start Your Campaign</div>
                         <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-4">No orders yet!</h2>
-                        <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for the 2024 fundraiser.</p>
+                        <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">
+                            Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for the {infoData?.name || "active"} fundraiser.
+                        </p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 pt-6  justify-start items-center">
@@ -81,21 +92,19 @@ const SellerEmptyOrders = () => {
 
                 {/* Right Side QR Code section inside the SAME card */}
                 <div className="lg:w-100 shrink-0 bg-[#F3F3F3] rounded-xl p-6 flex flex-col items-center justify-center text-center border border-stone-200/80">
-                    <div className="mb-3">
-                        <img
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shopLink)}`}
-                            alt="Scan to shop QR code"
-                            width={160}
-                            height={160}
-                            className="w-40 h-40 object-contain rounded-md"
-                            onError={(e) => {
-                                // Fallback SVG QR placeholder if network blocked
-                                e.currentTarget.style.display = "none";
-                                if (e.currentTarget.nextElementSibling) {
-                                    (e.currentTarget.nextElementSibling as HTMLElement).style.display = "flex";
-                                }
-                            }}
-                        />
+                    <div className="mb-3 w-40 h-40 flex items-center justify-center bg-white rounded-md p-2 shadow-xs">
+                        {shopLink ? (
+                            <img
+                                key={shopLink}
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shopLink)}`}
+                                alt="Scan to shop QR code"
+                                width={160}
+                                height={160}
+                                className="w-full h-full object-contain rounded-md"
+                            />
+                        ) : (
+                            <div className="text-xs text-stone-400 text-center">Loading QR code...</div>
+                        )}
                     </div>
                     <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase">SCAN TO SHOP</h3>
                 </div>
@@ -132,7 +141,7 @@ const SellerEmptyOrders = () => {
                     </div>
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Goal Tracking</h4>
-                        <p className="text-sm text-[#78716C] leading-relaxed">You&apos;re only $500 away from unlocking the silver archive badge.</p>
+                        <p className="text-sm text-[#78716C] leading-relaxed">Keep sharing your sales link regularly to reach your fundraising goals faster.</p>
                     </div>
                 </div>
             </div>
