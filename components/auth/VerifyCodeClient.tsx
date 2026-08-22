@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useVerifyOtpMutation, useResendOtpMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
+import AuthHeader from "./AuthHeader";
 
 const verifyCodeSchema = z.object({
     code: z.string().length(6, "Please enter the complete 6-digit code"),
@@ -113,47 +114,30 @@ const VerifyCodeClient = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
-                        Kungsbörnen
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href="/auth/register" className="text-gray-700 font-medium hover:text-gray-900">
-                            Sign Up
-                        </Link>
-                        <Link
-                            href="/auth/register"
-                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
-                        >
-                            Get Started
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <AuthHeader />
 
             {/* Main Content */}
-            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
+            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-2 sm:px-4 py-8 sm:py-12">
                 <div className="w-full max-w-md">
                     {/* Form Card */}
-                    <div className="bg-white border-dashed rounded-lg p-8">
+                    <div className="bg-white border-dashed rounded-lg p-3 sm:p-8">
                         {/* Logo and Title */}
-                        <div className="text-center mb-8">
-                            <h1 className="text-black text-xl text-center font-extrabold">Kungsbjörnen</h1>
-                            <h2 className="text-2xl text-gray-900">Verify Your Code</h2>
-                            <p className="text-sm text-gray-600 mt-2">Enter the verification code sent to your email</p>
+                        <div className="text-center mb-6 sm:mb-8">
+                            <h1 className="text-xl sm:text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
+                            <h2 className="text-base sm:text-lg font-bold text-gray-700 mt-1">Verify Your Code</h2>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Enter the verification code sent to your email</p>
                         </div>
 
                         {/* Form */}
                         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                             {/* OTP Input Boxes */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-4">VERIFICATION CODE</label>
+                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-4 text-center">VERIFICATION CODE</label>
                                 <Controller
                                     name="code"
                                     control={control}
                                     render={() => (
-                                        <div className="flex gap-3 justify-center">
+                                        <div className="grid grid-cols-6 gap-1.5 sm:gap-3 max-w-[320px] sm:max-w-none mx-auto">
                                             {otp.map((digit, index) => (
                                                 <input
                                                     key={index}
@@ -167,7 +151,7 @@ const VerifyCodeClient = () => {
                                                     onChange={(e) => handleChange(index, e.target.value)}
                                                     onKeyDown={(e) => handleKeyDown(index, e)}
                                                     onPaste={handlePaste}
-                                                    className="w-12 h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition bg-gray-50 hover:border-gray-400"
+                                                    className="w-full aspect-square text-center text-lg sm:text-2xl font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition bg-gray-50 hover:border-gray-400 p-0"
                                                 />
                                             ))}
                                         </div>

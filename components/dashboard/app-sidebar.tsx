@@ -1,6 +1,6 @@
 "use client";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { getMenuByRole } from "@/utils/menuItems";
 import { useRole } from "./RoleProvider";
 import { LogOut } from "lucide-react";
@@ -19,6 +19,7 @@ export function AppSidebar() {
     const menuItems = getMenuByRole(activeRole);
     const [logoutApi] = useLogoutMutation();
     const dispatch = useDispatch();
+    const { isMobile, setOpenMobile } = useSidebar();
 
     const roleLabels: Record<string, string> = {
         SUPER_ADMIN: "SUPER ADMIN",
@@ -39,10 +40,16 @@ export function AppSidebar() {
         }
     };
 
+    const handleItemClick = () => {
+        if (isMobile) {
+            setOpenMobile(false);
+        }
+    };
+
     return (
         <Sidebar>
             <SidebarHeader className="p-4">
-                <Link href="/" className="flex items-center gap-3">
+                <Link href="/" onClick={handleItemClick} className="flex items-center gap-3">
                     <div>
                         <Image src="/dashboard/superadmin/logo.svg" alt="ProteinW" width={40} height={40} />
                     </div>
@@ -64,7 +71,7 @@ export function AppSidebar() {
                                         className={`relative px-5 py-2 transition-colors rounded-none cursor-pointer before:absolute before:right-0 before:top-0 before:h-full before:w-1 before:bg-[#D97706] ${isActive ? "bg-[#F5F5F4] text-[#D97706] hover:text-[#D97706] before:block" : "text-[#78716C] hover:bg-[#F5F5F4] hover:text-[#D97706] before:hidden hover:before:block"}`}
                                     >
                                         <SidebarMenuButton asChild isActive={isActive} className="bg-transparent! !hover:bg-transparent p-0! cursor-pointer">
-                                            <Link href={item.url} className="flex items-center gap-2 text-inherit hover:text-inherit cursor-pointer">
+                                            <Link href={item.url} onClick={handleItemClick} className="flex items-center gap-2 text-inherit hover:text-inherit cursor-pointer">
                                                 <item.icon className="text-inherit" />
                                                 <span className="text-inherit">{item.title}</span>
                                             </Link>

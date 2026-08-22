@@ -140,7 +140,7 @@ const MemberVerifyCodeForm = () => {
             {/* Main Content */}
             <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
                 <div className="w-full max-w-md">
-                    <div className="bg-white border border-gray-100 shadow-[0px_4px_25px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10">
+                    <div className="bg-white border border-gray-100 shadow-[0px_4px_25px_rgba(0,0,0,0.05)] rounded-2xl p-4 sm:p-10">
                         {/* Title */}
                         <div className="text-center mb-8">
                             <h1 className="text-[#1A1C1C] text-xl font-extrabold tracking-tight mb-1">Kungsbjörnen</h1>
@@ -154,7 +154,7 @@ const MemberVerifyCodeForm = () => {
                             {/* OTP Inputs */}
                             <div>
                                 <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-4 text-center">ENTER 6-DIGIT CODE</label>
-                                <div className="flex justify-center items-center gap-2 sm:gap-3">
+                                <div className="grid grid-cols-6 gap-1.5 sm:gap-3 max-w-[320px] sm:max-w-none mx-auto">
                                     {otp.map((digit, index) => (
                                         <input
                                             key={index}
@@ -168,7 +168,7 @@ const MemberVerifyCodeForm = () => {
                                             onChange={(e) => handleChange(index, e.target.value)}
                                             onKeyDown={(e) => handleKeyDown(index, e)}
                                             onPaste={handlePaste}
-                                            className="w-11 h-13 text-center text-xl font-bold bg-gray-100/80 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-[#D97706] focus:bg-white transition-all"
+                                            className="w-full aspect-square text-center text-lg sm:text-xl font-bold bg-gray-100/80 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-[#D97706] focus:bg-white transition-all p-0"
                                         />
                                     ))}
                                 </div>

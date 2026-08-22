@@ -10,6 +10,8 @@ import { setUser } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import AuthHeader from "./AuthHeader";
+
 const loginSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
     password: z.string().min(1, "Please enter your password"),
@@ -50,24 +52,7 @@ const LoginClient = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 ">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
-                        Kungsbörnen
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href="/auth/register" className="text-gray-700 font-medium hover:text-gray-900">
-                            Sign Up
-                        </Link>
-                        <Link
-                            href="/auth/register"
-                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
-                        >
-                            Get Started
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <AuthHeader activePage="login" />
 
             {/* Main Content */}
             <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
@@ -76,9 +61,8 @@ const LoginClient = () => {
                     <div className="bg-white  border-dashed  rounded-lg p-8">
                         {/* Logo and Title */}
                         <div className="text-center mb-6">
-                            <h1 className="text-black text-xl text-center font-extrabold">Kungsbjörnen</h1>
-
-                            <h2 className="text-2xl  text-gray-900">Log In</h2>
+                            <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Log In</h2>
                         </div>
 
                         {/* Quick Login Helpers */}
@@ -159,13 +143,7 @@ const LoginClient = () => {
                                     render={({ field }) => (
                                         <label htmlFor="remember" className="flex items-center gap-2.5 cursor-pointer select-none">
                                             <div className="relative shrink-0">
-                                                <input
-                                                    type="checkbox"
-                                                    id="remember"
-                                                    className="sr-only peer"
-                                                    checked={field.value}
-                                                    onChange={(e) => field.onChange(e.target.checked)}
-                                                />
+                                                <input type="checkbox" id="remember" className="sr-only peer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
                                                 <div className="w-5 h-5 border-2 border-gray-300 rounded-md peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all bg-white shadow-xs">
                                                     {field.value && (
                                                         <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -174,9 +152,7 @@ const LoginClient = () => {
                                                     )}
                                                 </div>
                                             </div>
-                                            <span className="text-sm font-medium text-gray-700">
-                                                Remember me
-                                            </span>
+                                            <span className="text-sm font-medium text-gray-700">Remember me</span>
                                         </label>
                                     )}
                                 />

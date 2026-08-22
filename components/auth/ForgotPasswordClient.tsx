@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRequestPasswordResetMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
+import AuthHeader from "./AuthHeader";
 
 const forgotPasswordSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
@@ -42,24 +43,7 @@ const ForgotPasswordClient = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
-                        Kungsbörnen
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href="/auth/register" className="text-gray-700 font-medium hover:text-gray-900">
-                            Sign Up
-                        </Link>
-                        <Link
-                            href="/auth/register"
-                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
-                        >
-                            Get Started
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <AuthHeader />
 
             {/* Main Content */}
             <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
@@ -68,9 +52,9 @@ const ForgotPasswordClient = () => {
                     <div className="bg-white border-dashed rounded-lg p-8">
                         {/* Logo and Title */}
                         <div className="text-center mb-8">
-                            <h1 className="text-black text-xl text-center font-extrabold">Kungsbjörnen</h1>
-                            <h2 className="text-2xl text-gray-900">Forgot Password</h2>
-                            <p className="text-sm text-gray-600 mt-2">Enter your email to receive a verification code</p>
+                            <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Forgot Password?</h2>
+                            <p className="text-sm text-gray-600 mt-1">Enter your email address and we&apos;ll send you a link to reset your password.</p>
                         </div>
 
                         {/* Form */}

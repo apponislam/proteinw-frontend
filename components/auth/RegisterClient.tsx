@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 import { useRegisterMutation, useUpdateProfileMutation } from "@/redux/features/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, currentToken } from "@/redux/features/auth/authSlice";
+import AuthHeader from "./AuthHeader";
 
 // Step 1 Schema
 const step1Schema = z.object({
@@ -215,34 +216,17 @@ const RegisterClient = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
-                        Kungsbörnen
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href="/auth/login" className="text-gray-700 font-medium hover:text-gray-900">
-                            Sign In
-                        </Link>
-                        <Link
-                            href="/auth/register"
-                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
-                        >
-                            Get Started
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <AuthHeader activePage="register" />
 
             {/* Main Content */}
-            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
+            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-3 sm:px-4 py-6 sm:py-12">
                 <div className="w-full max-w-2xl">
                     {/* Form Card */}
-                    <div className="bg-white border-dashed rounded-lg p-8 sm:p-12">
+                    <div className="bg-white border-dashed rounded-lg p-4 sm:p-12">
                         {/* Logo and Title */}
-                        <div className="text-center mb-10">
-                            <h1 className="text-black text-xl text-center font-extrabold mb-4">Kungsbjörnen</h1>
-                            <h2 className="text-3xl text-gray-900 font-bold">
+                        <div className="text-center mb-6 sm:mb-10">
+                            <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-700 mt-1">
                                 {currentStep === 1 && "Create your account"}
                                 {currentStep === 2 && "Organization Details"}
                                 {currentStep === 3 && "Your Goals"}
@@ -292,23 +276,30 @@ const RegisterClient = () => {
                                         name="profession"
                                         control={controlStep1}
                                         render={({ field }) => (
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                                                 {professions.map((profession) => {
-                                                    const Icon = profession.icon;
-                                                    const isSelected = selectedProfession === profession.name;
+                                                    const IconComponent = profession.icon;
+                                                    const isSelected = field.value === profession.name;
                                                     return (
-                                                        <button
+                                                        <label
                                                             key={profession.name}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setSelectedProfession(profession.name);
-                                                                field.onChange(profession.name);
-                                                            }}
-                                                            className={`px-3 py-4 rounded-xl border-2 transition-all flex flex-col items-center justify-center gap-2 ${isSelected ? "border-[#7C5800] bg-[#FFDEA8] text-[#271900] font-semibold" : "border-white bg-[#E8E8E8] text-[#78716C] hover:border-[#EFAC02] hover:bg-white"}`}
+                                                            className={`relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                                                                isSelected
+                                                                    ? "border-[#7C5800] bg-amber-50/50 text-[#7C5800]"
+                                                                    : "border-gray-200 bg-gray-50/80 hover:border-gray-300 text-gray-700"
+                                                            }`}
                                                         >
-                                                            <Icon className="w-5 h-5" />
-                                                            {profession.name}
-                                                        </button>
+                                                            <input
+                                                                type="radio"
+                                                                name="profession"
+                                                                value={profession.name}
+                                                                checked={isSelected}
+                                                                onChange={() => field.onChange(profession.name)}
+                                                                className="sr-only"
+                                                            />
+                                                            <IconComponent className="w-5 h-5 mb-1.5" />
+                                                            <span className="text-xs font-semibold text-center leading-tight">{profession.name}</span>
+                                                        </label>
                                                     );
                                                 })}
                                             </div>
@@ -606,8 +597,8 @@ const RegisterClient = () => {
             </main>
 
             {/* Progress Bar */}
-            <div className="pb-12 max-w-2xl mx-auto">
-                <p className="mb-2">Step {currentStep} of 3</p>
+            <div className="pb-12 max-w-2xl mx-auto px-4">
+                <p className="mb-2 text-xs sm:text-sm font-medium text-gray-600">Step {currentStep} of 3</p>
                 <div className="flex items-center gap-3">
                     <div className={`w-full h-1.5 rounded-full ${currentStep >= 1 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>
                     <div className={`w-full h-1.5 rounded-full ${currentStep >= 2 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>
