@@ -28,7 +28,7 @@ const SellerOrdersView = () => {
                 </div>
             ) : (
                 <>
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center justify-between mb-4 md:mb-8 gap-4 flex-col md:flex-row">
                         <div>
                             <h1 className="text-3xl font-bold text-[#1A1C1C]">My Sales Orders</h1>
                             <p className="text-[#78716C] mt-2 max-w-2xl">View and track all customer orders placed through your personal fundraising sales link.</p>

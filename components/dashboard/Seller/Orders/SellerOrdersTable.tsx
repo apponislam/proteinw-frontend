@@ -57,7 +57,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
     const activeSelectedOrder = selectedOrder ? ordersList.find((o) => o._id === selectedOrder._id) || selectedOrder : null;
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
+        <div className="bg-white p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-[#1A1C1C]">My Customer Orders</h2>
@@ -114,7 +114,55 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                 <div className="text-center py-12 text-[#78716C]">No customer orders found.</div>
             ) : (
                 <>
-                    <div className="overflow-x-auto">
+                    {/* Mobile & Tablet Cards View (< md) */}
+                    <div className="block md:hidden space-y-3">
+                        {ordersList.map((order, index) => {
+                            const orderIdStr = `#ORD-${order._id?.slice(-8).toUpperCase()}`;
+                            const productNames = order.items.map((i) => i.productName).join(", ");
+                            const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
+
+                            return (
+                                <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[#D97706] font-bold text-sm">{orderIdStr}</span>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                    </div>
+
+                                    <div className="flex justify-between items-start text-xs text-[#78716C]">
+                                        <div>
+                                            <div className="text-[#1A1C1C] font-semibold text-sm">{order.customerName}</div>
+                                            <div className="truncate max-w-50">{order.customerEmail}</div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-[#1A1C1C] font-bold text-sm">{order.totalPrice} SEK</div>
+                                            <div>
+                                                {order.totalPackage} QTY • {dateStr}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2 border-t border-[#E7E5E4]/60 flex items-center justify-between text-xs">
+                                        <span className="text-[#78716C] truncate max-w-45" title={productNames}>
+                                            {productNames}
+                                        </span>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedOrder(order);
+                                            }}
+                                            className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline"
+                                        >
+                                            <Eye size={14} /> View Details
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Desktop Table View (>= md) */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="bg-[#FAFAF9]">
@@ -137,21 +185,21 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                     return (
                                         <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200 cursor-pointer">
                                             <td className="px-4 py-4">
-                                                <span className="text-[#D97706] font-bold">{orderIdStr}</span>
+                                                <span className="text-[#D97706] font-bold text-sm whitespace-nowrap">{orderIdStr}</span>
                                             </td>
                                             <td className="px-4 py-4">
-                                                <div className="text-[#1A1C1C] font-medium">{order.customerName}</div>
-                                                <div className="text-[#78716C] text-xs">{order.customerEmail}</div>
+                                                <div className="text-[#1A1C1C] font-medium text-sm">{order.customerName}</div>
+                                                <div className="text-[#78716C] text-xs truncate max-w-40">{order.customerEmail}</div>
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-50 truncate" title={productNames}>
+                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-44 sm:max-w-50 truncate text-sm" title={productNames}>
                                                 {productNames}
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.totalPackage}</td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-bold">{order.totalPrice} SEK</td>
+                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium text-sm">{order.totalPackage}</td>
+                                            <td className="px-4 py-4 text-[#1A1C1C] font-bold text-sm whitespace-nowrap">{order.totalPrice} SEK</td>
                                             <td className="px-4 py-4">
                                                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium">{dateStr}</td>
+                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium text-sm whitespace-nowrap">{dateStr}</td>
                                             <td className="px-4 py-4">
                                                 <button
                                                     type="button"
@@ -178,77 +226,75 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
 
             {/* Seller Order Details Modal */}
             {activeSelectedOrder && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-                    <div className="bg-white rounded-[24px] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl">
-                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg">
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2.5 sm:p-4 backdrop-blur-xs">
+                    <div className="bg-white rounded-2xl sm:rounded-[24px] max-w-2xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 relative shadow-2xl">
+                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-3.5 right-3.5 sm:top-6 sm:right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg p-1 bg-stone-100 hover:bg-stone-200 rounded-full w-8 h-8 flex items-center justify-center">
                             ✕
                         </button>
 
-                        <div className="flex items-center justify-between mb-6 pr-8">
-                            <h3 className="text-2xl font-bold text-gray-900">
-                                Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 mb-6 pr-8">
+                            <h3 className="text-lg sm:text-2xl font-bold text-gray-900 break-all">
+                                Order Details - <br className="md:hidden" /> <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
                             </h3>
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>
-                                {activeSelectedOrder.status}
-                            </span>
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                            <div className="space-y-4">
-                                <h4 className="font-bold text-gray-900 border-b pb-2">Customer Details</h4>
-                                <p className="text-sm">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-4 sm:mb-8">
+                            <div className="space-y-2.5 sm:space-y-3.5 bg-stone-50/70 p-3.5 sm:p-4 rounded-xl md:bg-transparent md:p-0">
+                                <h4 className="font-bold text-gray-900 border-b pb-2 text-sm sm:text-base">Customer Details</h4>
+                                <p className="text-xs sm:text-sm wrap-break-word">
                                     <span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm break-all">
                                     <span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm leading-relaxed wrap-break-word">
                                     <span className="font-semibold text-gray-600">Shipping Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
                                 </p>
                             </div>
-                            <div className="space-y-4">
-                                <h4 className="font-bold text-gray-900 border-b pb-2">Order Information</h4>
-                                <p className="text-sm">
+                            <div className="space-y-2.5 sm:space-y-3.5 bg-stone-50/70 p-3.5 sm:p-4 rounded-xl md:bg-transparent md:p-0">
+                                <h4 className="font-bold text-gray-900 border-b pb-2 text-sm sm:text-base">Order Information</h4>
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Order Date:</span> {activeSelectedOrder.createdAt ? new Date(activeSelectedOrder.createdAt).toLocaleString() : "N/A"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Group:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Campaign:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Total Packages:</span> {activeSelectedOrder.totalPackage}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="mb-8">
-                            <h4 className="font-bold text-gray-900 border-b pb-2 mb-4">Purchased Items</h4>
-                            <div className="space-y-3">
+                        <div className="mb-4 sm:mb-8">
+                            <h4 className="font-bold text-gray-900 border-b pb-2 mb-3 sm:mb-4 text-sm sm:text-base">Purchased Items</h4>
+                            <div className="space-y-2.5 sm:space-y-3">
                                 {activeSelectedOrder.items.map((item, index) => (
-                                    <div key={index} className="flex justify-between items-center text-sm bg-gray-50 p-3 rounded-xl">
-                                        <div>
-                                            <p className="font-semibold text-gray-900">{item.productName}</p>
-                                            <p className="text-xs text-gray-500">
-                                                Quantity: {item.quantity} x {item.singlePrice} SEK
+                                    <div key={index} className="flex flex-row justify-between items-center text-xs sm:text-sm bg-gray-50 p-3 rounded-xl gap-2">
+                                        <div className="min-w-0 flex-1">
+                                            <p className="font-semibold text-gray-900 truncate">{item.productName}</p>
+                                            <p className="text-[11px] sm:text-xs text-gray-500">
+                                                Qty: {item.quantity} × {item.singlePrice} SEK
                                             </p>
                                         </div>
-                                        <span className="font-bold text-gray-900">{item.lineTotal} SEK</span>
+                                        <span className="font-bold text-gray-900 whitespace-nowrap text-xs sm:text-sm">{item.lineTotal} SEK</span>
                                     </div>
                                 ))}
-                                <div className="flex justify-between items-center font-extrabold text-base pt-3 border-t">
+                                <div className="flex justify-between items-center font-extrabold text-sm sm:text-base pt-3 border-t">
                                     <span>Total Amount</span>
                                     <span className="text-[#D97706]">{activeSelectedOrder.totalPrice} SEK</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex justify-end border-t pt-6">
-                            <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer">
+                        <div className="flex justify-end border-t pt-3 sm:pt-6">
+                            <button onClick={() => setSelectedOrder(null)} className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer text-center">
                                 Close
                             </button>
                         </div>

@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <AppSidebar />
                     <SidebarInset className="bg-[#F9F9F9]">
                         <DashBoradHeader></DashBoradHeader>
-                        <div className="p-6">{children}</div>
+                        <div className="p-3 md:p-6">{children}</div>
                     </SidebarInset>
                 </SidebarProvider>
             </RoleProvider>

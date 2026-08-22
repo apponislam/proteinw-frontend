@@ -25,6 +25,7 @@ const LoginClient = () => {
     const {
         control,
         handleSubmit,
+        setValue,
         formState: { errors, isSubmitting },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -74,10 +75,47 @@ const LoginClient = () => {
                     {/* Form Card */}
                     <div className="bg-white  border-dashed  rounded-lg p-8">
                         {/* Logo and Title */}
-                        <div className="text-center mb-8">
+                        <div className="text-center mb-6">
                             <h1 className="text-black text-xl text-center font-extrabold">Kungsbjörnen</h1>
 
                             <h2 className="text-2xl  text-gray-900">Log In</h2>
+                        </div>
+
+                        {/* Quick Login Helpers */}
+                        <div className="mb-6 bg-stone-50 border border-stone-200 rounded-xl p-3.5 space-y-2">
+                            <div className="text-xs font-bold text-[#7C5800] uppercase tracking-wider mb-1 text-center">Quick Login (Testing)</div>
+                            <div className="grid grid-cols-3 gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setValue("email", "ridif57096@beiwoh.com");
+                                        setValue("password", "12345678");
+                                    }}
+                                    className="px-2 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs rounded-lg transition-colors cursor-pointer text-center"
+                                >
+                                    Seller
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setValue("email", "apponislamdev@gmail.com");
+                                        setValue("password", "123456789");
+                                    }}
+                                    className="px-2 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-900 font-bold text-xs rounded-lg transition-colors cursor-pointer text-center"
+                                >
+                                    Super Admin
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setValue("email", "rixodun@mailinator.com");
+                                        setValue("password", "Pa$$w0rd!");
+                                    }}
+                                    className="px-2 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-900 font-bold text-xs rounded-lg transition-colors cursor-pointer text-center"
+                                >
+                                    Admin
+                                </button>
+                            </div>
                         </div>
 
                         {/* Form */}
