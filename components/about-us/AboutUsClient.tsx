@@ -49,7 +49,7 @@ const AboutUsClient = () => {
     };
 
     return (
-        <div className="py-10 md:py-24 bg-[#F3F3F3] flex flex-col gap-16">
+        <div className="py-8 sm:py-12 md:py-24 bg-[#F3F3F3] flex flex-col gap-10 sm:gap-16">
             <SupportPageTop searchQuery={searchQuery} onSearchChange={setSearchQuery} onSearchSubmit={handleSearchSubmit} />
             <SupportPage faqData={filteredFAQData} />
         </div>

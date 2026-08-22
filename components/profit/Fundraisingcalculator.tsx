@@ -48,7 +48,7 @@ const Fundraisingcalculator = () => {
     }
 
     return (
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             <FundraisingCalculatorLeft targetProfit={targetProfit} setTargetProfit={setTargetProfit} students={students} setStudents={setStudents} profitPercent={profitPercent} />
             <FundraisingSummary packagesNeeded={packagesNeeded} perStudent={perStudent} totalProfit={totalProfit} profitPercent={profitPercent} progress={progress} nextTier={nextTier} targetProfit={targetProfit} />
         </div>
