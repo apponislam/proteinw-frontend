@@ -7,19 +7,19 @@ const OverviewReport = () => {
     const groupData = response?.data || [];
 
     return (
-        <div className="mt-8 bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
-            <div className="flex items-center justify-between mb-4">
+        <div className="mt-6 sm:mt-8 bg-white p-4 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-4">
                 <div>
-                    <h2 className="text-[#1A1C1C] text-xl font-bold">Total Profit per Group</h2>
-                    <p className="text-[#78716C] text-sm mt-1">Revenue distribution for the top-performing groups this quarter.</p>
+                    <h2 className="text-[#1A1C1C] text-lg sm:text-xl font-bold">Total Profit per Group</h2>
+                    <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Revenue distribution for the top-performing groups this quarter.</p>
                 </div>
-                <Link href="/dashboard/groups">
-                    <button className="text-[#D97706] font-medium text-sm hover:underline cursor-pointer">View all reports</button>
+                <Link href="/dashboard/groups" className="shrink-0">
+                    <button className="text-[#D97706] font-semibold text-xs sm:text-sm hover:underline cursor-pointer">View all reports</button>
                 </Link>
             </div>
 
             <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left min-w-137.5">
                     <thead>
                         <tr className="bg-[#FAFAF9]">
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GROUP NAME</th>
@@ -52,9 +52,7 @@ const OverviewReport = () => {
                                                 <span className="text-[#1A1C1C] font-medium">{group.groupName}</span>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-4 text-[#78716C]">
-                                            {typeof group.assignedAdmin === "object" ? group.assignedAdmin?.name || "UNASSIGNED" : group.assignedAdmin || "UNASSIGNED"}
-                                        </td>
+                                        <td className="px-4 py-4 text-[#78716C]">{typeof group.assignedAdmin === "object" ? group.assignedAdmin?.name || "UNASSIGNED" : group.assignedAdmin || "UNASSIGNED"}</td>
                                         <td className="px-4 py-4 text-[#1A1C1C] font-medium">{(group.packagesSold ?? 0).toLocaleString()}</td>
                                         <td className="px-4 py-4 text-[#1A1C1C] font-medium">{(group.revenue ?? 0).toLocaleString()} SEK</td>
                                         <td className="px-4 py-4 text-[#D97706] font-bold">{(group.groupProfit ?? 0).toLocaleString()} SEK</td>

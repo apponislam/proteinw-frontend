@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { ChevronDown, Loader2, Megaphone } from "lucide-react";
 import { useGetMyJoinedCampaignsQuery } from "@/redux/features/campaignSeller/campaignSellerApi";
 import { TCampaign } from "@/redux/features/campaign/campaignApi";
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser } from "@/redux/features/auth/authSlice";
 
 interface CampaignListOrderPageProps {
     onSelectCampaign?: (campaign: TCampaign | null) => void;
@@ -16,6 +18,7 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
     selectedCampaignId,
     placeholder = "All Campaigns",
 }) => {
+    const user = useAppSelector(currentUser);
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [accumulatedCampaigns, setAccumulatedCampaigns] = useState<TCampaign[]>([]);
@@ -26,11 +29,16 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
         isFetching,
         isLoading,
         isError,
-    } = useGetMyJoinedCampaignsQuery({
-        page,
-        limit: 6,
-        status: "ACTIVE",
-    });
+    } = useGetMyJoinedCampaignsQuery(
+        {
+            page,
+            limit: 6,
+            status: "ACTIVE",
+        },
+        {
+            skip: !user || user.role !== "SELLER",
+        }
+    );
 
     const responseData = response as any;
     const meta = responseData?.meta;
