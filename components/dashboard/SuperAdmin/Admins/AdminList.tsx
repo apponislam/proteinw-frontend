@@ -74,13 +74,13 @@ const AdminList = () => {
     }
 
     return (
-        <div className="mt-8 bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#1A1C1C]">System Controllers</h2>
+        <div className="mt-6 sm:mt-8 bg-white p-4 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">System Controllers</h2>
             </div>
 
-            <div className="overflow-visible">
-                <table className="w-full text-left">
+            <div className="overflow-x-auto">
+                <table className="w-full text-left min-w-160">
                     <thead>
                         <tr className="bg-[#FAFAF9]">
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ADMIN NAME</th>

@@ -50,12 +50,12 @@ const AdminChangePasswordModal: React.FC<AdminChangePasswordModalProps> = ({ isO
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+            <div className="absolute inset-0" onClick={onClose} />
 
             {/* Modal Content */}
-            <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 flex flex-col">
+            <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto p-5 sm:p-6 flex flex-col max-h-[90vh] overflow-y-auto my-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-[#F5F5F4]">
                     <div className="flex items-center gap-2 text-[#D97706]">

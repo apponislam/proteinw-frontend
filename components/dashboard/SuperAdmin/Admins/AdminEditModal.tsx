@@ -115,14 +115,14 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
     const selectedProfessionLabel = PROFESSIONS.find((p) => p.value === profession)?.label;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
             {/* Glassmorphism Backdrop */}
             <div className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-200" onClick={onClose} />
 
             {/* Modal Container */}
-            <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl mx-4 max-h-[88vh] flex flex-col border border-[#E7E5E4] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col border border-[#E7E5E4] overflow-hidden animate-in fade-in zoom-in-95 duration-200 my-auto">
                 {/* Modal Header */}
-                <div className="flex items-center justify-between px-8 py-5 border-b border-[#E7E5E4] bg-linear-to-r from-[#FAF9F6] via-white to-[#FCFBFA]">
+                <div className="flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 border-b border-[#E7E5E4] bg-linear-to-r from-[#FAF9F6] via-white to-[#FCFBFA]">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-linear-to-br from-[#D97706] to-[#7C5800] text-white flex items-center justify-center font-bold shadow-sm shrink-0">
                             <Sparkles size={18} />
@@ -144,12 +144,12 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
 
                 {/* Modal Body */}
                 {isFetchingUser ? (
-                    <div className="p-16 flex flex-col items-center justify-center text-[#78716C] gap-3">
+                    <div className="p-12 sm:p-16 flex flex-col items-center justify-center text-[#78716C] gap-3">
                         <Loader2 className="animate-spin text-[#D97706]" size={30} />
                         <span className="text-sm font-medium">Loading user details...</span>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="overflow-y-auto p-8 space-y-7 flex-1 custom-scrollbar">
+                    <form onSubmit={handleSubmit} className="overflow-y-auto p-5 sm:p-8 space-y-6 sm:space-y-7 flex-1 custom-scrollbar">
                         {/* Basic Info Section */}
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 pb-1 border-b border-[#E7E5E4]">

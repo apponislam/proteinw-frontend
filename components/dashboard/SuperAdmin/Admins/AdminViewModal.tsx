@@ -21,8 +21,8 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
     const address = (userDetails as any)?.address;
 
     return (
-        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
-            <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto">
+            <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200 my-auto">
                 {/* Close Button */}
                 <button onClick={onClose} className="absolute top-5 right-5 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer">
                     <X size={20} />
@@ -45,24 +45,30 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                 ) : (
                     <div className="space-y-5">
                         {/* Basic Info */}
-                        <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
+                        <div className="bg-[#FAFAF9] p-3.5 sm:p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
                             <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Account Overview</h3>
 
-                            <div className="flex items-center gap-3 text-sm">
-                                <Mail size={16} className="text-[#D97706]" />
-                                <span className="text-[#78716C] w-24">Email:</span>
-                                <span className="font-semibold text-[#1A1C1C]">{user.email || "N/A"}</span>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm">
+                                <div className="flex items-center gap-2 shrink-0">
+                                    <Mail size={16} className="text-[#D97706]" />
+                                    <span className="text-[#78716C] w-20 sm:w-24">Email:</span>
+                                </div>
+                                <span className="font-semibold text-[#1A1C1C] break-all">{user.email || "N/A"}</span>
                             </div>
 
-                            <div className="flex items-center gap-3 text-sm">
-                                <Phone size={16} className="text-[#D97706]" />
-                                <span className="text-[#78716C] w-24">Phone:</span>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm">
+                                <div className="flex items-center gap-2 shrink-0">
+                                    <Phone size={16} className="text-[#D97706]" />
+                                    <span className="text-[#78716C] w-20 sm:w-24">Phone:</span>
+                                </div>
                                 <span className="font-semibold text-[#1A1C1C]">{user.phone || "N/A"}</span>
                             </div>
 
-                            <div className="flex items-center gap-3 text-sm">
-                                <Briefcase size={16} className="text-[#D97706]" />
-                                <span className="text-[#78716C] w-24">Profession:</span>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm">
+                                <div className="flex items-center gap-2 shrink-0">
+                                    <Briefcase size={16} className="text-[#D97706]" />
+                                    <span className="text-[#78716C] w-20 sm:w-24">Profession:</span>
+                                </div>
                                 <span className="font-semibold text-[#1A1C1C]">{user.profession || "N/A"}</span>
                             </div>
                         </div>
