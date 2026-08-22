@@ -4,19 +4,19 @@ import React from "react";
 
 const SellWithUs = () => {
     return (
-        <section className="py-24 lg:h-screen bg-white">
-            <div className="container mx-auto px-6">
+        <section className="py-12 sm:py-16 lg:py-24 min-h-fit bg-white">
+            <div className="container mx-auto px-4 sm:px-6">
                 {/* HEADER */}
-                <div className="text-center mb-14">
-                    <h2 className="text-4xl md:text-[60px] font-extrabold text-gray-900">Sell With Us</h2>
+                <div className="text-center mb-8 sm:mb-14">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[60px] font-extrabold text-gray-900 leading-tight">Sell With Us</h2>
 
-                    <p className="text-gray-600 mt-4 text-center text-xl">Choose how you want to start your fundraising</p>
+                    <p className="text-gray-600 mt-2 sm:mt-4 text-center text-base sm:text-lg md:text-xl">Choose how you want to start your fundraising</p>
                 </div>
 
                 {/* CARDS */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                     {/* CLASS FUNDRAISING */}
-                    <div className="bg-gray-50 rounded-3xl p-10 hover:shadow-lg transition">
+                    <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 md:p-10 hover:shadow-lg transition">
                         <div className="bg-[#F59E0B33] w-16 h-16 rounded-[24px] flex items-center justify-center mb-4">
                             <GraduationCap className="text-[#F59E0B] text-xl" />
                         </div>
@@ -49,7 +49,7 @@ const SellWithUs = () => {
                     </div>
 
                     {/* TEAM FUNDRAISING */}
-                    <div className="bg-gray-50 rounded-3xl p-10 hover:shadow-lg transition">
+                    <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 md:p-10 hover:shadow-lg transition">
                         <div className="bg-[#F59E0B33] w-16 h-16 rounded-[24px] flex items-center justify-center mb-4">
                             <Volleyball className="text-[#F59E0B] text-xl" />
                         </div>

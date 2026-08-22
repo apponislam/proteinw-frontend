@@ -58,7 +58,10 @@ const ProductsClient = () => {
     // Window scroll listener for infinite scroll
     useEffect(() => {
         const handleScroll = () => {
-            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 120 && hasNextPage && !isFetching) {
+            const scrollPosition = Math.ceil(window.innerHeight + window.scrollY);
+            const totalHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+
+            if (scrollPosition >= totalHeight - 1000 && hasNextPage && !isFetching) {
                 setPage((prev) => prev + 1);
             }
         };
@@ -69,18 +72,18 @@ const ProductsClient = () => {
 
     return (
         <div className="bg-[#FAFAF9CC] min-h-screen pb-32">
-            <div className="container mx-auto py-6 px-4">
-                <div className="mb-6">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-4">The Archive Collection</h1>
-                    <p className="text-[#514532]">
-                        Curated high-quality products designed for community fundraising. <br className="none sm:block" /> Handpicked Scandinavian essentials that represent the NordicArchive spirit.
+            <div className="container mx-auto py-6 px-4 sm:px-6">
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">The Archive Collection</h1>
+                    <p className="text-[#514532] text-sm sm:text-base">
+                        Curated high-quality products designed for community fundraising. <br className="hidden sm:block" /> Handpicked Scandinavian essentials that represent the NordicArchive spirit.
                     </p>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-4">
+                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
                     {/* Sidebar / Categories */}
                     <div className="w-full lg:w-80 lg:shrink-0">
-                        <h3 className="text-[#837560] text-sm font-bold tracking-wider mb-6">CATEGORIES</h3>
+                        <h3 className="text-[#837560] text-xs sm:text-sm font-bold tracking-wider mb-3 sm:mb-6">CATEGORIES</h3>
                         <ul className="flex lg:flex-col gap-2 lg:gap-3 overflow-x-auto pb-2 lg:pb-0">
                             {/* All Products */}
                             <li
@@ -160,7 +163,7 @@ const ProductsClient = () => {
                             <div className="text-center py-20 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4]">No products found in this category.</div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
                                     {accumulatedProducts.map((product) => (
                                         <ProductCard
                                             key={product._id}
@@ -179,11 +182,20 @@ const ProductsClient = () => {
                                         />
                                     ))}
                                 </div>
-                                {isFetching && (
+
+                                {isFetching ? (
                                     <div className="flex items-center justify-center py-6 gap-2">
                                         <Loader2 className="animate-spin text-[#D97706]" size={20} />
                                         <span className="text-xs text-[#78716C]">Loading more products...</span>
                                     </div>
+                                ) : (
+                                    hasNextPage && (
+                                        <div className="flex justify-center pt-4 pb-6">
+                                            <button type="button" onClick={() => setPage((prev) => prev + 1)} className="px-6 py-3 bg-stone-100 hover:bg-stone-200 border border-stone-300 text-stone-700 font-semibold text-sm rounded-full transition-all cursor-pointer shadow-xs active:scale-95">
+                                                Load More Products
+                                            </button>
+                                        </div>
+                                    )
                                 )}
                             </>
                         )}
@@ -192,15 +204,15 @@ const ProductsClient = () => {
             </div>
 
             {/* Bottom Sticky Ready To Fundraise Card */}
-            <div className="fixed bottom-0 left-0 right-0 z-40 p-4 md:p-6 bg-linear-to-t from-white via-white/95 to-transparent pointer-events-none">
+            <div className="fixed bottom-0 left-0 right-0 z-40 p-3 sm:p-4 md:p-6 bg-linear-to-t from-white via-white/95 to-transparent pointer-events-none">
                 <div className="container mx-auto flex justify-center">
-                    <div className="w-full sm:w-auto sm:min-w-140 lg:min-w-160 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white/90 backdrop-blur-md rounded-[32px] p-4 sm:p-5 shadow-2xl border border-[#FFDEA8]/40 pointer-events-auto transition-all duration-300 hover:shadow-amber-100 hover:border-[#FFDEA8]">
-                        <div className="sm:pl-4">
-                            <h2 className="text-xs text-[#837560] font-extrabold uppercase tracking-wider">READY TO FUNDRAISE?</h2>
-                            <p className="text-sm font-semibold text-[#1A1C1C] mt-0.5">Join 500+ successful teams</p>
+                    <div className="w-full sm:w-auto sm:min-w-140 lg:min-w-160 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-[32px] p-3.5 sm:p-5 shadow-2xl border border-[#FFDEA8]/40 pointer-events-auto transition-all duration-300 hover:shadow-amber-100 hover:border-[#FFDEA8]">
+                        <div className="text-center sm:text-left sm:pl-4">
+                            <h2 className="text-[10px] sm:text-xs text-[#837560] font-extrabold uppercase tracking-wider">READY TO FUNDRAISE?</h2>
+                            <p className="text-xs sm:text-sm font-semibold text-[#1A1C1C] mt-0.5">Join 500+ successful teams</p>
                         </div>
                         <Link href="/auth/register" className="w-full sm:w-auto shrink-0">
-                            <button className="w-full sm:w-auto justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white px-8 py-3 rounded-full flex items-center gap-2 cursor-pointer shadow-md transition-all font-bold text-sm">
+                            <button className="w-full sm:w-auto justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full flex items-center gap-2 cursor-pointer shadow-md transition-all font-bold text-xs sm:text-sm">
                                 <Rocket size={16} /> Start Selling These
                             </button>
                         </Link>

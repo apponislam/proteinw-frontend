@@ -43,14 +43,14 @@ const steps = [
 
 const HowItWorks = () => {
     return (
-        <section className="py-24 xl:h-screen bg-[#F6F6F6]">
-            <div className="container mx-auto px-6">
-                <div className="text-center mb-14">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">How It Works</h2>
+        <section className="py-12 sm:py-16 lg:py-24 min-h-fit bg-[#F6F6F6]">
+            <div className="container mx-auto px-4 sm:px-6">
+                <div className="text-center mb-8 sm:mb-14">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">How It Works</h2>
                 </div>
 
                 {/* GRID */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     {steps.map((step, index) => {
                         const Icon = step.icon;
 
@@ -59,18 +59,18 @@ const HowItWorks = () => {
                                 {/* NORMAL CARD */}
                                 <div
                                     className="
-                                    bg-white rounded-3xl p-8 shadow-sm border-2 border-white
+                                    bg-white rounded-3xl p-6 sm:p-8 shadow-sm border-2 border-white
                                     transition-all duration-300
                                     group-hover:opacity-0
                                 "
                                 >
-                                    <div className="w-16 h-16 rounded-full bg-[#EFAC02] flex items-center justify-center mb-5">
+                                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#EFAC02] flex items-center justify-center mb-4 sm:mb-5">
                                         <Icon size={18} className="text-white" />
                                     </div>
 
-                                    <div className="flex items-center gap-4 mb-3">
-                                        <div className="text-[60px] font-bold text-gray-200 leading-none">{step.num}</div>
-                                        <h3 className="text-lg font-bold text-gray-900 leading-tight">{step.title}</h3>
+                                    <div className="flex items-center gap-3 sm:gap-4 mb-3">
+                                        <div className="text-[48px] sm:text-[60px] font-bold text-gray-200 leading-none">{step.num}</div>
+                                        <h3 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">{step.title}</h3>
                                     </div>
 
                                     <p className="text-gray-600 text-sm leading-relaxed">{step.desc.slice(0, 90)}...</p>
@@ -80,20 +80,20 @@ const HowItWorks = () => {
                                 <div
                                     className="
                                     absolute top-0 left-0 w-full z-20
-                                    bg-white rounded-3xl p-8 shadow-xl border-2 border-[#EFAC02]
+                                    bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-[#EFAC02]
                                     opacity-0
                                     transition-all duration-300
                                     group-hover:opacity-100
                                     pointer-events-auto
                                 "
                                 >
-                                    <div className="w-16 h-16 rounded-full bg-[#EFAC02] flex items-center justify-center mb-5">
+                                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#EFAC02] flex items-center justify-center mb-4 sm:mb-5">
                                         <Icon size={18} className="text-white" />
                                     </div>
 
-                                    <div className="flex items-center gap-4 mb-3">
-                                        <div className="text-[60px] font-bold text-gray-200 leading-none">{step.num}</div>
-                                        <h3 className="text-lg font-bold text-gray-900 leading-tight">{step.title}</h3>
+                                    <div className="flex items-center gap-3 sm:gap-4 mb-3">
+                                        <div className="text-[48px] sm:text-[60px] font-bold text-gray-200 leading-none">{step.num}</div>
+                                        <h3 className="text-base sm:text-lg font-bold text-gray-900 leading-tight">{step.title}</h3>
                                     </div>
 
                                     <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
