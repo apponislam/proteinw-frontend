@@ -49,7 +49,7 @@ const ForgotPasswordClient = () => {
             <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
                 <div className="w-full max-w-md">
                     {/* Form Card */}
-                    <div className="bg-white border-dashed rounded-lg p-8">
+                    <div className="bg-white border-dashed rounded-lg p-4 sm:p-8">
                         {/* Logo and Title */}
                         <div className="text-center mb-8">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>

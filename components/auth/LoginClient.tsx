@@ -58,7 +58,7 @@ const LoginClient = () => {
             <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
                 <div className="w-full max-w-md">
                     {/* Form Card */}
-                    <div className="bg-white  border-dashed  rounded-lg p-8">
+                    <div className="bg-white border-dashed rounded-lg p-4 sm:p-8">
                         {/* Logo and Title */}
                         <div className="text-center mb-6">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
@@ -68,7 +68,7 @@ const LoginClient = () => {
                         {/* Quick Login Helpers */}
                         <div className="mb-6 bg-stone-50 border border-stone-200 rounded-xl p-3.5 space-y-2">
                             <div className="text-xs font-bold text-[#7C5800] uppercase tracking-wider mb-1 text-center">Quick Login (Testing)</div>
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <button
                                     type="button"
                                     onClick={() => {

@@ -123,8 +123,8 @@ const VerifyCodeClient = () => {
                     <div className="bg-white border-dashed rounded-lg p-3 sm:p-8">
                         {/* Logo and Title */}
                         <div className="text-center mb-6 sm:mb-8">
-                            <h1 className="text-xl sm:text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-base sm:text-lg font-bold text-gray-700 mt-1">Verify Your Code</h2>
+                            <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Verify Your Email</h2>
                             <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Enter the verification code sent to your email</p>
                         </div>
 

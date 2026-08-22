@@ -39,12 +39,7 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({ activePage }) => {
 
                 {/* Mobile Hamburger Button */}
                 <div className="md:hidden flex items-center">
-                    <button
-                        type="button"
-                        onClick={() => setIsMenuOpen((prev) => !prev)}
-                        className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none cursor-pointer"
-                        aria-label="Toggle Navigation Menu"
-                    >
+                    <button type="button" onClick={() => setIsMenuOpen((prev) => !prev)} className="p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none cursor-pointer" aria-label="Toggle Navigation Menu">
                         {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
@@ -54,27 +49,15 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({ activePage }) => {
             {isMenuOpen && (
                 <div className="md:hidden absolute top-full left-0 right-0 z-50 bg-white border-b border-gray-200 px-4 py-3 space-y-2 shadow-lg rounded-b-xl animate-in fade-in duration-150">
                     {activePage === "login" ? (
-                        <Link
-                            href="/auth/register"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="block w-full text-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
+                        <Link href="/auth/register" onClick={() => setIsMenuOpen(false)} className="block w-full text-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
                             Sign Up
                         </Link>
                     ) : (
-                        <Link
-                            href="/auth/login"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="block w-full text-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
+                        <Link href="/auth/login" onClick={() => setIsMenuOpen(false)} className="block w-full text-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
                             Sign In
                         </Link>
                     )}
-                    <Link
-                        href="/auth/register"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="block w-full text-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px]"
-                    >
+                    <Link href="/auth/register" onClick={() => setIsMenuOpen(false)} className="block w-full text-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px]">
                         Get Started
                     </Link>
                 </div>

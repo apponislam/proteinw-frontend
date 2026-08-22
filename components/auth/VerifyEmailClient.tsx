@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { useVerifyEmailQuery, useResendVerificationEmailMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
+import AuthHeader from "./AuthHeader";
 
 const VerifyEmailClient = () => {
     const searchParams = useSearchParams();
@@ -56,32 +57,15 @@ const VerifyEmailClient = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
-            {/* <header className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
-                        Kungsbjörnen
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href="/" className="text-gray-700 font-medium hover:text-gray-900">
-                            Home
-                        </Link>
-                        <Link
-                            href="/dashboard"
-                            className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
-                        >
-                            Go to Dashboard
-                        </Link>
-                    </div>
-                </div>
-            </header> */}
+            <AuthHeader />
+
             {/* Main Content */}
-            {/* min-h-[calc(100vh-80px)] */}
-            <main className="flex items-center justify-center min-h-screen px-4 py-12">
+            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-3 sm:px-4 py-6 sm:py-12">
                 <div className="w-full max-w-md">
-                    <div className="bg-white border-dashed rounded-lg p-8 shadow-sm">
+                    <div className="bg-white border-dashed rounded-lg p-4 sm:p-8 shadow-sm">
                         {/* Logo */}
                         <div className="text-center mb-6">
-                            <h1 className="text-black text-xl text-center font-extrabold mb-4">Kungsbjörnen</h1>
+                            <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
                         </div>
 
                         {/* Loading State */}

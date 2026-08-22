@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Trophy, GraduationCap, Users, Target, Eye, EyeOff } from "lucide-react";
+import { Trophy, GraduationCap, Users, Target, Eye, EyeOff, ChevronDown, Check, Building2 } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { useRegisterMutation, useUpdateProfileMutation } from "@/redux/features/auth/authApi";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser, currentToken } from "@/redux/features/auth/authSlice";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/features/auth/authSlice";
 import AuthHeader from "./AuthHeader";
 
 // Step 1 Schema
@@ -28,7 +28,7 @@ const step1Schema = z.object({
     path: ["confirmPassword"],
 });
 
-// Step 2 Schema (Address fields)
+// Step 2 Schema (Organization Details & Address)
 const step2Schema = z.object({
     address: z.object({
         organizationName: z.string().min(2, "Please enter organization name").optional(),
@@ -41,16 +41,8 @@ const step2Schema = z.object({
     }),
 });
 
-// Step 3 Schema
-const step3Schema = z.object({
-    goal: z.string().optional(),
-    salesStartDate: z.string().optional(),
-    salesEndDate: z.string().optional(),
-});
-
 type Step1Values = z.infer<typeof step1Schema>;
 type Step2Values = z.infer<typeof step2Schema>;
-type Step3Values = z.infer<typeof step3Schema>;
 
 const RegisterClient = () => {
     const router = useRouter();
@@ -58,12 +50,11 @@ const RegisterClient = () => {
     const searchParams = useSearchParams();
     const professionFromQuery = searchParams.get("profession");
     const [currentStep, setCurrentStep] = useState(1);
-    const [selectedProfession, setSelectedProfession] = useState<string | null>(null);
+    const [step1Data, setStep1Data] = useState<Step1Values | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isOrgTypeOpen, setIsOrgTypeOpen] = useState(false);
     const [register, { isLoading: isRegisterLoading }] = useRegisterMutation();
-    const [updateProfile, { isLoading: isUpdateLoading }] = useUpdateProfileMutation();
-    const token = useSelector(currentToken);
 
     const professions = [
         { name: "LEADER", icon: Trophy },
@@ -103,7 +94,6 @@ const RegisterClient = () => {
         control: controlStep2,
         handleSubmit: handleSubmitStep2,
         formState: { errors: errorsStep2 },
-        setValue: setValueStep2,
     } = useForm<Step2Values>({
         resolver: zodResolver(step2Schema),
         defaultValues: {
@@ -119,20 +109,6 @@ const RegisterClient = () => {
         },
     });
 
-    // Step 3 Form
-    const {
-        control: controlStep3,
-        handleSubmit: handleSubmitStep3,
-        formState: { errors: errorsStep3 },
-    } = useForm<z.infer<typeof step3Schema>>({
-        resolver: zodResolver(step3Schema),
-        defaultValues: {
-            goal: "",
-            salesStartDate: "",
-            salesEndDate: "",
-        },
-    });
-
     useEffect(() => {
         if (!professionFromQuery) return;
 
@@ -141,75 +117,40 @@ const RegisterClient = () => {
         const validProfessions = ["LEADER", "TEACHER", "PARENT", "COACH"];
 
         if (validProfessions.includes(profession)) {
-            setSelectedProfession(profession);
             setValueStep1("profession", profession);
         }
     }, [professionFromQuery, setValueStep1]);
 
-    // Step 1 Submit - Register
-    const onSubmitStep1 = async (data: Step1Values) => {
+    // Step 1 - Next Step (Store Step 1 values in state)
+    const onSubmitStep1 = (data: Step1Values) => {
+        setStep1Data(data);
+        setCurrentStep(2);
+    };
+
+    // Step 2 - Complete Registration with Full Data in 1 Request
+    const onSubmitStep2 = async (data: Step2Values) => {
+        if (!step1Data) return;
+
         try {
             const formData = new FormData();
-            // Wrap data in a body field as JSON string (as expected by backend)
             formData.append(
                 "body",
                 JSON.stringify({
-                    name: data.name,
-                    email: data.email,
-                    phone: data.phone,
-                    profession: data.profession,
-                    password: data.password,
+                    name: step1Data.name,
+                    email: step1Data.email,
+                    phone: step1Data.phone,
+                    profession: step1Data.profession,
+                    password: step1Data.password,
                     role: "ADMIN",
+                    address: data.address,
                 }),
             );
 
             const result = await register(formData).unwrap();
             dispatch(setUser({ user: result.data.user, token: result.data.accessToken }));
-            setCurrentStep(2);
-        } catch (error) {
-            console.error("Registration failed:", error);
-        }
-    };
-
-    // Step 2 Submit - Address fields
-    const onSubmitStep2 = async (data: Step2Values) => {
-        try {
-            const formData = new FormData();
-            // Wrap data in a body field as JSON string (as expected by backend)
-            formData.append(
-                "body",
-                JSON.stringify({
-                    address: data.address,
-                }),
-            );
-
-            const result = await updateProfile(formData).unwrap();
-            dispatch(setUser({ user: result.data, token: token || "" }));
-            setCurrentStep(3);
-        } catch (error) {
-            console.error("Profile update failed:", error);
-        }
-    };
-
-    // Step 3 Submit - Goal and dates
-    const onSubmitStep3 = async (data: Step3Values) => {
-        try {
-            const formData = new FormData();
-            // Wrap data in a body field as JSON string (as expected by backend)
-            formData.append(
-                "body",
-                JSON.stringify({
-                    goal: data.goal ? Number(data.goal) : undefined,
-                    salesStartDate: data.salesStartDate,
-                    salesEndDate: data.salesEndDate,
-                }),
-            );
-
-            const result = await updateProfile(formData).unwrap();
-            dispatch(setUser({ user: result.data, token: token || "" }));
             router.push("/dashboard");
         } catch (error) {
-            console.error("Profile update failed:", error);
+            console.error("Registration failed:", error);
         }
     };
 
@@ -226,10 +167,9 @@ const RegisterClient = () => {
                         {/* Logo and Title */}
                         <div className="text-center mb-6 sm:mb-10">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-700 mt-1">
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">
                                 {currentStep === 1 && "Create your account"}
                                 {currentStep === 2 && "Organization Details"}
-                                {currentStep === 3 && "Your Goals"}
                             </h2>
                         </div>
 
@@ -440,10 +380,9 @@ const RegisterClient = () => {
                                 {/* Next Button */}
                                 <button
                                     type="submit"
-                                    disabled={isRegisterLoading}
-                                    className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6"
+                                    className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6 cursor-pointer"
                                 >
-                                    {isRegisterLoading ? "Creating Account..." : "Next Step"}
+                                    <span>Next Step</span>
                                     <span>→</span>
                                 </button>
                             </form>
@@ -470,16 +409,47 @@ const RegisterClient = () => {
                                         name="address.organizationType"
                                         control={controlStep2}
                                         render={({ field }) => (
-                                            <select {...field} className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                                <option value="" disabled>
-                                                    Select organization type
-                                                </option>
-                                                {organizationTypes.map((orgType) => (
-                                                    <option key={orgType} value={orgType}>
-                                                        {orgType}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <div className="relative">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setIsOrgTypeOpen((prev) => !prev)}
+                                                    className="w-full px-4 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg flex items-center justify-between transition-all focus:outline-none focus:ring-2 focus:ring-[#7C5800] cursor-pointer"
+                                                >
+                                                    <span className="flex items-center gap-2.5">
+                                                        <Building2 className="w-4 h-4 text-gray-500" />
+                                                        {field.value ? <span className="text-gray-900 font-semibold">{field.value}</span> : <span className="text-gray-500">Select organization type</span>}
+                                                    </span>
+                                                    <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOrgTypeOpen ? "rotate-180 text-[#7C5800]" : ""}`} />
+                                                </button>
+
+                                                {/* Dropdown Menu Overlay */}
+                                                {isOrgTypeOpen && (
+                                                    <>
+                                                        <div className="fixed inset-0 z-10" onClick={() => setIsOrgTypeOpen(false)} />
+                                                        <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-stone-200 rounded-xl shadow-xl z-20 overflow-hidden py-1 divide-y divide-gray-100 animate-in fade-in zoom-in-95 duration-150">
+                                                            {organizationTypes.map((orgType) => {
+                                                                const isSelected = field.value === orgType;
+                                                                return (
+                                                                    <button
+                                                                        key={orgType}
+                                                                        type="button"
+                                                                        onClick={() => {
+                                                                            field.onChange(orgType);
+                                                                            setIsOrgTypeOpen(false);
+                                                                        }}
+                                                                        className={`w-full px-4 py-3 flex items-center justify-between text-sm transition-all cursor-pointer ${
+                                                                            isSelected ? "bg-amber-50 text-[#7C5800] font-bold" : "text-gray-700 hover:bg-stone-50 font-medium"
+                                                                        }`}
+                                                                    >
+                                                                        <span>{orgType}</span>
+                                                                        {isSelected && <Check className="w-4 h-4 text-[#7C5800]" />}
+                                                                    </button>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
                                         )}
                                     />
                                 </div>
@@ -534,50 +504,13 @@ const RegisterClient = () => {
                                     </div>
                                 </div>
 
-                                {/* Next Button */}
+                                {/* Complete Registration Button */}
                                 <button
                                     type="submit"
-                                    disabled={isUpdateLoading}
-                                    className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6"
+                                    disabled={isRegisterLoading}
+                                    className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6 cursor-pointer disabled:opacity-50"
                                 >
-                                    {isUpdateLoading ? "Saving..." : "Next Step"}
-                                    <span>→</span>
-                                </button>
-                            </form>
-                        )}
-
-                        {/* Step 3 Form */}
-                        {currentStep === 3 && (
-                            <form onSubmit={handleSubmitStep3(onSubmitStep3)} className="space-y-6">
-                                {/* Goal */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">YOUR GOAL</label>
-                                    <Controller
-                                        name="goal"
-                                        control={controlStep3}
-                                        render={({ field }) => <input type="number" placeholder="Enter your goal" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
-                                    />
-                                </div>
-
-                                {/* Sales Start Date */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">SALES START DATE</label>
-                                    <Controller name="salesStartDate" control={controlStep3} render={({ field }) => <input type="date" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
-                                </div>
-
-                                {/* Sales End Date */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">SALES END DATE</label>
-                                    <Controller name="salesEndDate" control={controlStep3} render={({ field }) => <input type="date" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />} />
-                                </div>
-
-                                {/* Complete Button */}
-                                <button
-                                    type="submit"
-                                    disabled={isUpdateLoading}
-                                    className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6"
-                                >
-                                    {isUpdateLoading ? "Finalizing..." : "Complete & Go to Dashboard"}
+                                    {isRegisterLoading ? "Creating Account..." : "Create Account"}
                                     <span>→</span>
                                 </button>
                             </form>
@@ -598,11 +531,10 @@ const RegisterClient = () => {
 
             {/* Progress Bar */}
             <div className="pb-12 max-w-2xl mx-auto px-4">
-                <p className="mb-2 text-xs sm:text-sm font-medium text-gray-600">Step {currentStep} of 3</p>
+                <p className="mb-2 text-xs sm:text-sm font-medium text-gray-600">Step {currentStep} of 2</p>
                 <div className="flex items-center gap-3">
                     <div className={`w-full h-1.5 rounded-full ${currentStep >= 1 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>
                     <div className={`w-full h-1.5 rounded-full ${currentStep >= 2 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>
-                    <div className={`w-full h-1.5 rounded-full ${currentStep >= 3 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>
                 </div>
             </div>
         </div>

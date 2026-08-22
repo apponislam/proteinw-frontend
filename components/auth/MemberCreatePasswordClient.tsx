@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import MemberAuthHeader from "./MemberAuthHeader";
 
 const createPasswordSchema = z
     .object({
@@ -68,28 +69,17 @@ const MemberCreatePasswordForm = () => {
     return (
         <div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50">
             {/* Header */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-amber-600 transition">
-                        Kungsbörnen
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        <Link href={loginUrl} className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-[#7C5800] border border-amber-200 hover:bg-amber-100 rounded-full font-bold text-sm transition-all shadow-xs">
-                            <span>Sign In</span>
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <MemberAuthHeader signInUrl={loginUrl} />
 
             {/* Main Content */}
-            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-12">
+            <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-3 sm:px-4 py-6 sm:py-12">
                 <div className="w-full max-w-md">
-                    <div className="bg-white border border-gray-100 shadow-[0px_4px_25px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10">
+                    <div className="bg-white border border-gray-100 shadow-[0px_4px_25px_rgba(0,0,0,0.05)] rounded-2xl p-4 sm:p-10">
                         {/* Title */}
-                        <div className="text-center mb-8">
-                            <h1 className="text-[#1A1C1C] text-xl font-extrabold tracking-tight mb-1">Kungsbjörnen</h1>
-                            <h2 className="text-2xl text-gray-900 font-bold">Create New Password</h2>
-                            <p className="text-xs text-gray-500 mt-1">Enter your new password for your team member account.</p>
+                        <div className="text-center mb-6 sm:mb-8">
+                            <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
+                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Create New Password</h2>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Enter your new password for your team member account.</p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
