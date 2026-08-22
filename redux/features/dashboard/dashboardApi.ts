@@ -44,6 +44,9 @@ export type TSellerDashboardStats = {
     remaining?: number;
     groupName?: string;
     shortDescription?: string;
+    campaignCode?: string;
+    referralCode?: string;
+    shopUrl?: string;
 };
 
 export type TSellerListItem = {

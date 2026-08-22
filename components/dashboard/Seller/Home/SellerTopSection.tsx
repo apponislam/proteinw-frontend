@@ -7,12 +7,18 @@ import SellerFundraisingTarget from "./SellerFundraisingTarget";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { useGetReferralAndCampaignQuery } from "@/redux/features/auth/authApi";
+import { useGetAsSellerDashboardStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 import CamPaignListSeller from "./CamPaignListSeller";
 
 const SellerTopSection = () => {
     const user = useAppSelector(currentUser);
     const { data: referralData } = useGetReferralAndCampaignQuery();
     const [copied, setCopied] = useState(false);
+    const [selectedCampaignId, setSelectedCampaignId] = useState<string>("");
+
+    const { data: statsResponse, isLoading: isStatsLoading } = useGetAsSellerDashboardStatsQuery(
+        selectedCampaignId || undefined
+    );
 
     const referralCode = referralData?.data?.referralCode || user?.referralCode || "";
     const campaignCode = referralData?.data?.campaignCode;
@@ -47,11 +53,18 @@ const SellerTopSection = () => {
                         <span className="max-w-50 sm:max-w-xs truncate">{copied ? "Copied!" : shopUrl}</span>
                     </button>
 
-                    <CamPaignListSeller />
+                    <CamPaignListSeller
+                        selectedCampaignId={selectedCampaignId}
+                        onSelectCampaign={(campaign) => {
+                            if (campaign?._id) {
+                                setSelectedCampaignId(campaign._id);
+                            }
+                        }}
+                    />
                 </div>
             </div>
-            <SellerHomeCards />
-            <SellerFundraisingTarget />
+            <SellerHomeCards data={statsResponse?.data} isLoading={isStatsLoading} />
+            <SellerFundraisingTarget data={statsResponse?.data} isLoading={isStatsLoading} />
         </div>
     );
 };

@@ -1,20 +1,23 @@
 import React from "react";
 import Image from "next/image";
-import { useGetSellerDashboardStatsQuery } from "@/redux/features/dashboard/dashboardApi";
+import { TSellerDashboardStats } from "@/redux/features/dashboard/dashboardApi";
 
-const SellerHomeCards = () => {
-    const { data: response, isLoading } = useGetSellerDashboardStatsQuery();
+interface SellerHomeCardsProps {
+    data?: TSellerDashboardStats;
+    isLoading?: boolean;
+}
 
-    const statsData = response?.data || {
+const SellerHomeCards: React.FC<SellerHomeCardsProps> = ({ data, isLoading }) => {
+    const statsData = data || {
         totalSales: 0,
         packagesSold: 0,
         daysRemaining: 0,
     };
 
     const stats = [
-        { label: "Total Sales", value: isLoading ? "..." : `${statsData.totalSales.toLocaleString()} SEK` },
-        { label: "Packages Sold", value: isLoading ? "..." : `${statsData.packagesSold.toLocaleString()} Units` },
-        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining} Days` },
+        { label: "Total Sales", value: isLoading ? "..." : `${statsData.totalSales?.toLocaleString() ?? 0} SEK` },
+        { label: "Packages Sold", value: isLoading ? "..." : `${statsData.packagesSold?.toLocaleString() ?? 0} Units` },
+        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Days` },
     ];
 
     return (
