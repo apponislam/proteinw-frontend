@@ -15,39 +15,65 @@ const CamPaignListSeller: React.FC<CampaignListSellerProps> = ({ onSelectCampaig
     const [page, setPage] = useState(1);
     const [accumulatedCampaigns, setAccumulatedCampaigns] = useState<TCampaign[]>([]);
 
-    const { data: response, isFetching, isLoading, isError } = useGetMyJoinedCampaignsQuery({
+    const {
+        data: response,
+        isFetching,
+        isLoading,
+        isError,
+    } = useGetMyJoinedCampaignsQuery({
         page,
         limit: 6,
         status: "ACTIVE",
     });
 
-    const newCampaigns: TCampaign[] = Array.isArray(response)
-        ? response
-        : (response as any)?.data || [];
+    const [internalSelectedId, setInternalSelectedId] = useState<string>("");
 
-    const meta = (response as any)?.meta;
+    const responseData = response as any;
+    const meta = responseData?.meta;
     const hasNextPage = meta?.hasNext || false;
 
     useEffect(() => {
-        if (newCampaigns.length > 0) {
+        const rawList = Array.isArray(responseData)
+            ? responseData
+            : responseData?.data || [];
+
+        if (rawList.length > 0) {
+            const fetchedCampaigns: TCampaign[] = rawList.map((item: any) =>
+                item?.campaignId && typeof item.campaignId === "object"
+                    ? item.campaignId
+                    : item?.campaign && typeof item.campaign === "object"
+                    ? item.campaign
+                    : item
+            );
+
             if (page === 1) {
-                setAccumulatedCampaigns(newCampaigns);
-                if (onSelectCampaign && !selectedCampaignId) {
-                    onSelectCampaign(newCampaigns[0]);
+                setAccumulatedCampaigns(fetchedCampaigns);
+                if (fetchedCampaigns[0]?._id) {
+                    setInternalSelectedId((prev) => {
+                        const nextId = prev ? prev : fetchedCampaigns[0]._id!;
+                        return nextId;
+                    });
+                    if (onSelectCampaign && !selectedCampaignId) {
+                        onSelectCampaign(fetchedCampaigns[0]);
+                    }
                 }
             } else {
                 setAccumulatedCampaigns((prev) => {
                     const existingIds = new Set(prev.map((c) => c._id));
-                    const filtered = newCampaigns.filter((c) => !existingIds.has(c._id));
-                    return [...prev, ...filtered];
+                    const filtered = fetchedCampaigns.filter((c) => c._id && !existingIds.has(c._id));
+                    return filtered.length > 0 ? [...prev, ...filtered] : prev;
                 });
             }
         }
-    }, [newCampaigns, page, onSelectCampaign, selectedCampaignId]);
+    }, [responseData, page, onSelectCampaign, selectedCampaignId]);
 
-    const currentCampaign = accumulatedCampaigns.find((c) => c._id === selectedCampaignId) || accumulatedCampaigns[0];
+    const activeId = selectedCampaignId || internalSelectedId;
+    const currentCampaign = accumulatedCampaigns.find((c) => c._id === activeId) || accumulatedCampaigns[0];
 
     const handleSelect = (campaign: TCampaign) => {
+        if (campaign._id) {
+            setInternalSelectedId(campaign._id);
+        }
         if (onSelectCampaign) {
             onSelectCampaign(campaign);
         }
@@ -83,11 +109,7 @@ const CamPaignListSeller: React.FC<CampaignListSellerProps> = ({ onSelectCampaig
 
     return (
         <div className="relative inline-block text-left w-full sm:w-64">
-            <button
-                type="button"
-                onClick={() => setIsOpen((prev) => !prev)}
-                className="w-full flex items-center justify-between px-4 py-2.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] transition-all cursor-pointer shadow-xs"
-            >
+            <button type="button" onClick={() => setIsOpen((prev) => !prev)} className="w-full flex items-center justify-between px-4 py-2.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] transition-all cursor-pointer shadow-xs">
                 <div className="flex items-center gap-2.5 truncate">
                     <Megaphone className="w-4 h-4 text-[#D97706] shrink-0" />
                     <span className="truncate">{currentCampaign?.name || "Select Campaign"}</span>
@@ -98,10 +120,7 @@ const CamPaignListSeller: React.FC<CampaignListSellerProps> = ({ onSelectCampaig
             {isOpen && (
                 <>
                     <div className="fixed inset-0 z-20" onClick={() => setIsOpen(false)} />
-                    <div
-                        onScroll={handleScroll}
-                        className="absolute left-0 mt-2 z-30 w-full bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150 max-h-60 overflow-y-auto"
-                    >
+                    <div onScroll={handleScroll} className="absolute left-0 mt-2 z-30 w-full bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150 max-h-60 overflow-y-auto">
                         {accumulatedCampaigns.map((campaign) => {
                             const isSelected = currentCampaign?._id === campaign._id;
                             return (
@@ -109,22 +128,10 @@ const CamPaignListSeller: React.FC<CampaignListSellerProps> = ({ onSelectCampaig
                                     key={campaign._id}
                                     type="button"
                                     onClick={() => handleSelect(campaign)}
-                                    className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-[#FCFBFA] transition-colors cursor-pointer ${
-                                        isSelected ? "font-bold text-[#D97706] bg-[#FFFBEB]" : "text-[#1A1C1C]"
-                                    }`}
+                                    className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-[#FCFBFA] transition-colors cursor-pointer ${isSelected ? "font-bold text-[#D97706] bg-[#FFFBEB]" : "text-[#1A1C1C]"}`}
                                 >
                                     <span className="truncate">{campaign.name}</span>
-                                    {campaign.status && (
-                                        <span
-                                            className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ml-2 shrink-0 ${
-                                                campaign.status === "ACTIVE"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-gray-100 text-gray-700"
-                                            }`}
-                                        >
-                                            {campaign.status}
-                                        </span>
-                                    )}
+                                    {campaign.status && <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ml-2 shrink-0 ${campaign.status === "ACTIVE" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-700"}`}>{campaign.status}</span>}
                                 </button>
                             );
                         })}
@@ -137,11 +144,7 @@ const CamPaignListSeller: React.FC<CampaignListSellerProps> = ({ onSelectCampaig
                         )}
 
                         {hasNextPage && !isFetching && (
-                            <button
-                                type="button"
-                                onClick={() => setPage((prev) => prev + 1)}
-                                className="w-full py-2 text-center text-xs font-semibold text-[#D97706] hover:bg-[#FFFBEB] transition-colors border-t border-[#E7E5E4] cursor-pointer"
-                            >
+                            <button type="button" onClick={() => setPage((prev) => prev + 1)} className="w-full py-2 text-center text-xs font-semibold text-[#D97706] hover:bg-[#FFFBEB] transition-colors border-t border-[#E7E5E4] cursor-pointer">
                                 Load More Campaigns
                             </button>
                         )}

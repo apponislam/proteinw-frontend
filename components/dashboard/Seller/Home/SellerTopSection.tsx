@@ -7,6 +7,7 @@ import SellerFundraisingTarget from "./SellerFundraisingTarget";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { useGetReferralAndCampaignQuery } from "@/redux/features/auth/authApi";
+import CamPaignListSeller from "./CamPaignListSeller";
 
 const SellerTopSection = () => {
     const user = useAppSelector(currentUser);
@@ -19,11 +20,7 @@ const SellerTopSection = () => {
 
     const hasCampaign = campaignCode !== undefined && campaignCode !== null && campaignCode !== false && campaignCode !== "";
 
-    const shopUrl = referralCode
-        ? hasCampaign
-            ? `${clientUrl}/store?campaign=${campaignCode}&referral=${referralCode}`
-            : "You are not in any campaign"
-        : "Loading link...";
+    const shopUrl = referralCode ? (hasCampaign ? `${clientUrl}/store?campaign=${campaignCode}&referral=${referralCode}` : "You are not in any campaign") : "Loading link...";
 
     const copyToClipboard = () => {
         if (!referralCode || !hasCampaign) return;
@@ -40,15 +37,17 @@ const SellerTopSection = () => {
                     <h2 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, {user?.name || "Erik"}!</h2>
                     <p className="text-[#78716C] text-lg">Your campaign is active and performing well.</p>
                 </div>
-                <div className="shrink-0">
+                <div className="shrink-0 flex flex-col items-end gap-3">
                     <button
                         onClick={copyToClipboard}
                         disabled={!referralCode || !hasCampaign}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#E7E5E4] text-[#D97706] text-sm font-medium hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E7E5E4] text-[#D97706] text-sm font-medium hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs bg-white"
                     >
-                        {copied ? <Check size={20} /> : <Copy size={20} />}
-                        <span>{copied ? "Copied!" : shopUrl}</span>
+                        {copied ? <Check size={18} /> : <Copy size={18} />}
+                        <span className="max-w-50 sm:max-w-xs truncate">{copied ? "Copied!" : shopUrl}</span>
                     </button>
+
+                    <CamPaignListSeller />
                 </div>
             </div>
             <SellerHomeCards />
