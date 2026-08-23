@@ -97,12 +97,12 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-            <div onClick={(e) => e.stopPropagation()} className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-stone-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4 animate-in fade-in duration-200">
+            <div onClick={(e) => e.stopPropagation()} className="bg-white w-full max-w-md rounded-2xl p-4 sm:p-6 shadow-2xl relative border border-stone-100 max-h-[90vh] flex flex-col">
                 <div className="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
                     <div className="flex items-center gap-2 text-[#1A1C1C]">
                         <Layers className="text-[#D97706]" size={20} />
-                        <h3 className="text-lg font-bold">Assign Profit Tier</h3>
+                        <h3 className="text-base sm:text-lg font-bold">Assign Profit Tier</h3>
                     </div>
                     <button
                         type="button"
@@ -127,7 +127,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                     </div>
                 )}
 
-                <form onSubmit={handleAssignTier} className="space-y-4">
+                <form onSubmit={handleAssignTier} className="space-y-4 overflow-y-auto flex-1 p-0.5">
                     {/* Custom Searchable Campaign Dropdown */}
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">
@@ -137,12 +137,12 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                             <button
                                 type="button"
                                 onClick={() => setIsCampaignDropdownOpen((prev) => !prev)}
-                                className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
+                                className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
-                                <span className={selectedCampaign ? "text-[#1A1C1C] font-semibold" : "text-stone-400"}>
+                                <span className={selectedCampaign ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
                                     {selectedCampaign ? selectedCampaign.name : "-- Choose Campaign --"}
                                 </span>
-                                <ChevronDown size={16} className={`transition-transform ${isCampaignDropdownOpen ? "rotate-180" : ""}`} />
+                                <ChevronDown size={16} className={`shrink-0 transition-transform ${isCampaignDropdownOpen ? "rotate-180" : ""}`} />
                             </button>
 
                             {isCampaignDropdownOpen && (
@@ -214,12 +214,12 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                             <button
                                 type="button"
                                 onClick={() => setIsTierDropdownOpen((prev) => !prev)}
-                                className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
+                                className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
-                                <span className={selectedTier ? "text-[#1A1C1C] font-semibold" : "text-stone-400"}>
+                                <span className={selectedTier ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
                                     {selectedTier ? selectedTier.name : "-- Choose Tier --"}
                                 </span>
-                                <ChevronDown size={16} className={`transition-transform ${isTierDropdownOpen ? "rotate-180" : ""}`} />
+                                <ChevronDown size={16} className={`shrink-0 transition-transform ${isTierDropdownOpen ? "rotate-180" : ""}`} />
                             </button>
 
                             {isTierDropdownOpen && (
@@ -260,18 +260,18 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                         </div>
                     </div>
 
-                    <div className="pt-3 flex items-center justify-end gap-3">
+                    <div className="pt-3 flex items-center justify-end gap-2 sm:gap-3">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-sm font-bold text-stone-600 hover:bg-stone-100 rounded-xl transition-all cursor-pointer"
+                            className="px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-stone-600 hover:bg-stone-100 rounded-xl transition-all cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={isAssigning}
-                            className="px-5 py-2.5 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-sm font-bold rounded-xl hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer shadow-xs disabled:opacity-50"
+                            className="px-4 sm:px-5 py-2.5 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-xs sm:text-sm font-bold rounded-xl hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer shadow-xs disabled:opacity-50"
                         >
                             {isAssigning ? "Assigning..." : "Confirm Assignment"}
                         </button>
