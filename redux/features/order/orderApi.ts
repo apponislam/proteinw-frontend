@@ -148,7 +148,7 @@ const orderApi = baseApi.injectEndpoints({
             providesTags: [{ type: "Order", id: "STATS" }],
         }),
 
-        getRunningCampaignOrders: builder.query<TOrderResponse, { page?: number; limit?: number; status?: TOrderStatus; memberId?: string } | void>({
+        getRunningCampaignOrders: builder.query<TOrderResponse, { page?: number; limit?: number; status?: TOrderStatus; memberId?: string; campaignId?: string } | void>({
             query: (params) => {
                 const queryParams = new URLSearchParams();
 
@@ -160,6 +160,7 @@ const orderApi = baseApi.injectEndpoints({
                     if (params.limit) limit = params.limit;
                     if (params.status) queryParams.append("status", params.status);
                     if (params.memberId) queryParams.append("memberId", params.memberId);
+                    if (params.campaignId) queryParams.append("campaignId", params.campaignId);
                 }
 
                 queryParams.append("page", String(page));
@@ -174,12 +175,17 @@ const orderApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Order" as const, id: _id })), { type: "Order", id: "ADMIN_LIST" }] : [{ type: "Order", id: "ADMIN_LIST" }]),
         }),
 
-        getRunningCampaignStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, void>({
-            query: () => ({
-                url: "/orders/campaign-stats",
-                method: "GET",
-                credentials: "include",
-            }),
+        getRunningCampaignStats: builder.query<{ data: { totalRevenue: number; activeOrders: number; mtdSales: number } }, { campaignId?: string } | void>({
+            query: (params) => {
+                const queryParams = new URLSearchParams();
+                if (params?.campaignId) queryParams.append("campaignId", params.campaignId);
+                const url = queryParams.toString() ? `/orders/campaign-stats?${queryParams.toString()}` : "/orders/campaign-stats";
+                return {
+                    url,
+                    method: "GET",
+                    credentials: "include",
+                };
+            },
             providesTags: [{ type: "Order", id: "STATS" }],
         }),
 

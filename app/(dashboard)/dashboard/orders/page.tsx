@@ -4,6 +4,7 @@ import React from "react";
 import OrdersCard from "@/components/dashboard/SuperAdmin/Orders/OrdersCard";
 import OrdersTable from "@/components/dashboard/SuperAdmin/Orders/OrdersTable";
 import SellerOrdersView from "@/components/dashboard/Seller/Orders/SellerOrdersView";
+import SellerAdminOrdersView from "@/components/dashboard/SellerAdmin/Orders/SellerAdminOrdersView";
 import { useRole } from "@/components/dashboard/RoleProvider";
 
 const OrdersPage = () => {
@@ -11,6 +12,10 @@ const OrdersPage = () => {
 
     if (activeRole === "SELLER") {
         return <SellerOrdersView />;
+    }
+
+    if (activeRole === "ADMIN") {
+        return <SellerAdminOrdersView />;
     }
 
     return (
