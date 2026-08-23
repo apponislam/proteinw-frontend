@@ -147,7 +147,62 @@ const OrdersTable = () => {
                 <div className="text-center py-12 text-[#78716C]">No orders found matching your filters.</div>
             ) : (
                 <>
-                    <div className="overflow-x-auto">
+                    {/* Mobile & Tablet Cards View (< md) */}
+                    <div className="block md:hidden space-y-3">
+                        {ordersList.map((order, index) => {
+                            const orderIdStr = `#ORD-${order._id?.slice(-8).toUpperCase()}`;
+                            const sellerName = (order.memberId as any)?.name || "Guest / Direct";
+                            const sellerInitials = getInitials(sellerName);
+                            const groupName = (order.groupId as any)?.name || "N/A";
+                            const productNames = order.items.map((i) => i.productName).join(", ");
+                            const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
+
+                            return (
+                                <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[#D97706] font-bold text-sm">{orderIdStr}</span>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                    </div>
+
+                                    <div className="flex justify-between items-start text-xs text-[#78716C]">
+                                        <div>
+                                            <div className="text-[#1A1C1C] font-semibold text-sm">{order.customerName}</div>
+                                            <div className="flex items-center gap-1.5 mt-1">
+                                                <span className="w-5 h-5 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-[10px] shrink-0">{sellerInitials}</span>
+                                                <span className="text-xs text-[#1A1C1C] font-medium">{sellerName}</span>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-[#1A1C1C] font-bold text-sm">{order.totalPrice} SEK</div>
+                                            <div className="mt-0.5">{order.totalPackage} QTY • {dateStr}</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2 border-t border-[#E7E5E4]/60 flex items-center justify-between text-xs">
+                                        <div className="min-w-0 pr-2">
+                                            <span className="text-stone-500 font-semibold block text-[10px]">GROUP: {groupName}</span>
+                                            <span className="text-[#78716C] truncate block" title={productNames}>
+                                                {productNames}
+                                            </span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedOrder(order);
+                                            }}
+                                            className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline cursor-pointer"
+                                        >
+                                            View
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Desktop Table View (>= md) */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="bg-[#FAFAF9]">
