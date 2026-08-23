@@ -2,12 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import StoreProduct from "./StoreProduct";
-import { useGetMyCampaignProductsQuery } from "@/redux/features/campaignProduct/campaignProductApi";
+import { useGetProductsByCampaignQuery } from "@/redux/features/campaignProduct/campaignProductApi";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { Loader2 } from "lucide-react";
 import ProductDetailModal from "@/components/products/ProductDetailModal";
 
-const StoreProducts = () => {
+interface StoreProductsProps {
+    campaignId?: string;
+}
+
+const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
     // Lazy loading state by increasing limit
     const [limit, setLimit] = useState(6);
     const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
@@ -16,10 +20,16 @@ const StoreProducts = () => {
         data: response,
         isFetching,
         isLoading,
-    } = useGetMyCampaignProductsQuery({
-        page: 1,
-        limit,
-    });
+    } = useGetProductsByCampaignQuery(
+        {
+            campaignId: campaignId || "",
+            page: 1,
+            limit,
+        },
+        {
+            skip: !campaignId,
+        }
+    );
 
     const products = response?.data || [];
     const hasNextPage = response?.meta?.hasNext || false;
