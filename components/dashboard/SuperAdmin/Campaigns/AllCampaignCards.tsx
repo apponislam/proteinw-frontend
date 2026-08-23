@@ -96,26 +96,26 @@ const AllCampaignCards = () => {
 
     return (
         <div>
-            <div className="mb-8">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="mb-6 sm:mb-8">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A1C1C]">All Campaigns</h2>
-                        <p className="text-[#78716C] text-sm mt-1">Explore and manage regional fundraising initiatives</p>
+                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">All Campaigns</h2>
+                        <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Explore and manage regional fundraising initiatives</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                        <button type="button" onClick={() => handleTabChange("ALL")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                    <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
+                        <button type="button" onClick={() => handleTabChange("ALL")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             All
                         </button>
-                        <button type="button" onClick={() => handleTabChange("DRAFT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "DRAFT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("DRAFT")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "DRAFT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Draft
                         </button>
-                        <button type="button" onClick={() => handleTabChange("ACTIVE")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("ACTIVE")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Active
                         </button>
-                        <button type="button" onClick={() => handleTabChange("FULFILMENT")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("FULFILMENT")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Fulfilment
                         </button>
-                        <button type="button" onClick={() => handleTabChange("COMPLETED")} className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
+                        <button type="button" onClick={() => handleTabChange("COMPLETED")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Completed
                         </button>
                     </div>
@@ -123,23 +123,23 @@ const AllCampaignCards = () => {
             </div>
 
             {campaigns.length === 0 ? (
-                <div className="bg-white rounded-2xl border border-[#E7E5E4] p-12 text-center">
-                    <div className="h-12 w-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 text-[#D97706]">
+                <div className="bg-white rounded-2xl border border-[#E7E5E4] p-8 sm:p-12 text-center">
+                    <div className="h-10 sm:h-12 w-10 sm:w-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-[#D97706]">
                         <TrendingUp size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-[#1A1C1C] mb-2">No campaigns found</h3>
-                    <p className="text-sm text-[#78716C]">There are no campaigns matching the current filter.</p>
+                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-1 sm:mb-2">No campaigns found</h3>
+                    <p className="text-xs sm:text-sm text-[#78716C]">There are no campaigns matching the current filter.</p>
                 </div>
             ) : (
                 <>
-                    <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${isFetching ? "opacity-75" : ""}`}>
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 ${isFetching ? "opacity-75" : ""}`}>
                         {campaigns.map((campaign) => (
                             <CampaignCard key={campaign._id} campaign={campaign} />
                         ))}
                     </div>
 
                     {/* Pagination Component */}
-                    <div className="mt-8">
+                    <div className="mt-6 sm:mt-8">
                         <Pagination meta={meta} onPageChange={handlePageChange} itemName="CAMPAIGNS" />
                     </div>
                 </>

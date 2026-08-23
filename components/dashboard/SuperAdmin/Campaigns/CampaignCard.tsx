@@ -81,7 +81,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
     // const isEndedOrInactive = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED" || new Date(campaign.endDate).getTime() < new Date().getTime();
 
     return (
-        <div className="flex flex-col justify-between h-full bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
+        <div className="flex flex-col justify-between h-full bg-white p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
             <div className="relative z-10 flex flex-col">
                 {/* Header Status Badge */}
                 <div className="mb-4">
