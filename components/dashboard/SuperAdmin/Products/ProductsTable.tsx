@@ -121,16 +121,16 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
     const end = Math.min(currentPage * 10, total);
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+        <div className="bg-white p-4 sm:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">Product Archive</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Product Archive</h2>
                 </div>
-                <div className="flex flex-wrap items-center gap-4">
-                    <div className="text-[#78716C] text-sm font-medium">Filter</div>
-                    <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                    <div className="text-[#78716C] text-xs sm:text-sm font-medium">Filter</div>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
                         {/* Category Custom Dropdown */}
-                        <div className="relative">
+                        <div className="relative flex-1 sm:flex-none">
                             <button
                                 type="button"
                                 onClick={() => {
@@ -138,16 +138,16 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                     setIsSubcategoryOpen(false);
                                     setIsStatusOpen(false);
                                 }}
-                                className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
+                                className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                             >
-                                <span>{categories.find((cat) => cat.value === selectedCategory)?.label}</span>
-                                <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""}`} />
+                                <span className="truncate">{categories.find((cat) => cat.value === selectedCategory)?.label}</span>
+                                <ChevronDown size={16} className={`text-[#78716C] shrink-0 transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""}`} />
                             </button>
 
                             {isCategoryOpen && (
                                 <>
                                     <div className="fixed inset-0 z-20" onClick={() => setIsCategoryOpen(false)}></div>
-                                    <div className="absolute right-0 mt-2 z-30 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                    <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 z-30 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                         {categories.map((cat) => (
                                             <button
                                                 key={cat.value}
@@ -158,7 +158,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                                     setCurrentPage(1);
                                                     setIsCategoryOpen(false);
                                                 }}
-                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedCategory === cat.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedCategory === cat.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                             >
                                                 <span>{cat.label}</span>
                                                 {selectedCategory === cat.value && <Check size={14} className="text-[#D97706]" />}
@@ -171,7 +171,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
 
                         {/* Subcategory Custom Dropdown */}
                         {currentSubcategories.length > 0 && (
-                            <div className="relative">
+                            <div className="relative flex-1 sm:flex-none">
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -179,16 +179,16 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                         setIsCategoryOpen(false);
                                         setIsStatusOpen(false);
                                     }}
-                                    className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
+                                    className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                                 >
-                                    <span>Subcategory: {selectedSubcategory}</span>
-                                    <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isSubcategoryOpen ? "rotate-180" : ""}`} />
+                                    <span className="truncate">Subcategory: {selectedSubcategory}</span>
+                                    <ChevronDown size={16} className={`text-[#78716C] shrink-0 transition-transform duration-200 ${isSubcategoryOpen ? "rotate-180" : ""}`} />
                                 </button>
 
                                 {isSubcategoryOpen && (
                                     <>
                                         <div className="fixed inset-0 z-20" onClick={() => setIsSubcategoryOpen(false)}></div>
-                                        <div className="absolute right-0 mt-2 z-30 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 z-30 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                             <button
                                                 type="button"
                                                 onClick={() => {
@@ -196,7 +196,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                                     setCurrentPage(1);
                                                     setIsSubcategoryOpen(false);
                                                 }}
-                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === "All" ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === "All" ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                             >
                                                 <span>Subcategory: All</span>
                                                 {selectedSubcategory === "All" && <Check size={14} className="text-[#D97706]" />}
@@ -210,7 +210,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                                         setCurrentPage(1);
                                                         setIsSubcategoryOpen(false);
                                                     }}
-                                                    className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === subcat ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                    className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === subcat ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                                 >
                                                     <span>Subcategory: {subcat}</span>
                                                     {selectedSubcategory === subcat && <Check size={14} className="text-[#D97706]" />}
@@ -223,7 +223,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                         )}
 
                         {/* Status Custom Dropdown */}
-                        <div className="relative">
+                        <div className="relative flex-1 sm:flex-none">
                             <button
                                 type="button"
                                 onClick={() => {
@@ -231,10 +231,10 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                     setIsCategoryOpen(false);
                                     setIsSubcategoryOpen(false);
                                 }}
-                                className="flex items-center gap-2.5 px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
+                                className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                             >
-                                <span>Status: {selectedStatus}</span>
-                                <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isStatusOpen ? "rotate-180" : ""}`} />
+                                <span className="truncate">Status: {selectedStatus}</span>
+                                <ChevronDown size={16} className={`text-[#78716C] shrink-0 transition-transform duration-200 ${isStatusOpen ? "rotate-180" : ""}`} />
                             </button>
 
                             {isStatusOpen && (
@@ -250,7 +250,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                                     setCurrentPage(1);
                                                     setIsStatusOpen(false);
                                                 }}
-                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedStatus === status ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedStatus === status ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                             >
                                                 <span>Status: {status}</span>
                                                 {selectedStatus === status && <Check size={14} className="text-[#D97706]" />}
