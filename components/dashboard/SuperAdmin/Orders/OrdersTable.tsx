@@ -266,81 +266,81 @@ const OrdersTable = () => {
 
             {/* Order Details & Actions Modal */}
             {activeSelectedOrder && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-                    <div className="bg-white rounded-[24px] max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl">
-                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg">
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2.5 sm:p-4 backdrop-blur-xs">
+                    <div className="bg-white rounded-2xl sm:rounded-[24px] max-w-2xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 relative shadow-2xl">
+                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-3.5 right-3.5 sm:top-6 sm:right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg p-1 bg-stone-100 hover:bg-stone-200 rounded-full w-8 h-8 flex items-center justify-center">
                             ✕
                         </button>
 
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 mb-6 pr-8">
-                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 break-all">
-                                Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
+                            <h3 className="text-lg sm:text-2xl font-bold text-gray-900 break-all">
+                                Order Details - <br className="md:hidden" /> <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
                             </h3>
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                            <div className="space-y-4">
-                                <h4 className="font-bold text-gray-900 border-b pb-2">Customer Info</h4>
-                                <p className="text-sm">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-4 sm:mb-8">
+                            <div className="space-y-2.5 sm:space-y-3.5 bg-stone-50/70 p-3.5 sm:p-4 rounded-xl md:bg-transparent md:p-0">
+                                <h4 className="font-bold text-gray-900 border-b pb-2 text-sm sm:text-base">Customer Details</h4>
+                                <p className="text-xs sm:text-sm wrap-break-word">
                                     <span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm break-all">
                                     <span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
                                 </p>
-                                <p className="text-sm">
-                                    <span className="font-semibold text-gray-600">Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
+                                <p className="text-xs sm:text-sm leading-relaxed wrap-break-word">
+                                    <span className="font-semibold text-gray-600">Shipping Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
                                 </p>
                             </div>
-                            <div className="space-y-4">
-                                <h4 className="font-bold text-gray-900 border-b pb-2">Campaign & Seller</h4>
-                                <p className="text-sm">
+                            <div className="space-y-2.5 sm:space-y-3.5 bg-stone-50/70 p-3.5 sm:p-4 rounded-xl md:bg-transparent md:p-0">
+                                <h4 className="font-bold text-gray-900 border-b pb-2 text-sm sm:text-base">Campaign & Seller</h4>
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Seller Name:</span> {(activeSelectedOrder.memberId as any)?.name || "Guest / Direct"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm break-all">
                                     <span className="font-semibold text-gray-600">Seller Email:</span> {(activeSelectedOrder.memberId as any)?.email || "N/A"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Group Name:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}
                                 </p>
-                                <p className="text-sm">
+                                <p className="text-xs sm:text-sm">
                                     <span className="font-semibold text-gray-600">Campaign Name:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="mb-8">
-                            <h4 className="font-bold text-gray-900 border-b pb-2 mb-4">Items Ordered</h4>
-                            <div className="space-y-3">
+                        <div className="mb-4 sm:mb-8">
+                            <h4 className="font-bold text-gray-900 border-b pb-2 mb-3 sm:mb-4 text-sm sm:text-base">Purchased Items</h4>
+                            <div className="space-y-2.5 sm:space-y-3">
                                 {activeSelectedOrder.items.map((item, index) => (
-                                    <div key={index} className="flex justify-between items-center text-sm bg-gray-50 p-3 rounded-xl">
-                                        <div>
-                                            <p className="font-semibold text-gray-900">{item.productName}</p>
-                                            <p className="text-xs text-gray-500">
-                                                Qty: {item.quantity} x {item.singlePrice} SEK
+                                    <div key={index} className="flex flex-row justify-between items-center text-xs sm:text-sm bg-gray-50 p-3 rounded-xl gap-2">
+                                        <div className="min-w-0 flex-1">
+                                            <p className="font-semibold text-gray-900 truncate">{item.productName}</p>
+                                            <p className="text-[11px] sm:text-xs text-gray-500">
+                                                Qty: {item.quantity} × {item.singlePrice} SEK
                                             </p>
                                         </div>
-                                        <span className="font-bold text-gray-900">{item.lineTotal} SEK</span>
+                                        <span className="font-bold text-gray-900 whitespace-nowrap text-xs sm:text-sm">{item.lineTotal} SEK</span>
                                     </div>
                                 ))}
-                                <div className="flex justify-between items-center font-extrabold text-base pt-3 border-t">
-                                    <span>Total Price</span>
+                                <div className="flex justify-between items-center font-extrabold text-sm sm:text-base pt-3 border-t">
+                                    <span>Total Amount</span>
                                     <span className="text-[#D97706]">{activeSelectedOrder.totalPrice} SEK</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t pt-4 sm:pt-6">
                             <div className="flex items-center gap-3 relative">
-                                <span className="font-bold text-gray-700">Update Status:</span>
+                                <span className="font-bold text-xs sm:text-sm text-gray-700">Update Status:</span>
                                 <div className="relative">
                                     <button
                                         type="button"
                                         onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
-                                        className="flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-sm hover:border-[#D97706] transition-all capitalize cursor-pointer"
+                                        className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                     >
                                         <span
                                             className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}
@@ -365,7 +365,7 @@ const OrdersTable = () => {
                                                             handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
                                                             setIsStatusDropdownOpen(false);
                                                         }}
-                                                        className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-sm font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
+                                                        className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
                                                     >
                                                         <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
                                                         {opt.label}
@@ -376,7 +376,7 @@ const OrdersTable = () => {
                                     )}
                                 </div>
                             </div>
-                            <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer">
+                            <button onClick={() => setSelectedOrder(null)} className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer text-center">
                                 Close
                             </button>
                         </div>

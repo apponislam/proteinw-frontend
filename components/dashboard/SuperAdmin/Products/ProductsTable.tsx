@@ -264,7 +264,45 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                 </div>
             </div>
 
-            <div className="overflow-x-auto">
+            {/* Mobile Cards View (< md) */}
+            <div className="block md:hidden space-y-3">
+                {products.length === 0 ? (
+                    <div className="p-8 text-center text-[#78716C]">No products found</div>
+                ) : (
+                    products.map((product) => (
+                        <div key={product._id} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-4 rounded-xl border border-[#E7E5E4] transition-colors space-y-3">
+                            <div className="flex items-start justify-between gap-2">
+                                <div className="min-w-0 flex-1">
+                                    <h4 className="text-[#1A1C1C] font-bold text-sm truncate">{product.name}</h4>
+                                    <span className="text-[#78716C] text-xs font-mono">{product._id?.slice(0, 8).toUpperCase()}</span>
+                                </div>
+                                <button onClick={() => product._id && handleToggleStatus(product._id)} className={`cursor-pointer shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(product.isActive)}`}>
+                                    {product.isActive ? "Active" : "Inactive"}
+                                </button>
+                            </div>
+
+                            <div className="flex items-center justify-between pt-2 border-t border-[#E7E5E4]/60 text-xs">
+                                <div>
+                                    <span className="text-[#78716C] block text-[10px]">PRICE</span>
+                                    <span className="text-[#D97706] font-bold text-sm">{product.price} SEK</span>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Edit">
+                                        <Pencil size={15} />
+                                    </button>
+                                    <button onClick={() => product._id && handleDelete(product._id)} className="cursor-pointer w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors" title="Delete">
+                                        <Trash2 size={15} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Desktop Table View (>= md) */}
+            <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-left">
                     <thead>
                         <tr className="bg-[#FAFAF9]">

@@ -63,14 +63,13 @@ const DashBoradHeader = () => {
 
     return (
         <>
-            <div className="bg-white p-4 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)] relative z-30">
+            <div className="bg-white p-2 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)] relative z-30">
                 <div className="flex items-center justify-between">
                     <button onClick={toggleSidebar} className="flex items-center justify-center p-2 rounded-none bg-transparent text-[#78716C] hover:text-[#D97706] hover:bg-[#F5F5F4] transition-all duration-200 cursor-pointer">
                         <Menu size={24} />
                     </button>
 
                     <div className="flex items-center gap-4 sm:gap-6">
-
                         {user?.role === "SUPER_ADMIN" && (
                             <>
                                 <button onClick={() => setIsNotificationsOpen(true)} className="p-2 rounded-full cursor-pointer hover:bg-[#F5F5F4] transition-all relative">
@@ -85,9 +84,7 @@ const DashBoradHeader = () => {
                         <div className="relative" ref={dropdownRef}>
                             <div
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className={`flex items-center gap-2.5 cursor-pointer px-3 py-1.5 rounded-xl transition-all duration-200 select-none ${
-                                    isDropdownOpen ? "bg-amber-50 border border-amber-200/60" : "hover:bg-amber-50/70 hover:border hover:border-amber-200/40 border border-transparent"
-                                }`}
+                                className={`flex items-center gap-2.5 cursor-pointer px-3 py-1.5 rounded-xl transition-all duration-200 select-none ${isDropdownOpen ? "bg-amber-50 border border-amber-200/60" : "hover:bg-amber-50/70 hover:border hover:border-amber-200/40 border border-transparent"}`}
                             >
                                 <div className="text-right hidden sm:block">
                                     <h1 className="text-[#1A1C1C] font-bold text-sm">{user?.name || "User"}</h1>
@@ -138,10 +135,7 @@ const DashBoradHeader = () => {
                                     <div className="my-1 border-t border-[#F5F5F4]"></div>
 
                                     <div className="px-1">
-                                        <button
-                                            onClick={handleLogout}
-                                            className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors cursor-pointer"
-                                        >
+                                        <button onClick={handleLogout} className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors cursor-pointer">
                                             <LogOut size={14} />
                                             <span>Log Out</span>
                                         </button>
