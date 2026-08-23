@@ -14,15 +14,12 @@ interface CampaignOrdersListProps {
 
 const getStatusColor = (status: string) => {
     switch (status) {
-        case "confirmed":
         case "delivered":
             return "bg-green-100 text-green-800";
         case "pending":
             return "bg-yellow-100 text-yellow-800";
         case "cancelled":
             return "bg-red-100 text-red-800";
-        case "shipped":
-            return "bg-blue-100 text-blue-800";
         default:
             return "bg-gray-100 text-gray-800";
     }
@@ -50,8 +47,6 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
     const filterOptions = [
         { value: "", label: "All Status", color: "bg-gray-400" },
         { value: "pending", label: "Pending", color: "bg-yellow-500" },
-        { value: "confirmed", label: "Confirmed", color: "bg-green-500" },
-        { value: "shipped", label: "Shipped", color: "bg-blue-500" },
         { value: "delivered", label: "Delivered", color: "bg-green-600" },
         { value: "cancelled", label: "Cancelled", color: "bg-red-500" },
     ];
@@ -290,7 +285,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                             className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                         >
                                             <span
-                                                className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "confirmed" || activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : activeSelectedOrder.status === "shipped" ? "bg-blue-500" : "bg-red-500"}`}
+                                                className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}
                                             ></span>
                                             <span className="text-gray-800">{activeSelectedOrder.status}</span>
                                             <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
@@ -302,8 +297,6 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                                 <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                     {[
                                                         { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
-                                                        { value: "confirmed", label: "Confirmed", color: "bg-green-500", bg: "hover:bg-green-50 text-green-800" },
-                                                        { value: "shipped", label: "Shipped", color: "bg-blue-500", bg: "hover:bg-blue-50 text-blue-800" },
                                                         { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
                                                         { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
                                                     ].map((opt) => (

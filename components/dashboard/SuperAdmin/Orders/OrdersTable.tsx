@@ -11,15 +11,12 @@ import Pagination from "@/components/dashboard/Pagination";
 
 const getStatusColor = (status: string) => {
     switch (status) {
-        case "confirmed":
         case "delivered":
             return "bg-green-100 text-green-800";
         case "pending":
             return "bg-yellow-100 text-yellow-800";
         case "cancelled":
             return "bg-red-100 text-red-800";
-        case "shipped":
-            return "bg-blue-100 text-blue-800";
         default:
             return "bg-gray-100 text-gray-800";
     }
@@ -47,8 +44,6 @@ const OrdersTable = () => {
     const filterOptions = [
         { value: "", label: "All Status", color: "bg-gray-400" },
         { value: "pending", label: "Pending", color: "bg-yellow-500" },
-        { value: "confirmed", label: "Confirmed", color: "bg-green-500" },
-        { value: "shipped", label: "Shipped", color: "bg-blue-500" },
         { value: "delivered", label: "Delivered", color: "bg-green-600" },
         { value: "cancelled", label: "Cancelled", color: "bg-red-500" },
     ];
@@ -222,9 +217,12 @@ const OrdersTable = () => {
                             ✕
                         </button>
 
-                        <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                            Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
-                        </h3>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 mb-6 pr-8">
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 break-all">
+                                Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
+                            </h3>
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
+                        </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                             <div className="space-y-4">
@@ -281,57 +279,48 @@ const OrdersTable = () => {
                         </div>
 
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-6">
-                            {role !== "SELLER" ? (
-                                <div className="flex items-center gap-3 relative">
-                                    <span className="font-bold text-gray-700">Update Status:</span>
-                                    <div className="relative">
-                                        <button
-                                            type="button"
-                                            onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
-                                            className="flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-sm hover:border-[#D97706] transition-all capitalize cursor-pointer"
-                                        >
-                                            <span
-                                                className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "confirmed" || activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : activeSelectedOrder.status === "shipped" ? "bg-blue-500" : "bg-red-500"}`}
-                                            ></span>
-                                            <span className="text-gray-800">{activeSelectedOrder.status}</span>
-                                            <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
-                                        </button>
+                            <div className="flex items-center gap-3 relative">
+                                <span className="font-bold text-gray-700">Update Status:</span>
+                                <div className="relative">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
+                                        className="flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-sm hover:border-[#D97706] transition-all capitalize cursor-pointer"
+                                    >
+                                        <span
+                                            className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}
+                                        ></span>
+                                        <span className="text-gray-800">{activeSelectedOrder.status}</span>
+                                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
+                                    </button>
 
-                                        {isStatusDropdownOpen && (
-                                            <>
-                                                <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
-                                                <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                    {[
-                                                        { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
-                                                        { value: "confirmed", label: "Confirmed", color: "bg-green-500", bg: "hover:bg-green-50 text-green-800" },
-                                                        { value: "shipped", label: "Shipped", color: "bg-blue-500", bg: "hover:bg-blue-50 text-blue-800" },
-                                                        { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
-                                                        { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
-                                                    ].map((opt) => (
-                                                        <button
-                                                            key={opt.value}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
-                                                                setIsStatusDropdownOpen(false);
-                                                            }}
-                                                            className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-sm font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
-                                                        >
-                                                            <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
-                                                            {opt.label}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
+                                    {isStatusDropdownOpen && (
+                                        <>
+                                            <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
+                                            <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                {[
+                                                    { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                    { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
+                                                    { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
+                                                ].map((opt) => (
+                                                    <button
+                                                        key={opt.value}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
+                                                            setIsStatusDropdownOpen(false);
+                                                        }}
+                                                        className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-sm font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
+                                                    >
+                                                        <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
+                                                        {opt.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                            ) : (
-                                <div className="flex items-center gap-3">
-                                    <span className="font-bold text-gray-700">Status:</span>
-                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
-                                </div>
-                            )}
+                            </div>
                             <button onClick={() => setSelectedOrder(null)} className="px-6 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer">
                                 Close
                             </button>

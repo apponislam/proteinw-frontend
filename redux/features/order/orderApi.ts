@@ -15,7 +15,7 @@ export type TOrderAddress = {
     locality: string;
 };
 
-export type TOrderStatus = "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
+export type TOrderStatus = "pending" | "delivered" | "cancelled";
 
 export type TOrder = {
     _id?: string;
