@@ -3,6 +3,7 @@ import React from "react";
 const campaignColors = ["bg-[#D97706]", "bg-[#7C3AED]", "bg-[#10B981]", "bg-[#3B82F6]"];
 
 interface CampaignCardProps {
+    id?: string;
     title: string;
     description: string;
     status: string;
@@ -11,9 +12,10 @@ interface CampaignCardProps {
     raised: string;
     daysLeft: string;
     campaigns?: string[];
+    onViewDetails?: () => void;
 }
 
-const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status, progress, goal, raised, daysLeft, campaigns = ["W", "N", "F", "G"] }) => {
+const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status, progress, goal, raised, daysLeft, campaigns = ["W", "N", "F", "G"], onViewDetails }) => {
     return (
         <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
             <div className="relative z-10">
@@ -71,7 +73,13 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
                     </div>
                 </div>
 
-                <button className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2">View Campaign</button>
+                <button
+                    type="button"
+                    onClick={onViewDetails}
+                    className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 cursor-pointer"
+                >
+                    View Campaign
+                </button>
             </div>
         </div>
     );

@@ -199,14 +199,14 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                                 Products ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
                             </button>
                         </div>
-                        {activeTab === "sellers" && (
+                        {(user?.role === "SUPER_ADMIN" || user?.role === "ADMIN") && activeTab === "sellers" && (
                             <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
                                 <Plus size={14} />
                                 Manage Sellers
                             </button>
                         )}
-                        {activeTab === "products" && (
-                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-[#D97706] bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
+                        {(user?.role === "SUPER_ADMIN" || user?.role === "ADMIN") && activeTab === "products" && (
+                            <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
                                 <Plus size={14} />
                                 Manage Products
                             </button>
