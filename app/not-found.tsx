@@ -14,7 +14,7 @@ export default function NotFound() {
                     >
                         Go back home
                     </Link>
-                    <Link href="/contact" className="inline-flex items-center justify-center rounded-full border border-border/60 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-[#F59E0B] hover:text-[#F59E0B]">
+                    <Link href="/faq" className="inline-flex items-center justify-center rounded-full border border-border/60 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-[#F59E0B] hover:text-[#F59E0B]">
                         Contact support
                     </Link>
                 </div>

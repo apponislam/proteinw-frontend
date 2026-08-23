@@ -1,13 +1,23 @@
-import type { Metadata } from "next";
-import AboutUsClient from "@/components/about-us/AboutUsClient";
+import { CoreVision } from "@/components/about-us/CoreVision";
+import { MissionHero } from "@/components/about-us/MissionHero";
+import { SupportMission } from "@/components/about-us/SupportMission";
+import { MakeDifference } from "@/components/about-us/MakeDifference";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - About Us",
-    description: "Learn about Kungsbjörnen's fundraising model and how we help schools and teams",
+    title: "Kungsbjörnen - Mission",
+    description: "Kungsbjörnen mission",
 };
 
-const Page = () => {
-    return <AboutUsClient />;
+const page = () => {
+    return (
+        <>
+            <MissionHero />
+            <CoreVision />
+            <SupportMission />
+            <MakeDifference />
+        </>
+    );
 };
 
-export default Page;
+export default page;

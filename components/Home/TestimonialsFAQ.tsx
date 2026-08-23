@@ -83,7 +83,7 @@ const TestimonialsFAQ = () => {
                             </div>
                         ))}
 
-                        <Link href="/about-us">
+                        <Link href="/faq">
                             <button className="text-[#EFAC02] font-semibold hover:underline mt-4 cursor-pointer">View all FAQs →</button>
                         </Link>
                     </div>

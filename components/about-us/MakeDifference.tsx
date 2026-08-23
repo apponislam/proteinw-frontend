@@ -17,7 +17,7 @@ export function MakeDifference() {
                         <p className="text-lg md:text-xl text-white/90 leading-relaxed font-light max-w-2xl mx-auto">Join hundreds of communities already using Kungsbjörnen to fuel their dreams.</p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                            <Link href="/contact" className="w-full sm:w-auto">
+                            <Link href="/faqf" className="w-full sm:w-auto">
                                 <button className="w-full sm:w-auto bg-white text-[#7C5800] font-bold px-8 py-4 rounded-full transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">Contact Us</button>
                             </Link>
                             <Link href="/stories" className="w-full sm:w-auto">

@@ -30,7 +30,7 @@ const Footer = () => {
 
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/about-us" className="hover:text-[#EFAC02] transition-colors">
+                                <Link href="/faq" className="hover:text-[#EFAC02] transition-colors">
                                     FAQ
                                 </Link>
                             </li>
@@ -48,7 +48,7 @@ const Footer = () => {
                             </li>
 
                             <li>
-                                <Link href="/mission" className="hover:text-[#EFAC02] transition-colors">
+                                <Link href="/about-us" className="hover:text-[#EFAC02] transition-colors">
                                     Mission
                                 </Link>
                             </li>
@@ -61,7 +61,7 @@ const Footer = () => {
 
                         <ul className="space-y-3 text-sm text-gray-600">
                             <li>
-                                <Link href="/about-us" className="hover:text-[#EFAC02] transition-colors">
+                                <Link href="/faq" className="hover:text-[#EFAC02] transition-colors">
                                     Contact Support
                                 </Link>
                             </li>

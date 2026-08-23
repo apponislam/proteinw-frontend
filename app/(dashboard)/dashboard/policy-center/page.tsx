@@ -82,33 +82,33 @@ const PolicyCenterPage = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-[#1A1C1C]">Policy Center</h1>
-                    <p className="text-[#78716C] mt-2 max-w-2xl">Manage your terms and conditions and privacy policy.</p>
+                    <h1 className="text-xl sm:text-3xl font-bold text-[#1A1C1C]">Policy Center</h1>
+                    <p className="text-[#78716C] text-xs sm:text-sm mt-1 sm:mt-2 max-w-2xl">Manage your terms and conditions and privacy policy.</p>
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
-                <div className="flex items-center gap-1 p-2 border-b border-[#F5F5F4]">
-                    <button onClick={() => setActiveTab("terms")} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${activeTab === "terms" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:text-[#1A1C1C] hover:bg-[#F5F5F4]"}`}>
+            <div className="bg-white rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] overflow-hidden">
+                <div className="flex items-center gap-1.5 p-2 border-b border-[#F5F5F4] overflow-x-auto scrollbar-none">
+                    <button onClick={() => setActiveTab("terms")} className={`px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "terms" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:text-[#1A1C1C] hover:bg-[#F5F5F4]"}`}>
                         Terms and Conditions
                     </button>
-                    <button onClick={() => setActiveTab("privacy")} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${activeTab === "privacy" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:text-[#1A1C1C] hover:bg-[#F5F5F4]"}`}>
+                    <button onClick={() => setActiveTab("privacy")} className={`px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "privacy" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:text-[#1A1C1C] hover:bg-[#F5F5F4]"}`}>
                         Privacy Policy
                     </button>
                 </div>
 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     {activeTab === "terms" && (
                         <div className="space-y-4">
-                            <h2 className="text-xl font-bold text-[#1A1C1C]">Terms and Conditions</h2>
-                            <div>
+                            <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Terms and Conditions</h2>
+                            <div className="w-full overflow-x-auto max-w-full">
                                 <JoditEditor value={termsContent} config={config} onBlur={(newContent: string) => setTermsContent(newContent)} />
                             </div>
                             <button
                                 disabled={isSaving}
-                                className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                className="w-full sm:w-auto h-9 sm:h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shrink-0"
                                 onClick={handleSaveTerms}
                             >
                                 {isSaving ? "Saving..." : "Save Terms"}
@@ -118,13 +118,13 @@ const PolicyCenterPage = () => {
 
                     {activeTab === "privacy" && (
                         <div className="space-y-4">
-                            <h2 className="text-xl font-bold text-[#1A1C1C]">Privacy Policy</h2>
-                            <div>
+                            <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Privacy Policy</h2>
+                            <div className="w-full overflow-x-auto max-w-full">
                                 <JoditEditor value={privacyContent} config={config} onBlur={(newContent: string) => setPrivacyContent(newContent)} />
                             </div>
                             <button
                                 disabled={isSaving}
-                                className="h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                className="w-full sm:w-auto h-9 sm:h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shrink-0"
                                 onClick={handleSavePrivacy}
                             >
                                 {isSaving ? "Saving..." : "Save Privacy Policy"}
