@@ -101,9 +101,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                                                 e.stopPropagation();
                                                 handleStatusSelect(opt.value);
                                             }}
-                                            className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${
-                                                currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"
-                                            }`}
+                                            className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold transition-colors text-left cursor-pointer hover:bg-amber-50 ${currentStatusStr === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                         >
                                             <div className="flex items-center gap-2">
                                                 <span className={`w-2 h-2 rounded-full ${opt.dot}`}></span>
@@ -164,7 +162,9 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                                 <div className="space-y-2 pt-2 border-t border-[#E7E5E4] text-xs text-[#78716C]">
                                     <div className="flex items-center gap-2 min-w-0">
                                         <Mail size={16} className="shrink-0" />
-                                        <span className="truncate block" title={admin.email}>{admin.email}</span>
+                                        <span className="truncate block" title={admin.email}>
+                                            {admin.email}
+                                        </span>
                                     </div>
                                     {admin.phone ? (
                                         <div className="flex items-center gap-2 min-w-0">
