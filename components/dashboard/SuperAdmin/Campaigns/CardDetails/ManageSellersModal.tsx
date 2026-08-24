@@ -17,24 +17,58 @@ interface ManageSellersModalProps {
 const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose, campaignId, groupId: rawGroupId, initialSellers = [] }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSellerIds, setSelectedSellerIds] = useState<string[]>([]);
+    const [page, setPage] = useState(1);
+    const [loadedGroupSellers, setLoadedGroupSellers] = useState<any[]>([]);
 
     const groupId =
         typeof rawGroupId === "object" && rawGroupId !== null
             ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
             : String(rawGroupId || "");
 
-    const { data: groupSellersResponse, isLoading: isFetchingGroupSellers } = useGetGroupSellersQuery(groupId, {
-        skip: !groupId || typeof groupId !== "string" || !isOpen,
-    });
+    const { data: groupSellersResponse, isFetching: isFetchingGroupSellers } = useGetGroupSellersQuery(
+        { groupId, page, limit: 10 },
+        { skip: !groupId || typeof groupId !== "string" || !isOpen }
+    );
     const { data: campaignSellersResponse } = useGetCampaignSellersQuery(campaignId, {
         skip: !campaignId || !isOpen,
     });
+
+    const meta = (groupSellersResponse as any)?.meta;
+
+    // Reset list and page on search or modal re-open
+    useEffect(() => {
+        if (isOpen) {
+            setPage(1);
+            setLoadedGroupSellers([]);
+        }
+    }, [isOpen, searchTerm, groupId]);
+
+    // Accumulate group sellers list on pagination scroll
+    useEffect(() => {
+        if (groupSellersResponse?.data) {
+            if (page === 1) {
+                setLoadedGroupSellers(groupSellersResponse.data);
+            } else {
+                setLoadedGroupSellers((prev) => {
+                    const existingIds = new Set(prev.map((item: any) => item._id));
+                    const newItems = groupSellersResponse.data.filter((item: any) => !existingIds.has(item._id));
+                    return [...prev, ...newItems];
+                });
+            }
+        }
+    }, [groupSellersResponse, page]);
+
+    const handleScrollGroupSellers = (e: React.UIEvent<HTMLDivElement>) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+        if (scrollHeight - scrollTop <= clientHeight + 15 && meta?.hasNext && !isFetchingGroupSellers) {
+            setPage((prev) => prev + 1);
+        }
+    };
 
     const [addSellersToCampaign, { isLoading: isAdding }] = useAddSellersToCampaignMutation();
     const [removeSellersFromCampaign, { isLoading: isRemoving }] = useRemoveSellersFromCampaignMutation();
 
     const currentCampaignSellers = campaignSellersResponse?.data || initialSellers;
-    const groupSellers = groupSellersResponse?.data || [];
 
     const getUserId = (s: any) => {
         if (!s) return "";
@@ -81,7 +115,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
         }
     };
 
-    const filteredSellers = groupSellers.filter((seller: any) => {
+    const filteredSellers = loadedGroupSellers.filter((seller: any) => {
         const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
         const name = (userObj?.name || "").toLowerCase();
         const email = (userObj?.email || "").toLowerCase();
@@ -117,46 +151,58 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                     </div>
                 </div>
 
-                {/* Body */}
-                <div className="p-6 overflow-y-auto space-y-3 grow min-h-0">
-                    {isFetchingGroupSellers ? (
+                {/* Body with Infinite Scroll */}
+                <div
+                    onScroll={handleScrollGroupSellers}
+                    className="p-6 overflow-y-auto space-y-3 grow min-h-0"
+                >
+                    {isFetchingGroupSellers && loadedGroupSellers.length === 0 ? (
                         <div className="flex items-center justify-center py-8">
                             <Loader2 className="animate-spin text-[#D97706]" size={24} />
                             <span className="text-sm text-[#78716C] ml-2">Loading sellers...</span>
                         </div>
-                    ) : filteredSellers.length === 0 ? (
+                    ) : filteredSellers.length === 0 && !isFetchingGroupSellers ? (
                         <div className="text-center text-sm text-[#78716C] py-8">No sellers found matching your search.</div>
                     ) : (
-                        filteredSellers.map((seller: any) => {
-                            const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
-                            const sellerUserId = userObj._id || seller._id || "";
-                            const sellerName = userObj.name || "Unnamed Member";
-                            const sellerEmail = userObj.email || "";
+                        <>
+                            {filteredSellers.map((seller: any) => {
+                                const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
+                                const sellerUserId = userObj._id || seller._id || "";
+                                const sellerName = userObj.name || "Unnamed Member";
+                                const sellerEmail = userObj.email || "";
 
-                            const isSelected = selectedSellerIds.includes(sellerUserId);
+                                const isSelected = selectedSellerIds.includes(sellerUserId);
 
-                            return (
-                                <div
-                                    key={seller._id || sellerUserId}
-                                    onClick={() => handleToggleSeller(sellerUserId)}
-                                    className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}
-                                >
-                                    <div className="flex items-center gap-3 min-w-0">
-                                        <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center shrink-0 font-bold text-sm">
-                                            {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={18} />}
+                                return (
+                                    <div
+                                        key={seller._id || sellerUserId}
+                                        onClick={() => handleToggleSeller(sellerUserId)}
+                                        className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center shrink-0 font-bold text-sm">
+                                                {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={18} />}
+                                            </div>
+                                            <div className="min-w-0">
+                                                <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{sellerName}</h4>
+                                                <p className="text-xs text-[#78716C] mt-0.5 truncate">{sellerEmail}</p>
+                                            </div>
                                         </div>
-                                        <div className="min-w-0">
-                                            <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{sellerName}</h4>
-                                            <p className="text-xs text-[#78716C] mt-0.5 truncate">{sellerEmail}</p>
+
+                                        <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>
+                                            {isSelected && <Check size={14} strokeWidth={3} />}
                                         </div>
                                     </div>
+                                );
+                            })}
 
-                                    <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>
-                                        {isSelected && <Check size={14} strokeWidth={3} />}
-                                    </div>
+                            {isFetchingGroupSellers && (
+                                <div className="py-3 text-center text-xs text-[#D97706] font-semibold flex items-center justify-center gap-2 bg-amber-50/50 rounded-xl">
+                                    <Loader2 className="animate-spin" size={14} />
+                                    <span>Loading more sellers...</span>
                                 </div>
-                            );
-                        })
+                            )}
+                        </>
                     )}
                 </div>
 

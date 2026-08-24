@@ -16,9 +16,10 @@ export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps)
             ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
             : String(rawGroupId || "");
 
-    const { data: membersData, isLoading } = useGetGroupSellersQuery(groupId, {
-        skip: !groupId || typeof groupId !== "string",
-    });
+    const { data: membersData, isLoading } = useGetGroupSellersQuery(
+        { groupId, page, limit: 10 },
+        { skip: !groupId || typeof groupId !== "string" }
+    );
 
     const membersList = (membersData?.data || []) as any[];
     const meta = (membersData as any)?.meta;

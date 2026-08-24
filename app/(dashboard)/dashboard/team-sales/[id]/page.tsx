@@ -21,8 +21,6 @@ const Page = () => {
         );
     }
 
-    console.log(id);
-
     const group = groupData?.data;
 
     return (

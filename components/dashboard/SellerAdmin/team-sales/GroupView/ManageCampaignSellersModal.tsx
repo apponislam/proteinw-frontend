@@ -18,15 +18,48 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
             ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
             : String(rawGroupId || "");
 
-    const { data: sellersData, isLoading } = useGetGroupSellersQuery(groupId, {
-        skip: !groupId || typeof groupId !== "string",
-    });
-    const sellers = sellersData?.data || [];
+    const [page, setPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [loadedSellers, setLoadedSellers] = useState<any[]>([]);
+
+    const { data: sellersData, isFetching } = useGetGroupSellersQuery(
+        { groupId, page, limit: 10 },
+        { skip: !groupId || typeof groupId !== "string" }
+    );
+
+    const meta = (sellersData as any)?.meta;
+
+    // Reset pagination when searching or opening
+    React.useEffect(() => {
+        setPage(1);
+        setLoadedSellers([]);
+    }, [searchQuery, groupId]);
+
+    // Accumulate sellers list on infinite/lazy load scroll
+    React.useEffect(() => {
+        if (sellersData?.data) {
+            if (page === 1) {
+                setLoadedSellers(sellersData.data);
+            } else {
+                setLoadedSellers((prev) => {
+                    const existingIds = new Set(prev.map((item: any) => item._id));
+                    const newItems = sellersData.data.filter((item: any) => !existingIds.has(item._id));
+                    return [...prev, ...newItems];
+                });
+            }
+        }
+    }, [sellersData, page]);
+
+    const handleScrollSellers = (e: React.UIEvent<HTMLDivElement>) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+        if (scrollHeight - scrollTop <= clientHeight + 15 && meta?.hasNext && !isFetching) {
+            setPage((prev) => prev + 1);
+        }
+    };
 
     const [tempSelected, setTempSelected] = useState<string[]>(selectedSellerIds);
-    const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredSellers = (sellers as any[]).filter((seller) => {
+    const filteredSellers = loadedSellers.filter((seller) => {
         const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
         const name = (userObj?.name || "").toLowerCase();
         const email = (userObj?.email || "").toLowerCase();
@@ -80,48 +113,60 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                         </span>
                     </div>
 
-                    {/* Sellers List */}
-                    <div className="max-h-64 overflow-y-auto border border-[#F5F5F4] rounded-xl divide-y divide-[#F5F5F4] mt-2">
-                        {isLoading ? (
+                    {/* Sellers List with Infinite Scroll */}
+                    <div
+                        onScroll={handleScrollSellers}
+                        className="max-h-64 overflow-y-auto border border-[#F5F5F4] rounded-xl divide-y divide-[#F5F5F4] mt-2"
+                    >
+                        {isFetching && loadedSellers.length === 0 ? (
                             <div className="py-8 text-center text-xs text-gray-500 flex items-center justify-center gap-2">
                                 <Loader2 className="animate-spin text-[#D97706]" size={16} />
                                 <span>Loading sellers...</span>
                             </div>
-                        ) : filteredSellers.length === 0 ? (
+                        ) : filteredSellers.length === 0 && !isFetching ? (
                             <div className="py-8 text-center text-xs text-gray-500">{searchQuery ? "No sellers match your search." : "No members found in this group."}</div>
                         ) : (
-                            filteredSellers.map((seller: any) => {
-                                const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
-                                const sellerUserId = userObj._id || seller._id || "";
-                                const sellerName = userObj.name || "Unnamed Member";
-                                const sellerEmail = userObj.email || "";
+                            <>
+                                {filteredSellers.map((seller: any) => {
+                                    const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
+                                    const sellerUserId = userObj._id || seller._id || "";
+                                    const sellerName = userObj.name || "Unnamed Member";
+                                    const sellerEmail = userObj.email || "";
 
-                                const isChecked = tempSelected.includes(sellerUserId);
-                                return (
-                                    <div
-                                        key={seller._id || sellerUserId}
-                                        onClick={() => toggleSeller(sellerUserId)}
-                                        className="flex items-center justify-between p-3 hover:bg-gray-50/80 cursor-pointer transition-colors select-none"
-                                    >
-                                        <div className="flex items-center gap-3 min-w-0">
-                                            <div className="w-8 h-8 rounded-full bg-amber-100 text-[#7C5800] font-bold text-xs flex items-center justify-center shrink-0">
-                                                {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={14} />}
+                                    const isChecked = tempSelected.includes(sellerUserId);
+                                    return (
+                                        <div
+                                            key={seller._id || sellerUserId}
+                                            onClick={() => toggleSeller(sellerUserId)}
+                                            className="flex items-center justify-between p-3 hover:bg-gray-50/80 cursor-pointer transition-colors select-none"
+                                        >
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                <div className="w-8 h-8 rounded-full bg-amber-100 text-[#7C5800] font-bold text-xs flex items-center justify-center shrink-0">
+                                                    {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={14} />}
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="text-xs font-semibold text-[#1A1C1C] truncate">{sellerName}</p>
+                                                    <p className="text-[11px] text-[#78716C] truncate">{sellerEmail}</p>
+                                                </div>
                                             </div>
-                                            <div className="min-w-0">
-                                                <p className="text-xs font-semibold text-[#1A1C1C] truncate">{sellerName}</p>
-                                                <p className="text-[11px] text-[#78716C] truncate">{sellerEmail}</p>
+
+                                            {/* Checkbox */}
+                                            <div className="relative shrink-0 ml-3">
+                                                <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-all ${isChecked ? "border-[#7C5800] bg-[#7C5800]" : "border-gray-300"}`}>
+                                                    {isChecked && <Check size={14} className="text-white stroke-3" />}
+                                                </div>
                                             </div>
                                         </div>
+                                    );
+                                })}
 
-                                        {/* Checkbox */}
-                                        <div className="relative shrink-0 ml-3">
-                                            <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-all ${isChecked ? "border-[#7C5800] bg-[#7C5800]" : "border-gray-300"}`}>
-                                                {isChecked && <Check size={14} className="text-white stroke-3" />}
-                                            </div>
-                                        </div>
+                                {isFetching && (
+                                    <div className="py-3 text-center text-xs text-[#D97706] font-semibold flex items-center justify-center gap-2 bg-amber-50/50">
+                                        <Loader2 className="animate-spin" size={14} />
+                                        <span>Loading more members...</span>
                                     </div>
-                                );
-                            })
+                                )}
+                            </>
                         )}
                     </div>
                 </div>

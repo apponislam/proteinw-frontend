@@ -55,16 +55,27 @@ const sellerGroupApi = baseApi.injectEndpoints({
         getGroupSellers: builder.query<TSellerGroupResponse, string | Record<string, any>>({
             query: (args) => {
                 let groupId = "";
+                let page: number | undefined;
+                let limit: number | undefined;
+
                 if (typeof args === "string") {
                     groupId = args;
                 } else if (args && typeof args === "object") {
                     groupId = args.groupId || args.id || args._id || "";
+                    page = args.page;
+                    limit = args.limit;
                 }
                 if (!groupId || groupId === "[object Object]") {
                     groupId = "";
                 }
+
+                const queryParams = new URLSearchParams();
+                if (page) queryParams.append("page", String(page));
+                if (limit) queryParams.append("limit", String(limit));
+                const queryString = queryParams.toString();
+
                 return {
-                    url: `/seller-groups/group/${groupId}`,
+                    url: queryString ? `/seller-groups/group/${groupId}?${queryString}` : `/seller-groups/group/${groupId}`,
                     method: "GET",
                 };
             },
