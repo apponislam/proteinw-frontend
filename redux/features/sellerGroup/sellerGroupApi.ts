@@ -52,11 +52,22 @@ const sellerGroupApi = baseApi.injectEndpoints({
         }),
 
         // Get all sellers in a group (Admin & Super Admin)
-        getGroupSellers: builder.query<TSellerGroupResponse, string>({
-            query: (groupId) => ({
-                url: `/seller-groups/group/${groupId}`,
-                method: "GET",
-            }),
+        getGroupSellers: builder.query<TSellerGroupResponse, string | Record<string, any>>({
+            query: (args) => {
+                let groupId = "";
+                if (typeof args === "string") {
+                    groupId = args;
+                } else if (args && typeof args === "object") {
+                    groupId = args.groupId || args.id || args._id || "";
+                }
+                if (!groupId || groupId === "[object Object]") {
+                    groupId = "";
+                }
+                return {
+                    url: `/seller-groups/group/${groupId}`,
+                    method: "GET",
+                };
+            },
             providesTags: (result, _, groupId) =>
                 result
                     ? [

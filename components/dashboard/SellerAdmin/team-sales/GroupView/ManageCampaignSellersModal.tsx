@@ -13,7 +13,10 @@ interface ManageCampaignSellersModalProps {
 }
 
 export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSellerIds, onSave, onClose }: ManageCampaignSellersModalProps) {
-    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any)._id || "" : String(rawGroupId || "");
+    const groupId =
+        typeof rawGroupId === "object" && rawGroupId !== null
+            ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
+            : String(rawGroupId || "");
 
     const { data: sellersData, isLoading } = useGetGroupSellersQuery(groupId, {
         skip: !groupId || typeof groupId !== "string",

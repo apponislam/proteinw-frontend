@@ -240,15 +240,30 @@ const authApi = baseApi.injectEndpoints({
             },
             providesTags: ["Admin"],
         }),
-        getGroupSellers: builder.query<{ data: TUser[]; meta?: TAdminStatsMeta }, { groupId: string; page?: number; limit?: number } | string>({
+        getGroupSellers: builder.query<{ data: TUser[]; meta?: TAdminStatsMeta }, { groupId: string; page?: number; limit?: number } | string | Record<string, any>>({
             query: (args) => {
-                const groupId = typeof args === "string" ? args : args.groupId;
-                const queryParams = new URLSearchParams();
-                if (typeof args !== "string") {
-                    if (args.page) queryParams.append("page", String(args.page));
-                    if (args.limit) queryParams.append("limit", String(args.limit));
+                let groupId = "";
+                let page: number | undefined;
+                let limit: number | undefined;
+
+                if (typeof args === "string") {
+                    groupId = args;
+                } else if (args && typeof args === "object") {
+                    const obj = args as any;
+                    groupId = obj.groupId || obj.id || obj._id || "";
+                    page = obj.page;
+                    limit = obj.limit;
                 }
+
+                if (!groupId || groupId === "[object Object]") {
+                    groupId = "";
+                }
+
+                const queryParams = new URLSearchParams();
+                if (page) queryParams.append("page", String(page));
+                if (limit) queryParams.append("limit", String(limit));
                 const queryString = queryParams.toString();
+
                 return {
                     url: queryString ? `/auth/group-members/${groupId}?${queryString}` : `/auth/group-members/${groupId}`,
                     method: "GET",
@@ -256,7 +271,7 @@ const authApi = baseApi.injectEndpoints({
                 };
             },
             providesTags: (result, error, args) => {
-                const groupId = typeof args === "string" ? args : args.groupId;
+                const groupId = typeof args === "string" ? args : (args as any)?.groupId || (args as any)?.id || (args as any)?._id || "";
                 return result?.data
                     ? [
                           ...result.data.map(({ _id }) => ({ type: "User" as const, id: _id })),

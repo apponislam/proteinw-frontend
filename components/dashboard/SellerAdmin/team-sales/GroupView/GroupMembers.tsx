@@ -11,7 +11,10 @@ interface GroupMembersProps {
 
 export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps) {
     const [page, setPage] = useState(1);
-    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any)._id || "" : String(rawGroupId || "");
+    const groupId =
+        typeof rawGroupId === "object" && rawGroupId !== null
+            ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
+            : String(rawGroupId || "");
 
     const { data: membersData, isLoading } = useGetGroupSellersQuery(
         { groupId, page, limit: 10 },
@@ -40,9 +43,7 @@ export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps)
                     <Loader2 className="animate-spin text-[#D97706]" size={28} />
                 </div>
             ) : !members || members.length === 0 ? (
-                <div className="text-center py-8 text-[#78716C] text-sm">
-                    No active team members yet. Send invitations to invite sellers to your team.
-                </div>
+                <div className="text-center py-8 text-[#78716C] text-sm">No active team members yet. Send invitations to invite sellers to your team.</div>
             ) : (
                 <>
                     <div className="overflow-x-auto">
@@ -61,15 +62,7 @@ export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps)
                                     <tr key={member._id} className="hover:bg-[#FDFDFD] transition-colors">
                                         <td className="py-4 px-4 font-medium flex items-center gap-3">
                                             <div className="h-9 w-9 rounded-full bg-amber-100 flex items-center justify-center text-[#D97706] font-bold shrink-0">
-                                                {member.profileImage ? (
-                                                    <img 
-                                                        src={member.profileImage} 
-                                                        alt={member.name} 
-                                                        className="h-9 w-9 rounded-full object-cover" 
-                                                    />
-                                                ) : (
-                                                    <User size={16} />
-                                                )}
+                                                {member.profileImage ? <img src={member.profileImage} alt={member.name} className="h-9 w-9 rounded-full object-cover" /> : <User size={16} />}
                                             </div>
                                             <span>{member.name}</span>
                                         </td>
@@ -92,11 +85,10 @@ export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps)
                                                 </div>
                                             )}
                                         </td>
-                                        <td className="py-4 px-4 font-medium uppercase text-xs tracking-wide text-[#78716C]">
-                                            {member.role}
-                                        </td>
+                                        <td className="py-4 px-4 font-medium uppercase text-xs tracking-wide text-[#78716C]">{member.role}</td>
                                         <td className="py-4 px-4 text-right">
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
+                                            <span
+                                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
                                                 ${member.isActive ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}
                                             >
                                                 {member.isActive ? "Active" : "Inactive"}

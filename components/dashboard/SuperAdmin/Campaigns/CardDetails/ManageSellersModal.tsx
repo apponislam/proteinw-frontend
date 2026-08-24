@@ -18,7 +18,10 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedSellerIds, setSelectedSellerIds] = useState<string[]>([]);
 
-    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any)._id || "" : String(rawGroupId || "");
+    const groupId =
+        typeof rawGroupId === "object" && rawGroupId !== null
+            ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
+            : String(rawGroupId || "");
 
     const { data: groupSellersResponse, isLoading: isFetchingGroupSellers } = useGetGroupSellersQuery(groupId, {
         skip: !groupId || typeof groupId !== "string" || !isOpen,

@@ -21,6 +21,8 @@ const Page = () => {
         );
     }
 
+    console.log(id);
+
     const group = groupData?.data;
 
     return (
@@ -59,7 +61,9 @@ const Page = () => {
                             </div>
                             <div>
                                 <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Active Campaigns</div>
-                                <div className="text-sm font-bold text-[#1A1C1C]">{group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}</div>
+                                <div className="text-sm font-bold text-[#1A1C1C]">
+                                    {group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-2.5">
