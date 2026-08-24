@@ -98,7 +98,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4 animate-in fade-in duration-200">
-            <div onClick={(e) => e.stopPropagation()} className="bg-white w-full max-w-md rounded-2xl p-4 sm:p-6 shadow-2xl relative border border-stone-100 max-h-[90vh] flex flex-col">
+            <div onClick={(e) => e.stopPropagation()} className="bg-white w-full max-w-md rounded-2xl p-4 sm:p-6 shadow-2xl relative border border-stone-100 flex flex-col">
                 <div className="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
                     <div className="flex items-center gap-2 text-[#1A1C1C]">
                         <Layers className="text-[#D97706]" size={20} />
@@ -127,7 +127,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                     </div>
                 )}
 
-                <form onSubmit={handleAssignTier} className="space-y-4 overflow-y-auto flex-1 p-0.5">
+                <form onSubmit={handleAssignTier} className="space-y-4 flex-1 p-0.5">
                     {/* Custom Searchable Campaign Dropdown */}
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">
@@ -147,8 +147,8 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
                             {isCampaignDropdownOpen && (
                                 <>
-                                    <div className="fixed inset-0 z-20" onClick={() => setIsCampaignDropdownOpen(false)}></div>
-                                    <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-xl shadow-xl border border-stone-200 overflow-hidden animate-in fade-in duration-150">
+                                    <div className="fixed inset-0 z-40" onClick={() => setIsCampaignDropdownOpen(false)}></div>
+                                    <div className="absolute left-0 right-0 mt-1 z-50 bg-white rounded-xl shadow-2xl border border-stone-200 overflow-hidden animate-in fade-in duration-150">
                                         {/* Search Bar */}
                                         <div className="p-2 border-b border-stone-100 flex items-center gap-2 bg-stone-50">
                                             <Search size={16} className="text-stone-400 shrink-0 ml-1" />
@@ -165,7 +165,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                         {/* Options List with Lazy Loading Scroll */}
                                         <div
                                             onScroll={handleScrollCampaigns}
-                                            className="max-h-48 overflow-y-auto divide-y divide-stone-50"
+                                            className="max-h-40 overflow-y-auto divide-y divide-stone-50"
                                         >
                                             {loadedCampaigns.length === 0 && !isFetchingCampaigns ? (
                                                 <div className="p-3 text-xs text-stone-400 text-center">No campaigns found</div>
@@ -224,9 +224,9 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
                             {isTierDropdownOpen && (
                                 <>
-                                    <div className="fixed inset-0 z-20" onClick={() => setIsTierDropdownOpen(false)}></div>
-                                    <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-xl shadow-xl border border-stone-200 overflow-hidden animate-in fade-in duration-150">
-                                        <div className="max-h-48 overflow-y-auto divide-y divide-stone-50">
+                                    <div className="fixed inset-0 z-40" onClick={() => setIsTierDropdownOpen(false)}></div>
+                                    <div className="absolute left-0 right-0 mt-1 z-50 bg-white rounded-xl shadow-2xl border border-stone-200 overflow-hidden animate-in fade-in duration-150">
+                                        <div className="max-h-40 overflow-y-auto divide-y divide-stone-50">
                                             {tiers.length === 0 ? (
                                                 <div className="p-3 text-xs text-stone-400 text-center">No tiers available</div>
                                             ) : (

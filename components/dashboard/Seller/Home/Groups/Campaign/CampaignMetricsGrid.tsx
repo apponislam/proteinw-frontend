@@ -64,7 +64,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
     const displayStats = customStats || defaultStats;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {displayStats.map((stat, idx) => (
                 <div
                     key={idx}
@@ -88,42 +88,6 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
                     </div>
                 </div>
             ))}
-
-            {/* 4th Card: Original Leader Contact Card */}
-            <div className="bg-white p-6 rounded-lg border border-[#E7E5E4] shadow-[0px_4px_10px_rgba(0,0,0,0.03)] flex flex-col justify-between space-y-4">
-                <h3 className="text-xs font-bold text-[#D97706] uppercase tracking-wider">Leader Contact</h3>
-                {admin ? (
-                    <div className="flex flex-col justify-between grow space-y-3">
-                        <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-3 min-w-0">
-                                <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">
-                                    <User size={18} />
-                                </div>
-                                <div className="min-w-0">
-                                    <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{admin.name || "N/A"}</h4>
-                                    <span className="text-xs text-[#78716C] block">Leader</span>
-                                </div>
-                            </div>
-                            <div className="space-y-1 text-right text-xs text-[#78716C] shrink-0">
-                                <div className="flex items-center justify-end gap-1.5 min-w-0">
-                                    <Mail size={13} className="shrink-0 text-[#D97706]" />
-                                    <span className="truncate block font-medium text-[#1A1C1C] max-w-36" title={admin.email}>
-                                        {admin.email}
-                                    </span>
-                                </div>
-                                {admin.phone && (
-                                    <div className="flex items-center justify-end gap-1.5 min-w-0">
-                                        <Phone size={13} className="shrink-0 text-[#D97706]" />
-                                        <span className="truncate block font-medium text-[#1A1C1C]">{admin.phone}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="text-sm text-[#78716C] italic text-center py-4">No leader assigned to this campaign.</div>
-                )}
-            </div>
         </div>
     );
 };
