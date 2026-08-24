@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import SellerOrdersCard from "./SellerOrdersCard";
 import SellerOrdersTable from "./SellerOrdersTable";
 import SellerEmptyOrders from "./SellerEmptyOrders";
+import SellerShopShareBanner from "./SellerShopShareBanner";
 import { useGetOrdersByMemberQuery } from "@/redux/features/order/orderApi";
 import CampaignListOrderPage from "./CampaignListOrderPage";
 
@@ -46,6 +47,7 @@ const SellerOrdersView = () => {
                         <SellerEmptyOrders campaignId={selectedCampaignId} />
                     ) : (
                         <>
+                            <SellerShopShareBanner campaignId={selectedCampaignId} />
                             <SellerOrdersCard campaignId={selectedCampaignId} />
                             <SellerOrdersTable campaignId={selectedCampaignId} />
                         </>
