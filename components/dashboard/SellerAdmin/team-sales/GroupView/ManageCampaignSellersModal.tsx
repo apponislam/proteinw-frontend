@@ -82,12 +82,12 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <div className="bg-white rounded-2xl border border-[#E7E5E4] shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+            <div className="bg-white rounded-2xl border border-[#E7E5E4] shadow-xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                 {/* Modal Header */}
-                <div className="flex items-center justify-between border-b border-[#F5F5F4] p-5">
+                <div className="flex items-center justify-between border-b border-[#F5F5F4] p-4 sm:p-5 shrink-0">
                     <div>
-                        <h3 className="text-lg font-bold text-[#1A1C1C]">Manage Campaign Sellers</h3>
+                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Manage Campaign Sellers</h3>
                         <p className="text-xs text-[#78716C]">Select group members to participate in this campaign.</p>
                     </div>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg transition-colors cursor-pointer">
@@ -96,7 +96,7 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                 </div>
 
                 {/* Search & Actions */}
-                <div className="p-5 space-y-3">
+                <div className="p-4 sm:p-5 space-y-3 overflow-y-auto flex-1">
                     <div className="relative">
                         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <Input
@@ -172,7 +172,7 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                 </div>
 
                 {/* Modal Footer */}
-                <div className="flex justify-end items-center gap-3 p-4 border-t border-[#F5F5F4] bg-gray-50/50">
+                <div className="flex justify-end items-center gap-3 p-4 border-t border-[#F5F5F4] bg-gray-50/50 shrink-0">
                     <button type="button" onClick={onClose} className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-xl text-xs font-semibold cursor-pointer">
                         Cancel
                     </button>

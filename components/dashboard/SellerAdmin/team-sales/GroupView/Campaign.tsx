@@ -64,15 +64,15 @@ export default function Campaign({ groupId }: CampaignProps) {
 
     return (
         <div className="space-y-6 mb-6">
-            {/* ── All campaigns Grid (3 in a row) ──────────────────── */}
+            {/* ── All campaigns Grid (3 in a row on large screens) ──────────────────── */}
             {campaigns.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {campaigns.map((campaign) => {
                         const isEditing = editingId === campaign._id;
                         const isCampaignActive = campaign.status === "ACTIVE";
 
                         return (
-                            <div key={campaign._id} className="bg-white p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] flex flex-col justify-between h-full">
+                            <div key={campaign._id} className="bg-white p-4 sm:p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] flex flex-col justify-between h-full">
                                 <div>
                                     <div className="flex justify-between items-start border-b border-[#F5F5F4] pb-4 mb-4 gap-3">
                                         <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -138,22 +138,22 @@ export default function Campaign({ groupId }: CampaignProps) {
                                     </div>
 
                                     {/* SELLERS, SOLD and TARGET metrics box */}
-                                    <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
+                                    <div className="bg-[#F3F3F3] p-3 sm:py-4 sm:px-5 rounded-[20px] sm:rounded-[24px] mb-4">
                                         {(() => {
                                             const totalSellers = campaign.sellersCount ?? (campaign as any).totalSellers ?? (campaign as any).sellerCount ?? 0;
                                             return (
-                                                <div className="grid grid-cols-3 gap-2">
-                                                    <div>
-                                                        <div className="text-[#78716C] text-xs uppercase font-semibold">SELLERS</div>
-                                                        <div className="text-[#D97706] font-bold text-lg">{totalSellers}</div>
+                                                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
+                                                    <div className="min-w-0">
+                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">SELLERS</div>
+                                                        <div className="text-[#D97706] font-bold text-sm sm:text-base lg:text-lg truncate">{totalSellers}</div>
                                                     </div>
-                                                    <div className="text-center">
-                                                        <div className="text-[#78716C] text-xs uppercase font-semibold">SOLD</div>
-                                                        <div className="text-[#D97706] font-bold text-lg">{campaign.totalPackagesSold || 0} pcs</div>
+                                                    <div className="text-center min-w-0">
+                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">SOLD</div>
+                                                        <div className="text-[#D97706] font-bold text-sm sm:text-base lg:text-lg truncate">{campaign.totalPackagesSold || 0} pcs</div>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <div className="text-[#78716C] text-xs uppercase font-semibold">TARGET</div>
-                                                        <div className="text-[#1A1C1C] font-bold text-lg">SEK {(campaign.target || 0).toLocaleString()}</div>
+                                                    <div className="text-right min-w-0">
+                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">TARGET</div>
+                                                        <div className="text-[#1A1C1C] font-bold text-sm sm:text-base lg:text-lg truncate">SEK {(campaign.target || 0).toLocaleString()}</div>
                                                     </div>
                                                 </div>
                                             );
@@ -161,7 +161,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                     </div>
 
                                     {/* Tier Progress Details Box */}
-                                    <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
+                                    <div className="bg-[#F3F3F3] p-3 sm:py-4 sm:px-5 rounded-[20px] sm:rounded-[24px] mb-4">
                                         {(() => {
                                             const totalSold = campaign.totalPackagesSold || 0;
                                             const nextMin = campaign.nextTier?.minSalesVolume || (campaign.currentTier?.maxSalesVolume ? campaign.currentTier.maxSalesVolume + 1 : 150);
@@ -171,25 +171,25 @@ export default function Campaign({ groupId }: CampaignProps) {
 
                                             return (
                                                 <>
-                                                    <div className="mb-4">
-                                                        <div className="flex items-center justify-between mb-2">
-                                                            <span className="text-[#78716C] text-sm font-semibold">Tier Progress</span>
-                                                            <span className="text-[#D97706] font-bold">{progressPct}%</span>
+                                                    <div className="mb-3 sm:mb-4">
+                                                        <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                                                            <span className="text-[#78716C] text-xs sm:text-sm font-semibold">Tier Progress</span>
+                                                            <span className="text-[#D97706] font-bold text-xs sm:text-sm">{progressPct}%</span>
                                                         </div>
                                                         <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
                                                             <div className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300" style={{ width: `${progressPct}%` }} />
                                                         </div>
                                                     </div>
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                        <div>
-                                                            <div className="text-[#78716C] text-xs uppercase font-semibold">CURRENT TIER</div>
-                                                            <div className="text-[#D97706] font-bold text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
+                                                    <div className="grid grid-cols-2 gap-2 sm:gap-4">
+                                                        <div className="min-w-0">
+                                                            <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">CURRENT TIER</div>
+                                                            <div className="text-[#D97706] font-bold text-xs sm:text-sm md:text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
                                                                 {campaign.currentTier ? `${campaign.currentTier.percentage}%` : "0%"}
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <div className="text-[#78716C] text-xs text-right uppercase font-semibold">NEXT TIER NEEDED</div>
-                                                            <div className="text-[#1A1C1C] font-bold text-base text-right">
+                                                        <div className="min-w-0">
+                                                            <div className="text-[#78716C] text-[10px] sm:text-xs text-right uppercase font-semibold truncate">NEXT TIER NEEDED</div>
+                                                            <div className="text-[#1A1C1C] font-bold text-xs sm:text-sm md:text-base text-right truncate">
                                                                 {campaign.nextTier ? (
                                                                     <>
                                                                         {campaign.packagesNeededForNextTier || 0} PKGS <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
@@ -230,7 +230,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
 
                                             return (
-                                                <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold">
+                                                <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold flex-wrap gap-1">
                                                     <span className="flex items-center gap-1.5">
                                                         <Calendar size={15} className="text-[#D97706] shrink-0" />
                                                         <span>{daysText}</span>
@@ -274,15 +274,15 @@ export default function Campaign({ groupId }: CampaignProps) {
 
             {/* ── If no campaigns exist and form is not open ─────────────── */}
             {campaigns.length === 0 && !showCreateForm && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     <div
                         onClick={() => setShowCreateForm(true)}
-                        className="bg-amber-50/50 hover:bg-amber-50 border-2 border-dashed border-[#FFB800]/60 hover:border-[#D97706] rounded-2xl p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 group min-h-70"
+                        className="bg-amber-50/50 hover:bg-amber-50 border-2 border-dashed border-[#FFB800]/60 hover:border-[#D97706] rounded-2xl p-6 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 group min-h-70"
                     >
-                        <div className="w-16 h-16 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <Plus size={32} />
                         </div>
-                        <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Start New Campaign</h3>
+                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Start New Campaign</h3>
                         <p className="text-xs text-[#78716C] mt-1">Start a campaign so team members can raise money.</p>
                     </div>
                 </div>

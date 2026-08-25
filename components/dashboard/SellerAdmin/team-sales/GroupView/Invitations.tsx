@@ -51,24 +51,18 @@ export default function Invitations({ groupId }: InvitationsProps) {
     };
 
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] mt-6">
-            <div className="flex flex-col gap-4 border-b border-[#F5F5F4] pb-6 mb-6">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4]">
+            <div className="flex flex-col gap-4 border-b border-[#F5F5F4] pb-4 sm:pb-6 mb-4 sm:mb-6">
                 <div>
-                    <h3 className="text-xl font-bold text-[#1A1C1C]">Invite Members</h3>
-                    <p className="text-sm text-[#78716C]">Invite sellers or team members to join your fundraising group.</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Invite Members</h3>
+                    <p className="text-xs sm:text-sm text-[#78716C]">Invite sellers or team members to join your fundraising group.</p>
                 </div>
                 <form onSubmit={handleSend} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-lg">
                     <div className="relative flex-1">
                         <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E]" size={18} />
-                        <Input 
-                            type="email"
-                            placeholder="member@email.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="h-11 pl-10 border-[#E7E5E4] focus:border-[#D97706] focus:ring-[#D97706]"
-                        />
+                        <Input type="email" placeholder="member@email.com" value={email} onChange={(e) => setEmail(e.target.value)} className="h-11 pl-10 border-[#E7E5E4] focus:border-[#D97706] focus:ring-[#D97706]" />
                     </div>
-                    <button 
+                    <button
                         type="submit"
                         disabled={isSending}
                         className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 cursor-pointer shrink-0"
@@ -80,46 +74,41 @@ export default function Invitations({ groupId }: InvitationsProps) {
             </div>
 
             <div>
-                <h4 className="text-base font-semibold text-[#1A1C1C] mb-4">Active & Pending Invitations</h4>
+                <h4 className="text-sm sm:text-base font-semibold text-[#1A1C1C] mb-4">Active & Pending Invitations</h4>
                 {isLoading ? (
                     <div className="flex items-center justify-center py-8">
                         <Loader2 className="animate-spin text-[#D97706]" size={28} />
                     </div>
                 ) : !invitations || invitations.length === 0 ? (
-                    <div className="text-center py-8 text-[#78716C] text-sm">
-                        No invitations sent yet. Invite your first team member above!
-                    </div>
+                    <div className="text-center py-8 text-[#78716C] text-sm">No invitations sent yet. Invite your first team member above!</div>
                 ) : (
                     <>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
+                        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+                            <table className="w-full text-left border-collapse min-w-120">
                                 <thead>
                                     <tr className="border-b border-[#F5F5F4] text-xs font-semibold text-[#78716C] uppercase tracking-wider">
-                                        <th className="py-3 px-4">Email Address</th>
-                                        <th className="py-3 px-4">Status</th>
-                                        <th className="py-3 px-4">Sent At</th>
-                                        <th className="py-3 px-4 text-right">Actions</th>
+                                        <th className="py-3 px-3 sm:px-4">Email Address</th>
+                                        <th className="py-3 px-3 sm:px-4">Status</th>
+                                        <th className="py-3 px-3 sm:px-4">Sent At</th>
+                                        <th className="py-3 px-3 sm:px-4 text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#F5F5F4] text-sm text-[#1C1917]">
                                     {invitations.map((invite) => (
                                         <tr key={invite._id} className="hover:bg-[#FDFDFD] transition-colors">
-                                            <td className="py-4 px-4 font-medium">{invite.email}</td>
-                                            <td className="py-4 px-4">
-                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
-                                                    ${invite.status === "accepted" ? "bg-green-50 text-green-700 border border-green-200" : 
-                                                      invite.status === "declined" ? "bg-red-50 text-red-700 border border-red-200" : 
-                                                      "bg-amber-50 text-amber-700 border border-amber-200 animate-pulse"}`}
+                                            <td className="py-3 sm:py-4 px-3 sm:px-4 font-medium whitespace-nowrap">{invite.email}</td>
+                                            <td className="py-3 sm:py-4 px-3 sm:px-4 whitespace-nowrap">
+                                                <span
+                                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
+                                                    ${invite.status === "accepted" ? "bg-green-50 text-green-700 border border-green-200" : invite.status === "declined" ? "bg-red-50 text-red-700 border border-red-200" : "bg-amber-50 text-amber-700 border border-amber-200 animate-pulse"}`}
                                                 >
                                                     {invite.status}
                                                 </span>
                                             </td>
-                                            <td className="py-4 px-4 text-[#78716C]">
-                                                {invite.createdAt ? new Date(invite.createdAt).toLocaleDateString() : "N/A"}
-                                            </td>
-                                            <td className="py-4 px-4 text-right">
+                                            <td className="py-3 sm:py-4 px-3 sm:px-4 text-[#78716C] whitespace-nowrap">{invite.createdAt ? new Date(invite.createdAt).toLocaleDateString() : "N/A"}</td>
+                                            <td className="py-3 sm:py-4 px-3 sm:px-4 text-right whitespace-nowrap">
                                                 {invite.status === "pending" && (
-                                                    <button 
+                                                    <button
                                                         onClick={() => invite._id && handleCancel(invite._id)}
                                                         disabled={isCancelling}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#F5F5F4] text-red-600 hover:bg-red-50 hover:border-red-200 transition-all text-xs font-semibold cursor-pointer disabled:opacity-50"
@@ -135,7 +124,7 @@ export default function Invitations({ groupId }: InvitationsProps) {
                             </table>
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-4 sm:mt-6">
                             <Pagination meta={meta} onPageChange={setPage} itemName="INVITATIONS" />
                         </div>
                     </>
