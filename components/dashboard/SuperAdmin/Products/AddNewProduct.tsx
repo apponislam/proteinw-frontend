@@ -16,6 +16,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
     const [shortDescription, setShortDescription] = useState("");
     const [category, setCategory] = useState("");
     const [subCategory, setSubCategory] = useState("");
+    const [marginBenefit, setMarginBenefit] = useState("");
+    const [qualityHighlight, setQualityHighlight] = useState("");
+    const [ecoHighlight, setEcoHighlight] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -61,6 +64,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             formData.append("shortDescription", shortDescription);
             formData.append("category", category);
             formData.append("subCategory", subCategory);
+            if (marginBenefit.trim()) formData.append("marginBenefit", marginBenefit.trim());
+            if (qualityHighlight.trim()) formData.append("qualityHighlight", qualityHighlight.trim());
+            if (ecoHighlight.trim()) formData.append("ecoHighlight", ecoHighlight.trim());
             if (selectedFile) formData.append("productImage", selectedFile);
 
             const res = (await createProduct(formData).unwrap()) as any;
@@ -71,6 +77,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             setShortDescription("");
             setCategory("");
             setSubCategory("");
+            setMarginBenefit("");
+            setQualityHighlight("");
+            setEcoHighlight("");
             setSelectedFile(null);
         } catch (err: any) {
             // console.error(err);
@@ -183,6 +192,42 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                             </div>
                         </div>
                     )}
+
+                    <div className="pt-2 border-t border-[#F5F5F4] space-y-3 sm:space-y-4">
+                        <h4 className="text-xs font-bold text-[#78716C] uppercase tracking-wider">Product Highlights (Why Easy To Sell)</h4>
+                        <div>
+                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Margin Benefit</label>
+                            <input
+                                type="text"
+                                value={marginBenefit}
+                                onChange={(e) => setMarginBenefit(e.target.value)}
+                                placeholder="e.g. High-margin product (earn up to 50% profit)"
+                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Quality Highlight</label>
+                            <input
+                                type="text"
+                                value={qualityHighlight}
+                                onChange={(e) => setQualityHighlight(e.target.value)}
+                                placeholder="e.g. Premium Scandinavian quality that sells itself"
+                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Eco Highlight</label>
+                            <input
+                                type="text"
+                                value={ecoHighlight}
+                                onChange={(e) => setEcoHighlight(e.target.value)}
+                                placeholder="e.g. Sustainable soy wax and organic scents"
+                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20"
+                            />
+                        </div>
+                    </div>
 
                     <div>
                         <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Upload product image</label>

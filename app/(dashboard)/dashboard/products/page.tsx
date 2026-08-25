@@ -6,12 +6,15 @@ import ProductScreenCards from "@/components/dashboard/SuperAdmin/Products/Produ
 import ProductsTable from "@/components/dashboard/SuperAdmin/Products/ProductsTable";
 import AddNewProduct from "@/components/dashboard/SuperAdmin/Products/AddNewProduct";
 import EditProduct from "@/components/dashboard/SuperAdmin/Products/EditProduct";
+import ProductDetailModal from "@/components/products/ProductDetailModal";
 import type { TProduct } from "@/redux/features/product/productApi";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 const ProductsPage = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<TProduct | null>(null);
+    const [viewProduct, setViewProduct] = useState<any | null>(null);
 
     const handleEdit = (product: TProduct) => {
         setSelectedProduct(product);
@@ -21,6 +24,18 @@ const ProductsPage = () => {
     const handleCloseEdit = () => {
         setIsEditModalOpen(false);
         setSelectedProduct(null);
+    };
+
+    const handleView = (product: TProduct) => {
+        setViewProduct({
+            image: getImageUrl(product.productImage),
+            title: product.name,
+            price: `${product.price} SEK`,
+            description: product.shortDescription,
+            marginBenefit: product.marginBenefit,
+            qualityHighlight: product.qualityHighlight,
+            ecoHighlight: product.ecoHighlight,
+        });
     };
 
     return (
@@ -40,10 +55,11 @@ const ProductsPage = () => {
             </div>
 
             <ProductScreenCards />
-            <ProductsTable onEdit={handleEdit} />
+            <ProductsTable onEdit={handleEdit} onView={handleView} />
 
             <AddNewProduct isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
             {selectedProduct && <EditProduct isOpen={isEditModalOpen} onClose={handleCloseEdit} product={selectedProduct} />}
+            <ProductDetailModal isOpen={!!viewProduct} onClose={() => setViewProduct(null)} product={viewProduct} />
         </div>
     );
 };

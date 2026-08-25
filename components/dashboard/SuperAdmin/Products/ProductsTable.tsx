@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetAllProductsQuery, useToggleProductStatusMutation, useDeleteProductMutation, type TProduct } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
-import { Pencil, Trash2, ChevronDown, Check } from "lucide-react";
+import { Pencil, Trash2, ChevronDown, Check, Eye } from "lucide-react";
 import Swal from "sweetalert2";
 import Pagination from "@/components/dashboard/Pagination";
 
@@ -14,9 +14,10 @@ const getStatusColor = (status: boolean) => {
 
 interface ProductsTableProps {
     onEdit?: (product: TProduct) => void;
+    onView?: (product: TProduct) => void;
 }
 
-const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
+const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
     // State for filters and pagination
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
     const [selectedSubcategory, setSelectedSubcategory] = useState<string>("All");
@@ -288,6 +289,9 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                 </div>
 
                                 <div className="flex items-center gap-2">
+                                    <button onClick={() => onView && onView(product)} className="cursor-pointer w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="View Details">
+                                        <Eye size={15} />
+                                    </button>
                                     <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Edit">
                                         <Pencil size={15} />
                                     </button>
@@ -362,6 +366,9 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit }) => {
                                     </td>
                                     <td className="px-4 py-4">
                                         <div className="flex items-center gap-2">
+                                            <button onClick={() => onView && onView(product)} className="cursor-pointer w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="View Details">
+                                                <Eye size={16} />
+                                            </button>
                                             <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Edit">
                                                 <Pencil size={16} />
                                             </button>
