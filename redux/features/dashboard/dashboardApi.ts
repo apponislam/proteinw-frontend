@@ -75,20 +75,9 @@ export type TSellerListItem = {
     salesLink?: string;
     salesLinks?: (string | TSalesLinkItem)[];
     code: string;
-    groupDetails?: {
-        _id: string;
-        name: string;
-        code: string;
-        goal: number;
-        endDate: string;
-    } | null;
-    campaignDetails?: {
-        _id: string;
-        name: string;
-        code: string;
-        target: number;
-        endDate: string;
-    } | null;
+    totalGroups?: number;
+    totalCampaigns?: number;
+    totalActiveCampaigns?: number;
 };
 
 export type TSellersResponse = {

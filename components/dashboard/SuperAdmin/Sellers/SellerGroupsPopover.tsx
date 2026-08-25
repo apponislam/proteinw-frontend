@@ -10,7 +10,13 @@ interface SellerGroupsPopoverProps {
     onClose: () => void;
 }
 
-export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({ groups, viewportTop, viewportBottom, left, onClose }) => {
+export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({
+    groups,
+    viewportTop,
+    viewportBottom,
+    left,
+    onClose,
+}) => {
     if (typeof window === "undefined") return null;
 
     const screenWidth = window.innerWidth;
@@ -38,14 +44,17 @@ export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({ groups
 
     return createPortal(
         <>
-            <div className="fixed inset-0 z-9998" onClick={onClose} />
-            <div style={popoverStyle} onMouseLeave={onClose} className={`z-9999 bg-white rounded-2xl shadow-2xl border border-stone-200 p-3.5 animate-in fade-in ${opensUpward ? "slide-in-from-bottom-2" : "zoom-in-95"} duration-150`}>
-                <div className="flex items-center justify-between pb-2 border-b border-stone-100 mb-2">
-                    <div className="flex items-center gap-1.5">
-                        <Users size={14} className="text-[#D97706]" />
-                        <span className="text-xs font-bold text-[#1A1C1C]">Assigned Groups</span>
-                    </div>
-                    <span className="text-[10px] font-extrabold bg-amber-100 text-[#7C5800] px-2 py-0.5 rounded-full">{groups.length} total</span>
+            <div className="fixed inset-0 z-[9998]" onClick={onClose} />
+            <div
+                style={popoverStyle}
+                onMouseLeave={onClose}
+                className={`z-[9999] bg-white rounded-2xl shadow-2xl border border-stone-200 p-3.5 animate-in fade-in ${
+                    opensUpward ? "slide-in-from-bottom-2" : "zoom-in-95"
+                } duration-150`}
+            >
+                <div className="flex items-center gap-1.5 pb-2 border-b border-stone-100 mb-2">
+                    <Users size={14} className="text-[#D97706]" />
+                    <span className="text-xs font-bold text-[#1A1C1C]">Assigned Groups</span>
                 </div>
                 <div className="max-h-48 overflow-y-auto space-y-1.5 pr-1">
                     {groups.map((grpName, idx) => (
@@ -57,6 +66,6 @@ export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({ groups
                 </div>
             </div>
         </>,
-        document.body,
+        document.body
     );
 };
