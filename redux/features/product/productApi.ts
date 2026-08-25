@@ -8,6 +8,9 @@ export type TProduct = {
     category: string;
     subCategory?: string;
     productImage?: string;
+    marginBenefit?: string;
+    qualityHighlight?: string;
+    ecoHighlight?: string;
     createdBy?: string;
     isActive: boolean;
     isDeleted: boolean;

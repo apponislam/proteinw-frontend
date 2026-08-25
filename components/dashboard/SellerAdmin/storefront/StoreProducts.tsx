@@ -81,6 +81,9 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
                                 title: product.name,
                                 price: `${product.price} SEK`,
                                 description: product.shortDescription,
+                                marginBenefit: product.marginBenefit,
+                                qualityHighlight: product.qualityHighlight,
+                                ecoHighlight: product.ecoHighlight,
                             })
                         }
                     />

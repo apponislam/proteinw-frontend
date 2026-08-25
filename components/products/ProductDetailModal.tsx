@@ -10,6 +10,9 @@ type ProductDetailModalProps = {
         title: string;
         price: string;
         description: string;
+        marginBenefit?: string;
+        qualityHighlight?: string;
+        ecoHighlight?: string;
     } | null;
 };
 
@@ -46,15 +49,15 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                         <ul className="space-y-2.5 sm:space-y-3">
                             <li className="flex items-start gap-2.5 text-xs sm:text-[13.5px] text-[#514532]">
                                 <Coins className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
-                                <span>High-margin product (earn up to 50% profit)</span>
+                                <span>{product.marginBenefit || "High-margin product (earn up to 50% profit)"}</span>
                             </li>
                             <li className="flex items-start gap-2.5 text-xs sm:text-[13.5px] text-[#514532]">
                                 <Sparkles className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
-                                <span>Premium Scandinavian quality that sells itself</span>
+                                <span>{product.qualityHighlight || "Premium Scandinavian quality that sells itself"}</span>
                             </li>
                             <li className="flex items-start gap-2.5 text-xs sm:text-[13.5px] text-[#514532]">
                                 <Leaf className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
-                                <span>Sustainable soy wax and organic scents</span>
+                                <span>{product.ecoHighlight || "Sustainable soy wax and organic scents"}</span>
                             </li>
                         </ul>
                     </div>
