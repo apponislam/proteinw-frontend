@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Send } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const faqs = [
     {
@@ -20,10 +21,21 @@ const faqs = [
 ];
 
 const TestimonialsFAQ = () => {
+    const router = useRouter();
     const [openIndex, setOpenIndex] = useState<number | null>(null);
+    const [message, setMessage] = useState("");
 
     const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
+    };
+
+    const handleSendMessage = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (message.trim()) {
+            router.push(`/faq?message=${encodeURIComponent(message.trim())}`);
+        } else {
+            router.push("/faq");
+        }
     };
 
     return (
@@ -54,14 +66,20 @@ const TestimonialsFAQ = () => {
                             </div>
                         </div>
 
-                        {/* Simple message input */}
-                        <div className="bg-white rounded-3xl p-5 flex items-center gap-3">
-                            <input type="text" placeholder="Send us a message..." className="w-full bg-transparent outline-none text-sm" />
+                        {/* Simple message input form */}
+                        <form onSubmit={handleSendMessage} className="bg-white rounded-2xl sm:rounded-[24px] p-4 sm:p-5 shadow-xs flex items-center gap-3 w-full">
+                            <input
+                                type="text"
+                                placeholder="Send us a message..."
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                className="w-full bg-transparent outline-none text-sm text-gray-800 placeholder-gray-400"
+                            />
 
-                            <button className="w-10 h-10 rounded-full bg-[#EFAC02] flex items-center justify-center text-white hover:opacity-90 transition">
+                            <button type="submit" className="w-10 h-10 rounded-full bg-[#EFAC02] flex items-center justify-center text-white hover:opacity-90 transition shrink-0 cursor-pointer" title="Send message">
                                 <Send size={16} />
                             </button>
-                        </div>
+                        </form>
                     </div>
 
                     {/* RIGHT SIDE - FAQ */}

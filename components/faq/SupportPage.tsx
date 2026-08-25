@@ -1,13 +1,21 @@
 "use client";
 
-import { Mail, Phone } from "lucide-react";
-import { useState } from "react";
+import { Mail, Phone, ChevronDown, Check } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateContactMutation } from "@/redux/features/contact/contactApi";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
+const SUBJECT_OPTIONS = [
+    "Teknisk support",
+    "Frågor om produkten",
+    "Retur och/eller reklamation",
+    "Övriga frågor",
+];
 
 const supportFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -31,11 +39,27 @@ interface SupportPageProps {
 export default function SupportPage({ faqData }: SupportPageProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
     const [createContact, { isLoading }] = useCreateContactMutation();
+    const searchParams = useSearchParams();
+    const formRef = useRef<HTMLDivElement>(null);
+
+    const [isSubjectOpen, setIsSubjectOpen] = useState(false);
+    const subjectDropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (subjectDropdownRef.current && !subjectDropdownRef.current.contains(event.target as Node)) {
+                setIsSubjectOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const {
         control,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors },
     } = useForm<SupportFormValues>({
         resolver: zodResolver(supportFormSchema),
@@ -47,6 +71,16 @@ export default function SupportPage({ faqData }: SupportPageProps) {
             message: "",
         },
     });
+
+    useEffect(() => {
+        const messageParam = searchParams.get("message");
+        if (messageParam) {
+            setValue("message", messageParam);
+            if (formRef.current) {
+                formRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+    }, [searchParams, setValue]);
 
     const onSubmit = async (data: SupportFormValues) => {
         try {
@@ -90,7 +124,7 @@ export default function SupportPage({ faqData }: SupportPageProps) {
 
             <div>
                 {/* RIGHT SIDE */}
-                <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-white shadow-xs">
+                <div ref={formRef} className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-white shadow-xs">
                     <h2 className="text-2xl sm:text-3xl text-gray-900 mb-5 sm:mb-6 font-bold">Send us a message</h2>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -134,19 +168,43 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 name="subject"
                                 control={control}
                                 render={({ field }) => (
-                                    <div>
+                                    <div className="relative" ref={subjectDropdownRef}>
                                         <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">SUBJECT</label>
-                                        <input
-                                            list="inquiry-options"
-                                            placeholder="Choose a topic from the list"
-                                            className={`w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.subject ? "ring-2 ring-red-500" : ""}`}
-                                            {...field}
-                                        />
-                                        <datalist id="inquiry-options">
-                                            <option value="Product Inquiry" />
-                                            <option value="General Question" />
-                                            <option value="Support" />
-                                        </datalist>
+                                        <div
+                                            onClick={() => setIsSubjectOpen((prev) => !prev)}
+                                            className={`w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm flex items-center justify-between cursor-pointer border transition-all select-none ${
+                                                errors.subject ? "border-red-500 ring-2 ring-red-500/20" : isSubjectOpen ? "border-[#EFAC02] ring-2 ring-[#EFAC02]/20 bg-white" : "border-transparent hover:border-gray-200"
+                                            }`}
+                                        >
+                                            <span className={field.value ? "text-[#514532] font-medium" : "text-[#514532]/60"}>
+                                                {field.value || "Choose a topic from the list"}
+                                            </span>
+                                            <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 shrink-0 ${isSubjectOpen ? "rotate-180 text-[#7C5800]" : ""}`} />
+                                        </div>
+
+                                        {/* Custom Animated Dropdown Menu */}
+                                        {isSubjectOpen && (
+                                            <div className="absolute left-0 right-0 top-full mt-1.5 z-50 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                {SUBJECT_OPTIONS.map((option) => {
+                                                    const isSelected = field.value === option;
+                                                    return (
+                                                        <div
+                                                            key={option}
+                                                            onClick={() => {
+                                                                field.onChange(option);
+                                                                setIsSubjectOpen(false);
+                                                            }}
+                                                            className={`px-4 sm:px-6 py-2.5 text-xs sm:text-sm font-medium flex items-center justify-between cursor-pointer transition-colors ${
+                                                                isSelected ? "bg-amber-50 text-[#7C5800] font-semibold" : "text-[#1A1C1C] hover:bg-stone-50 hover:text-[#7C5800]"
+                                                            }`}
+                                                        >
+                                                            <span>{option}</span>
+                                                            {isSelected && <Check size={14} className="text-[#7C5800]" />}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                         {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
                                     </div>
                                 )}
@@ -179,7 +237,11 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                             )}
                         />
 
-                        <button type="submit" disabled={isLoading} className="mt-3 sm:mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="mt-3 sm:mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
                             {isLoading ? "Sending..." : "Send Message"}
                         </button>
                     </form>
