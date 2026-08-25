@@ -9,16 +9,16 @@ const Fundraisingcalculator = () => {
     const [students, setStudents] = useState(26);
 
     // Calculation Logic
-    let p = 1;
-    while (true) {
-        let profitPerPkg = 72; // 40% of 180
-        if (p >= 150 && p <= 224) profitPerPkg = 81; // 45% of 180
-        if (p >= 225) profitPerPkg = 90; // 50% of 180
-
-        if (p * profitPerPkg >= targetProfit) {
-            break;
+    const validTarget = Math.max(0, targetProfit);
+    let p = 0;
+    if (validTarget > 0) {
+        if (validTarget <= 149 * 72) {
+            p = Math.ceil(validTarget / 72);
+        } else if (validTarget <= 224 * 81) {
+            p = Math.max(150, Math.ceil(validTarget / 81));
+        } else {
+            p = Math.max(225, Math.ceil(validTarget / 90));
         }
-        p++;
     }
 
     const packagesNeeded = p;

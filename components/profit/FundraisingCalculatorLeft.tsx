@@ -1,5 +1,4 @@
-"use client";
-
+import React, { useState, useEffect } from "react";
 import { Info } from "lucide-react";
 import Link from "next/link";
 
@@ -14,6 +13,65 @@ interface Props {
 export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfit, students, setStudents, profitPercent }: Props) {
     const packagePrice = 180;
 
+    const [targetInput, setTargetInput] = useState(String(targetProfit));
+    const [studentInput, setStudentInput] = useState(String(students));
+    const [isTargetFocused, setIsTargetFocused] = useState(false);
+    const [isStudentFocused, setIsStudentFocused] = useState(false);
+
+    useEffect(() => {
+        if (!isTargetFocused) {
+            setTargetInput(targetProfit.toLocaleString());
+        }
+    }, [targetProfit, isTargetFocused]);
+
+    useEffect(() => {
+        if (!isStudentFocused) {
+            setStudentInput(String(students));
+        }
+    }, [students, isStudentFocused]);
+
+    const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value.replace(/\D/g, "");
+        setTargetInput(raw);
+        const num = parseInt(raw, 10);
+        if (!isNaN(num)) {
+            setTargetProfit(num);
+        } else {
+            setTargetProfit(0);
+        }
+    };
+
+    const handleTargetBlur = () => {
+        setIsTargetFocused(false);
+        let num = parseInt(targetInput.replace(/\D/g, ""), 10);
+        if (isNaN(num) || num <= 0) {
+            num = 1;
+        }
+        setTargetProfit(num);
+        setTargetInput(num.toLocaleString());
+    };
+
+    const handleStudentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value.replace(/\D/g, "");
+        setStudentInput(raw);
+        const num = parseInt(raw, 10);
+        if (!isNaN(num)) {
+            setStudents(num);
+        } else {
+            setStudents(0);
+        }
+    };
+
+    const handleStudentBlur = () => {
+        setIsStudentFocused(false);
+        let num = parseInt(studentInput.replace(/\D/g, ""), 10);
+        if (isNaN(num) || num <= 0) {
+            num = 1;
+        }
+        setStudents(num);
+        setStudentInput(String(num));
+    };
+
     return (
         <div className="mx-auto w-full max-w-4xl">
             <div className="rounded-3xl bg-white p-5 sm:p-8 shadow-xl">
@@ -23,21 +81,37 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                             <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">TARGET PROFIT (SEK)</h3>
 
-                            <span className="text-2xl sm:text-3xl font-bold text-[#7C5800]">
-                                {targetProfit.toLocaleString()} <span className="text-xs sm:text-sm font-normal">kr</span>
-                            </span>
+                            <div 
+                                className="flex items-center gap-1 cursor-text"
+                                title="Click to type custom target profit"
+                            >
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    value={isTargetFocused ? targetInput : targetProfit.toLocaleString()}
+                                    onFocus={() => {
+                                        setIsTargetFocused(true);
+                                        setTargetInput(String(targetProfit));
+                                    }}
+                                    onBlur={handleTargetBlur}
+                                    onChange={handleTargetChange}
+                                    className="text-2xl sm:text-3xl font-bold text-[#7C5800] bg-transparent outline-none text-right transition-all min-w-16"
+                                    style={{ width: `${Math.max(1, (isTargetFocused ? targetInput : targetProfit.toLocaleString()).length) * 0.7}em` }}
+                                />
+                                <span className="text-xs sm:text-sm font-normal text-[#7C5800] shrink-0">kr</span>
+                            </div>
                         </div>
 
                         <input
                             type="range"
                             min={1}
                             max={80000}
-                            value={targetProfit}
+                            value={Math.min(targetProfit, 80000)}
                             onChange={(e) => setTargetProfit(Number(e.target.value))}
                             style={{
-                                background: `linear-gradient(to right, #EFAC02 ${(targetProfit / 80000) * 100}%, #E5E7EB ${(targetProfit / 80000) * 100}%)`,
+                                background: `linear-gradient(to right, #EFAC02 ${Math.min(100, (targetProfit / 80000) * 100)}%, #E5E7EB ${Math.min(100, (targetProfit / 80000) * 100)}%)`,
                             }}
-                            className="w-full h-2 rounded-full appearance-none outline-none    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4    [&::-webkit-slider-thumb]:h-4    [&::-webkit-slider-thumb]:rounded-full    [&::-webkit-slider-thumb]:bg-[#EFAC02]    [&::-webkit-slider-thumb]:shadow-md"
+                            className="w-full h-2 rounded-full appearance-none outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#EFAC02] [&::-webkit-slider-thumb]:shadow-md cursor-pointer"
                         />
 
                         <div className="mt-2 flex justify-between text-xs sm:text-sm text-[#837560]">
@@ -52,21 +126,37 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                             <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">NUMBER OF STUDENTS</h3>
 
-                            <span className="text-2xl sm:text-3xl font-bold text-[#7C5800]">
-                                {students} <span className="text-xs sm:text-sm font-normal">members</span>
-                            </span>
+                            <div 
+                                className="flex items-center gap-1 cursor-text"
+                                title="Click to type number of members"
+                            >
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    value={isStudentFocused ? studentInput : String(students)}
+                                    onFocus={() => {
+                                        setIsStudentFocused(true);
+                                        setStudentInput(String(students));
+                                    }}
+                                    onBlur={handleStudentBlur}
+                                    onChange={handleStudentChange}
+                                    className="text-2xl sm:text-3xl font-bold text-[#7C5800] bg-transparent outline-none text-right transition-all min-w-8"
+                                    style={{ width: `${Math.max(1, (isStudentFocused ? studentInput : String(students)).length) * 0.7}em` }}
+                                />
+                                <span className="text-xs sm:text-sm font-normal text-[#7C5800] shrink-0">members</span>
+                            </div>
                         </div>
 
                         <input
                             type="range"
                             min={1}
                             max={80}
-                            value={students}
+                            value={Math.min(students, 80)}
                             onChange={(e) => setStudents(Number(e.target.value))}
                             style={{
-                                background: `linear-gradient(to right, #7C5800 ${(students / 80) * 100}%, #E5E7EB ${(students / 80) * 100}%)`,
+                                background: `linear-gradient(to right, #7C5800 ${Math.min(100, (students / 80) * 100)}%, #E5E7EB ${Math.min(100, (students / 80) * 100)}%)`,
                             }}
-                            className="w-full h-2 rounded-full appearance-none outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4  [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#7C5800] [&::-webkit-slider-thumb]:shadow-md"
+                            className="w-full h-2 rounded-full appearance-none outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#7C5800] [&::-webkit-slider-thumb]:shadow-md cursor-pointer"
                         />
 
                         <div className="mt-2 flex justify-between text-xs sm:text-sm text-[#837560]">
