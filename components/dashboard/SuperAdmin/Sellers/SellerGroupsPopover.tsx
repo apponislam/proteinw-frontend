@@ -10,13 +10,7 @@ interface SellerGroupsPopoverProps {
     onClose: () => void;
 }
 
-export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({
-    groups,
-    viewportTop,
-    viewportBottom,
-    left,
-    onClose,
-}) => {
+export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({ groups, viewportTop, viewportBottom, left, onClose }) => {
     if (typeof window === "undefined") return null;
 
     const screenWidth = window.innerWidth;
@@ -44,14 +38,8 @@ export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({
 
     return createPortal(
         <>
-            <div className="fixed inset-0 z-[9998]" onClick={onClose} />
-            <div
-                style={popoverStyle}
-                onMouseLeave={onClose}
-                className={`z-[9999] bg-white rounded-2xl shadow-2xl border border-stone-200 p-3.5 animate-in fade-in ${
-                    opensUpward ? "slide-in-from-bottom-2" : "zoom-in-95"
-                } duration-150`}
-            >
+            <div className="fixed inset-0 z-9998" onClick={onClose} />
+            <div style={popoverStyle} onMouseLeave={onClose} className={`z-9999 bg-white rounded-2xl shadow-2xl border border-stone-200 p-3.5 animate-in fade-in ${opensUpward ? "slide-in-from-bottom-2" : "zoom-in-95"} duration-150`}>
                 <div className="flex items-center gap-1.5 pb-2 border-b border-stone-100 mb-2">
                     <Users size={14} className="text-[#D97706]" />
                     <span className="text-xs font-bold text-[#1A1C1C]">Assigned Groups</span>
@@ -66,6 +54,6 @@ export const SellerGroupsPopover: React.FC<SellerGroupsPopoverProps> = ({
                 </div>
             </div>
         </>,
-        document.body
+        document.body,
     );
 };
