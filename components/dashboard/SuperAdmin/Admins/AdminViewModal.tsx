@@ -35,7 +35,9 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                         <h2 className="text-xl font-bold text-[#1A1C1C]">{admin.name}</h2>
                         <div className="flex items-center gap-2 mt-1">
                             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">ADMIN</span>
-                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved || admin.isActive ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}>{admin.isApproved || admin.isActive ? "Approved" : "Pending Approval"}</span>
+                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved === true ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                                {admin.isApproved === true ? "Approved" : "Not Approved"}
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -100,7 +100,7 @@ const AdminList = () => {
                             </tr>
                         ) : (
                             admins.map((admin, index) => {
-                                const isApproved = admin.isApproved === true || (admin.isApproved === undefined && admin.isActive);
+                                const isApproved = admin.isApproved === true;
                                 const isThisApproving = approvingId === admin._id;
                                 const isLastRow = index >= admins.length - 2;
 
