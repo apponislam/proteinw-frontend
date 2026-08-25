@@ -58,24 +58,31 @@ export type TAsSellerCampaignInfo = {
     shopUrl: string;
 };
 
+export type TSalesLinkItem = {
+    name?: string;
+    link: string;
+};
+
 export type TSellerListItem = {
     _id: string;
     name: string;
     email: string;
-    group: string;
+    group?: string;
+    groups?: string[];
     orders: number;
     packages: number;
     status: string;
-    salesLink: string;
+    salesLink?: string;
+    salesLinks?: (string | TSalesLinkItem)[];
     code: string;
-    groupDetails: {
+    groupDetails?: {
         _id: string;
         name: string;
         code: string;
         goal: number;
         endDate: string;
     } | null;
-    campaignDetails: {
+    campaignDetails?: {
         _id: string;
         name: string;
         code: string;

@@ -1,19 +1,10 @@
 import React, { useState } from "react";
-import { useGetSuperAdminSellersQuery, TSellerListItem } from "@/redux/features/dashboard/dashboardApi";
-import { Check, Copy } from "lucide-react";
+import { useGetSuperAdminSellersQuery, TSellerListItem, TSalesLinkItem } from "@/redux/features/dashboard/dashboardApi";
 import Pagination from "@/components/dashboard/Pagination";
 import { SellerDetailsModal } from "./SellerDetailsModal";
-
-const getStatusColor = (status: string) => {
-    switch (status) {
-        case "Active":
-            return "bg-green-100 text-green-800";
-        case "Inactive":
-            return "bg-gray-100 text-gray-800";
-        default:
-            return "bg-gray-100 text-gray-800";
-    }
-};
+import { SalesLinksModal } from "./SalesLinksModal";
+import { SellerGroupsPopover } from "./SellerGroupsPopover";
+import { SellerTableRow } from "./SellerTableRow";
 
 const SellersTable = () => {
     const [page, setPage] = useState(1);
@@ -32,11 +23,54 @@ const SellersTable = () => {
     const [selectedSeller, setSelectedSeller] = useState<TSellerListItem | null>(null);
     const [copiedId, setCopiedId] = useState<string | null>(null);
 
+    // Sales links modal state
+    const [linksModalSeller, setLinksModalSeller] = useState<{
+        name: string;
+        email: string;
+        links: TSalesLinkItem[];
+    } | null>(null);
+
+    // Popover portal state
+    const [popoverData, setPopoverData] = useState<{
+        sellerId: string;
+        groups: string[];
+        viewportTop: number;
+        viewportBottom: number;
+        left: number;
+    } | null>(null);
+
     const handleCopy = (id: string, link: string) => {
         if (!link || link === "N/A") return;
         navigator.clipboard.writeText(link);
         setCopiedId(id);
         setTimeout(() => setCopiedId(null), 2000);
+    };
+
+    const handleOpenGroups = (sellerId: string, groups: string[], e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+        if (popoverData?.sellerId === sellerId) {
+            setPopoverData(null);
+            return;
+        }
+        const rect = e.currentTarget.getBoundingClientRect();
+        setPopoverData({
+            sellerId,
+            groups,
+            viewportTop: rect.top,
+            viewportBottom: window.innerHeight - rect.bottom,
+            left: rect.left,
+        });
+    };
+
+    const handleMouseEnterGroups = (sellerId: string, groups: string[], e: React.MouseEvent<HTMLElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setPopoverData({
+            sellerId,
+            groups,
+            viewportTop: rect.top,
+            viewportBottom: window.innerHeight - rect.bottom,
+            left: rect.left,
+        });
     };
 
     return (
@@ -69,47 +103,16 @@ const SellersTable = () => {
                         </thead>
                         <tbody>
                             {sellers.map((seller) => (
-                                <tr key={seller._id} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200">
-                                    <td className="px-4 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <span className="w-10 h-10 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">{seller.code}</span>
-                                            <div>
-                                                <div className="text-[#1A1C1C] font-medium">{seller.name}</div>
-                                                <div className="text-[#78716C] text-sm">{seller.email}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-4 text-[#1A1C1C] font-medium">{seller.group}</td>
-                                    <td className="px-4 py-4 text-[#1A1C1C] font-medium">{seller.orders}</td>
-                                    <td className="px-4 py-4 text-[#1A1C1C] font-medium">{seller.packages}</td>
-                                    <td className="px-4 py-4">
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(seller.status)}`}>{seller.status}</span>
-                                    </td>
-                                    <td className="px-4 py-4">
-                                        {seller.salesLink === "N/A" ? (
-                                            <span className="text-gray-400 text-sm">N/A</span>
-                                        ) : (
-                                            <button onClick={() => handleCopy(seller._id, seller.salesLink)} className="flex items-center gap-1.5 text-[#D97706] hover:text-[#7C5800] transition-colors font-medium text-sm cursor-pointer">
-                                                {copiedId === seller._id ? (
-                                                    <>
-                                                        <Check size={14} className="text-green-600" />
-                                                        <span className="text-green-600">Copied!</span>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Copy size={14} />
-                                                        <span>Copy Link</span>
-                                                    </>
-                                                )}
-                                            </button>
-                                        )}
-                                    </td>
-                                    <td className="px-4 py-4">
-                                        <button onClick={() => setSelectedSeller(seller)} className="text-[#D97706] hover:underline text-sm font-semibold cursor-pointer">
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
+                                <SellerTableRow
+                                    key={seller._id}
+                                    seller={seller}
+                                    copiedId={copiedId}
+                                    onCopy={handleCopy}
+                                    onOpenGroups={handleOpenGroups}
+                                    onMouseEnterGroups={handleMouseEnterGroups}
+                                    onOpenLinksModal={(name, email, links) => setLinksModalSeller({ name, email, links })}
+                                    onViewSeller={setSelectedSeller}
+                                />
                             ))}
                         </tbody>
                     </table>
@@ -119,8 +122,29 @@ const SellersTable = () => {
             {/* Pagination Component */}
             <Pagination meta={meta} onPageChange={setPage} itemName="SELLERS" />
 
-            {/* View Modal */}
+            {/* View Details Modal */}
             {selectedSeller && <SellerDetailsModal seller={selectedSeller} onClose={() => setSelectedSeller(null)} />}
+
+            {/* All Sales Links Modal */}
+            {linksModalSeller && (
+                <SalesLinksModal
+                    sellerName={linksModalSeller.name}
+                    sellerEmail={linksModalSeller.email}
+                    links={linksModalSeller.links}
+                    onClose={() => setLinksModalSeller(null)}
+                />
+            )}
+
+            {/* Top-Level Portal Popover */}
+            {popoverData && (
+                <SellerGroupsPopover
+                    groups={popoverData.groups}
+                    viewportTop={popoverData.viewportTop}
+                    viewportBottom={popoverData.viewportBottom}
+                    left={popoverData.left}
+                    onClose={() => setPopoverData(null)}
+                />
+            )}
         </div>
     );
 };
