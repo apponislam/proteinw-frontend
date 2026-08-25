@@ -21,7 +21,6 @@ const sellerRegisterSchema = z.object({
     password: z.string().min(8, "Password must be at least 8 characters"),
     code: z.string().optional(),
     terms: z.boolean().refine((val) => val === true, "You must agree to the terms"),
-    age: z.boolean().refine((val) => val === true, "You must be 18+"),
 });
 
 type SellerRegisterFormValues = z.infer<typeof sellerRegisterSchema>;
@@ -82,7 +81,6 @@ const RegisterSellerForm = () => {
             password: "",
             code: codeParam || "",
             terms: false,
-            age: false,
         },
     });
 
@@ -209,27 +207,6 @@ const RegisterSellerForm = () => {
                                     )}
                                 />
                                 {errors.terms && <p className="text-red-500 text-xs">{errors.terms.message}</p>}
-
-                                <Controller
-                                    name="age"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <label className="flex items-start gap-3 cursor-pointer">
-                                            <div className="relative shrink-0 mt-0.5">
-                                                <input type="checkbox" className="sr-only peer" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
-                                                <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#7C5800] peer-checked:bg-[#7C5800] flex items-center justify-center transition-all">
-                                                    {field.value && (
-                                                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <span className="text-sm text-gray-700 flex-1">I confirm that I am 18 years of age or older.</span>
-                                        </label>
-                                    )}
-                                />
-                                {errors.age && <p className="text-red-500 text-xs">{errors.age.message}</p>}
                             </div>
 
                             {/* Submit Button */}
