@@ -21,7 +21,7 @@ export function MakeDifference() {
                                 <button className="w-full sm:w-auto bg-white text-[#7C5800] font-bold px-8 py-4 rounded-full transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">Contact Us</button>
                             </Link>
                             <Link href="/sell-with-us" className="w-full sm:w-auto">
-                                <button className="w-full sm:w-auto border-2 border-white/60 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white hover:-translate-y-0.5 cursor-pointer">Our Success Stories</button>
+                                <button className="w-full sm:w-auto border-2 border-white/60 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white hover:-translate-y-0.5 cursor-pointer">Sell with us</button>
                             </Link>
                         </div>
                     </div>
