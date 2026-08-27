@@ -235,14 +235,3 @@ npm run dev  # next dev -H 0.0.0.0 -p 3030
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-For support, contact:
-
-- Email: hello@nordicarchive.fund
-- Phone: +46 (0) 8 123 45 67
-
----
-
-**Built with ❤️ for Nordic fundraising**

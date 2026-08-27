@@ -10,12 +10,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-const SUBJECT_OPTIONS = [
-    "Teknisk support",
-    "Frågor om produkten",
-    "Retur och/eller reklamation",
-    "Övriga frågor",
-];
+const SUBJECT_OPTIONS = ["Teknisk support", "Frågor om produkten", "Retur och/eller reklamation", "Övriga frågor"];
 
 const supportFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -176,9 +171,7 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                                 errors.subject ? "border-red-500 ring-2 ring-red-500/20" : isSubjectOpen ? "border-[#EFAC02] ring-2 ring-[#EFAC02]/20 bg-white" : "border-transparent hover:border-gray-200"
                                             }`}
                                         >
-                                            <span className={field.value ? "text-[#514532] font-medium" : "text-[#514532]/60"}>
-                                                {field.value || "Choose a topic from the list"}
-                                            </span>
+                                            <span className={field.value ? "text-[#514532] font-medium" : "text-[#514532]/60"}>{field.value || "Choose a topic from the list"}</span>
                                             <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 shrink-0 ${isSubjectOpen ? "rotate-180 text-[#7C5800]" : ""}`} />
                                         </div>
 
@@ -255,8 +248,8 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                         </div>
                         <div>
                             <p className="font-bold text-xs sm:text-base text-[#1A1C1C]">Support Email</p>
-                            <Link href="mailto:hello@nordicarchive.fund" className="text-xs sm:text-sm text-[#514532] hover:text-[#7C5800] hover:underline transition-colors block">
-                                hello@nordicarchive.fund
+                            <Link href="mailto:kungsbjörnen@outreachsales.se" className="text-xs sm:text-sm text-[#514532] hover:text-[#7C5800] hover:underline transition-colors block">
+                                kungsbjörnen@outreachsales.se
                             </Link>
                             <p className="text-[10px] sm:text-xs text-[#837560] mt-0.5 sm:mt-1">24/7 automated support, 12hr human response.</p>
                         </div>

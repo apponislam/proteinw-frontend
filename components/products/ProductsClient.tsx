@@ -76,7 +76,7 @@ const ProductsClient = () => {
                 <div className="mb-6 sm:mb-8">
                     <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">The Archive Collection</h1>
                     <p className="text-[#514532] text-sm sm:text-base">
-                        Curated high-quality products designed for community fundraising. <br className="hidden sm:block" /> Handpicked Scandinavian essentials that represent the NordicArchive spirit.
+                        Curated high-quality products designed for community fundraising. <br className="hidden sm:block" /> Handpicked Scandinavian essentials that represent the Kungsbjörnen spirit.
                     </p>
                 </div>
 
