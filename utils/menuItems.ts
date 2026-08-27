@@ -1,4 +1,4 @@
-import { Home, Users, Settings, BarChart3, Package, CreditCard, ShieldCheck, Store } from "lucide-react";
+import { Home, Users, Settings, BarChart3, Package, CreditCard, ShieldCheck, Store, Headphones } from "lucide-react";
 
 type MenuItem = {
     title: string;
@@ -16,6 +16,7 @@ const superAdminMenu: MenuItem[] = [
     { title: "Campaigns", url: "/dashboard/campaigns", icon: BarChart3 },
     { title: "Profit Rules", url: "/dashboard/profit-rules", icon: Settings },
     { title: "Policy Center", url: "/dashboard/policy-center", icon: ShieldCheck },
+    { title: "Customer Service", url: "/dashboard/customer-service", icon: Headphones },
 ];
 
 const sellerAdminMenu: MenuItem[] = [
