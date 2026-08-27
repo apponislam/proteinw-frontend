@@ -157,7 +157,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                         </thead>
                         <tbody className="divide-y divide-[#E7E5E4] text-sm text-[#1A1C1C]">
                             {ordersList.map((order, index) => {
-                                const orderIdStr = `#ORD-${order._id?.slice(-8).toUpperCase()}`;
+                                const orderIdStr = `#${order._id}`;
                                 const sellerName = (order.memberId as any)?.name || "Guest / Direct";
                                 const sellerInitials = getInitials(sellerName);
                                 const productNames = order.items.map((i) => i.productName).join(", ");
@@ -165,7 +165,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
 
                                 return (
                                     <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="hover:bg-[#FCFBFA] transition-colors whitespace-nowrap cursor-pointer">
-                                        <td className="py-3.5 px-4 font-bold text-[#D97706]">{orderIdStr}</td>
+                                        <td className="py-3.5 px-4 font-semibold text-xs text-[#D97706] whitespace-nowrap">{orderIdStr}</td>
                                         <td className="py-3.5 px-4">
                                             <div className="flex items-center gap-2.5">
                                                 <span className="w-7 h-7 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-xs shrink-0">{sellerInitials}</span>
@@ -216,8 +216,9 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                             <X size={20} />
                         </button>
 
-                        <h3 className="text-xl font-bold text-gray-900 mb-6">
-                            Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
+                        <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-6 flex flex-wrap items-center gap-1.5">
+                            <span>Order Details -</span>
+                            <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all">#{activeSelectedOrder._id}</span>
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

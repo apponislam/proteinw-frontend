@@ -133,7 +133,7 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                     {/* Mobile & Tablet Cards View (< md) */}
                     <div className="block md:hidden space-y-3">
                         {ordersList.map((order, index) => {
-                            const orderIdStr = `#ORD-${order._id?.slice(-8).toUpperCase()}`;
+                            const orderIdStr = `#${order._id}`;
                             const sellerName = (order.memberId as any)?.name || "Guest / Direct";
                             const sellerInitials = getInitials(sellerName);
                             const groupName = (order.groupId as any)?.name || "N/A";
@@ -202,7 +202,7 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                             </thead>
                             <tbody>
                                 {ordersList.map((order, index) => {
-                                    const orderIdStr = `#ORD-${order._id?.slice(-8).toUpperCase()}`;
+                                    const orderIdStr = `#${order._id}`;
                                     const sellerName = (order.memberId as any)?.name || "Guest / Direct";
                                     const sellerInitials = getInitials(sellerName);
                                     const groupName = (order.groupId as any)?.name || "N/A";
@@ -212,7 +212,7 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                                     return (
                                         <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200 cursor-pointer">
                                             <td className="px-4 py-4">
-                                                <span className="text-[#D97706] font-bold">{orderIdStr}</span>
+                                                <span className="text-[#D97706] font-semibold text-xs whitespace-nowrap">{orderIdStr}</span>
                                             </td>
                                             <td className="px-4 py-4">
                                                 <div className="flex items-center gap-3">
@@ -256,8 +256,9 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                         </button>
 
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 mb-6 pr-8">
-                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 break-all">
-                                Order Details - <span className="text-[#D97706]">#ORD-{activeSelectedOrder._id?.slice(-8).toUpperCase()}</span>
+                            <h3 className="text-base sm:text-xl font-bold text-gray-900 break-all flex flex-wrap items-center gap-1.5">
+                                <span>Order Details -</span>
+                                <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all">#{activeSelectedOrder._id}</span>
                             </h3>
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
                         </div>
