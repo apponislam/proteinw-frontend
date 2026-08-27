@@ -241,7 +241,7 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                 </div>
 
                 {/* Support Info */}
-                <div className="mt-8 sm:mt-12 space-y-5 sm:space-y-6">
+                {/* <div className="mt-8 sm:mt-12 space-y-5 sm:space-y-6">
                     <div className="flex items-start gap-4 sm:gap-6">
                         <div className="bg-[#FFDEA8] text-[#271900] w-10 h-10 flex items-center justify-center rounded-full shrink-0">
                             <Mail className="w-4 h-4" />
@@ -265,6 +265,30 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 +46 (0) 8 123 45 67
                             </Link>
                             <p className="text-[10px] sm:text-xs text-[#837560] mt-0.5 sm:mt-1">Mon–Fri, 9am – 5pm CET</p>
+                        </div>
+                    </div>
+                </div> */}
+
+                <div className="mt-8 sm:mt-12 space-y-5 sm:space-y-6">
+                    <div className="flex items-center gap-4 sm:gap-6">
+                        <div className="bg-[#FFDEA8] text-[#271900] w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+                            <Mail className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <Link href="mailto:kungsbjörnen@outreachsales.se" className="text-xs sm:text-sm text-[#514532] hover:text-[#7C5800] hover:underline transition-colors block">
+                                kungsbjörnen@outreachsales.se
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 sm:gap-6">
+                        <div className="bg-[#FFDEA8] text-[#271900] w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+                            <Phone className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <Link href="tel:+000000000" className="text-xs sm:text-sm text-[#514532] hover:text-[#7C5800] hover:underline transition-colors block">
+                                +000000000
+                            </Link>
                         </div>
                     </div>
                 </div>
