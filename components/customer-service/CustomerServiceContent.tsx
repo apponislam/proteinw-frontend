@@ -233,7 +233,7 @@ export default function CustomerServiceContent() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label className="text-xs font-semibold text-gray-700 mb-1.5 block uppercase tracking-wider">Ordernummer *</label>
-                                <input type="text" required placeholder="t.ex. ORD-10294" className="w-full bg-[#F8F8F8] border border-stone-200 rounded-xl px-4 h-11 text-xs sm:text-sm text-[#1C1917] outline-none focus:ring-2 focus:ring-[#EFAC02]" />
+                                <input type="text" required placeholder="t.ex. 66e5f8a2c1b23d4e5f67890a" className="w-full bg-[#F8F8F8] border border-stone-200 rounded-xl px-4 h-11 text-xs sm:text-sm text-[#1C1917] outline-none focus:ring-2 focus:ring-[#EFAC02]" />
                             </div>
                             <div>
                                 <label className="text-xs font-semibold text-gray-700 mb-1.5 block uppercase tracking-wider">Namn *</label>
