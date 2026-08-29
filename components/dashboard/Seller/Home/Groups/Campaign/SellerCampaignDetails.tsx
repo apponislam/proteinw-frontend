@@ -5,7 +5,7 @@ import { TCampaign } from "@/redux/features/campaign/campaignApi";
 import { ArrowLeft, User, Mail, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CampaignMetricsGrid from "./CampaignMetricsGrid";
-import CampaignOrdersList from "@/components/dashboard/SuperAdmin/Campaigns/CardDetails/CampaignOrdersList";
+import SellerCampaignOrdersList from "./SellerCampaignOrdersList";
 
 interface SellerCampaignDetailsProps {
     campaign: TCampaign;
@@ -91,7 +91,7 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign 
             <div className="space-y-4">
                 <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Orders</h3>
                 <div className="bg-white rounded-xl border border-[#E7E5E4] shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
-                    <CampaignOrdersList campaignId={campaignId} />
+                    <SellerCampaignOrdersList campaignId={campaignId} />
                 </div>
             </div>
         </div>
