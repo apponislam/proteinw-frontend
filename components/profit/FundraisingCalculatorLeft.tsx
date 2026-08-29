@@ -32,11 +32,18 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
 
     const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value.replace(/\D/g, "");
-        setTargetInput(raw);
+        if (!raw) {
+            setTargetInput("");
+            setTargetProfit(0);
+            return;
+        }
         const num = parseInt(raw, 10);
         if (!isNaN(num)) {
-            setTargetProfit(num);
+            const capped = Math.min(num, 80000);
+            setTargetInput(String(capped));
+            setTargetProfit(capped);
         } else {
+            setTargetInput("");
             setTargetProfit(0);
         }
     };
@@ -47,17 +54,27 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
         if (isNaN(num) || num <= 0) {
             num = 1;
         }
+        if (num > 80000) {
+            num = 80000;
+        }
         setTargetProfit(num);
         setTargetInput(num.toLocaleString());
     };
 
     const handleStudentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value.replace(/\D/g, "");
-        setStudentInput(raw);
+        if (!raw) {
+            setStudentInput("");
+            setStudents(0);
+            return;
+        }
         const num = parseInt(raw, 10);
         if (!isNaN(num)) {
-            setStudents(num);
+            const capped = Math.min(num, 80);
+            setStudentInput(String(capped));
+            setStudents(capped);
         } else {
+            setStudentInput("");
             setStudents(0);
         }
     };
@@ -67,6 +84,9 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
         let num = parseInt(studentInput.replace(/\D/g, ""), 10);
         if (isNaN(num) || num <= 0) {
             num = 1;
+        }
+        if (num > 80) {
+            num = 80;
         }
         setStudents(num);
         setStudentInput(String(num));
@@ -82,7 +102,7 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                             <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">TARGET PROFIT (SEK)</h3>
 
                             <div 
-                                className="flex items-center gap-1 cursor-text"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200/80 border border-gray-300 rounded-xl cursor-text transition-all focus-within:bg-white focus-within:border-[#EFAC02] focus-within:ring-2 focus-within:ring-[#EFAC02]/20"
                                 title="Click to type custom target profit"
                             >
                                 <input
@@ -98,7 +118,7 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                                     className="text-2xl sm:text-3xl font-bold text-[#7C5800] bg-transparent outline-none text-right transition-all min-w-16"
                                     style={{ width: `${Math.max(1, (isTargetFocused ? targetInput : targetProfit.toLocaleString()).length) * 0.7}em` }}
                                 />
-                                <span className="text-xs sm:text-sm font-normal text-[#7C5800] shrink-0">kr</span>
+                                <span className="text-xs sm:text-sm font-semibold text-[#7C5800] shrink-0">kr</span>
                             </div>
                         </div>
 
@@ -121,14 +141,14 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                         </div>
                     </div>
 
-                    {/* STUDENTS */}
+                    {/* SELLERS */}
                     <div>
                         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                            <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">NUMBER OF STUDENTS</h3>
+                            <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">NUMBER OF SELLERS</h3>
 
                             <div 
-                                className="flex items-center gap-1 cursor-text"
-                                title="Click to type number of members"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200/80 border border-gray-300 rounded-xl cursor-text transition-all focus-within:bg-white focus-within:border-[#7C5800] focus-within:ring-2 focus-within:ring-[#7C5800]/20"
+                                title="Click to type number of sellers"
                             >
                                 <input
                                     type="text"
@@ -143,7 +163,7 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                                     className="text-2xl sm:text-3xl font-bold text-[#7C5800] bg-transparent outline-none text-right transition-all min-w-8"
                                     style={{ width: `${Math.max(1, (isStudentFocused ? studentInput : String(students)).length) * 0.7}em` }}
                                 />
-                                <span className="text-xs sm:text-sm font-normal text-[#7C5800] shrink-0">members</span>
+                                <span className="text-xs sm:text-sm font-semibold text-[#7C5800] shrink-0">sellers</span>
                             </div>
                         </div>
 
