@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { useGetAsSellerCampaignInfoQuery } from "@/redux/features/dashboard/dashboardApi";
 import Image from "next/image";
+import { Printer } from "lucide-react";
+import SellerA4QrPrintModal from "./SellerA4QrPrintModal";
 
 interface SellerEmptyOrdersProps {
     campaignId?: string;
@@ -11,6 +13,7 @@ interface SellerEmptyOrdersProps {
 const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => {
     const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || undefined);
     const [copied, setCopied] = useState(false);
+    const [showPrintModal, setShowPrintModal] = useState(false);
 
     const infoData = campaignInfoResponse?.data;
     const shopLink = infoData?.shopUrl || "";
@@ -24,9 +27,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
 
     const handleShareSocials = () => {
         const shareTitle = infoData?.name ? `Support ${infoData.name}` : "Support my Fundraiser";
-        const shareText = infoData?.shortDescription
-            ? `${infoData.shortDescription} — Buy delicious products from my shop link to support our fundraiser!`
-            : "Buy delicious products from my shop link to support our fundraiser!";
+        const shareText = infoData?.shortDescription ? `${infoData.shortDescription} — Buy delicious products from my shop link to support our fundraiser!` : "Buy delicious products from my shop link to support our fundraiser!";
 
         if (navigator.share && shopLink) {
             navigator
@@ -50,12 +51,10 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
                     <div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-[#D97706] text-xs font-bold mb-4">★ Start Your Campaign</div>
                         <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-4">No orders yet!</h2>
-                        <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">
-                            Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for the {infoData?.name || "active"} fundraiser.
-                        </p>
+                        <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for the {infoData?.name || "active"} fundraiser.</p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 pt-6  justify-start items-center">
+                    <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-start items-center">
                         <button
                             type="button"
                             onClick={handleCopyLink}
@@ -94,21 +93,32 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
                 <div className="lg:w-100 shrink-0 bg-[#F3F3F3] rounded-xl p-6 flex flex-col items-center justify-center text-center border border-stone-200/80">
                     <div className="mb-3 w-40 h-40 flex items-center justify-center bg-white rounded-md p-2 shadow-xs">
                         {shopLink ? (
-                            <img
-                                key={shopLink}
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shopLink)}`}
-                                alt="Scan to shop QR code"
-                                width={160}
-                                height={160}
-                                className="w-full h-full object-contain rounded-md"
-                            />
+                            <img key={shopLink} src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shopLink)}`} alt="Scan to shop QR code" width={160} height={160} className="w-full h-full object-contain rounded-md" />
                         ) : (
                             <div className="text-xs text-stone-400 text-center">Loading QR code...</div>
                         )}
                     </div>
-                    <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase">SCAN TO SHOP</h3>
+                    <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase mb-3">SCAN TO SHOP</h3>
+                    {shopLink && (
+                        <button
+                            type="button"
+                            onClick={() => setShowPrintModal(true)}
+                            className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-all cursor-pointer shadow-xs active:scale-95"
+                        >
+                            <Printer size={14} />
+                            <span>Print A4 Sheet</span>
+                        </button>
+                    )}
                 </div>
             </div>
+
+            {/* A4 Print Modal */}
+            <SellerA4QrPrintModal
+                isOpen={showPrintModal}
+                onClose={() => setShowPrintModal(false)}
+                shopLink={shopLink}
+                campaignName={infoData?.name}
+            />
 
             {/* Bottom 3 Cards Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

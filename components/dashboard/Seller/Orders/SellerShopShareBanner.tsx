@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { useGetAsSellerCampaignInfoQuery } from "@/redux/features/dashboard/dashboardApi";
-import { Copy, Share2, QrCode, Check } from "lucide-react";
+import { Copy, Share2, QrCode, Check, Printer } from "lucide-react";
+import SellerA4QrPrintModal from "./SellerA4QrPrintModal";
 
 interface SellerShopShareBannerProps {
     campaignId?: string;
@@ -12,6 +13,7 @@ const SellerShopShareBanner: React.FC<SellerShopShareBannerProps> = ({ campaignI
     const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || undefined);
     const [copied, setCopied] = useState(false);
     const [showQrModal, setShowQrModal] = useState(false);
+    const [showPrintModal, setShowPrintModal] = useState(false);
 
     const infoData = campaignInfoResponse?.data;
     const shopLink = infoData?.shopUrl || "";
@@ -78,15 +80,27 @@ const SellerShopShareBanner: React.FC<SellerShopShareBannerProps> = ({ campaignI
                     </button>
 
                     {shopLink && (
-                        <button
-                            type="button"
-                            onClick={() => setShowQrModal(true)}
-                            className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-xl text-xs border border-stone-700 transition-all cursor-pointer active:scale-95"
-                            title="Show QR Code"
-                        >
-                            <QrCode size={15} />
-                            <span className="truncate">QR Code</span>
-                        </button>
+                        <>
+                            <button
+                                type="button"
+                                onClick={() => setShowQrModal(true)}
+                                className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold rounded-xl text-xs border border-stone-700 transition-all cursor-pointer active:scale-95"
+                                title="Show QR Code"
+                            >
+                                <QrCode size={15} />
+                                <span className="truncate">QR Code</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => setShowPrintModal(true)}
+                                className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold rounded-xl text-xs border border-amber-500/40 transition-all cursor-pointer active:scale-95"
+                                title="Print A4 QR Flyer"
+                            >
+                                <Printer size={15} />
+                                <span className="truncate">Print A4 Sheet</span>
+                            </button>
+                        </>
                     )}
                 </div>
             </div>
@@ -100,12 +114,33 @@ const SellerShopShareBanner: React.FC<SellerShopShareBannerProps> = ({ campaignI
                         <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl mb-5">
                             <img src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(shopLink)}`} alt="Scan to shop QR code" className="w-48 h-48 object-contain rounded-md" />
                         </div>
-                        <button type="button" onClick={() => setShowQrModal(false)} className="w-full py-2.5 bg-stone-100 hover:bg-stone-200 text-[#1A1C1C] text-xs font-bold rounded-xl transition-all cursor-pointer">
-                            Close
-                        </button>
+                        <div className="flex flex-col gap-2 w-full">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowQrModal(false);
+                                    setShowPrintModal(true);
+                                }}
+                                className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
+                            >
+                                <Printer size={15} />
+                                <span>Print A4 QR Flyer</span>
+                            </button>
+                            <button type="button" onClick={() => setShowQrModal(false)} className="w-full py-2 bg-stone-100 hover:bg-stone-200 text-[#1A1C1C] text-xs font-bold rounded-xl transition-all cursor-pointer">
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
+
+            {/* A4 Print Modal */}
+            <SellerA4QrPrintModal
+                isOpen={showPrintModal}
+                onClose={() => setShowPrintModal(false)}
+                shopLink={shopLink}
+                campaignName={infoData?.name}
+            />
         </>
     );
 };
