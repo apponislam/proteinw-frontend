@@ -12,15 +12,15 @@ type StoreProductCardProps = {
     price: string;
     rawPrice: number;
     description: string;
-    adminName?: string;
+    sellerName?: string;
 };
 
-const StoreProductCard = ({ productId, image, title, price, rawPrice, description, adminName = "Martin" }: StoreProductCardProps) => {
+const StoreProductCard = ({ productId, image, title, price, rawPrice, description, sellerName = "Unknown" }: StoreProductCardProps) => {
     const dispatch = useAppDispatch();
     const cartItem = useAppSelector((state) => state.cart.items.find((item) => item.productId === productId));
     const quantity = cartItem ? cartItem.quantity : 0;
 
-    const firstName = adminName.split(" ")[0];
+    const firstName = sellerName && sellerName !== "Unknown" ? sellerName.split(" ")[0] : "Seller";
 
     const handleIncrement = () => {
         dispatch(updateQuantity({ productId, quantity: quantity + 1, price: rawPrice, name: title }));

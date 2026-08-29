@@ -21,9 +21,9 @@ const StoreOrderContent = () => {
 
     const [createOrder, { isLoading }] = useCreateOrderMutation();
 
-    const adminName = storeInfo?.validation ? storeInfo.adminName : "Martin Andersson";
-    const campaignName = storeInfo?.validation ? storeInfo.campaignName : "Class 9B's graduation trip";
-    const firstName = adminName ? adminName.split(" ")[0] : "Martin";
+    const sellerName = storeInfo?.validation ? storeInfo.sellerName : "Unknown";
+    const campaignName = storeInfo?.validation ? storeInfo.campaignName : "Unknown";
+    const firstName = sellerName && sellerName !== "Unknown" ? sellerName.split(" ")[0] : "Unknown";
 
     const [formData, setFormData] = useState({
         fullName: "",

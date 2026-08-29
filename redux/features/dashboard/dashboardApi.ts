@@ -28,6 +28,7 @@ export type TDashboardStatus = {
 
 export type TStoreInfo = {
     validation: boolean;
+    sellerName?: string;
     adminName?: string;
     groupName?: string;
     campaignName?: string;

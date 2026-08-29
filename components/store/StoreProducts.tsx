@@ -37,8 +37,8 @@ const StoreProductsContent = () => {
         }
     }, [campaignProductsData]);
 
-    const adminName = storeInfo?.validation ? storeInfo.adminName : "Martin Andersson";
-    const firstName = adminName?.split(" ")[0];
+    const sellerName = storeInfo?.validation ? storeInfo.sellerName : "Unknown";
+    const firstName = sellerName && sellerName !== "Unknown" ? sellerName.split(" ")[0] : "Unknown";
 
     const totalCount = storeInfo?.campaignProductCount ?? allProducts.length;
     const hasNext = campaignProductsData?.meta?.hasNext || false;
@@ -72,7 +72,7 @@ const StoreProductsContent = () => {
                                 price={`${product.price} SEK`}
                                 rawPrice={product.price}
                                 description={product.shortDescription}
-                                adminName={adminName}
+                                sellerName={sellerName}
                             />
                         ))}
                     </div>
