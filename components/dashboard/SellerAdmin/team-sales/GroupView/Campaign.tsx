@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Store, Calendar, Award, Pencil, Loader2, Plus } from "lucide-react";
+import { Store, Calendar, Pencil, Loader2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useGetGroupByIdQuery } from "@/redux/features/group/groupApi";
+// import { useGetGroupByIdQuery } from "@/redux/features/group/groupApi";
 import { TCampaign, useGetCampaignsByGroupQuery, useUpdateCampaignMutation } from "@/redux/features/campaign/campaignApi";
 import { CreateCampaignForm } from "./CreateCampaignForm";
 
@@ -15,7 +15,7 @@ interface CampaignProps {
 }
 
 export default function Campaign({ groupId }: CampaignProps) {
-    const { data: groupResponse } = useGetGroupByIdQuery(groupId);
+    // const { data: groupResponse } = useGetGroupByIdQuery(groupId);
     const { data: campaignResponse, isLoading } = useGetCampaignsByGroupQuery({ groupId });
     const [updateCampaign, { isLoading: isUpdating }] = useUpdateCampaignMutation();
 
@@ -28,20 +28,73 @@ export default function Campaign({ groupId }: CampaignProps) {
 
     const campaigns: TCampaign[] = campaignResponse?.data || [];
 
+    // 21-Day Date Constraints for HTML native date picker min/max
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 21);
+
+    const formatDateStr = (d: Date) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+
+    const todayStr = formatDateStr(today);
+    const maxDateStr = formatDateStr(maxDate);
+
     const handleSaveEdit = async (campaign: TCampaign) => {
         if (!campaign._id) return;
         if (!editName.trim() || !editDesc.trim()) {
             toast.error("Name and description cannot be empty");
             return;
         }
+        if (editTarget) {
+            const targetNum = Number(editTarget);
+            if (isNaN(targetNum) || targetNum <= 0) {
+                toast.error("Target goal must be a positive number");
+                return;
+            }
+            if (targetNum > 99999) {
+                toast.error("Target goal cannot exceed 99,999 SEK");
+                return;
+            }
+        }
+        if (editEndDate) {
+            const parts = editEndDate.split("-");
+            if (parts.length === 3) {
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                const day = parseInt(parts[2], 10);
+                const d = new Date(year, month, day);
+                const checkToday = new Date();
+                checkToday.setHours(0, 0, 0, 0);
+                const checkMax = new Date(checkToday);
+                checkMax.setDate(checkToday.getDate() + 21);
+                checkMax.setHours(23, 59, 59, 999);
+
+                if (d < checkToday || d > checkMax) {
+                    toast.error("End date must be between today and 21 days from today");
+                    return;
+                }
+            }
+        }
+
         const toastId = toast.loading("Updating campaign...");
         try {
             const updatePayload: Record<string, any> = {
                 name: editName,
                 shortDescription: editDesc,
             };
-            if (editTarget) updatePayload.target = Number(editTarget);
-            if (editEndDate) updatePayload.endDate = new Date(editEndDate);
+            if (editTarget) updatePayload.target = Math.min(Number(editTarget), 99999);
+            if (editEndDate) {
+                const parts = editEndDate.split("-");
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                const day = parseInt(parts[2], 10);
+                updatePayload.endDate = new Date(year, month, day, 23, 59, 59);
+            }
 
             await updateCampaign({
                 campaignId: campaign._id,
@@ -70,6 +123,8 @@ export default function Campaign({ groupId }: CampaignProps) {
                     {campaigns.map((campaign) => {
                         const isEditing = editingId === campaign._id;
                         const isCampaignActive = campaign.status === "ACTIVE";
+                        const statusUpper = (campaign.status || "").toUpperCase();
+                        const canEdit = statusUpper !== "FULFILMENT" && statusUpper !== "COMPLETED";
 
                         return (
                             <div key={campaign._id} className="bg-white p-4 sm:p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] flex flex-col justify-between h-full">
@@ -86,11 +141,38 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                     <div className="grid grid-cols-1 gap-2 pt-1">
                                                         <div>
                                                             <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">Target Goal (SEK)</label>
-                                                            <Input type="number" value={editTarget} onChange={(e) => setEditTarget(e.target.value)} placeholder="Target Goal" className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold" />
+                                                            <Input
+                                                                type="number"
+                                                                max={99999}
+                                                                value={editTarget}
+                                                                onChange={(e) => {
+                                                                    const val = parseInt(e.target.value, 10);
+                                                                    if (!isNaN(val) && val > 99999) {
+                                                                        setEditTarget("99999");
+                                                                    } else {
+                                                                        setEditTarget(e.target.value);
+                                                                    }
+                                                                }}
+                                                                placeholder="Target Goal"
+                                                                className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold"
+                                                            />
                                                         </div>
                                                         <div>
                                                             <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">End Date</label>
-                                                            <Input type="date" value={editEndDate} onChange={(e) => setEditEndDate(e.target.value)} className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold" />
+                                                            <Input
+                                                                type="date"
+                                                                min={todayStr}
+                                                                max={maxDateStr}
+                                                                onClick={(e) => {
+                                                                    try {
+                                                                        e.currentTarget.showPicker();
+                                                                    } catch {}
+                                                                }}
+                                                                value={editEndDate}
+                                                                onChange={(e) => setEditEndDate(e.target.value)}
+                                                                className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold cursor-pointer"
+                                                            />
+                                                            <p className="text-[10px] text-[#7C5800] mt-0.5">Maximum 3-week/21-day period</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -119,19 +201,21 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                     ) : (
                                                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide bg-red-50 text-red-600 border border-red-200">{campaign.status || "Expired"}</span>
                                                     )}
-                                                    <button
-                                                        onClick={() => {
-                                                            setEditingId(campaign._id!);
-                                                            setEditName(campaign.name);
-                                                            setEditDesc(campaign.shortDescription);
-                                                            setEditTarget(String(campaign.target || ""));
-                                                            setEditEndDate(campaign.endDate ? new Date(campaign.endDate).toISOString().split("T")[0] : "");
-                                                        }}
-                                                        className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
-                                                        title="Edit"
-                                                    >
-                                                        <Pencil size={15} />
-                                                    </button>
+                                                    {canEdit && (
+                                                        <button
+                                                            onClick={() => {
+                                                                setEditingId(campaign._id!);
+                                                                setEditName(campaign.name);
+                                                                setEditDesc(campaign.shortDescription);
+                                                                setEditTarget(String(campaign.target || ""));
+                                                                setEditEndDate(campaign.endDate ? new Date(campaign.endDate).toISOString().split("T")[0] : "");
+                                                            }}
+                                                            className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
+                                                            title="Edit"
+                                                        >
+                                                            <Pencil size={15} />
+                                                        </button>
+                                                    )}
                                                 </>
                                             )}
                                         </div>
@@ -289,9 +373,7 @@ export default function Campaign({ groupId }: CampaignProps) {
             )}
 
             {/* ── If no campaigns exist and form IS open ──────────────────── */}
-            {campaigns.length === 0 && showCreateForm && (
-                <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} />
-            )}
+            {campaigns.length === 0 && showCreateForm && <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} />}
         </div>
     );
 }

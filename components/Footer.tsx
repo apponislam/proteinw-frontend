@@ -310,9 +310,9 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Öppettider */}
+                    {/* Kontakt */}
                     <div>
-                        <h3 className="text-base font-bold mb-4 text-[#1C1917]">Öppettider</h3>
+                        {/* <h3 className="text-base font-bold mb-4 text-[#1C1917]">Öppettider</h3>
                         <div className="space-y-3 text-sm text-gray-600">
                             <div>
                                 <p className="font-semibold text-xs uppercase tracking-wider text-[#1C1917]">Öppettider Telefon</p>
@@ -322,7 +322,21 @@ const Footer = () => {
                                 <p className="font-semibold text-xs uppercase tracking-wider text-[#1C1917]">Öppettider Hämtlager</p>
                                 <p className="text-xs text-gray-600 mt-0.5 font-medium">Måndag - Fredag 08:00 - 17:00</p>
                             </div>
-                        </div>
+                        </div> */}
+
+                        <h3 className="text-base font-bold mb-4 text-[#1C1917]">Kontakt</h3>
+                        <ul className="space-y-2.5 text-sm text-gray-600">
+                            <li>
+                                <a href="mailto:kungsbjornen@outreachsales.se" className="hover:text-[#EFAC02] transition-colors break-all">
+                                    kungsbjornen@outreachsales.se
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:000000000" className="hover:text-[#EFAC02] transition-colors">
+                                    000000000
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 

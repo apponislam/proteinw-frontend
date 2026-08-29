@@ -17,7 +17,8 @@ export const campaignFormSchema = z.object({
     target: z
         .string()
         .min(1, "Target goal is required")
-        .refine((val) => !isNaN(Number(val)) && Number(val) > 0, "Target goal must be a positive number"),
+        .refine((val) => !isNaN(Number(val)) && Number(val) > 0, "Target goal must be a positive number")
+        .refine((val) => Number(val) <= 99999, "Target goal cannot exceed 99,999 SEK"),
     endDate: z.string().refine(
         (val) => {
             if (!val) return false;
@@ -144,7 +145,20 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                 <div className="text-[#D97706] shrink-0">
                                     <Award size={18} />
                                 </div>
-                                <input type="number" placeholder="e.g. 5000" {...register("target")} className="w-full bg-transparent text-xs font-bold text-[#1A1C1C] focus:outline-none p-0 border-none h-5" />
+                                <input
+                                    type="number"
+                                    max={99999}
+                                    placeholder="e.g. 5000"
+                                    {...register("target", {
+                                        onChange: (e) => {
+                                            const val = parseInt(e.target.value, 10);
+                                            if (!isNaN(val) && val > 99999) {
+                                                e.target.value = "99999";
+                                            }
+                                        },
+                                    })}
+                                    className="w-full bg-transparent text-xs font-bold text-[#1A1C1C] focus:outline-none p-0 border-none h-5"
+                                />
                             </div>
                             {errors.target && <p className="text-red-500 text-[11px]">{errors.target.message}</p>}
                         </div>
