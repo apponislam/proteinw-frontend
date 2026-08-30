@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { X, ChevronDown, Check, Plus } from "lucide-react";
+import { X, ChevronDown, Check, Plus, Upload, Edit3, Sparkles, Coins, Leaf } from "lucide-react";
 import { useUpdateProductMutation, type TProduct } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
 import { getImageUrl } from "@/utils/getImageUrl";
@@ -23,7 +23,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
     const [marginBenefit, setMarginBenefit] = useState(product.marginBenefit || "");
     const [qualityHighlight, setQualityHighlight] = useState(product.qualityHighlight || "");
     const [ecoHighlight, setEcoHighlight] = useState(product.ecoHighlight || "");
-    
+
     // Existing vs New photos vs Removed photos state
     const [keptExistingImages, setKeptExistingImages] = useState<string[]>(product.images || []);
     const [removedImages, setRemovedImages] = useState<string[]>([]);
@@ -143,12 +143,10 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             formData.append("qualityHighlight", qualityHighlight);
             formData.append("ecoHighlight", ecoHighlight);
 
-            // Send array of images to remove (as expected by backend productController)
             if (removedImages.length > 0) {
                 formData.append("removeImages", JSON.stringify(removedImages));
             }
 
-            // Append any newly selected image files
             if (selectedFiles.length > 0) {
                 selectedFiles.forEach((file) => {
                     formData.append("images", file);
@@ -167,162 +165,229 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-xs" onClick={onClose} />
-            <div className="relative bg-white rounded-xl sm:rounded-lg shadow-xl w-full max-w-md mx-auto max-h-[90vh] flex flex-col">
-                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#F5F5F4]">
-                    <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Edit product</h2>
-                    <button onClick={onClose} className="p-1 text-[#78716C] hover:text-[#1A1C1C] cursor-pointer">
-                        <X size={20} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            {/* Backdrop */}
+            <div className="fixed inset-0 bg-stone-900/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
+
+            {/* Modal Container */}
+            <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl mx-auto flex flex-col max-h-[90vh] overflow-hidden border border-stone-100 animate-in fade-in zoom-in-95 duration-200">
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100 bg-stone-50/50">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-amber-100/80 text-[#D97706] flex items-center justify-center shrink-0">
+                            <Edit3 size={22} />
+                        </div>
+                        <div>
+                            <h2 className="text-lg sm:text-xl font-bold text-stone-900 leading-tight">Edit Product</h2>
+                            <p className="text-xs text-stone-500 font-medium">Update details and manage showcase photos for "{product.name}".</p>
+                        </div>
+                    </div>
+                    <button onClick={onClose} className="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors cursor-pointer" aria-label="Close">
+                        <X size={18} />
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
-                    <div>
-                        <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Product name</label>
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20" />
+                {/* Form Body */}
+                <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1">
+                    {/* Section 1: Basic Information */}
+                    <div className="space-y-4">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Basic Details
+                        </h3>
+
+                        <div>
+                            <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
+                                Product Name <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                className="w-full h-11 sm:h-12 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 font-medium"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
+                                Short Description <span className="text-red-500">*</span>
+                            </label>
+                            <textarea
+                                value={shortDescription}
+                                onChange={(e) => setShortDescription(e.target.value)}
+                                required
+                                rows={3}
+                                className="w-full px-4 py-3 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 font-medium resize-none"
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Short description</label>
-                        <textarea value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} required rows={3} className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 resize-none" />
-                    </div>
+                    {/* Section 2: Category & Subcategory */}
+                    <div className="space-y-4 pt-2 border-t border-stone-100">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Categorization
+                        </h3>
 
-                    <div>
-                        <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Product category</label>
-                        <div className="relative">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setIsCatDropdownOpen((prev) => !prev);
-                                    setIsSubCatDropdownOpen(false);
-                                }}
-                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 bg-white border border-[#F5F5F4] rounded-lg text-xs sm:text-sm flex items-center justify-between text-[#1A1C1C] focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 transition-all cursor-pointer"
-                            >
-                                <span className={category ? "text-[#1A1C1C] font-medium" : "text-[#78716C]"}>{category || "Select category"}</span>
-                                <ChevronDown size={18} className={`text-[#78716C] transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
-                            </button>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Category Dropdown */}
+                            <div>
+                                <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
+                                    Product Category <span className="text-red-500">*</span>
+                                </label>
+                                <div className="relative">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setIsCatDropdownOpen((prev) => !prev);
+                                            setIsSubCatDropdownOpen(false);
+                                        }}
+                                        className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
+                                    >
+                                        <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>{category || "Select category"}</span>
+                                        <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
+                                    </button>
 
-                            {isCatDropdownOpen && (
-                                <>
-                                    <div className="fixed inset-0 z-20" onClick={() => setIsCatDropdownOpen(false)}></div>
-                                    <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-lg shadow-lg border border-[#F5F5F4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                        {["Scented Candles", "Premium Socks"].map((catOption) => (
-                                            <button
-                                                key={catOption}
-                                                type="button"
-                                                onClick={() => {
-                                                    setCategory(catOption);
-                                                    if (catOption !== "Scented Candles") setSubCategory("");
-                                                    setIsCatDropdownOpen(false);
-                                                }}
-                                                className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${category === catOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-[#1A1C1C]"}`}
-                                            >
-                                                <span>{catOption}</span>
-                                                {category === catOption && <Check size={16} className="text-[#D97706]" />}
-                                            </button>
-                                        ))}
+                                    {isCatDropdownOpen && (
+                                        <>
+                                            <div className="fixed inset-0 z-20" onClick={() => setIsCatDropdownOpen(false)}></div>
+                                            <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                {["Scented Candles", "Premium Socks"].map((catOption) => (
+                                                    <button
+                                                        key={catOption}
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setCategory(catOption);
+                                                            if (catOption !== "Scented Candles") setSubCategory("");
+                                                            setIsCatDropdownOpen(false);
+                                                        }}
+                                                        className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${category === catOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
+                                                    >
+                                                        <span>{catOption}</span>
+                                                        {category === catOption && <Check size={16} className="text-[#D97706]" />}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Subcategory Dropdown */}
+                            {category === "Scented Candles" ? (
+                                <div>
+                                    <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">Subcategory</label>
+                                    <div className="relative">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setIsSubCatDropdownOpen((prev) => !prev);
+                                                setIsCatDropdownOpen(false);
+                                            }}
+                                            className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
+                                        >
+                                            <span className={subCategory ? "text-stone-900 font-medium" : "text-stone-400"}>{subCategory || "Select subcategory"}</span>
+                                            <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isSubCatDropdownOpen ? "rotate-180" : ""}`} />
+                                        </button>
+
+                                        {isSubCatDropdownOpen && (
+                                            <>
+                                                <div className="fixed inset-0 z-20" onClick={() => setIsSubCatDropdownOpen(false)}></div>
+                                                <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                    {["Reed Diffusers"].map((subOption) => (
+                                                        <button
+                                                            key={subOption}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setSubCategory(subOption);
+                                                                setIsSubCatDropdownOpen(false);
+                                                            }}
+                                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${subCategory === subOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
+                                                        >
+                                                            <span>{subOption}</span>
+                                                            {subCategory === subOption && <Check size={16} className="text-[#D97706]" />}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
-                                </>
+                                </div>
+                            ) : (
+                                <div className="hidden sm:block" />
                             )}
                         </div>
                     </div>
 
-                    {category === "Scented Candles" && (
-                        <div>
-                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Subcategory</label>
-                            <div className="relative">
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setIsSubCatDropdownOpen((prev) => !prev);
-                                        setIsCatDropdownOpen(false);
-                                    }}
-                                    className="w-full h-11 sm:h-12 px-3.5 sm:px-4 bg-white border border-[#F5F5F4] rounded-lg text-xs sm:text-sm flex items-center justify-between text-[#1A1C1C] focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 transition-all cursor-pointer"
-                                >
-                                    <span className={subCategory ? "text-[#1A1C1C] font-medium" : "text-[#78716C]"}>{subCategory || "Select subcategory"}</span>
-                                    <ChevronDown size={18} className={`text-[#78716C] transition-transform duration-200 ${isSubCatDropdownOpen ? "rotate-180" : ""}`} />
-                                </button>
+                    {/* Section 3: Product Highlights */}
+                    <div className="space-y-4 pt-2 border-t border-stone-100">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Selling Point Highlights
+                        </h3>
 
-                                {isSubCatDropdownOpen && (
-                                    <>
-                                        <div className="fixed inset-0 z-20" onClick={() => setIsSubCatDropdownOpen(false)}></div>
-                                        <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-lg shadow-lg border border-[#F5F5F4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                            {["Reed Diffusers"].map((subOption) => (
-                                                <button
-                                                    key={subOption}
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSubCategory(subOption);
-                                                        setIsSubCatDropdownOpen(false);
-                                                    }}
-                                                    className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${subCategory === subOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-[#1A1C1C]"}`}
-                                                >
-                                                    <span>{subOption}</span>
-                                                    {subCategory === subOption && <Check size={16} className="text-[#D97706]" />}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </>
-                                )}
+                        <div className="grid grid-cols-1 gap-3.5">
+                            <div>
+                                <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
+                                    <Coins size={14} className="text-[#D97706]" /> Margin Benefit
+                                </label>
+                                <input
+                                    type="text"
+                                    value={marginBenefit}
+                                    onChange={(e) => setMarginBenefit(e.target.value)}
+                                    className="w-full h-11 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 font-medium"
+                                />
                             </div>
-                        </div>
-                    )}
 
-                    <div className="pt-2 border-t border-[#F5F5F4] space-y-3 sm:space-y-4">
-                        <h4 className="text-xs font-bold text-[#78716C] uppercase tracking-wider">Product Highlights</h4>
-                        <div>
-                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Margin Benefit</label>
-                            <input
-                                type="text"
-                                value={marginBenefit}
-                                onChange={(e) => setMarginBenefit(e.target.value)}
-                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20"
-                            />
-                        </div>
+                            <div>
+                                <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
+                                    <Sparkles size={14} className="text-[#D97706]" /> Quality Highlight
+                                </label>
+                                <input
+                                    type="text"
+                                    value={qualityHighlight}
+                                    onChange={(e) => setQualityHighlight(e.target.value)}
+                                    className="w-full h-11 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 font-medium"
+                                />
+                            </div>
 
-                        <div>
-                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Quality Highlight</label>
-                            <input
-                                type="text"
-                                value={qualityHighlight}
-                                onChange={(e) => setQualityHighlight(e.target.value)}
-                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Eco Highlight</label>
-                            <input
-                                type="text"
-                                value={ecoHighlight}
-                                onChange={(e) => setEcoHighlight(e.target.value)}
-                                className="w-full h-11 sm:h-12 px-3.5 sm:px-4 text-xs sm:text-sm border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20"
-                            />
+                            <div>
+                                <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
+                                    <Leaf size={14} className="text-[#D97706]" /> Eco Highlight
+                                </label>
+                                <input
+                                    type="text"
+                                    value={ecoHighlight}
+                                    onChange={(e) => setEcoHighlight(e.target.value)}
+                                    className="w-full h-11 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 font-medium"
+                                />
+                            </div>
                         </div>
                     </div>
 
-                    <div>
-                        <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium">Product photos (Max 3)</label>
-                            <span className="text-xs font-bold text-[#D97706]">{totalCurrentPhotos} / 3 photo(s)</span>
+                    {/* Section 4: Product Photos */}
+                    <div className="space-y-4 pt-2 border-t border-stone-100">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Showcase Photos
+                            </h3>
+                            <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">{totalCurrentPhotos} / 3 Total</span>
                         </div>
 
-                        {/* Existing Images with Remove Button */}
+                        {/* Saved Photos */}
                         {keptExistingImages.length > 0 && (
-                            <div className="mb-3">
-                                <span className="text-[11px] font-semibold text-stone-500 block mb-1.5">Current Saved Photos ({keptExistingImages.length})</span>
-                                <div className="grid grid-cols-3 gap-2.5">
+                            <div>
+                                <span className="text-[11px] font-bold text-stone-600 uppercase tracking-wider block mb-2">Saved Photos ({keptExistingImages.length})</span>
+                                <div className="grid grid-cols-3 gap-3">
                                     {keptExistingImages.map((imgUrl, idx) => (
-                                        <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-stone-200 bg-stone-50">
+                                        <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden border border-stone-200 bg-stone-50 shadow-sm transition-transform hover:scale-[1.02]">
                                             <img src={getImageUrl(imgUrl)} alt={`Existing ${idx + 1}`} className="w-full h-full object-cover" />
+                                            {idx === 0 && <span className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Cover</span>}
                                             <button
                                                 type="button"
                                                 onClick={() => handleRemoveExistingImage(idx)}
-                                                className="absolute top-1 right-1 w-5 h-5 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer"
-                                                title="Delete existing photo"
+                                                className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-md cursor-pointer"
+                                                title="Delete photo"
                                             >
-                                                <X size={12} />
+                                                <X size={14} />
                                             </button>
                                         </div>
                                     ))}
@@ -334,19 +399,19 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
 
                         {/* Newly Selected Upload Previews */}
                         {previewUrls.length > 0 && (
-                            <div className="mb-3">
-                                <span className="text-[11px] font-semibold text-[#D97706] block mb-1.5">Newly Selected Photos (+{previewUrls.length})</span>
-                                <div className="grid grid-cols-3 gap-2.5">
+                            <div>
+                                <span className="text-[11px] font-bold text-[#D97706] uppercase tracking-wider block mb-2">New Uploads (+{previewUrls.length})</span>
+                                <div className="grid grid-cols-3 gap-3">
                                     {previewUrls.map((url, idx) => (
-                                        <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-amber-300 bg-amber-50">
+                                        <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden border border-amber-300 bg-amber-50/50 shadow-sm transition-transform hover:scale-[1.02]">
                                             <img src={url} alt={`New Preview ${idx + 1}`} className="w-full h-full object-cover" />
                                             <button
                                                 type="button"
                                                 onClick={() => handleRemoveNewFile(idx)}
-                                                className="absolute top-1 right-1 w-5 h-5 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer"
+                                                className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-md cursor-pointer"
                                                 title="Remove new photo"
                                             >
-                                                <X size={12} />
+                                                <X size={14} />
                                             </button>
                                         </div>
                                     ))}
@@ -354,32 +419,51 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                             </div>
                         )}
 
-                        {/* Dropzone (Only shown if total photos < 3) */}
+                        {/* Dropzone Box */}
                         {totalCurrentPhotos < MAX_PHOTOS ? (
                             <div
                                 onClick={() => fileInputRef.current?.click()}
                                 onDragOver={handleDragOver}
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
-                                className={`border-2 border-dashed rounded-lg p-4 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
-                                    isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#E7E5E4] hover:border-[#D97706] hover:bg-stone-50"
+                                className={`border-2 border-dashed rounded-2xl p-6 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-2 ${
+                                    isDragging ? "border-[#D97706] bg-amber-500/10 scale-[1.01]" : "border-stone-200 hover:border-[#D97706] hover:bg-amber-50/40 bg-stone-50/40"
                                 }`}
                             >
-                                <div className="w-8 h-8 rounded-full bg-amber-50 text-[#D97706] flex items-center justify-center">
-                                    <Plus size={18} />
+                                <div className="w-12 h-12 rounded-full bg-amber-100/80 text-[#D97706] flex items-center justify-center shadow-xs">
+                                    <Upload size={22} />
                                 </div>
-                                <p className="text-xs font-semibold text-stone-700">Click to upload new photo(s) or drag & drop</p>
-                                <p className="text-[10px] text-stone-400">Can add {MAX_PHOTOS - totalCurrentPhotos} more photo(s)</p>
+                                <div>
+                                    <p className="text-xs sm:text-sm font-bold text-stone-800">Click to upload new photo(s) or drag & drop</p>
+                                    <p className="text-[11px] text-stone-400 font-medium mt-0.5">Can add {MAX_PHOTOS - totalCurrentPhotos} more photo(s)</p>
+                                </div>
                             </div>
                         ) : (
-                            <p className="text-center text-xs text-stone-500 font-medium py-2.5 bg-stone-50 border border-stone-200 rounded-lg">Maximum 3 photos reached. Remove an existing or new photo to upload a replacement.</p>
+                            <div className="p-3.5 bg-amber-50/80 border border-amber-200/80 rounded-2xl text-center">
+                                <p className="text-xs font-semibold text-amber-900">Maximum 3 photos reached. Remove a photo to replace.</p>
+                            </div>
                         )}
                     </div>
                 </form>
 
-                <div className="p-4 sm:p-6 border-t border-[#F5F5F4]">
-                    <button onClick={handleSubmit} disabled={isLoading} className="cursor-pointer w-full h-11 sm:h-12 bg-[#D97706] hover:bg-[#C06A06] disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-base font-medium rounded-lg transition-colors">
-                        {isLoading ? "Updating Product..." : "Update Product"}
+                {/* Footer Buttons */}
+                <div className="px-6 py-4 border-t border-stone-100 bg-stone-50/50 flex items-center justify-end gap-3">
+                    <button type="button" onClick={onClose} className="px-5 h-11 bg-white hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs sm:text-sm font-semibold rounded-xl transition-all cursor-pointer">
+                        Cancel
+                    </button>
+                    <button
+                        onClick={handleSubmit}
+                        disabled={isLoading}
+                        className="px-6 h-11 bg-linear-to-r from-[#D97706] to-amber-700 hover:from-[#C06A06] hover:to-amber-800 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-amber-600/20 transition-all cursor-pointer flex items-center gap-2"
+                    >
+                        {isLoading ? (
+                            <>
+                                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                Updating Product...
+                            </>
+                        ) : (
+                            <>Update Product</>
+                        )}
                     </button>
                 </div>
             </div>
