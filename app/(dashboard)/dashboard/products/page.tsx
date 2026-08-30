@@ -28,7 +28,7 @@ const ProductsPage = () => {
 
     const handleView = (product: TProduct) => {
         setViewProduct({
-            image: getImageUrl(product.productImage),
+            images: product.images,
             title: product.name,
             price: `${product.price} SEK`,
             description: product.shortDescription,

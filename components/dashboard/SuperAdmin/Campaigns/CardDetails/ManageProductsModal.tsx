@@ -146,8 +146,8 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
                                     >
                                         <div className="flex items-center gap-3 min-w-0">
                                             <div className="w-10 h-10 relative rounded-lg bg-[#F3F3F3] border border-[#E7E5E4] overflow-hidden flex items-center justify-center shrink-0">
-                                                {product.productImage ? (
-                                                    <Image src={getImageUrl(product.productImage)} alt={product.name} fill className="object-cover" />
+                                                {product.images?.[0] ? (
+                                                    <Image src={getImageUrl(product.images[0])} alt={product.name} fill className="object-cover" />
                                                 ) : (
                                                     <Package className="text-[#A8A29E]" size={18} />
                                                 )}

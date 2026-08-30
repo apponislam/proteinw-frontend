@@ -74,10 +74,10 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
                         name={product.name}
                         price={`${product.price} SEK`}
                         description={product.shortDescription}
-                        image={getImageUrl(product.productImage)}
+                        image={getImageUrl(product.images?.[0])}
                         onViewDetails={() =>
                             setSelectedProduct({
-                                image: getImageUrl(product.productImage),
+                                images: product.images,
                                 title: product.name,
                                 price: `${product.price} SEK`,
                                 description: product.shortDescription,

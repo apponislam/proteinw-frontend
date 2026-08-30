@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { X, ChevronDown, Check } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { X, ChevronDown, Check, Plus, Image as ImageIcon } from "lucide-react";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
 
@@ -19,8 +19,8 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
     const [marginBenefit, setMarginBenefit] = useState("");
     const [qualityHighlight, setQualityHighlight] = useState("");
     const [ecoHighlight, setEcoHighlight] = useState("");
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [previewUrls, setPreviewUrls] = useState<string[]>([]);
     const [isDragging, setIsDragging] = useState(false);
 
     const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
@@ -42,19 +42,48 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
         e.preventDefault();
         setIsDragging(false);
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            setSelectedFile(e.dataTransfer.files[0]);
+            const newFiles = Array.from(e.dataTransfer.files);
+            setSelectedFiles((prev) => {
+                const combined = [...prev, ...newFiles];
+                if (combined.length > 3) {
+                    toast.error("Maximum 3 photos allowed per product.");
+                    return combined.slice(0, 3);
+                }
+                return combined;
+            });
         }
     };
 
-    React.useEffect(() => {
-        if (selectedFile) {
-            const objectUrl = URL.createObjectURL(selectedFile);
-            setPreviewUrl(objectUrl);
-            return () => URL.revokeObjectURL(objectUrl);
-        } else {
-            setPreviewUrl(null);
+    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const newFiles = Array.from(e.target.files);
+            setSelectedFiles((prev) => {
+                const combined = [...prev, ...newFiles];
+                if (combined.length > 3) {
+                    toast.error("Maximum 3 photos allowed per product.");
+                    return combined.slice(0, 3);
+                }
+                return combined;
+            });
+            e.target.value = "";
         }
-    }, [selectedFile]);
+    };
+
+    const handleRemoveFile = (index: number) => {
+        setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    useEffect(() => {
+        if (selectedFiles.length > 0) {
+            const urls = selectedFiles.map((file) => URL.createObjectURL(file));
+            setPreviewUrls(urls);
+            return () => {
+                urls.forEach((url) => URL.revokeObjectURL(url));
+            };
+        } else {
+            setPreviewUrls([]);
+        }
+    }, [selectedFiles]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -67,7 +96,12 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             if (marginBenefit.trim()) formData.append("marginBenefit", marginBenefit.trim());
             if (qualityHighlight.trim()) formData.append("qualityHighlight", qualityHighlight.trim());
             if (ecoHighlight.trim()) formData.append("ecoHighlight", ecoHighlight.trim());
-            if (selectedFile) formData.append("productImage", selectedFile);
+
+            if (selectedFiles.length > 0) {
+                selectedFiles.forEach((file) => {
+                    formData.append("images", file);
+                });
+            }
 
             const res = (await createProduct(formData).unwrap()) as any;
             toast.success(res?.message || "Product created successfully!");
@@ -80,9 +114,8 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             setMarginBenefit("");
             setQualityHighlight("");
             setEcoHighlight("");
-            setSelectedFile(null);
+            setSelectedFiles([]);
         } catch (err: any) {
-            // console.error(err);
             const errorMessage = err?.data?.message || err?.message || "Failed to create product";
             toast.error(errorMessage);
         }
@@ -92,7 +125,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-xs" onClick={onClose} />
             <div className="relative bg-white rounded-xl sm:rounded-lg shadow-xl w-full max-w-md mx-auto max-h-[90vh] flex flex-col">
                 <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#F5F5F4]">
                     <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Add new product</h2>
@@ -230,24 +263,52 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     </div>
 
                     <div>
-                        <label className="block text-[#78716C] text-xs sm:text-sm font-medium mb-1.5 sm:mb-2">Upload product image</label>
-                        <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} className="hidden" />
-                        <div
-                            onClick={() => fileInputRef.current?.click()}
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            className={`border-2 border-dashed rounded-lg p-3 sm:p-4 text-center transition-colors cursor-pointer flex flex-col items-center justify-center ${isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#F5F5F4] hover:border-[#D97706]"}`}
-                        >
-                            {previewUrl ? (
-                                <>
-                                    <img src={previewUrl} alt="Preview" className="h-28 sm:h-32 w-full object-contain mb-2 rounded-lg" />
-                                    <div className="text-[#78716C] text-[11px] sm:text-xs font-medium">Click to change image</div>
-                                </>
-                            ) : (
-                                <div className="text-[#78716C] text-xs sm:text-sm py-3 sm:py-4">Click to upload or drag and drop</div>
-                            )}
+                        <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                            <label className="block text-[#78716C] text-xs sm:text-sm font-medium">Upload product images (Max 3)</label>
+                            {selectedFiles.length > 0 && <span className="text-xs font-bold text-[#D97706]">{selectedFiles.length} / 3 photo(s) selected</span>}
                         </div>
+
+                        <input type="file" accept="image/*" multiple ref={fileInputRef} onChange={handleFileSelect} className="hidden" />
+
+                        {/* Image Previews Grid */}
+                        {previewUrls.length > 0 && (
+                            <div className="grid grid-cols-3 gap-2.5 mb-3">
+                                {previewUrls.map((url, idx) => (
+                                    <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-stone-200 bg-stone-50">
+                                        <img src={url} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemoveFile(idx)}
+                                            className="absolute top-1 right-1 w-5 h-5 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer"
+                                            title="Remove photo"
+                                        >
+                                            <X size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Dropzone (Only shown if < 3 photos selected) */}
+                        {selectedFiles.length < 3 ? (
+                            <div
+                                onClick={() => fileInputRef.current?.click()}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                                className={`border-2 border-dashed rounded-lg p-4 text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1 ${
+                                    isDragging ? "border-[#D97706] bg-[#D97706]/10" : "border-[#E7E5E4] hover:border-[#D97706] hover:bg-stone-50"
+                                }`}
+                            >
+                                <div className="w-8 h-8 rounded-full bg-amber-50 text-[#D97706] flex items-center justify-center">
+                                    <Plus size={18} />
+                                </div>
+                                <p className="text-xs font-semibold text-stone-700">Click to add photos or drag & drop</p>
+                                <p className="text-[10px] text-stone-400">Up to 3 photos max (PNG, JPG, WEBP)</p>
+                            </div>
+                        ) : (
+                            <p className="text-center text-xs text-stone-500 font-medium py-2 bg-stone-50 border border-stone-200 rounded-lg">Maximum 3 photos reached. Remove a photo to replace.</p>
+                        )}
                     </div>
                 </form>
 

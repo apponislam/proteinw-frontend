@@ -54,8 +54,8 @@ const ProductsList: React.FC<ProductsListProps> = ({ campaignId, fallbackProduct
                 {products.map((product: any) => (
                     <div key={product._id} className="p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:bg-[#FCFBFA] transition-colors">
                         <div className="w-14 h-14 relative rounded-lg bg-[#F3F3F3] border border-[#E7E5E4] overflow-hidden flex items-center justify-center shrink-0">
-                            {product.productImage ? (
-                                <Image src={getImageUrl(product.productImage)} alt={product.name} fill className="object-cover" />
+                            {product.images?.[0] ? (
+                                <Image src={getImageUrl(product.images[0])} alt={product.name} fill className="object-cover" />
                             ) : (
                                 <Package className="text-[#A8A29E]" size={24} />
                             )}

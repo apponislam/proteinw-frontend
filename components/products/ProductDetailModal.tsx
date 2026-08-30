@@ -1,12 +1,15 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import React from "react";
-import { X, Coins, Sparkles, Leaf } from "lucide-react";
+import { X, Coins, Sparkles, Leaf, ChevronLeft, ChevronRight } from "lucide-react";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 type ProductDetailModalProps = {
     isOpen: boolean;
     onClose: () => void;
     product: {
-        image: string;
+        images?: string[];
         title: string;
         price: string;
         description: string;
@@ -17,7 +20,42 @@ type ProductDetailModalProps = {
 };
 
 const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProps) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    // Compute list of valid image URLs
+    const imageList: string[] = useMemo(() => {
+        if (!product) return [];
+        if (product.images && product.images.length > 0) {
+            return product.images.map((img) => getImageUrl(img));
+        }
+        return ["/products/product1.png"];
+    }, [product]);
+
+    // Reset current index when product changes or modal opens
+    useEffect(() => {
+        setCurrentIndex(0);
+    }, [product, isOpen]);
+
+    // Auto-slide every 3 seconds if there are multiple images
+    useEffect(() => {
+        if (!isOpen || imageList.length <= 1) return;
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % imageList.length);
+        }, 3000);
+        return () => clearInterval(timer);
+    }, [isOpen, imageList.length]);
+
     if (!isOpen || !product) return null;
+
+    const handlePrev = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev === 0 ? imageList.length - 1 : prev - 1));
+    };
+
+    const handleNext = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev + 1) % imageList.length);
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs transition-opacity duration-300 overflow-y-auto" onClick={onClose}>
@@ -27,9 +65,49 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                     <X className="w-5 h-5" />
                 </button>
 
-                {/* Left Side: 50% Image */}
-                <div className="w-full md:w-1/2 relative h-52 sm:h-64 md:h-125 shrink-0 rounded-t-2xl sm:rounded-t-[32px] md:rounded-tr-none md:rounded-l-[32px] overflow-hidden">
-                    <Image src={product.image} alt={product.title} fill className="object-cover" />
+                {/* Left Side: 50% Image Slider */}
+                <div className="w-full md:w-1/2 relative h-56 sm:h-64 md:h-125 shrink-0 rounded-t-2xl sm:rounded-t-[32px] md:rounded-tr-none md:rounded-l-[32px] overflow-hidden bg-stone-100 group">
+                    <Image key={currentIndex} src={imageList[currentIndex] || "/products/product1.png"} alt={product.title} fill className="object-cover transition-all duration-500 ease-in-out animate-in fade-in" />
+
+                    {/* Previous/Next Arrows (shown when > 1 image) */}
+                    {imageList.length > 1 && (
+                        <>
+                            <button
+                                type="button"
+                                onClick={handlePrev}
+                                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-stone-700 flex items-center justify-center shadow-md transition-all opacity-80 hover:opacity-100 cursor-pointer"
+                                aria-label="Previous image"
+                            >
+                                <ChevronLeft size={18} />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleNext}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-stone-700 flex items-center justify-center shadow-md transition-all opacity-80 hover:opacity-100 cursor-pointer"
+                                aria-label="Next image"
+                            >
+                                <ChevronRight size={18} />
+                            </button>
+                        </>
+                    )}
+
+                    {/* Bottom Dots Indicator (shown when > 1 image) */}
+                    {imageList.length > 1 && (
+                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-xs">
+                            {imageList.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setCurrentIndex(idx);
+                                    }}
+                                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${currentIndex === idx ? "w-6 bg-[#FFDEA8]" : "w-2 bg-white/60 hover:bg-white"}`}
+                                    aria-label={`Go to slide ${idx + 1}`}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* Right Side: 50% Content */}

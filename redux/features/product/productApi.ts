@@ -7,7 +7,7 @@ export type TProduct = {
     shortDescription: string;
     category: string;
     subCategory?: string;
-    productImage?: string;
+    images?: string[];
     marginBenefit?: string;
     qualityHighlight?: string;
     ecoHighlight?: string;

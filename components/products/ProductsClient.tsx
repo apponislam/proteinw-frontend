@@ -167,13 +167,13 @@ const ProductsClient = () => {
                                     {accumulatedProducts.map((product) => (
                                         <ProductCard
                                             key={product._id}
-                                            image={getImageUrl(product.productImage)}
+                                            image={getImageUrl(product.images?.[0])}
                                             title={product.name}
                                             price={`${product.price} SEK`}
                                             description={product.shortDescription}
                                             onViewDetails={() =>
                                                 setSelectedProduct({
-                                                    image: getImageUrl(product.productImage),
+                                                    images: product.images,
                                                     title: product.name,
                                                     price: `${product.price} SEK`,
                                                     description: product.shortDescription,

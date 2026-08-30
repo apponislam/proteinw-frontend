@@ -16,7 +16,7 @@ export type TCampaignProduct = {
     shortDescription: string;
     category: string;
     subCategory?: string;
-    productImage?: string;
+    images?: string[];
     totalSold: number;
 };
 
