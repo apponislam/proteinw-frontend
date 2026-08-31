@@ -14,7 +14,7 @@ const SellerOrdersCard: React.FC<SellerOrdersCardProps> = ({ campaignId }) => {
 
     const orderStats = [
         {
-            title: "MY TOTAL REVENUE",
+            title: "MY TOTAL PROFIT",
             value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",
@@ -43,7 +43,7 @@ const SellerOrdersCard: React.FC<SellerOrdersCardProps> = ({ campaignId }) => {
                         <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">{stat.title}</div>
                     </div>
                     <div className="absolute bottom-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} style={{ width: "auto", height: "auto" }} className="block" />
+                        <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} style={{ width: "auto", height: "auto" }} className="block" loading="eager" />
                     </div>
                 </div>
             ))}

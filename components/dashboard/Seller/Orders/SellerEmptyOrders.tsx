@@ -125,7 +125,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
                 {/* Card 1: Social Reach */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.06)] border border-stone-100 hover:border-amber-200 transition-all duration-200 flex flex-col justify-between">
                     <div className="w-6 h-6 mb-4">
-                        <Image src="/dashboard/orders/ordericon1.svg" width={24} height={24} style={{ width: "auto", height: "auto" }} alt="ordericon1" />
+                        <Image src="/dashboard/orders/ordericon1.svg" width={24} height={24} className="w-6 h-6 object-contain" alt="ordericon1" />
                     </div>
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Social Reach</h4>
@@ -136,7 +136,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
                 {/* Card 2: Team Effort */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.06)] border border-stone-100 hover:border-amber-200 transition-all duration-200 flex flex-col justify-between">
                     <div className="w-6 h-6 mb-4">
-                        <Image src="/dashboard/orders/ordericon2.svg" width={24} height={24} style={{ width: "auto", height: "auto" }} alt="ordericon2" />
+                        <Image src="/dashboard/orders/ordericon2.svg" width={24} height={24} className="w-6 h-6 object-contain" alt="ordericon2" />
                     </div>
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Team Effort</h4>
@@ -147,7 +147,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
                 {/* Card 3: Goal Tracking */}
                 <div className="bg-white rounded-2xl p-6 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.06)] border border-stone-100 hover:border-amber-200 transition-all duration-200 flex flex-col justify-between">
                     <div className="w-6 h-6 mb-4">
-                        <Image src="/dashboard/orders/ordericon3.svg" width={24} height={24} style={{ width: "auto", height: "auto" }} alt="ordericon3" />
+                        <Image src="/dashboard/orders/ordericon3.svg" width={24} height={24} className="w-6 h-6 object-contain" alt="ordericon3" />
                     </div>
                     <div>
                         <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Goal Tracking</h4>

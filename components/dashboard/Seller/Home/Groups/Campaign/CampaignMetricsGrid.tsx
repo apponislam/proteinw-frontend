@@ -22,14 +22,16 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
     const groupRevenue = campaignInfo?.campaignRevenue ?? campaign?.totalRevenueSold ?? 0;
 
     const currentStatusStr = campaignInfo?.status || campaign?.status || "DRAFT";
-    const daysRemaining = campaignInfo?.daysRemaining ?? (() => {
-        if (!campaign?.endDate) return 0;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const end = new Date(campaign.endDate);
-        end.setHours(0, 0, 0, 0);
-        return Math.max(0, Math.round((end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)));
-    })();
+    const daysRemaining =
+        campaignInfo?.daysRemaining ??
+        (() => {
+            if (!campaign?.endDate) return 0;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const end = new Date(campaign.endDate);
+            end.setHours(0, 0, 0, 0);
+            return Math.max(0, Math.round((end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)));
+        })();
 
     const targetGoal = campaignInfo?.target || campaign?.target || 0;
 
@@ -53,16 +55,14 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                             <Package size={15} />
                             <span>Sales & Profit Tier</span>
                         </div>
-                        <span className="bg-amber-50 group-hover:bg-[#271900]/10 text-[#D97706] group-hover:text-[#271900] border border-amber-200/80 px-2 py-0.5 rounded-full text-[11px] font-bold shrink-0 transition-colors">
-                            {profitTierPercentage}% Tier
-                        </span>
+                        <span className="bg-amber-50 group-hover:bg-[#271900]/10 text-[#D97706] group-hover:text-[#271900] border border-amber-200/80 px-2 py-0.5 rounded-full text-[11px] font-bold shrink-0 transition-colors">{profitTierPercentage}% Tier</span>
                     </div>
 
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Profit Tier</span>
                             <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right">
-                                {profitTierPercentage}% {nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed)` : "(Top Tier)"}
+                                {profitTierPercentage}% {nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed for next profit tier)` : "(Top Tier)"}
                             </span>
                         </div>
 
@@ -78,7 +78,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     </div>
                 </div>
                 <div className="absolute bottom-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={75} height={75} style={{ width: "auto", height: "auto" }} className="block" />
+                    <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={75} height={75} style={{ width: "auto", height: "auto" }} className="block" loading="eager" />
                 </div>
             </div>
 
@@ -95,28 +95,22 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">My Profit</span>
-                            <span className="font-bold text-emerald-700 group-hover:text-[#271900] truncate text-right">
-                                {Math.round(myProfit).toLocaleString()} SEK
-                            </span>
+                            <span className="font-bold text-emerald-700 group-hover:text-[#271900] truncate text-right">{Math.round(myProfit).toLocaleString()} SEK</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Campaign Profit</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">
-                                {Math.round(campaignProfit).toLocaleString()} SEK
-                            </span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{Math.round(campaignProfit).toLocaleString()} SEK</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Campaign Revenue</span>
-                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right">
-                                {Math.round(groupRevenue).toLocaleString()} SEK
-                            </span>
+                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right">{Math.round(groupRevenue).toLocaleString()} SEK</span>
                         </div>
                     </div>
                 </div>
                 <div className="absolute bottom-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={75} height={75} style={{ width: "auto", height: "auto" }} className="block" />
+                    <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={75} height={75} style={{ width: "auto", height: "auto" }} className="block" loading="eager" />
                 </div>
             </div>
 
@@ -133,8 +127,8 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                                 currentStatusStr === "ACTIVE"
                                     ? "bg-green-50 text-green-700 border-green-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
                                     : currentStatusStr === "COMPLETED"
-                                    ? "bg-amber-50 text-amber-900 border-amber-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
-                                    : "bg-gray-100 text-gray-700 border-gray-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
+                                      ? "bg-amber-50 text-amber-900 border-amber-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
+                                      : "bg-gray-100 text-gray-700 border-gray-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
                             }`}
                         >
                             {currentStatusStr}
@@ -144,16 +138,12 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Deadline</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">
-                                {daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}
-                            </span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Target Goal</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">
-                                {targetGoal > 0 ? `${targetGoal.toLocaleString()} SEK` : "No goal set"}
-                            </span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{targetGoal > 0 ? `${targetGoal.toLocaleString()} SEK` : "No goal set"}</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
@@ -163,7 +153,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     </div>
                 </div>
                 <div className="absolute bottom-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={75} height={75} style={{ width: "auto", height: "auto" }} className="block" />
+                    <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={75} height={75} style={{ width: "auto", height: "auto" }} className="block" loading="eager" />
                 </div>
             </div>
         </div>
