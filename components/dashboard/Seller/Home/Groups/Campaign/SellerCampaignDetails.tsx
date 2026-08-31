@@ -2,13 +2,15 @@
 
 import React from "react";
 import { TCampaign } from "@/redux/features/campaign/campaignApi";
+import { TSellerCampaignInfo } from "@/redux/features/dashboard/dashboardApi";
 import { ArrowLeft, User, Mail, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CampaignMetricsGrid from "./CampaignMetricsGrid";
 import SellerCampaignOrdersList from "./SellerCampaignOrdersList";
 
 interface SellerCampaignDetailsProps {
-    campaign: TCampaign;
+    campaign?: TCampaign;
+    campaignInfo?: TSellerCampaignInfo;
 }
 
 const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; label: string; bg: string; text: string; dot: string }[] = [
@@ -18,13 +20,15 @@ const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; l
     { value: "COMPLETED", label: "COMPLETED", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
 ];
 
-const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign }) => {
+const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign, campaignInfo }) => {
     const router = useRouter();
 
-    const campaignId = campaign._id || "";
-    const admin = campaign.campaignAdmin;
+    const campaignId = campaignInfo?._id || campaign?._id || "";
+    const name = campaignInfo?.name || campaign?.name || "Campaign Details";
+    const shortDescription = campaignInfo?.shortDescription || campaign?.shortDescription || "";
+    const admin = campaignInfo?.campaignAdmin || campaign?.campaignAdmin;
 
-    const currentStatusStr = campaign.status || "DRAFT";
+    const currentStatusStr = campaignInfo?.status || campaign?.status || "DRAFT";
     const currentOption = statusOptions.find((opt) => opt.value === currentStatusStr) || statusOptions[0];
 
     return (
@@ -45,8 +49,8 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign 
             {/* Title & Leader Contact Header */}
             <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#1A1C1C] tracking-tight">{campaign.name}</h1>
-                    <p className="text-sm text-[#78716C] mt-1.5 leading-relaxed max-w-xl">{campaign.shortDescription}</p>
+                    <h1 className="text-2xl font-bold text-[#1A1C1C] tracking-tight">{name}</h1>
+                    <p className="text-sm text-[#78716C] mt-1.5 leading-relaxed max-w-xl">{shortDescription}</p>
                 </div>
 
                 {/* Leader Contact Card */}
@@ -85,7 +89,7 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign 
             </div>
 
             {/* Quick Metrics Grid */}
-            <CampaignMetricsGrid campaign={campaign} />
+            <CampaignMetricsGrid campaign={campaign} campaignInfo={campaignInfo} />
 
             {/* Campaign Orders Section */}
             <div className="space-y-4">

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import { useGetCampaignByIdQuery } from "@/redux/features/campaign/campaignApi";
+import { useGetSellerCampaignInfoByIdQuery } from "@/redux/features/dashboard/dashboardApi";
 import SellerCampaignDetails from "@/components/dashboard/Seller/Home/Groups/Campaign/SellerCampaignDetails";
 import { Loader2 } from "lucide-react";
 
@@ -14,11 +14,11 @@ export default function SellerCampaignDetailPage() {
         data: response,
         isLoading,
         error,
-    } = useGetCampaignByIdQuery(campaignId, {
+    } = useGetSellerCampaignInfoByIdQuery(campaignId, {
         skip: !campaignId,
     });
 
-    const campaign = response?.data;
+    const campaignInfo = response?.data;
 
     if (isLoading) {
         return (
@@ -29,7 +29,7 @@ export default function SellerCampaignDetailPage() {
         );
     }
 
-    if (error || !campaign) {
+    if (error || !campaignInfo) {
         return (
             <div className="flex flex-col items-center justify-center min-h-100 gap-3">
                 <p className="text-red-500 font-bold">Failed to load campaign</p>
@@ -38,5 +38,5 @@ export default function SellerCampaignDetailPage() {
         );
     }
 
-    return <SellerCampaignDetails campaign={campaign} />;
+    return <SellerCampaignDetails campaignInfo={campaignInfo} />;
 }

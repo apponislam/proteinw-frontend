@@ -31,8 +31,6 @@ export default function Campaign({ groupId }: CampaignProps) {
     // 21-Day Date Constraints for HTML native date picker min/max
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const maxDate = new Date(today);
-    maxDate.setDate(today.getDate() + 21);
 
     const formatDateStr = (d: Date) => {
         const year = d.getFullYear();
@@ -42,7 +40,26 @@ export default function Campaign({ groupId }: CampaignProps) {
     };
 
     const todayStr = formatDateStr(today);
-    const maxDateStr = formatDateStr(maxDate);
+
+    const getCampaignMaxDate = (campaign: TCampaign) => {
+        let creation: Date;
+        if (campaign.createdAt) {
+            creation = new Date(campaign.createdAt);
+        } else if (campaign.endDate) {
+            creation = new Date(new Date(campaign.endDate).getTime() - 21 * 24 * 60 * 60 * 1000);
+        } else {
+            creation = new Date();
+        }
+        creation.setHours(0, 0, 0, 0);
+        const max = new Date(creation);
+        max.setDate(creation.getDate() + 21);
+        max.setHours(23, 59, 59, 999);
+        return max;
+    };
+
+    const getCampaignMaxDateStr = (campaign: TCampaign) => {
+        return formatDateStr(getCampaignMaxDate(campaign));
+    };
 
     const handleSaveEdit = async (campaign: TCampaign) => {
         if (!campaign._id) return;
@@ -70,12 +87,10 @@ export default function Campaign({ groupId }: CampaignProps) {
                 const d = new Date(year, month, day);
                 const checkToday = new Date();
                 checkToday.setHours(0, 0, 0, 0);
-                const checkMax = new Date(checkToday);
-                checkMax.setDate(checkToday.getDate() + 21);
-                checkMax.setHours(23, 59, 59, 999);
+                const checkMax = getCampaignMaxDate(campaign);
 
                 if (d < checkToday || d > checkMax) {
-                    toast.error("End date must be between today and 21 days from today");
+                    toast.error(`End date cannot exceed 21 days from campaign creation date (${formatDateStr(checkMax)})`);
                     return;
                 }
             }
@@ -162,7 +177,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                             <Input
                                                                 type="date"
                                                                 min={todayStr}
-                                                                max={maxDateStr}
+                                                                max={getCampaignMaxDateStr(campaign)}
                                                                 onClick={(e) => {
                                                                     try {
                                                                         e.currentTarget.showPicker();

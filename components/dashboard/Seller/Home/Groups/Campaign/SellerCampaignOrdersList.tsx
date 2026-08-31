@@ -92,13 +92,19 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
     return (
         <div className="w-full">
             {/* Filter Header */}
-            <div className="p-4 border-b border-[#E7E5E4] bg-[#FAF9F6] rounded-t-xl flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                    <ShoppingBag size={18} className="text-[#D97706]" />
-                    <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">My Campaign Orders ({pagination.total})</span>
+            <div className="p-4 border-b border-[#E7E5E4] bg-[#FAF9F6] rounded-t-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                <div className="flex items-center gap-2 min-w-0">
+                    <ShoppingBag size={18} className="text-[#D97706] shrink-0" />
+                    <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider truncate">
+                        My Campaign Orders ({pagination.total})
+                    </span>
                 </div>
-                <div className="relative">
-                    <button type="button" onClick={() => setIsFilterDropdownOpen((prev) => !prev)} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs font-semibold text-[#1A1C1C] shadow-2xs transition-all cursor-pointer">
+                <div className="relative self-start sm:self-auto">
+                    <button
+                        type="button"
+                        onClick={() => setIsFilterDropdownOpen((prev) => !prev)}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs font-semibold text-[#1A1C1C] shadow-2xs transition-all cursor-pointer"
+                    >
                         <span className={`w-2 h-2 rounded-full ${selectedFilterOption.color}`}></span>
                         <span>{selectedFilterOption.label}</span>
                         <ChevronDown size={14} className={`text-[#78716C] transition-transform duration-200 ${isFilterDropdownOpen ? "rotate-180" : ""}`} />
@@ -107,7 +113,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
                     {isFilterDropdownOpen && (
                         <>
                             <div className="fixed inset-0 z-20" onClick={() => setIsFilterDropdownOpen(false)}></div>
-                            <div className="absolute right-0 bottom-full mb-1.5 z-30 w-44 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                            <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-1.5 z-30 w-44 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                 {filterOptions.map((opt) => (
                                     <button
                                         key={opt.value}

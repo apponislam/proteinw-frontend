@@ -142,6 +142,40 @@ export type TSuperAdminGroupsDashboardCardsResponse = {
     };
 };
 
+export type TSellerCampaignInfo = {
+    _id: string;
+    name: string;
+    shortDescription: string;
+    target: number;
+    endDate: string;
+    groupId?: string;
+    createdBy?: any;
+    status?: string;
+    isDeleted?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+    code?: string;
+    tierAssignDate?: string;
+    tierId?: string;
+    totalPackagesSold: number;
+    totalRevenueSold: number;
+    campaignAdmin?: any;
+    currentTier?: any;
+    nextTier?: any;
+    packagesNeededForNextTier?: number;
+    myPackagesSold: number;
+    profitTierPercentage: number;
+    nextTierPackagesNeeded: number;
+    myProfit: number;
+    myRevenue: number;
+    campaignProfit: number;
+    campaignRevenue: number;
+    daysRemaining: number;
+    targetReached: boolean;
+    referralCode?: string;
+    shopUrl?: string;
+};
+
 const dashboardApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
@@ -191,6 +225,14 @@ const dashboardApi = baseApi.injectEndpoints({
                     credentials: "include",
                 };
             },
+        }),
+        getSellerCampaignInfoById: builder.query<{ data: TSellerCampaignInfo }, string>({
+            query: (campaignId) => ({
+                url: `/dashboard/seller-campaign-info/${campaignId}`,
+                method: "GET",
+                credentials: "include",
+            }),
+            providesTags: ["Campaign", "Order"],
         }),
         getSuperAdminSellersStats: builder.query<{ data: TSuperAdminSellersStats }, void>({
             query: () => ({
@@ -338,6 +380,8 @@ export const {
     useGetSellerDashboardStatsQuery,
     useGetAsSellerDashboardStatsQuery,
     useGetAsSellerCampaignInfoQuery,
+    useGetSellerCampaignInfoByIdQuery,
+    useLazyGetSellerCampaignInfoByIdQuery,
     useGetSuperAdminSellersStatsQuery,
     useGetSuperAdminSellersQuery,
     useGetSuperAdminGroupsStatsQuery,
