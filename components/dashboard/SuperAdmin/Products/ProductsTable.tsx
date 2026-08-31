@@ -117,9 +117,6 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
     }
 
     const products = data?.data || [];
-    const total = data?.meta?.total || 0;
-    const start = (currentPage - 1) * 10 + 1;
-    const end = Math.min(currentPage * 10, total);
 
     return (
         <div className="bg-white p-4 sm:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
@@ -275,7 +272,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                             <div className="flex items-start justify-between gap-2">
                                 <div className="min-w-0 flex-1">
                                     <h4 className="text-[#1A1C1C] font-bold text-sm truncate">{product.name}</h4>
-                                    <span className="text-[#78716C] text-xs font-mono">{product._id?.slice(0, 8).toUpperCase()}</span>
+                                    <span className="text-[#78716C] text-[10px] font-mono break-all">{product._id}</span>
                                 </div>
                                 <button onClick={() => product._id && handleToggleStatus(product._id)} className={`cursor-pointer shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(product.isActive)}`}>
                                     {product.isActive ? "Active" : "Inactive"}
@@ -330,7 +327,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                     <td className="px-4 py-4">
                                         <div>
                                             <div className="text-[#1A1C1C] font-medium">{product.name}</div>
-                                            <div className="text-[#78716C] text-sm">{product._id?.slice(0, 8).toUpperCase()}</div>
+                                            <div className="text-[#78716C] text-xs font-mono">{product._id}</div>
                                         </div>
                                     </td>
                                     <td className="px-4 py-4">

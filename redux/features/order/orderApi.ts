@@ -239,7 +239,7 @@ const orderApi = baseApi.injectEndpoints({
                 credentials: "include",
             }),
         }),
-        getOrdersByCampaign: builder.query<TOrderResponse, { campaignId: string; page?: number; limit?: number; status?: TOrderStatus; isMySales?: boolean } | string>({
+        getOrdersByCampaign: builder.query<TOrderResponse, { campaignId: string; page?: number; limit?: number; status?: TOrderStatus; mySales?: boolean } | string>({
             query: (args) => {
                 const campaignId = typeof args === "string" ? args : args.campaignId;
                 const queryParams = new URLSearchParams();
@@ -247,7 +247,7 @@ const orderApi = baseApi.injectEndpoints({
                     if (args.page) queryParams.append("page", String(args.page));
                     if (args.limit) queryParams.append("limit", String(args.limit));
                     if (args.status) queryParams.append("status", args.status);
-                    if (args.isMySales !== undefined) queryParams.append("isMySales", String(args.isMySales));
+                    if (args.mySales !== undefined) queryParams.append("mySales", String(args.mySales));
                 }
                 const queryString = queryParams.toString();
                 return {

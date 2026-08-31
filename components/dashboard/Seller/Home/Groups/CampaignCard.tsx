@@ -42,11 +42,11 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
                     </div>
                     <div className="grid grid-cols-2 gap-4 ">
                         <div>
-                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">SOLD</div>
+                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">PROFIT</div>
                             <div className="text-[#D97706] font-bold text-lg">{raised}</div>
                         </div>
                         <div>
-                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 text-right">NEXT TARGET</div>
+                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300 text-right">TARGET</div>
                             <div className="text-[#1A1C1C] font-bold text-lg group-hover:text-[#271900] transition-colors duration-300 text-right">{goal}</div>
                         </div>
                     </div>

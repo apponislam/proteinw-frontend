@@ -59,7 +59,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
             page,
             limit: 10,
             status: statusFilter ? (statusFilter as TOrderStatus) : undefined,
-            isMySales: true,
+            mySales: true,
         },
         { skip: !campaignId },
     );
@@ -134,7 +134,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
 
             {/* Table or Empty state */}
             {ordersList.length === 0 ? (
-                <div className="p-8 text-center text-sm text-[#78716C]">No orders found for this campaign.</div>
+                <div className="p-8 text-center text-sm text-[#78716C]">No sales found for this campaign.</div>
             ) : (
                 <div className="overflow-x-auto w-full">
                     <table className="w-full text-left border-collapse min-w-150">
