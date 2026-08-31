@@ -1,5 +1,5 @@
 "use client";
-import { Bell, Menu, User, KeyRound, LogOut, ChevronDown } from "lucide-react";
+import { Bell, Menu, User, KeyRound, LogOut, ChevronDown, Edit3 } from "lucide-react";
 import Image from "next/image";
 import { useSidebar } from "../ui/sidebar";
 import React, { useState, useRef, useEffect } from "react";
@@ -102,8 +102,14 @@ const DashBoradHeader = () => {
                             {isDropdownOpen && (
                                 <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-[0px_8px_30px_0px_rgba(0,0,0,0.12)] border border-[#E7E5E4] py-1.5 animate-in fade-in zoom-in-95 duration-150 z-50">
                                     {/* User Info Header Card */}
-                                    <div className="px-3 py-2 border-b border-[#F5F5F4] mb-1">
-                                        <p className="text-[#1A1C1C] font-bold text-xs truncate">{user?.name || "User"}</p>
+                                    <div
+                                        onClick={() => {
+                                            setIsDropdownOpen(false);
+                                            router.push("/dashboard/profile");
+                                        }}
+                                        className="px-3 py-2 border-b border-[#F5F5F4] mb-1 hover:bg-amber-50/60 transition-colors cursor-pointer rounded-t-lg group"
+                                    >
+                                        <p className="text-[#1A1C1C] font-bold text-xs truncate group-hover:text-[#D97706] transition-colors">{user?.name || "User"}</p>
                                         <p className="text-[10px] text-[#D97706] font-semibold uppercase mt-0.5">{user?.role?.replace("_", " ") || "Admin"}</p>
                                     </div>
 
@@ -112,11 +118,22 @@ const DashBoradHeader = () => {
                                         <button
                                             onClick={() => {
                                                 setIsDropdownOpen(false);
-                                                setIsUpdateProfileOpen(true);
+                                                router.push("/dashboard/profile");
                                             }}
                                             className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold text-[#1A1C1C] hover:bg-amber-50 hover:text-[#D97706] flex items-center gap-2 transition-colors cursor-pointer"
                                         >
                                             <User size={14} className="text-[#D97706]" />
+                                            <span>My Profile</span>
+                                        </button>
+
+                                        <button
+                                            onClick={() => {
+                                                setIsDropdownOpen(false);
+                                                setIsUpdateProfileOpen(true);
+                                            }}
+                                            className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold text-[#1A1C1C] hover:bg-amber-50 hover:text-[#D97706] flex items-center gap-2 transition-colors cursor-pointer"
+                                        >
+                                            <Edit3 size={14} className="text-[#D97706]" />
                                             <span>Update Profile</span>
                                         </button>
 

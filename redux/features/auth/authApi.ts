@@ -97,6 +97,7 @@ const authApi = baseApi.injectEndpoints({
                 method: "GET",
                 credentials: "include",
             }),
+            providesTags: ["User"],
         }),
         // === Email verification endpoints ===
         verifyEmail: builder.query({
@@ -150,11 +151,20 @@ const authApi = baseApi.injectEndpoints({
                 body: data,
                 credentials: "include",
             }),
+            invalidatesTags: ["User"],
         }),
         changePassword: builder.mutation<void, { currentPassword: string; newPassword: string }>({
             query: (body) => ({
                 url: "/auth/change-password",
                 method: "POST",
+                body,
+                credentials: "include",
+            }),
+        }),
+        deleteAccount: builder.mutation<{ message: string }, { password: string }>({
+            query: (body) => ({
+                url: "/auth/delete-account",
+                method: "DELETE",
                 body,
                 credentials: "include",
             }),
@@ -308,6 +318,7 @@ export const {
     useResetPasswordMutation,
     useUpdateProfileMutation,
     useChangePasswordMutation,
+    useDeleteAccountMutation,
     useUpdateEmailMutation,
     useResendEmailUpdateMutation,
     useVerifyNewEmailQuery,
