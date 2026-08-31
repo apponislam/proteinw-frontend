@@ -169,7 +169,7 @@ const MemberVerifyCodeForm = () => {
                             <button
                                 type="submit"
                                 disabled={isVerifying}
-                                className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none rounded-[24px] gap-2 cursor-pointer disabled:opacity-50"
+                                className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none rounded-[24px] gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isVerifying ? (
                                     <>
@@ -190,7 +190,7 @@ const MemberVerifyCodeForm = () => {
                             <button
                                 onClick={handleResend}
                                 disabled={countdown > 0 || isResending}
-                                className="font-bold text-[#7C5800] hover:underline disabled:opacity-50 cursor-pointer text-sm"
+                                className="font-bold text-[#7C5800] hover:underline disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-sm"
                             >
                                 {isResending ? "Resending..." : countdown > 0 ? `Resend Code in ${countdown}s` : "Resend Code"}
                             </button>

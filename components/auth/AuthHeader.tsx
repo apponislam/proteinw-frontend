@@ -31,7 +31,7 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({ activePage }) => {
                     )}
                     <Link
                         href="/auth/register"
-                        className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px]"
+                        className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] cursor-pointer"
                     >
                         Get Started
                     </Link>
@@ -57,7 +57,7 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({ activePage }) => {
                             Sign In
                         </Link>
                     )}
-                    <Link href="/auth/register" onClick={() => setIsMenuOpen(false)} className="block w-full text-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px]">
+                    <Link href="/auth/register" onClick={() => setIsMenuOpen(false)} className="block w-full text-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] cursor-pointer">
                         Get Started
                     </Link>
                 </div>

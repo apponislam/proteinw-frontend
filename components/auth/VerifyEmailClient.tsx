@@ -94,7 +94,7 @@ const VerifyEmailClient = () => {
                                         Go to Dashboard
                                         <span>→</span>
                                     </Link> */}
-                                    <Link href="/" className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px]">
+                                    <Link href="/" className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px] cursor-pointer">
                                         Back to Homepage
                                     </Link>
                                 </div>
@@ -116,15 +116,15 @@ const VerifyEmailClient = () => {
                                         <button
                                             onClick={handleResend}
                                             disabled={isResending}
-                                            className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             {isResending ? "Resending..." : "Resend Verification Email"}
                                         </button>
                                     )}
-                                    <Link href="/dashboard" className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2">
+                                    <Link href="/dashboard" className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] gap-2 cursor-pointer">
                                         Go to Dashboard
                                     </Link>
-                                    <Link href="/" className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px]">
+                                    <Link href="/" className="w-full inline-flex items-center justify-center border border-gray-300 px-6 py-3 text-base font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all rounded-[24px] cursor-pointer">
                                         Back to Homepage
                                     </Link>
                                 </div>
