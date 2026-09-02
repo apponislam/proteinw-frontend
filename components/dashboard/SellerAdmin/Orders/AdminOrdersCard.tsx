@@ -16,8 +16,8 @@ const AdminOrdersCard: React.FC<AdminOrdersCardProps> = ({ campaignId }) => {
 
     const orderStats = [
         {
-            title: "TOTAL REVENUE",
-            value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
+            title: "TOTAL PROFIT",
+            value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
             color: "#D97706",
         },
         {
@@ -26,8 +26,8 @@ const AdminOrdersCard: React.FC<AdminOrdersCardProps> = ({ campaignId }) => {
             color: "#D97706",
         },
         {
-            title: "Total Sales (MTD)",
-            value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
+            title: "TOTAL REVENUE",
+            value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
             color: "#D97706",
         },
     ];

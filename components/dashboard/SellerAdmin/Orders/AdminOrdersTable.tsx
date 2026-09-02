@@ -77,7 +77,7 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
         <div className="bg-white p-4 sm:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">Group Orders</h2>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Campaign Orders</h2>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="text-[#78716C] text-sm font-medium">Filters:</div>

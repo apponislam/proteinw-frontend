@@ -15,7 +15,7 @@ const SellerOrdersCard: React.FC<SellerOrdersCardProps> = ({ campaignId }) => {
     const orderStats = [
         {
             title: "MY TOTAL PROFIT",
-            value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
+            value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",
         },
@@ -26,8 +26,8 @@ const SellerOrdersCard: React.FC<SellerOrdersCardProps> = ({ campaignId }) => {
             color: "#D97706",
         },
         {
-            title: "MY SALES (MTD)",
-            value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
+            title: "MY TOTAL SALES",
+            value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",
         },
