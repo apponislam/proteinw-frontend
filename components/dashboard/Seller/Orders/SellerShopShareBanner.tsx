@@ -10,10 +10,12 @@ interface SellerShopShareBannerProps {
 }
 
 const SellerShopShareBanner: React.FC<SellerShopShareBannerProps> = ({ campaignId }) => {
-    const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || undefined);
+    const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || "", { skip: !campaignId });
     const [copied, setCopied] = useState(false);
     const [showQrModal, setShowQrModal] = useState(false);
     const [showPrintModal, setShowPrintModal] = useState(false);
+
+    if (!campaignId) return null;
 
     const infoData = campaignInfoResponse?.data;
     const shopLink = infoData?.shopUrl || "";

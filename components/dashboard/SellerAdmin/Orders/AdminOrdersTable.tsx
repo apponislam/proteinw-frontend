@@ -157,7 +157,9 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                                         </div>
                                         <div className="text-right">
                                             <div className="text-[#1A1C1C] font-bold text-sm">{order.totalPrice} SEK</div>
-                                            <div className="mt-0.5">{order.totalPackage} QTY • {dateStr}</div>
+                                            <div className="mt-0.5">
+                                                {order.totalPackage} QTY • {dateStr}
+                                            </div>
                                         </div>
                                     </div>
 
@@ -326,9 +328,7 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                                         onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
                                         className="flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-sm hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                     >
-                                        <span
-                                            className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}
-                                        ></span>
+                                        <span className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
                                         <span className="text-gray-800">{activeSelectedOrder.status}</span>
                                         <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>

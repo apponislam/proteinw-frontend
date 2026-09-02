@@ -60,7 +60,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
             limit: 10,
             status: statusFilter ? (statusFilter as TOrderStatus) : undefined,
         },
-        { skip: !campaignId }
+        { skip: !campaignId },
     );
 
     const [updateOrderStatus] = useUpdateOrderStatusMutation();
@@ -97,11 +97,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                     <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Orders ({pagination.total})</span>
                 </div>
                 <div className="relative">
-                    <button
-                        type="button"
-                        onClick={() => setIsFilterDropdownOpen((prev) => !prev)}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs font-semibold text-[#1A1C1C] shadow-2xs transition-all cursor-pointer"
-                    >
+                    <button type="button" onClick={() => setIsFilterDropdownOpen((prev) => !prev)} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs font-semibold text-[#1A1C1C] shadow-2xs transition-all cursor-pointer">
                         <span className={`w-2 h-2 rounded-full ${selectedFilterOption.color}`}></span>
                         <span>{selectedFilterOption.label}</span>
                         <ChevronDown size={14} className={`text-[#78716C] transition-transform duration-200 ${isFilterDropdownOpen ? "rotate-180" : ""}`} />
@@ -120,9 +116,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                             setPage(1);
                                             setIsFilterDropdownOpen(false);
                                         }}
-                                        className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium transition-colors text-left cursor-pointer hover:bg-amber-50 ${
-                                            statusFilter === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"
-                                        }`}
+                                        className={`w-full flex items-center justify-between px-3.5 py-2 text-xs font-medium transition-colors text-left cursor-pointer hover:bg-amber-50 ${statusFilter === opt.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
@@ -285,9 +279,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                             onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
                                             className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                         >
-                                            <span
-                                                className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}
-                                            ></span>
+                                            <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
                                             <span className="text-gray-800">{activeSelectedOrder.status}</span>
                                             <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>

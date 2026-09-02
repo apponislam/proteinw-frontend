@@ -301,9 +301,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                         onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
                                         className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                     >
-                                        <span
-                                            className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}
-                                        ></span>
+                                        <span className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
                                         <span className="text-gray-800">{activeSelectedOrder.status}</span>
                                         <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
