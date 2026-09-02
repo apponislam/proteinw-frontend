@@ -59,6 +59,7 @@ export type TCampaign = {
     updatedAt?: Date;
     totalPackagesSold?: number;
     totalRevenueSold?: number;
+    totalSoldAmount?: number;
     campaignAdmin?: TCampaignAdmin | null;
     sellers?: TCampaignSeller[];
     products?: TCampaignProduct[];
