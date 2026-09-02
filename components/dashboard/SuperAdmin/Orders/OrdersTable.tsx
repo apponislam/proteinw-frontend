@@ -268,7 +268,7 @@ const OrdersTable = () => {
             {/* Order Details & Actions Modal */}
             {activeSelectedOrder && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                         <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-5 right-5 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
                             <X size={20} />
                         </button>
@@ -332,50 +332,56 @@ const OrdersTable = () => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-5">
-                            <div className="flex items-center gap-3 relative">
-                                <span className="font-bold text-xs text-gray-700 uppercase">Update Status:</span>
-                                <div className="relative">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
-                                        className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
-                                    >
-                                        <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
-                                        <span className="text-gray-800">{activeSelectedOrder.status}</span>
-                                        <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
-                                    </button>
+                        <div className="border-t pt-4">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div className="flex items-center gap-3 relative">
+                                    <span className="font-bold text-xs text-gray-700 uppercase">Update Status:</span>
+                                    <div className="relative">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
+                                            className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
+                                        >
+                                            <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
+                                            <span className="text-gray-800">{activeSelectedOrder.status}</span>
+                                            <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
+                                        </button>
 
-                                    {isStatusDropdownOpen && (
-                                        <>
-                                            <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
-                                            <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                {[
-                                                    { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
-                                                    { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
-                                                    { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
-                                                ].map((opt) => (
-                                                    <button
-                                                        key={opt.value}
-                                                        type="button"
-                                                        onClick={() => {
-                                                            handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
-                                                            setIsStatusDropdownOpen(false);
-                                                        }}
-                                                        className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
-                                                    >
-                                                        <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
-                                                        {opt.label}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </>
-                                    )}
+                                        {isStatusDropdownOpen && (
+                                            <>
+                                                <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
+                                                <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                    {[
+                                                        { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                        { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
+                                                        { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
+                                                    ].map((opt) => (
+                                                        <button
+                                                            key={opt.value}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
+                                                                setIsStatusDropdownOpen(false);
+                                                            }}
+                                                            className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
+                                                        >
+                                                            <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
+                                                            {opt.label}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
+                                <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
+                                    Close
+                                </button>
                             </div>
-                            <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
-                                Close
-                            </button>
+                            <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
+                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
+                            </p>
                         </div>
                     </div>
                 </div>
