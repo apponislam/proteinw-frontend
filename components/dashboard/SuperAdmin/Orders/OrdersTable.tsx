@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check, X } from "lucide-react";
 import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useGetOrdersByMemberQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
@@ -265,95 +265,91 @@ const OrdersTable = () => {
                     <Pagination meta={pagination} onPageChange={setPage} itemName="ORDERS" />
                 </>
             )}
-
             {/* Order Details & Actions Modal */}
             {activeSelectedOrder && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2.5 sm:p-4 backdrop-blur-xs">
-                    <div className="bg-white rounded-2xl sm:rounded-[24px] max-w-2xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 relative shadow-2xl">
-                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-3.5 right-3.5 sm:top-6 sm:right-6 text-gray-400 hover:text-gray-600 transition-colors text-lg p-1 bg-stone-100 hover:bg-stone-200 rounded-full w-8 h-8 flex items-center justify-center">
-                            ✕
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
+                    <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+                        <button onClick={() => setSelectedOrder(null)} className="cursor-pointer absolute top-5 right-5 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                            <X size={20} />
                         </button>
 
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 mb-6 pr-8">
-                            <h3 className="text-base sm:text-xl font-bold text-gray-900 break-all flex flex-wrap items-center gap-1.5">
-                                <span>Order Details -</span>
-                                <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all">{activeSelectedOrder._id}</span>
-                            </h3>
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
-                        </div>
+                        <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-6 flex flex-wrap items-center gap-1.5">
+                            <span>Order Details -</span>
+                            <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all">{activeSelectedOrder._id}</span>
+                        </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-4 sm:mb-8">
-                            <div className="space-y-2.5 sm:space-y-3.5 bg-stone-50/70 p-3.5 sm:p-4 rounded-xl md:bg-transparent md:p-0">
-                                <h4 className="font-bold text-gray-900 border-b pb-2 text-sm sm:text-base">Customer Details</h4>
-                                <p className="text-xs sm:text-sm wrap-break-word">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div className="space-y-3 bg-[#FAFAF9] p-4 rounded-xl border border-[#E7E5E4]">
+                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Customer Details</h4>
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}
                                 </p>
-                                <p className="text-xs sm:text-sm break-all">
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}
                                 </p>
-                                <p className="text-xs sm:text-sm">
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
                                 </p>
-                                <p className="text-xs sm:text-sm leading-relaxed wrap-break-word">
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Shipping Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
                                 </p>
                             </div>
-                            <div className="space-y-2.5 sm:space-y-3.5 bg-stone-50/70 p-3.5 sm:p-4 rounded-xl md:bg-transparent md:p-0">
-                                <h4 className="font-bold text-gray-900 border-b pb-2 text-sm sm:text-base">Campaign & Seller</h4>
-                                <p className="text-xs sm:text-sm">
+                            <div className="space-y-3 bg-[#FAFAF9] p-4 rounded-xl border border-[#E7E5E4]">
+                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Campaign & Seller</h4>
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Seller Name:</span> {(activeSelectedOrder.memberId as any)?.name || "Guest / Direct"}
                                 </p>
-                                <p className="text-xs sm:text-sm break-all">
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Seller Email:</span> {(activeSelectedOrder.memberId as any)?.email || "N/A"}
                                 </p>
-                                <p className="text-xs sm:text-sm">
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Group Name:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}
                                 </p>
-                                <p className="text-xs sm:text-sm">
+                                <p className="text-xs text-[#1A1C1C]">
                                     <span className="font-semibold text-gray-600">Campaign Name:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="mb-4 sm:mb-8">
-                            <h4 className="font-bold text-gray-900 border-b pb-2 mb-3 sm:mb-4 text-sm sm:text-base">Purchased Items</h4>
-                            <div className="space-y-2.5 sm:space-y-3">
+                        <div className="mb-6">
+                            <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2 mb-3">Purchased Items</h4>
+                            <div className="space-y-2">
                                 {activeSelectedOrder.items.map((item, index) => (
-                                    <div key={index} className="flex flex-row justify-between items-center text-xs sm:text-sm bg-gray-50 p-3 rounded-xl gap-2">
-                                        <div className="min-w-0 flex-1">
-                                            <p className="font-semibold text-gray-900 truncate">{item.productName}</p>
-                                            <p className="text-[11px] sm:text-xs text-gray-500">
-                                                Qty: {item.quantity} × {item.singlePrice} SEK
+                                    <div key={index} className="flex justify-between items-center text-xs bg-gray-50 p-3 rounded-xl border border-gray-100">
+                                        <div>
+                                            <p className="font-bold text-gray-900">{item.productName}</p>
+                                            <p className="text-[11px] text-gray-500">
+                                                Qty: {item.quantity} x {item.singlePrice} SEK
                                             </p>
                                         </div>
-                                        <span className="font-bold text-gray-900 whitespace-nowrap text-xs sm:text-sm">{item.lineTotal} SEK</span>
+                                        <span className="font-bold text-gray-900">{item.lineTotal} SEK</span>
                                     </div>
                                 ))}
-                                <div className="flex justify-between items-center font-extrabold text-sm sm:text-base pt-3 border-t">
+                                <div className="flex justify-between items-center font-extrabold text-sm pt-3 border-t">
                                     <span>Total Amount</span>
                                     <span className="text-[#D97706]">{activeSelectedOrder.totalPrice} SEK</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t pt-4 sm:pt-6">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-5">
                             <div className="flex items-center gap-3 relative">
-                                <span className="font-bold text-xs sm:text-sm text-gray-700">Update Status:</span>
+                                <span className="font-bold text-xs text-gray-700 uppercase">Update Status:</span>
                                 <div className="relative">
                                     <button
                                         type="button"
                                         onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
-                                        className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#D97706]/40 bg-white border-gray-200 shadow-xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
+                                        className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                     >
-                                        <span className={`inline-block w-2.5 h-2.5 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
+                                        <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
                                         <span className="text-gray-800">{activeSelectedOrder.status}</span>
-                                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
+                                        <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
 
                                     {isStatusDropdownOpen && (
                                         <>
                                             <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
-                                            <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                            <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                 {[
                                                     { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
                                                     { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
@@ -366,7 +362,7 @@ const OrdersTable = () => {
                                                             handleStatusChange(activeSelectedOrder._id!, opt.value as TOrderStatus);
                                                             setIsStatusDropdownOpen(false);
                                                         }}
-                                                        className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
+                                                        className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors text-left cursor-pointer ${opt.bg} ${activeSelectedOrder.status === opt.value ? "bg-gray-50 font-bold" : ""}`}
                                                     >
                                                         <span className={`w-2 h-2 rounded-full ${opt.color}`}></span>
                                                         {opt.label}
@@ -377,7 +373,7 @@ const OrdersTable = () => {
                                     )}
                                 </div>
                             </div>
-                            <button onClick={() => setSelectedOrder(null)} className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-sm cursor-pointer text-center">
+                            <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
                                 Close
                             </button>
                         </div>
