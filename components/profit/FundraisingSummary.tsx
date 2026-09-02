@@ -76,12 +76,31 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                 </div>
 
                 {/* TIP */}
-                <div className="mt-5 sm:mt-6 rounded-2xl bg-[#F3F3F3] p-4 flex items-start gap-3 text-[#7C5800]">
-                    <Lightbulb className="shrink-0 w-5 h-5 mt-0.5" />
-                    <p className="text-xs sm:text-sm leading-relaxed">
-                        <span className="font-semibold">Expert Tip:</span> If each student sells just 2 more packages, your team will unlock the next profit tier and increase total earnings.
-                    </p>
-                </div>
+                {(() => {
+                    let tipMessage = "";
+                    const activeStudents = Math.max(1, perStudent > 0 ? Math.ceil(packagesNeeded / perStudent) : 1);
+                    
+                    if (packagesNeeded < 150) {
+                        const pkgsToNext = 150 - packagesNeeded;
+                        const additionalPerStudent = Math.ceil(pkgsToNext / activeStudents);
+                        tipMessage = `If each student sells just ${additionalPerStudent} more package${additionalPerStudent > 1 ? "s" : ""}, your team will unlock the 45% profit tier!`;
+                    } else if (packagesNeeded < 225) {
+                        const pkgsToNext = 225 - packagesNeeded;
+                        const additionalPerStudent = Math.ceil(pkgsToNext / activeStudents);
+                        tipMessage = `If each student sells just ${additionalPerStudent} more package${additionalPerStudent > 1 ? "s" : ""}, your team will unlock the 50% max profit tier!`;
+                    } else {
+                        tipMessage = `Awesome job! Your team has reached the maximum 50% profit tier!`;
+                    }
+
+                    return (
+                        <div className="mt-5 sm:mt-6 rounded-2xl bg-[#F3F3F3] p-4 flex items-start gap-3 text-[#7C5800]">
+                            <Lightbulb className="shrink-0 w-5 h-5 mt-0.5" />
+                            <p className="text-xs sm:text-sm leading-relaxed">
+                                <span className="font-semibold">Expert Tip:</span> {tipMessage}
+                            </p>
+                        </div>
+                    );
+                })()}
             </div>
             <div className="relative overflow-hidden rounded-[24px]">
                 <Image src="/profit/profitpic.png" alt="Description" width={500} height={300} className="w-full h-48 sm:h-64 lg:h-auto object-cover rounded-[24px]" />
