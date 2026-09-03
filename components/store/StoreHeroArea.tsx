@@ -25,7 +25,7 @@ const StoreHeroContent = () => {
                     <div className="bg-[#FFFFFFCC] p-5 sm:p-8 md:p-12 shadow-[0px_12px_32px_rgba(26,28,28,0.06)] backdrop-blur-3xl rounded-[24px] w-full lg:w-162.5 lg:relative lg:z-10 lg:-mr-12.5 space-y-4 sm:space-y-6 mb-6 lg:mb-0">
                         <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold wrap-break-word">Welcome to {sellerName}'s digital store</h1>
                         <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed">
-                            Hi! I'm fundraising for <span className="text-[#7C5800] font-semibold">{campaignName}</span>. Your support helps us create memories that will last a lifetime. Explore our {groupName} collection below.
+                            Hi! I'm fundraising for <span className="text-[#7C5800] font-semibold">{campaignName}</span>. Your support helps us create memories that will last a lifetime. Explore {sellerName}'s collection below.
                         </p>
                         <Link href="#products-section" className="flex items-center w-fit gap-2 sm:gap-3 font-bold px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">
                             Shop Now <ArrowDown size={18} />

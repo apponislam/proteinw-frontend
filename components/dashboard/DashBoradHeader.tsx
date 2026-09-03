@@ -63,7 +63,7 @@ const DashBoradHeader = () => {
 
     return (
         <>
-            <div className="bg-white p-2 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)] relative z-30">
+            <div className="bg-white p-2 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)] sticky top-0 z-10">
                 <div className="flex items-center justify-between">
                     <button onClick={toggleSidebar} className="flex items-center justify-center p-2 rounded-none bg-transparent text-[#78716C] hover:text-[#D97706] hover:bg-[#F5F5F4] transition-all duration-200 cursor-pointer">
                         <Menu size={24} />
