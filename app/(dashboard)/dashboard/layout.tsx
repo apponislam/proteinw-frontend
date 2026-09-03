@@ -10,9 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <RoleProvider>
                 <SidebarProvider>
                     <AppSidebar />
-                    <SidebarInset className="bg-[#F9F9F9]">
+                    <SidebarInset className="bg-[#F9F9F9] min-w-0 overflow-hidden">
                         <DashBoradHeader></DashBoradHeader>
-                        <div className="p-3 md:p-6">{children}</div>
+                        <div className="p-3 md:p-6 overflow-x-auto min-w-0">{children}</div>
                     </SidebarInset>
                 </SidebarProvider>
             </RoleProvider>

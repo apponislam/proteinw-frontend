@@ -55,7 +55,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
     const activeSelectedOrder = selectedOrder ? ordersList.find((o) => o._id === selectedOrder._id) || selectedOrder : null;
 
     return (
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
+        <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-[#1A1C1C]">My Customer Orders</h2>
@@ -120,27 +120,27 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                             const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
 
                             return (
-                                <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-[#D97706] font-bold text-sm">{orderIdStr}</span>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-3.5 sm:p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3 shadow-2xs">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <span className="text-[#D97706] font-bold text-xs sm:text-sm font-mono truncate max-w-[60%]">{orderIdStr}</span>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(order.status)}`}>{order.status}</span>
                                     </div>
 
-                                    <div className="flex justify-between items-start text-xs text-[#78716C]">
-                                        <div>
-                                            <div className="text-[#1A1C1C] font-semibold text-sm">{order.customerName}</div>
-                                            <div className="truncate max-w-50">{order.customerEmail}</div>
+                                    <div className="flex justify-between items-start text-xs text-[#78716C] gap-2">
+                                        <div className="min-w-0 flex-1">
+                                            <div className="text-[#1A1C1C] font-semibold text-sm truncate">{order.customerName}</div>
+                                            <div className="truncate text-xs text-stone-500">{order.customerEmail}</div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-right shrink-0">
                                             <div className="text-[#1A1C1C] font-bold text-sm">{order.totalPrice} SEK</div>
-                                            <div>
+                                            <div className="text-[11px] mt-0.5">
                                                 {order.totalPackage} QTY • {dateStr}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="pt-2 border-t border-[#E7E5E4]/60 flex items-center justify-between text-xs">
-                                        <span className="text-[#78716C] truncate max-w-45" title={productNames}>
+                                    <div className="pt-2 border-t border-[#E7E5E4]/60 flex items-center justify-between text-xs gap-2">
+                                        <span className="text-[#78716C] truncate flex-1 min-w-0" title={productNames}>
                                             {productNames}
                                         </span>
                                         <button
@@ -149,7 +149,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                                 e.stopPropagation();
                                                 setSelectedOrder(order);
                                             }}
-                                            className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline"
+                                            className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline cursor-pointer px-2 py-1 bg-amber-50 sm:bg-transparent rounded-md sm:rounded-none"
                                         >
                                             <Eye size={14} /> View Details
                                         </button>
@@ -160,8 +160,8 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                     </div>
 
                     {/* Desktop Table View (>= md) */}
-                    <div className="hidden md:block overflow-x-auto">
-                        <table className="w-full text-left">
+                    <div className="hidden md:block overflow-x-auto max-w-full">
+                        <table className="w-full min-w-187.5 text-left text-sm">
                             <thead>
                                 <tr className="bg-[#FAFAF9]">
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDER ID</th>
@@ -182,23 +182,23 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
 
                                     return (
                                         <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200 cursor-pointer">
-                                            <td className="px-4 py-4">
+                                            <td className="px-4 py-3.5">
                                                 <span className="text-[#D97706] font-semibold text-xs whitespace-nowrap">{orderIdStr}</span>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
                                                 <div className="text-[#1A1C1C] font-medium text-sm">{order.customerName}</div>
-                                                <div className="text-[#78716C] text-xs truncate max-w-40">{order.customerEmail}</div>
+                                                <div className="text-[#78716C] text-xs">{order.customerEmail}</div>
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-44 sm:max-w-50 truncate text-sm" title={productNames}>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium max-w-50 truncate text-sm" title={productNames}>
                                                 {productNames}
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium text-sm">{order.totalPackage}</td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-bold text-sm whitespace-nowrap">{order.totalPrice} SEK</td>
-                                            <td className="px-4 py-4">
-                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium text-sm whitespace-nowrap">{order.totalPackage}</td>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-bold text-sm whitespace-nowrap">{order.totalPrice} SEK</td>
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium text-sm whitespace-nowrap">{dateStr}</td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium text-sm whitespace-nowrap">{dateStr}</td>
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
                                                 <button
                                                     type="button"
                                                     onClick={(e) => {

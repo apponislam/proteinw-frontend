@@ -91,7 +91,7 @@ const OrdersTable = () => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
+        <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-[#1A1C1C]">All Orders</h2>
@@ -158,31 +158,31 @@ const OrdersTable = () => {
                             const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
 
                             return (
-                                <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-[#D97706] font-bold text-sm">{orderIdStr}</span>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-3.5 sm:p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3 shadow-2xs">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <span className="text-[#D97706] font-bold text-xs sm:text-sm font-mono truncate max-w-[60%]">{orderIdStr}</span>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(order.status)}`}>{order.status}</span>
                                     </div>
 
-                                    <div className="flex justify-between items-start text-xs text-[#78716C]">
-                                        <div>
-                                            <div className="text-[#1A1C1C] font-semibold text-sm">{order.customerName}</div>
-                                            <div className="flex items-center gap-1.5 mt-1">
+                                    <div className="flex justify-between items-start text-xs text-[#78716C] gap-2">
+                                        <div className="min-w-0">
+                                            <div className="text-[#1A1C1C] font-semibold text-sm truncate">{order.customerName}</div>
+                                            <div className="flex items-center gap-1.5 mt-1 min-w-0">
                                                 <span className="w-5 h-5 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-[10px] shrink-0">{sellerInitials}</span>
-                                                <span className="text-xs text-[#1A1C1C] font-medium">{sellerName}</span>
+                                                <span className="text-xs text-[#1A1C1C] font-medium truncate">{sellerName}</span>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-right shrink-0">
                                             <div className="text-[#1A1C1C] font-bold text-sm">{order.totalPrice} SEK</div>
-                                            <div className="mt-0.5">
+                                            <div className="mt-0.5 text-[11px]">
                                                 {order.totalPackage} QTY • {dateStr}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="pt-2 border-t border-[#E7E5E4]/60 flex items-center justify-between text-xs">
-                                        <div className="min-w-0 pr-2">
-                                            <span className="text-stone-500 font-semibold block text-[10px]">GROUP: {groupName}</span>
+                                    <div className="pt-2 border-t border-[#E7E5E4]/60 flex items-center justify-between text-xs gap-2">
+                                        <div className="min-w-0 flex-1">
+                                            <span className="text-stone-500 font-semibold block text-[10px] truncate">GROUP: {groupName}</span>
                                             <span className="text-[#78716C] truncate block" title={productNames}>
                                                 {productNames}
                                             </span>
@@ -193,9 +193,9 @@ const OrdersTable = () => {
                                                 e.stopPropagation();
                                                 setSelectedOrder(order);
                                             }}
-                                            className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline cursor-pointer"
+                                            className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline cursor-pointer px-2 py-1 bg-amber-50 sm:bg-transparent rounded-md sm:rounded-none"
                                         >
-                                            View
+                                            View Details
                                         </button>
                                     </div>
                                 </div>
@@ -204,14 +204,14 @@ const OrdersTable = () => {
                     </div>
 
                     {/* Desktop Table View (>= md) */}
-                    <div className="hidden md:block overflow-x-auto">
-                        <table className="w-full text-left">
+                    <div className="hidden md:block overflow-x-auto max-w-full">
+                        <table className="w-full min-w-225 text-left text-sm">
                             <thead>
                                 <tr className="bg-[#FAFAF9]">
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDER ID</th>
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">SELLER</th>
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GROUP</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">CUSTOMER NAME</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">CUSTOMER</th>
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRODUCT</th>
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">QTY</th>
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
@@ -230,26 +230,26 @@ const OrdersTable = () => {
 
                                     return (
                                         <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200 cursor-pointer">
-                                            <td className="px-4 py-4">
+                                            <td className="px-4 py-3.5">
                                                 <span className="text-[#D97706] font-semibold text-xs whitespace-nowrap">{orderIdStr}</span>
                                             </td>
-                                            <td className="px-4 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <span className="w-8 h-8 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-xs">{sellerInitials}</span>
+                                            <td className="px-4 py-3.5">
+                                                <div className="flex items-center gap-2.5 whitespace-nowrap">
+                                                    <span className="w-7 h-7 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-[11px] shrink-0">{sellerInitials}</span>
                                                     <div className="text-[#1A1C1C] font-medium">{sellerName}</div>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium">{groupName}</td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.customerName}</td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium max-w-50 truncate" title={productNames}>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium whitespace-nowrap">{groupName}</td>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium whitespace-nowrap">{order.customerName}</td>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium max-w-50 truncate" title={productNames}>
                                                 {productNames}
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium">{order.totalPackage}</td>
-                                            <td className="px-4 py-4">
-                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium whitespace-nowrap">{order.totalPackage}</td>
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
                                             </td>
-                                            <td className="px-4 py-4 text-[#1A1C1C] font-medium">{dateStr}</td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-4 py-3.5 text-[#1A1C1C] font-medium whitespace-nowrap">{dateStr}</td>
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
                                                 <button onClick={() => setSelectedOrder(order)} className="cursor-pointer text-[#D97706] hover:underline text-sm font-bold">
                                                     View
                                                 </button>
