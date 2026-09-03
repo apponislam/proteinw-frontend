@@ -61,19 +61,22 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Profit Tier</span>
-                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right">
+                            <span
+                                className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right"
+                                title={`${profitTierPercentage}% ${nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed for next profit tier)` : "(Top Tier)"}`}
+                            >
                                 {profitTierPercentage}% {nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed for next profit tier)` : "(Top Tier)"}
                             </span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">My Sales</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{myPackagesSold} packages</span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${myPackagesSold} packages`}>{myPackagesSold} packages</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Total Campaign Sales</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{totalGroupSales} packages</span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${totalGroupSales} packages`}>{totalGroupSales} packages</span>
                         </div>
                     </div>
                 </div>
@@ -95,17 +98,17 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">My Profit</span>
-                            <span className="font-bold text-emerald-700 group-hover:text-[#271900] truncate text-right">{Math.round(myProfit).toLocaleString()} SEK</span>
+                            <span className="font-bold text-emerald-700 group-hover:text-[#271900] truncate text-right" title={`${Math.round(myProfit).toLocaleString()} SEK`}>{Math.round(myProfit).toLocaleString()} SEK</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Campaign Profit</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{Math.round(campaignProfit).toLocaleString()} SEK</span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${Math.round(campaignProfit).toLocaleString()} SEK`}>{Math.round(campaignProfit).toLocaleString()} SEK</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Campaign Revenue</span>
-                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right">{Math.round(groupRevenue).toLocaleString()} SEK</span>
+                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right" title={`${Math.round(groupRevenue).toLocaleString()} SEK`}>{Math.round(groupRevenue).toLocaleString()} SEK</span>
                         </div>
                     </div>
                 </div>
@@ -138,17 +141,17 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Deadline</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}</span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}>{daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Target Goal</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{targetGoal > 0 ? `${targetGoal.toLocaleString()} SEK` : "No goal set"}</span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={targetGoal > 0 ? `${targetGoal.toLocaleString()} SEK` : "No goal set"}>{targetGoal > 0 ? `${targetGoal.toLocaleString()} SEK` : "No goal set"}</span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">End Date</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right">{formattedEndDate}</span>
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={formattedEndDate}>{formattedEndDate}</span>
                         </div>
                     </div>
                 </div>
