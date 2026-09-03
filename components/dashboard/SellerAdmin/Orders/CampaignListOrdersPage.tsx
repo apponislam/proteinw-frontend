@@ -95,6 +95,11 @@ const CampaignListOrdersPage: React.FC<CampaignListOrdersPageProps> = ({
         );
     }
 
+    // Don't render the dropdown if seller admin has only 1 single campaign
+    if (!isFetching && !hasNextPage && accumulatedCampaigns.length === 1) {
+        return null;
+    }
+
     return (
         <div className="relative inline-block text-left w-full sm:w-64">
             <button
