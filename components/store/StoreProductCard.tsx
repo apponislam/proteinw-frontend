@@ -50,7 +50,7 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
                 <div className="flex items-center justify-between gap-2.5 sm:gap-3 pt-3 border-t border-gray-100">
                     <button
                         onClick={handleSupportClick}
-                        className="flex-1 h-10 sm:h-11 px-3 sm:px-4 rounded-full font-bold text-xs sm:text-sm text-white bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] active:scale-[0.98] transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-1.5 truncate"
+                        className="flex-1 h-10 sm:h-11 px-3 sm:px-4 rounded-full font-bold text-xs sm:text-sm text-white bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] active:scale-[0.98] transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-1.5 truncate cursor-pointer"
                     >
                         <ShoppingBag size={15} className="shrink-0" />
                         <span className="truncate">Support {firstName}</span>
@@ -59,7 +59,7 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
                         <button
                             onClick={handleDecrement}
                             aria-label="Decrease quantity"
-                            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-gray-200/80 active:scale-95 transition-all shadow-2xs"
+                            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-gray-200/80 active:scale-95 transition-all shadow-2xs cursor-pointer"
                         >
                             <Minus size={14} />
                         </button>
@@ -67,7 +67,7 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
                         <button
                             onClick={handleIncrement}
                             aria-label="Increase quantity"
-                            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-gray-200/80 active:scale-95 transition-all shadow-2xs"
+                            className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-gray-200/80 active:scale-95 transition-all shadow-2xs cursor-pointer"
                         >
                             <Plus size={14} />
                         </button>

@@ -273,7 +273,7 @@ const StoreOrderContent = () => {
                         <button
                             type="submit"
                             disabled={!formData.agree || cartItems.length === 0 || isLoading}
-                            className="w-full py-3.5 sm:py-4 text-sm sm:text-base font-bold rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                            className="w-full py-3.5 sm:py-4 text-sm sm:text-base font-bold rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md cursor-pointer"
                         >
                             {isLoading ? "Placing Order..." : "Place Delivery Order"}
                         </button>

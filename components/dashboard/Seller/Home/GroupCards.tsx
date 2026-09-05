@@ -37,31 +37,9 @@ const GroupCards = () => {
 
     return (
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {groups.map((group: any) => {
-                const totalPackages = group?.tierInfo?.totalPackagesSold || 0;
-                const totalSalesNum = group?.tierInfo?.totalRevenue || 0;
-                const nextTier = group?.tierInfo?.nextTier;
-                const packagesNeeded = group?.tierInfo?.packagesNeededForNextTier || 0;
-
-                const nextTierProfitText = nextTier ? `${nextTier.percentage}%` : "Max Tier";
-                const untilBonusText = nextTier ? `${packagesNeeded} package${packagesNeeded > 1 ? "s" : ""} until ${nextTier.percentage}% profit bonus` : "Highest profit tier reached! 🎉";
-                const progress = nextTier && nextTier.minSalesVolume ? Math.min(100, Math.round((totalPackages / nextTier.minSalesVolume) * 100)) : 100;
-
-                const campaignName = group?.runningCampaign?.name || (group?.runningCampaignId as any)?.name || "No running campaign";
-
-                const formattedGroupObj = {
-                    _id: group._id,
-                    name: group.name,
-                    campaignName,
-                    activeSellers: "Active",
-                    totalSales: `${totalPackages} package${totalPackages !== 1 ? "s" : ""} (${totalSalesNum.toLocaleString()} SEK)`,
-                    nextTierProfit: nextTierProfitText,
-                    untilBonus: untilBonusText,
-                    progress,
-                };
-
-                return <GroupCard key={group._id} group={formattedGroupObj} />;
-            })}
+            {groups.map((group: any) => (
+                <GroupCard key={group._id} group={group} />
+            ))}
         </div>
     );
 };

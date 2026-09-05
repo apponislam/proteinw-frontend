@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { X, Loader2, User, Phone, MapPin, Briefcase, ChevronDown, Check } from "lucide-react";
 import { useUpdateProfileMutation, useGetMeQuery } from "@/redux/features/auth/authApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setUser, currentToken, UserProfession } from "@/redux/features/auth/authSlice";
+import { setUser, currentToken, currentUser, UserProfession } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
 
 interface UpdateProfileModalProps {
@@ -19,15 +19,16 @@ const professionOptions: { label: string; value: UserProfession }[] = [
     { label: "Coach", value: "COACH" },
 ];
 
+const organizationTypeOptions = ["Skola", "Gymnasium", "Förening", "Annat"];
+
 const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose }) => {
     const dispatch = useAppDispatch();
     const token = useAppSelector(currentToken);
+    const reduxUser = useAppSelector(currentUser);
     const { data: meData, refetch } = useGetMeQuery(undefined, { skip: !isOpen });
     const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
-    console.log(meData);
-
-    const me = (meData as any)?.data || meData;
+    const me = (meData as any)?.data || meData || reduxUser;
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -41,6 +42,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
     const [locality, setLocality] = useState("");
 
     const [isProfDropdownOpen, setIsProfDropdownOpen] = useState(false);
+    const [isOrgTypeDropdownOpen, setIsOrgTypeDropdownOpen] = useState(false);
 
     // Populate form when modal opens or meData loads
     React.useEffect(() => {
@@ -212,8 +214,63 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                         <div className="space-y-3">
                             {me?.role !== "SELLER" && me?.role !== "SUPER_ADMIN" && (
                                 <div className="grid grid-cols-2 gap-3">
-                                    <input type="text" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Organization Name" />
-                                    <input type="text" value={organizationType} onChange={(e) => setOrganizationType(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Organization Type" />
+                                    {/* Left: Organization Type Selection */}
+                                    <div className="relative">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsOrgTypeDropdownOpen((prev) => !prev)}
+                                            className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm flex items-center justify-between text-left focus:outline-none focus:border-[#D97706] text-[#1A1C1C] cursor-pointer transition-colors"
+                                        >
+                                            <span className={organizationType ? "text-[#1A1C1C] font-medium truncate" : "text-gray-400 truncate"}>{organizationType || "Select Type"}</span>
+                                            <ChevronDown size={16} className={`text-gray-400 shrink-0 transition-transform duration-200 ${isOrgTypeDropdownOpen ? "rotate-180" : ""}`} />
+                                        </button>
+
+                                        {isOrgTypeDropdownOpen && (
+                                            <>
+                                                <div className="fixed inset-0 z-20" onClick={() => setIsOrgTypeDropdownOpen(false)}></div>
+                                                <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setOrganizationType("");
+                                                            setIsOrgTypeDropdownOpen(false);
+                                                        }}
+                                                        className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${!organizationType ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-600"}`}
+                                                    >
+                                                        <span>Select Type</span>
+                                                        {!organizationType && <Check size={14} className="text-[#D97706]" />}
+                                                    </button>
+                                                    {organizationTypeOptions.map((opt) => (
+                                                        <button
+                                                            key={opt}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setOrganizationType(opt);
+                                                                setIsOrgTypeDropdownOpen(false);
+                                                            }}
+                                                            className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${organizationType === opt ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                        >
+                                                            <span>{opt}</span>
+                                                            {organizationType === opt && <Check size={14} className="text-[#D97706]" />}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    {/* Right: Organization Name Input */}
+                                    <div>
+                                        {(() => {
+                                            let placeholder = "Organization Name";
+                                            if (organizationType === "Skola") placeholder = "School Name";
+                                            else if (organizationType === "Gymnasium") placeholder = "High School Name";
+                                            else if (organizationType === "Förening") placeholder = "Association Name";
+                                            else if (organizationType === "Annat") placeholder = "Organization Name";
+
+                                            return <input type="text" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder={placeholder} />;
+                                        })()}
+                                    </div>
                                 </div>
                             )}
 

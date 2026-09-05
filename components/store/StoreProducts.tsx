@@ -78,7 +78,7 @@ const StoreProductsContent = () => {
                     </div>
                     {hasNext && (
                         <div className="flex justify-center mt-12">
-                            <button onClick={handleLoadMore} disabled={isFetching} className="font-bold px-8 py-3 rounded-[24px] border border-[#7C5800] text-[#7C5800] hover:bg-[#7C5800] hover:text-white transition-all disabled:opacity-50">
+                            <button onClick={handleLoadMore} disabled={isFetching} className="font-bold px-8 py-3 rounded-[24px] border border-[#7C5800] text-[#7C5800] hover:bg-[#7C5800] hover:text-white transition-all disabled:opacity-50 cursor-pointer">
                                 {isFetching ? "Loading..." : "See More"}
                             </button>
                         </div>
