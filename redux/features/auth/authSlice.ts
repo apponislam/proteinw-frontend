@@ -18,7 +18,7 @@ export type TAddress = {
     city?: string;
     state?: string;
     zipCode?: string;
-    country?: string;
+    locality?: string;
 };
 
 export type TUser = {

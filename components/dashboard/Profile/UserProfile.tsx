@@ -208,11 +208,11 @@ export default function UserProfile() {
                             <span className="font-bold text-[#1A1C1C]">{address.city ? `${address.city}${address.zipCode ? ` (${address.zipCode})` : ""}` : "N/A"}</span>
                         </div>
 
-                        <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center justify-between py-1 border-b border-stone-50">
                             <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <MapPin size={14} className="text-stone-400" /> Country
+                                <MapPin size={14} className="text-stone-400" /> Locality
                             </span>
-                            <span className="font-bold text-[#1A1C1C]">{address.country || "Sweden"}</span>
+                            <span className="font-bold text-[#1A1C1C]">{address.locality || "N/A"}</span>
                         </div>
                     </div>
                 </div>

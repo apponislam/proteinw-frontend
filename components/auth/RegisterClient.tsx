@@ -30,14 +30,16 @@ const step1Schema = z.object({
 
 // Step 2 Schema (Organization Details & Address)
 const step2Schema = z.object({
+    phone: z.string().min(1, "Phone is required"),
+    profession: z.enum(["LEADER", "TEACHER", "PARENT", "COACH"]),
     address: z.object({
-        organizationName: z.string().min(2, "Please enter organization name").optional(),
+        organizationName: z.string().optional(),
         organizationType: z.string().optional(),
         street: z.string().optional(),
         city: z.string().optional(),
         state: z.string().optional(),
         zipCode: z.string().optional(),
-        country: z.string().optional(),
+        locality: z.string().optional(),
     }),
 });
 
@@ -104,7 +106,7 @@ const RegisterClient = () => {
                 city: "",
                 state: "",
                 zipCode: "",
-                country: "",
+                locality: "",
             },
         },
     });
@@ -484,7 +486,7 @@ const RegisterClient = () => {
                                     </div>
                                 </div>
 
-                                {/* Zip Code and Country */}
+                                {/* Zip Code and Locality */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">ZIP CODE</label>
@@ -495,11 +497,11 @@ const RegisterClient = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">COUNTRY</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">LOCALITY</label>
                                         <Controller
-                                            name="address.country"
+                                            name="address.locality"
                                             control={controlStep2}
-                                            render={({ field }) => <input type="text" placeholder="Country" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                            render={({ field }) => <input type="text" placeholder="Locality" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                         />
                                     </div>
                                 </div>

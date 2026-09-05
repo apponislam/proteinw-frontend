@@ -38,7 +38,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipCode, setZipCode] = useState("");
-    const [country, setCountry] = useState("");
+    const [locality, setLocality] = useState("");
 
     const [isProfDropdownOpen, setIsProfDropdownOpen] = useState(false);
 
@@ -64,7 +64,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
             setCity(parsedAddress?.city || "");
             setState(parsedAddress?.state || "");
             setZipCode(parsedAddress?.zipCode || "");
-            setCountry(parsedAddress?.country || "");
+            setLocality(parsedAddress?.locality || "");
         }
     }, [me, isOpen]);
 
@@ -99,7 +99,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                 city,
                 state,
                 zipCode,
-                country,
+                locality,
             };
             formData.append("address", JSON.stringify(addressObj));
 
@@ -228,7 +228,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
 
                             <div className="grid grid-cols-2 gap-3">
                                 <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Zip / Postal Code" />
-                                <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Country" />
+                                <input type="text" value={locality} onChange={(e) => setLocality(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Locality" />
                             </div>
                         </div>
                     </div>

@@ -38,7 +38,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
     const [zipCode, setZipCode] = useState("");
-    const [country, setCountry] = useState("");
+    const [locality, setLocality] = useState("");
 
     // Custom Dropdown State
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -60,7 +60,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
             setCity(addr.city || "");
             setState(addr.state || "");
             setZipCode(addr.zipCode || "");
-            setCountry(addr.country || "");
+            setLocality(addr.locality || "");
         }
     }, [userData, admin, isOpen]);
 
@@ -94,7 +94,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
             if (city) addressObj.city = city;
             if (state) addressObj.state = state;
             if (zipCode) addressObj.zipCode = zipCode;
-            if (country) addressObj.country = country;
+            if (locality) addressObj.locality = locality;
 
             if (Object.keys(addressObj).length > 0) {
                 bodyObj.address = addressObj;
@@ -282,11 +282,11 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Country</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Locality</label>
                                     <Input
-                                        value={country}
-                                        onChange={(e) => setCountry(e.target.value)}
-                                        placeholder="Country"
+                                        value={locality}
+                                        onChange={(e) => setLocality(e.target.value)}
+                                        placeholder="Locality"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>

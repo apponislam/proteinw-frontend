@@ -137,7 +137,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                 <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                                     <MapPin size={14} className="text-[#D97706]" /> Address Info
                                 </h3>
-                                <p className="text-sm text-[#1A1C1C] font-medium">{[address.street, address.city, address.state, address.zipCode, address.country].filter(Boolean).join(", ") || "No address provided."}</p>
+                                <p className="text-sm text-[#1A1C1C] font-medium">{[address.street, address.city, address.state, address.zipCode, address.locality].filter(Boolean).join(", ") || "No address provided."}</p>
                             </div>
                         )}
                     </div>
