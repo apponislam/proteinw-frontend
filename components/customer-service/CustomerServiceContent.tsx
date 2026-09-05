@@ -31,6 +31,14 @@ export default function CustomerServiceContent() {
         setOpenAccordion(openAccordion === id ? null : id);
     };
 
+    const handleGoToFaq = (id: string) => {
+        setOpenAccordion(id);
+        const faqElement = document.getElementById("info-accordion-section");
+        if (faqElement) {
+            faqElement.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     const scrollToForm = (type: "reklamation" | "byte") => {
         setIssueType(type);
         const formElement = document.getElementById("customer-service-form");
@@ -109,7 +117,7 @@ export default function CustomerServiceContent() {
                         <h3 className="text-lg font-bold text-[#1C1917] mb-2">1. Ångerrätt & Retur</h3>
                         <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-4">14 dagars ångerrätt. Kontakta säljaren du köpte varan av för hjälp med retur och återbetalning.</p>
                     </div>
-                    <button onClick={() => toggleAccordion("retur")} className="text-xs font-semibold text-[#7C5800] hover:text-[#EFAC02] transition-colors flex items-center gap-1 self-start cursor-pointer">
+                    <button onClick={() => handleGoToFaq("retur")} className="text-xs font-semibold text-[#7C5800] hover:text-[#EFAC02] transition-colors flex items-center gap-1 self-start cursor-pointer">
                         Läs mer om retur &rarr;
                     </button>
                 </div>
@@ -142,7 +150,7 @@ export default function CustomerServiceContent() {
             </div>
 
             {/* Information Accordion / Guide */}
-            <div className="bg-stone-50 rounded-2xl p-6 sm:p-8 border border-stone-200 mb-16 space-y-4">
+            <div id="info-accordion-section" className="bg-stone-50 rounded-2xl p-6 sm:p-8 border border-stone-200 mb-16 space-y-4">
                 <h2 className="text-xl font-bold text-[#1C1917] mb-6">Information om våra processer</h2>
 
                 {/* Item 1: Retur / Ångerrätt */}

@@ -32,18 +32,20 @@ const SellerAdminOverview = () => {
     }
 
     return (
-        <div>
+        <div className="space-y-6 sm:space-y-8">
             <div>
-                <h1 className="text-sm text-[#7C5800] mb-3">COORDINATOR DASHBOARD</h1>
-                <div className="flex items-center justify-between">
+                <h1 className="text-xs sm:text-sm text-[#7C5800] mb-2 sm:mb-3 font-semibold uppercase tracking-wider">COORDINATOR DASHBOARD</h1>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h2 className="text-5xl text-[#1A1C1C] mb-3">Welcome back, {user?.name || "Erik"}!</h2>
-                        <p className="text-[#78716C] text-lg">Your campaign is active and performing well.</p>
+                        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#1A1C1C] mb-2 sm:mb-3 tracking-tight">Welcome back, {user?.name || "Erik"}!</h2>
+                        <p className="text-[#78716C] text-sm sm:text-base md:text-lg">Your campaign is active and performing well.</p>
                     </div>
-                    <CampaignList
-                        selectedCampaignId={selectedCampaignId}
-                        onSelectCampaign={(campaign) => setSelectedCampaignId(campaign._id || "")}
-                    />
+                    <div className="w-full md:w-auto">
+                        <CampaignList
+                            selectedCampaignId={selectedCampaignId}
+                            onSelectCampaign={(campaign) => setSelectedCampaignId(campaign._id || "")}
+                        />
+                    </div>
                 </div>
             </div>
 

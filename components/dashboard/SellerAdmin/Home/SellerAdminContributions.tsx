@@ -85,45 +85,45 @@ const SellerAdminContributions = () => {
     };
 
     return (
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Top Contributors - 2/3 width */}
-            <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden">
+            <div className="lg:col-span-2 bg-white p-5 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden">
                 <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider">Top Contributors</h3>
-                        <Link href="/dashboard/team-sales" className="text-[#D97706] text-sm font-medium hover:text-[#7C5800] transition-colors">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider">Top Contributors</h3>
+                        <Link href="/dashboard/team-sales" className="text-[#D97706] text-xs sm:text-sm font-medium hover:text-[#7C5800] transition-colors">
                             View all team
                         </Link>
                     </div>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto -mx-2 px-2">
                         {isContributorsLoading ? (
                             <div className="flex justify-center py-12">
                                 <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         ) : contributors.length === 0 ? (
-                            <div className="text-center py-12 text-[#78716C]">No team members found. Invite some members to your group!</div>
+                            <div className="text-center py-12 text-[#78716C] text-sm">No team members found. Invite some members to your group!</div>
                         ) : (
-                            <table className="w-full">
+                            <table className="w-full min-w-100">
                                 <thead>
                                     <tr className="border-b border-[#E7E5E4]">
-                                        <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">NAME</th>
-                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">PACKAGES SOLD</th>
-                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-4 px-2">TOTAL SALES</th>
+                                        <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">NAME</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">PACKAGES SOLD</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">TOTAL SALES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {contributors.map((contributor) => (
                                         <tr key={contributor._id} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#F5F5F4] transition-colors duration-200 rounded-md">
-                                            <td className="py-4 rounded-l-md px-2">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-full bg-[#D97706] text-white flex items-center justify-center font-bold text-sm">{contributor.initials}</div>
-                                                    <span className="text-[#1A1C1C] font-medium">{contributor.name}</span>
+                                            <td className="py-3 sm:py-4 rounded-l-md px-2">
+                                                <div className="flex items-center gap-2.5 sm:gap-3">
+                                                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#D97706] text-white flex items-center justify-center font-bold text-xs sm:text-sm shrink-0">{contributor.initials}</div>
+                                                    <span className="text-[#1A1C1C] font-medium text-xs sm:text-sm truncate max-w-32 sm:max-w-none">{contributor.name}</span>
                                                 </div>
                                             </td>
-                                            <td className="py-4 text-right text-[#1A1C1C] px-2">
+                                            <td className="py-3 sm:py-4 text-right text-[#1A1C1C] text-xs sm:text-sm px-2">
                                                 {contributor.packages.toLocaleString()} Unit{contributor.packages !== 1 ? "s" : ""}
                                             </td>
-                                            <td className="py-4 text-right text-[#D97706] font-bold rounded-r-md px-2">{contributor.sales.toLocaleString()} SEK</td>
+                                            <td className="py-3 sm:py-4 text-right text-[#D97706] font-bold text-xs sm:text-sm rounded-r-md px-2">{contributor.sales.toLocaleString()} SEK</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -134,27 +134,27 @@ const SellerAdminContributions = () => {
             </div>
 
             {/* Recent Activity - 1/3 width (Fixed height + Scroll Lazy Loading) */}
-            <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden flex flex-col h-130">
+            <div className="bg-white p-5 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden flex flex-col h-100 sm:h-130">
                 <div className="relative z-10 flex flex-col h-full">
-                    <h3 className="text-[#78716C] text-sm font-medium uppercase tracking-wider mb-6 shrink-0">Recent Activity</h3>
-                    <div ref={scrollContainerRef} onScroll={handleScroll} className="space-y-4 overflow-y-auto flex-1 pr-1 custom-scrollbar">
+                    <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-4 sm:mb-6 shrink-0">Recent Activity</h3>
+                    <div ref={scrollContainerRef} onScroll={handleScroll} className="space-y-3 sm:space-y-4 overflow-y-auto flex-1 pr-1 custom-scrollbar">
                         {isLoading ? (
                             <div className="flex justify-center py-8">
                                 <div className="w-6 h-6 border-2 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         ) : allActivities.length === 0 ? (
-                            <p className="text-gray-400 text-sm text-center py-8">No recent activities</p>
+                            <p className="text-gray-400 text-xs sm:text-sm text-center py-8">No recent activities</p>
                         ) : (
                             <>
                                 {allActivities.map((activity) => (
-                                    <div key={activity._id} className="flex gap-4 p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
-                                        <div className="w-10 h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center shrink-0">{getActivityIcon(activity.type)}</div>
+                                    <div key={activity._id} className="flex gap-3 sm:gap-4 p-2.5 sm:p-3 rounded-md hover:bg-[#F5F5F4] transition-colors duration-200">
+                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#F5F5F4] flex items-center justify-center shrink-0">{getActivityIcon(activity.type)}</div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center justify-between mb-1">
-                                                <h4 className="text-[#1A1C1C] font-medium truncate">{activity.title}</h4>
-                                                <span className="text-[#A8A29E] text-xs shrink-0 ml-2">{formatTimeAgo(activity.createdAt)}</span>
+                                                <h4 className="text-[#1A1C1C] font-medium text-xs sm:text-sm truncate">{activity.title}</h4>
+                                                <span className="text-[#A8A29E] text-[10px] sm:text-xs shrink-0 ml-2">{formatTimeAgo(activity.createdAt)}</span>
                                             </div>
-                                            <p className="text-[#78716C] text-sm line-clamp-2">{activity.description}</p>
+                                            <p className="text-[#78716C] text-xs sm:text-sm line-clamp-2">{activity.description}</p>
                                         </div>
                                     </div>
                                 ))}
