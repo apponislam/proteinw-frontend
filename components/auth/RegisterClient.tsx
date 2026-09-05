@@ -93,6 +93,7 @@ const RegisterClient = () => {
     const {
         control: controlStep2,
         handleSubmit: handleSubmitStep2,
+        watch: watchStep2,
         formState: { errors: errorsStep2 },
     } = useForm<Step2Values>({
         resolver: zodResolver(step2Schema),
@@ -391,20 +392,9 @@ const RegisterClient = () => {
                         {/* Step 2 Form */}
                         {currentStep === 2 && (
                             <form onSubmit={handleSubmitStep2(onSubmitStep2)} className="space-y-6">
-                                {/* Organization Name */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">ORGANIZATION NAME</label>
-                                    <Controller
-                                        name="address.organizationName"
-                                        control={controlStep2}
-                                        render={({ field }) => <input type="text" placeholder="Organization Name" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
-                                    />
-                                    {errorsStep2.address?.organizationName && <p className="text-red-500 text-xs mt-1">{errorsStep2.address.organizationName.message}</p>}
-                                </div>
-
                                 {/* Organization Type */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">ORGANIZATION TYPE</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">CATEGORY / ORGANIZATION TYPE</label>
                                     <Controller
                                         name="address.organizationType"
                                         control={controlStep2}
@@ -417,7 +407,7 @@ const RegisterClient = () => {
                                                 >
                                                     <span className="flex items-center gap-2.5">
                                                         <Building2 className="w-4 h-4 text-gray-500" />
-                                                        {field.value ? <span className="text-gray-900 font-semibold">{field.value}</span> : <span className="text-gray-500">Select organization type</span>}
+                                                        {field.value ? <span className="text-gray-900 font-semibold">{field.value}</span> : <span className="text-gray-500">Select category</span>}
                                                     </span>
                                                     <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOrgTypeOpen ? "rotate-180 text-[#7C5800]" : ""}`} />
                                                 </button>
@@ -454,52 +444,52 @@ const RegisterClient = () => {
                                     />
                                 </div>
 
-                                {/* Street */}
+                                {/* Organization Name with Dynamic Placeholder */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">STREET</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">NAME</label>
+                                    <Controller
+                                        name="address.organizationName"
+                                        control={controlStep2}
+                                        render={({ field }) => {
+                                            const selectedType = watchStep2("address.organizationType");
+                                            let placeholder = "Enter organization name";
+                                            if (selectedType === "Skola") placeholder = "Enter school name";
+                                            else if (selectedType === "Gymnasium") placeholder = "Enter high school name";
+                                            else if (selectedType === "Förening") placeholder = "Enter association name";
+                                            else if (selectedType === "Annat") placeholder = "Enter organization name";
+
+                                            return <input type="text" placeholder={placeholder} className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />;
+                                        }}
+                                    />
+                                    {errorsStep2.address?.organizationName && <p className="text-red-500 text-xs mt-1">{errorsStep2.address.organizationName.message}</p>}
+                                </div>
+
+                                {/* Address Section */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">GATUADRESS (STREET ADDRESS)</label>
                                     <Controller
                                         name="address.street"
                                         control={controlStep2}
-                                        render={({ field }) => <input type="text" placeholder="Street Address" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        render={({ field }) => <input type="text" placeholder="Gatuadress" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                     />
                                 </div>
 
-                                {/* City and State */}
+                                {/* Postnummer & Ort */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">CITY</label>
-                                        <Controller
-                                            name="address.city"
-                                            control={controlStep2}
-                                            render={({ field }) => <input type="text" placeholder="City" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">STATE</label>
-                                        <Controller
-                                            name="address.state"
-                                            control={controlStep2}
-                                            render={({ field }) => <input type="text" placeholder="State" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Zip Code and Locality */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">ZIP CODE</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">POSTNUMMER (ZIP CODE)</label>
                                         <Controller
                                             name="address.zipCode"
                                             control={controlStep2}
-                                            render={({ field }) => <input type="text" placeholder="Zip Code" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                            render={({ field }) => <input type="text" placeholder="Postnummer" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">LOCALITY</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">ORT (LOCALITY)</label>
                                         <Controller
                                             name="address.locality"
                                             control={controlStep2}
-                                            render={({ field }) => <input type="text" placeholder="Locality" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                            render={({ field }) => <input type="text" placeholder="Ort" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                         />
                                     </div>
                                 </div>
