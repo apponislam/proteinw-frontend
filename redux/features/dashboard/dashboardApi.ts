@@ -24,6 +24,7 @@ export type TActivityLog = {
 export type TDashboardStatus = {
     hasGroup: boolean;
     hasCampaign: boolean;
+    isApproved?: boolean;
 };
 
 export type TStoreInfo = {

@@ -7,6 +7,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { useGetDashboardStatusQuery } from "@/redux/features/dashboard/dashboardApi";
 import CreateGroupForm from "./CreateGroupForm";
+import PendingApprovalNotice from "./PendingApprovalNotice";
 import CampaignList from "./CamPaignList";
 
 const SellerAdminOverview = () => {
@@ -20,6 +21,10 @@ const SellerAdminOverview = () => {
                 <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#D97706]" />
             </div>
         );
+    }
+
+    if (!statusData?.isApproved) {
+        return <PendingApprovalNotice />;
     }
 
     if (!statusData?.hasGroup) {
