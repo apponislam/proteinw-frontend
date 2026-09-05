@@ -48,11 +48,19 @@ export default function UserProfile() {
         : "U";
 
     const isSeller = user.role === "SELLER";
+    const isSuperAdmin = user.role === "SUPER_ADMIN";
     const formattedRole = user.role ? user.role.replace("_", " ") : "USER";
     const joinedDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A";
 
-    const address = user.address || {};
-    const fullAddressString = [address.street, address.city, address.state, address.zipCode, address.country].filter(Boolean).join(", ");
+    let parsedAddress: any = user.address || {};
+    if (typeof user.address === "string") {
+        try {
+            parsedAddress = JSON.parse(user.address);
+        } catch {
+            parsedAddress = {};
+        }
+    }
+    const address = parsedAddress;
 
     return (
         <div className="space-y-6 max-w-6xl mx-auto pb-10">
@@ -81,7 +89,7 @@ export default function UserProfile() {
                                 <div className="flex items-center gap-2.5 flex-wrap">
                                     <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1C] tracking-tight">{user.name}</h1>
                                     <span className="px-3 py-0.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-amber-50 text-[#D97706] border border-amber-200/80">{formattedRole}</span>
-                                    {!isSeller && user.isApproved !== undefined && (
+                                    {!isSeller && !isSuperAdmin && user.isApproved !== undefined && (
                                         <span className={`px-3 py-0.5 rounded-full text-xs font-bold border ${user.isApproved ? "bg-green-50 text-green-700 border-green-200" : "bg-yellow-50 text-yellow-800 border-yellow-200"}`}>{user.isApproved ? "Approved" : "Pending Approval"}</span>
                                     )}
                                 </div>
@@ -117,7 +125,7 @@ export default function UserProfile() {
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_2px_10px_0px_rgba(0,0,0,0.03)] space-y-4">
                     <div className="flex items-center gap-2 border-b border-[#F5F5F4] pb-3">
                         <User size={18} className="text-[#D97706]" />
-                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Personal Details</h3>
+                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Personal Information</h3>
                     </div>
 
                     <div className="space-y-3.5 text-xs sm:text-sm">
@@ -142,7 +150,7 @@ export default function UserProfile() {
                             <span className="font-bold text-[#1A1C1C]">{user.phone || "Not provided"}</span>
                         </div>
 
-                        {!isSeller && user.profession && (
+                        {!isSeller && !isSuperAdmin && user.profession && (
                             <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                 <span className="text-[#78716C] font-medium flex items-center gap-2">
                                     <Briefcase size={14} className="text-stone-400" /> Profession
@@ -164,11 +172,11 @@ export default function UserProfile() {
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_2px_10px_0px_rgba(0,0,0,0.03)] space-y-4">
                     <div className="flex items-center gap-2 border-b border-[#F5F5F4] pb-3">
                         <MapPin size={18} className="text-[#D97706]" />
-                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">{isSeller ? "Location & Address" : "Organization & Location"}</h3>
+                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">{isSeller || isSuperAdmin ? "Location & Address" : "Organization & Location"}</h3>
                     </div>
 
                     <div className="space-y-3.5 text-xs sm:text-sm">
-                        {!isSeller && (
+                        {!isSeller && !isSuperAdmin && (
                             <>
                                 <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                     <span className="text-[#78716C] font-medium flex items-center gap-2">
