@@ -8,7 +8,12 @@ const Fundraisingcalculator = () => {
     const [targetProfit, setTargetProfit] = useState(15000);
     const [students, setStudents] = useState(26);
 
-    // Calculation Logic
+    // Thresholds & Prices:
+    // Package price = 180 SEK
+    // 0 - 149 pkgs  => 40% profit (72 SEK/pkg)  => Max 40% profit = 149 * 72 = 10,728 SEK
+    // 150 - 224 pkgs => 45% profit (81 SEK/pkg)  => Min 45% profit = 150 * 81 = 12,150 SEK; Max = 224 * 81 = 18,144 SEK
+    // 225+ pkgs      => 50% profit (90 SEK/pkg)  => Min 50% profit = 225 * 90 = 20,250 SEK
+
     const validTarget = Math.max(0, targetProfit);
     let p = 0;
     if (validTarget > 0) {
@@ -36,9 +41,18 @@ const Fundraisingcalculator = () => {
 
     const totalProfit = packagesNeeded * profitPerPkg;
 
-    // Progress bar mapping to visual checkpoints (150 pkgs -> 45%, 225 pkgs -> 50%)
-    // Let's cap the visual progress to 300 packages for display purposes
-    const progress = Math.min((packagesNeeded / 300) * 100, 100);
+    // Progress bar visualization:
+    // 0 - 149 pkgs   => 0% to 50% bar
+    // 150 - 224 pkgs => 50% to 99% bar
+    // 225+ pkgs      => 100% bar (Max 50% profit tier reached)
+    let progress = 0;
+    if (packagesNeeded < 150) {
+        progress = (packagesNeeded / 150) * 50;
+    } else if (packagesNeeded < 225) {
+        progress = 50 + ((packagesNeeded - 150) / (225 - 150)) * 50;
+    } else {
+        progress = 100;
+    }
 
     let nextTier = "Max Tier Reached";
     if (packagesNeeded < 150) {

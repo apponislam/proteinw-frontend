@@ -56,22 +56,22 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                     <p className="text-xs sm:text-sm font-semibold text-[#7C5800]">Next Tier: {nextTier}</p>
                 </div>
 
-                <div className="mt-5 sm:mt-6 relative h-3 rounded-full bg-[#FCB601]">
-                    <div className="absolute left-0 top-0 h-3 rounded-full bg-[#271900] transition-all duration-300" style={{ width: `${progress}%` }} />
+                <div className="mt-5 sm:mt-6 relative h-3 rounded-full bg-[#E5E7EB]">
+                    <div className="absolute left-0 top-0 h-3 rounded-full bg-linear-to-r from-[#7C5800] to-[#FFB800] transition-all duration-300" style={{ width: `${progress}%` }} />
                 </div>
 
                 <div className="mt-5 sm:mt-6 flex justify-between text-xs text-[#837560]">
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-start justify-center">
                         <span className="font-bold text-[#271900]">40%</span>
-                        <span>150 Pkgs</span>
+                        <span>0 - 149 Pkgs</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <span className="font-bold text-[#271900]">45%</span>
-                        <span>225 Pkgs</span>
+                        <span>150 - 224 Pkgs</span>
                     </div>
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-end justify-center">
                         <span className="font-bold text-[#271900]">50%</span>
-                        <span>300 Pkgs</span>
+                        <span>225+ Pkgs</span>
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                 {(() => {
                     let tipMessage = "";
                     const activeStudents = Math.max(1, perStudent > 0 ? Math.ceil(packagesNeeded / perStudent) : 1);
-                    
+
                     if (packagesNeeded < 150) {
                         const pkgsToNext = 150 - packagesNeeded;
                         const additionalPerStudent = Math.ceil(pkgsToNext / activeStudents);
@@ -96,7 +96,7 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                         <div className="mt-5 sm:mt-6 rounded-2xl bg-[#F3F3F3] p-4 flex items-start gap-3 text-[#7C5800]">
                             <Lightbulb className="shrink-0 w-5 h-5 mt-0.5" />
                             <p className="text-xs sm:text-sm leading-relaxed">
-                                <span className="font-semibold">Expert Tip:</span> {tipMessage}
+                                <span className="font-semibold uppercase tracking-wide">TIPS:</span> {tipMessage}
                             </p>
                         </div>
                     );
