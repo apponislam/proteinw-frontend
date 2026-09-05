@@ -30,8 +30,6 @@ const step1Schema = z.object({
 
 // Step 2 Schema (Organization Details & Address)
 const step2Schema = z.object({
-    phone: z.string().min(1, "Phone is required"),
-    profession: z.enum(["LEADER", "TEACHER", "PARENT", "COACH"]),
     address: z.object({
         organizationName: z.string().optional(),
         organizationType: z.string().optional(),
@@ -65,7 +63,7 @@ const RegisterClient = () => {
         { name: "COACH", icon: Target },
     ];
 
-    const organizationTypes = ["Skola", "Gymnasium", "Lag", "Idrottsförening"];
+    const organizationTypes = ["Skola", "Gymnasium", "Förening", "Annat"];
 
     // Step 1 Form
     const {
