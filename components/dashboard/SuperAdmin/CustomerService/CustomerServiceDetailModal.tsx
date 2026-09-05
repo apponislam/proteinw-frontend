@@ -102,10 +102,10 @@ function OrderViewModal({ orderId, onClose }: { orderId: string; onClose: () => 
                     <X size={18} />
                 </button>
 
-                <div className="border-b border-stone-200 pb-3">
-                    <h3 className="text-sm font-bold text-[#1A1C1C] flex items-center gap-2">
+                <div className="border-b border-stone-200 pb-3 pr-8">
+                    <h3 className="text-sm font-bold text-[#1A1C1C] flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                         <span>Orderdetaljer:</span>
-                        <span className="font-mono text-xs font-semibold text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                        <span className="font-mono text-xs font-semibold text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 break-all w-fit">
                             {order?._id || orderId}
                         </span>
                     </h3>

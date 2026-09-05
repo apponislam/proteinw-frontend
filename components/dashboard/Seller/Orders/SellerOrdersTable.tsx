@@ -230,9 +230,9 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                             <X size={20} />
                         </button>
 
-                        <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-6 flex flex-wrap items-center gap-1.5">
+                        <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-6 pr-10 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                             <span>Order Details -</span>
-                            <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all">{activeSelectedOrder._id}</span>
+                            <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all w-fit">{activeSelectedOrder._id}</span>
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
