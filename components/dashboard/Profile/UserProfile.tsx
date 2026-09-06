@@ -168,54 +168,56 @@ export default function UserProfile() {
                     </div>
                 </div>
 
-                {/* Card 2: Address & Organization Details */}
-                <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_2px_10px_0px_rgba(0,0,0,0.03)] space-y-4">
-                    <div className="flex items-center gap-2 border-b border-[#F5F5F4] pb-3">
-                        <MapPin size={18} className="text-[#D97706]" />
-                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">{isSeller || isSuperAdmin ? "Location & Address" : "Organization & Location"}</h3>
+                {/* Card 2: Address & Organization Details (Hidden for Sellers) */}
+                {!isSeller && (
+                    <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_2px_10px_0px_rgba(0,0,0,0.03)] space-y-4">
+                        <div className="flex items-center gap-2 border-b border-[#F5F5F4] pb-3">
+                            <MapPin size={18} className="text-[#D97706]" />
+                            <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">{isSuperAdmin ? "Location & Address" : "Organization & Location"}</h3>
+                        </div>
+
+                        <div className="space-y-3.5 text-xs sm:text-sm">
+                            {!isSuperAdmin && (
+                                <>
+                                    <div className="flex items-center justify-between py-1 border-b border-stone-50">
+                                        <span className="text-[#78716C] font-medium flex items-center gap-2">
+                                            <Building size={14} className="text-stone-400" /> Organization Name
+                                        </span>
+                                        <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.organizationName || "N/A"}</span>
+                                    </div>
+
+                                    <div className="flex items-center justify-between py-1 border-b border-stone-50">
+                                        <span className="text-[#78716C] font-medium flex items-center gap-2">
+                                            <Building2 size={14} className="text-stone-400" /> Organization Type
+                                        </span>
+                                        <span className="font-bold text-[#1A1C1C]">{address.organizationType || "N/A"}</span>
+                                    </div>
+                                </>
+                            )}
+
+                            <div className="flex items-center justify-between py-1 border-b border-stone-50">
+                                <span className="text-[#78716C] font-medium flex items-center gap-2">
+                                    <MapPin size={14} className="text-stone-400" /> Street Address
+                                </span>
+                                <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.street || "N/A"}</span>
+                            </div>
+
+                            <div className="flex items-center justify-between py-1 border-b border-stone-50">
+                                <span className="text-[#78716C] font-medium flex items-center gap-2">
+                                    <Building size={14} className="text-stone-400" /> Zip Code
+                                </span>
+                                <span className="font-bold text-[#1A1C1C]">{address.zipCode || "N/A"}</span>
+                            </div>
+
+                            <div className="flex items-center justify-between py-1 border-b border-stone-50">
+                                <span className="text-[#78716C] font-medium flex items-center gap-2">
+                                    <MapPin size={14} className="text-stone-400" /> Locality
+                                </span>
+                                <span className="font-bold text-[#1A1C1C]">{address.locality || "N/A"}</span>
+                            </div>
+                        </div>
                     </div>
-
-                    <div className="space-y-3.5 text-xs sm:text-sm">
-                        {!isSeller && !isSuperAdmin && (
-                            <>
-                                <div className="flex items-center justify-between py-1 border-b border-stone-50">
-                                    <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <Building size={14} className="text-stone-400" /> Organization Name
-                                    </span>
-                                    <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.organizationName || "N/A"}</span>
-                                </div>
-
-                                <div className="flex items-center justify-between py-1 border-b border-stone-50">
-                                    <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <Building2 size={14} className="text-stone-400" /> Organization Type
-                                    </span>
-                                    <span className="font-bold text-[#1A1C1C]">{address.organizationType || "N/A"}</span>
-                                </div>
-                            </>
-                        )}
-
-                        <div className="flex items-center justify-between py-1 border-b border-stone-50">
-                            <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <MapPin size={14} className="text-stone-400" /> Street Address
-                            </span>
-                            <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.street || "N/A"}</span>
-                        </div>
-
-                        <div className="flex items-center justify-between py-1 border-b border-stone-50">
-                            <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <Building size={14} className="text-stone-400" /> City / Zip Code
-                            </span>
-                            <span className="font-bold text-[#1A1C1C]">{address.city ? `${address.city}${address.zipCode ? ` (${address.zipCode})` : ""}` : "N/A"}</span>
-                        </div>
-
-                        <div className="flex items-center justify-between py-1 border-b border-stone-50">
-                            <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <MapPin size={14} className="text-stone-400" /> Locality
-                            </span>
-                            <span className="font-bold text-[#1A1C1C]">{address.locality || "N/A"}</span>
-                        </div>
-                    </div>
-                </div>
+                )}
             </div>
 
             {/* Modals */}
