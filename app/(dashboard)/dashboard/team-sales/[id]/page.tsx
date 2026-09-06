@@ -36,7 +36,6 @@ const Page = () => {
                         <div className="min-w-0 flex-1">
                             <span className="inline-block text-[11px] sm:text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Class / Team Group</span>
                             <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1C] mt-2 mb-1 truncate">{group.name}</h1>
-                            <p className="text-[#78716C] text-xs sm:text-sm line-clamp-2">{group.shortDescription}</p>
                         </div>
                         <div className="text-xs text-[#78716C] font-semibold flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 shrink-0 self-start">
                             <Calendar size={14} className="text-[#D97706]" />

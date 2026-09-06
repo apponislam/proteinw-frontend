@@ -11,7 +11,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
     const totalPackages = group?.totalPackagesSold ?? group?.tierInfo?.totalPackagesSold ?? 0;
     const totalSalesNum = group?.totalRevenue ?? group?.tierInfo?.totalRevenue ?? 0;
 
-    const campaignName = group?.runningCampaign?.name || (group?.runningCampaignId as any)?.name || group?.shortDescription || "Fundraising Group";
+    const campaignName = group?.runningCampaign?.name || (group?.runningCampaignId as any)?.name || "Fundraising Group";
 
     const totalActiveCampaigns = group?.totalActiveCampaigns ?? 0;
     const totalCampaigns = group?.totalCampaigns ?? 0;

@@ -11,7 +11,6 @@ import { toast } from "sonner";
 
 const groupFormSchema = z.object({
     className: z.string().min(2, "Class name must be at least 2 characters"),
-    shortDescription: z.string().min(2, "Short description must be at least 2 characters"),
 });
 
 type GroupFormValues = z.infer<typeof groupFormSchema>;
@@ -38,7 +37,6 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
         try {
             await createGroup({
                 name: data.className,
-                shortDescription: data.shortDescription,
             }).unwrap();
 
             toast.success("Group created successfully!", { id: toastId });
@@ -68,11 +66,6 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
                         <label className="text-sm font-medium text-[#1A1C1C]">Class Name</label>
                         <Input placeholder="Enter class name" {...register("className")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.className && <p className="text-red-500 text-xs">{errors.className.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Short description</label>
-                        <Input placeholder="Enter short description" {...register("shortDescription")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
-                        {errors.shortDescription && <p className="text-red-500 text-xs">{errors.shortDescription.message}</p>}
                     </div>
                     <button
                         type="submit"

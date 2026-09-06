@@ -53,7 +53,6 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                         <div>
                             <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Group Details</span>
                             <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
-                            <p className="text-[#78716C] text-sm">{group.shortDescription}</p>
                         </div>
                         <div className="flex flex-col sm:items-end gap-2 shrink-0">
                             {typeof group.createdBy === "object" && group.createdBy && (

@@ -48,7 +48,6 @@ export type TGroupCreatedBy = {
 export type TGroup = {
     _id?: string;
     name: string;
-    shortDescription: string;
     code: string;
     createdBy?: string | TGroupCreatedBy;
     isActive: boolean;
@@ -65,7 +64,6 @@ export type TGroup = {
 export type TMyGroupSummary = {
     _id: string;
     name: string;
-    shortDescription: string;
     code: string;
     createdBy?: TGroupCreatedBy;
     isActive: boolean;
@@ -202,7 +200,7 @@ const groupApi = baseApi.injectEndpoints({
             providesTags: (result) => (result ? [...result.data.map(({ _id }) => ({ type: "Group" as const, id: _id })), { type: "Group", id: "ADMIN_LIST" }] : [{ type: "Group", id: "ADMIN_LIST" }]),
         }),
 
-        createGroup: builder.mutation<{ data: TGroup }, { name: string; shortDescription: string }>({
+        createGroup: builder.mutation<{ data: TGroup }, { name: string }>({
             query: (groupData) => ({
                 url: "/groups",
                 method: "POST",

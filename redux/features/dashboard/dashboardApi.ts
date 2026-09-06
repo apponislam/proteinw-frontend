@@ -33,6 +33,7 @@ export type TStoreInfo = {
     adminName?: string;
     groupName?: string;
     campaignName?: string;
+    campaignDescription?: string;
     campaignProductCount?: number;
 };
 

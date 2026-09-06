@@ -11,7 +11,6 @@ import { useCreateGroupMutation } from "@/redux/features/group/groupApi";
 
 const groupFormSchema = z.object({
     name: z.string().min(2, "Group name must be at least 2 characters"),
-    shortDescription: z.string().min(2, "Short description must be at least 2 characters"),
 });
 
 type GroupFormValues = z.infer<typeof groupFormSchema>;
@@ -33,7 +32,6 @@ export default function CreateGroupForm() {
         try {
             await createGroup({
                 name: data.name,
-                shortDescription: data.shortDescription,
             }).unwrap();
             toast.success("Group created successfully!", { id: toastId });
             reset();
@@ -54,12 +52,6 @@ export default function CreateGroupForm() {
                     <label className="text-sm font-semibold text-[#1A1C1C]">Group Name</label>
                     <Input placeholder="Enter group or class name" {...register("name")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                     {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
-                </div>
-
-                <div className="space-y-2">
-                    <label className="text-sm font-semibold text-[#1A1C1C]">Short Description</label>
-                    <Textarea placeholder="Enter description of your fundraising group" {...register("shortDescription")} className="min-h-25 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
-                    {errors.shortDescription && <p className="text-red-500 text-xs">{errors.shortDescription.message}</p>}
                 </div>
 
                 <button
