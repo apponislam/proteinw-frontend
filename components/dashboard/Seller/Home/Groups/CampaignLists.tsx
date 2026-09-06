@@ -106,6 +106,12 @@ const CampaignLists = () => {
                             const target = campaign.target || 1;
                             const progress = Math.min(100, Math.round((totalRevenue / target) * 100));
 
+                            const tierInfo = {
+                                currentTier: campaign.currentTier,
+                                nextTier: campaign.nextTier,
+                                packagesNeededForNextTier: campaign.packagesNeededForNextTier,
+                            };
+
                             return (
                                 <CampaignCard
                                     key={campaign._id}
@@ -117,6 +123,7 @@ const CampaignLists = () => {
                                     goal={`${target.toLocaleString()} SEK`}
                                     raised={`${totalRevenue.toLocaleString()} SEK`}
                                     daysLeft={daysLeftNum > 0 ? `Deadline: In ${daysLeftNum} days` : "Campaign has ended"}
+                                    tierInfo={tierInfo}
                                     campaigns={[campaign.name.charAt(0)]}
                                     onViewDetails={() => {
                                         router.push(`/dashboard/seller/group/${id}/${campaign._id}`);
