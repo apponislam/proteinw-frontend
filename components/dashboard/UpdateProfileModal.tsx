@@ -95,8 +95,8 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
 
             const addressObj = {
                 ...existingAddressObj,
-                ...(organizationName && { organizationName }),
-                ...(organizationType && { organizationType }),
+                organizationName,
+                organizationType,
                 street,
                 city,
                 state,
@@ -204,92 +204,89 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                             </div>
                         </div>
                     )}
-                    {/* Address Section (Hidden for Sellers) */}
-                    {me?.role !== "SELLER" && (
-                        <div className="pt-2 border-t border-[#F5F5F4]">
-                            <h4 className="text-xs font-bold text-[#1A1C1C] uppercase mb-3 flex items-center gap-1.5">
-                                <MapPin size={14} className="text-[#D97706]" /> Address Details
-                            </h4>
+                    {/* Address Section */}
+                    <div className="pt-2 border-t border-[#F5F5F4]">
+                        <h4 className="text-xs font-bold text-[#1A1C1C] uppercase mb-3 flex items-center gap-1.5">
+                            <MapPin size={14} className="text-[#D97706]" /> Address & Organization Details
+                        </h4>
 
-                            <div className="space-y-3">
-                                {me?.role !== "SUPER_ADMIN" && (
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {/* Left: Organization Type Selection */}
-                                        <div className="relative">
-                                            <button
-                                                type="button"
-                                                onClick={() => setIsOrgTypeDropdownOpen((prev) => !prev)}
-                                                className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm flex items-center justify-between text-left focus:outline-none focus:border-[#D97706] text-[#1A1C1C] cursor-pointer transition-colors"
-                                            >
-                                                <span className={organizationType ? "text-[#1A1C1C] font-medium truncate" : "text-gray-400 truncate"}>{organizationType || "Select Type"}</span>
-                                                <ChevronDown size={16} className={`text-gray-400 shrink-0 transition-transform duration-200 ${isOrgTypeDropdownOpen ? "rotate-180" : ""}`} />
-                                            </button>
+                        <div className="space-y-3">
+                            {me?.role !== "SUPER_ADMIN" && (
+                                <div className="grid grid-cols-2 gap-3">
+                                    {/* Left: Organization Type Selection */}
+                                    <div className="relative">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsOrgTypeDropdownOpen((prev) => !prev)}
+                                            className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm flex items-center justify-between text-left focus:outline-none focus:border-[#D97706] text-[#1A1C1C] cursor-pointer transition-colors"
+                                        >
+                                            <span className={organizationType ? "text-[#1A1C1C] font-medium truncate" : "text-gray-400 truncate"}>{organizationType || "Select Type"}</span>
+                                            <ChevronDown size={16} className={`text-gray-400 shrink-0 transition-transform duration-200 ${isOrgTypeDropdownOpen ? "rotate-180" : ""}`} />
+                                        </button>
 
-                                            {isOrgTypeDropdownOpen && (
-                                                <>
-                                                    <div className="fixed inset-0 z-20" onClick={() => setIsOrgTypeDropdownOpen(false)}></div>
-                                                    <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        {isOrgTypeDropdownOpen && (
+                                            <>
+                                                <div className="fixed inset-0 z-20" onClick={() => setIsOrgTypeDropdownOpen(false)}></div>
+                                                <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setOrganizationType("");
+                                                            setIsOrgTypeDropdownOpen(false);
+                                                        }}
+                                                        className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${!organizationType ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-600"}`}
+                                                    >
+                                                        <span>Select Type</span>
+                                                        {!organizationType && <Check size={14} className="text-[#D97706]" />}
+                                                    </button>
+                                                    {organizationTypeOptions.map((opt) => (
                                                         <button
+                                                            key={opt}
                                                             type="button"
                                                             onClick={() => {
-                                                                setOrganizationType("");
+                                                                setOrganizationType(opt);
                                                                 setIsOrgTypeDropdownOpen(false);
                                                             }}
-                                                            className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${!organizationType ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-600"}`}
+                                                            className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${organizationType === opt ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                                         >
-                                                            <span>Select Type</span>
-                                                            {!organizationType && <Check size={14} className="text-[#D97706]" />}
+                                                            <span>{opt}</span>
+                                                            {organizationType === opt && <Check size={14} className="text-[#D97706]" />}
                                                         </button>
-                                                        {organizationTypeOptions.map((opt) => (
-                                                            <button
-                                                                key={opt}
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    setOrganizationType(opt);
-                                                                    setIsOrgTypeDropdownOpen(false);
-                                                                }}
-                                                                className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${organizationType === opt ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
-                                                            >
-                                                                <span>{opt}</span>
-                                                                {organizationType === opt && <Check size={14} className="text-[#D97706]" />}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-
-                                        {/* Right: Organization Name Input */}
-                                        <div>
-                                            {(() => {
-                                                let placeholder = "Organization Name";
-                                                if (organizationType === "Skola") placeholder = "School Name";
-                                                else if (organizationType === "Gymnasium") placeholder = "High School Name";
-                                                else if (organizationType === "Förening") placeholder = "Association Name";
-                                                else if (organizationType === "Annat") placeholder = "Organization Name";
-
-                                                return <input type="text" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder={placeholder} />;
-                                            })()}
-                                        </div>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
-                                )}
 
-                                <div>
-                                    <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Street Address" />
+                                    {/* Right: Organization Name Input */}
+                                    <div>
+                                        {(() => {
+                                            let placeholder = "Organization Name";
+                                            if (organizationType === "Skola") placeholder = "School Name";
+                                            else if (organizationType === "Gymnasium") placeholder = "High School Name";
+                                            else if (organizationType === "Förening") placeholder = "Association Name";
+                                            else if (organizationType === "Annat") placeholder = "Organization Name";
+
+                                            return <input type="text" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder={placeholder} />;
+                                        })()}
+                                    </div>
                                 </div>
+                            )}
 
-                                {/* <div className="grid grid-cols-2 gap-3">
-                                    <input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="City" />
-                                    <input type="text" value={state} onChange={(e) => setState(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="State / Region" />
-                                </div> */}
+                            {me?.role !== "SELLER" && (
+                                <>
+                                    <div>
+                                        <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Street Address" />
+                                    </div>
 
-                                <div className="grid grid-cols-2 gap-3">
-                                    <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Zip / Postal Code" />
-                                    <input type="text" value={locality} onChange={(e) => setLocality(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Locality" />
-                                </div>
-                            </div>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Zip / Postal Code" />
+                                        <input type="text" value={locality} onChange={(e) => setLocality(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Locality" />
+                                    </div>
+                                </>
+                            )}
                         </div>
-                    )}
+                    </div>
 
                     {/* Action Buttons */}
                     <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#F5F5F4]">

@@ -59,9 +59,9 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     </div>
 
                     <div className="space-y-2 pt-0.5">
-                        <div className="flex items-start justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
+                        <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Profit Tier</span>
-                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] text-right wrap-break-word max-w-[70%]" title={`${profitTierPercentage}% ${nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed for next profit tier)` : "(Top Tier)"}`}>
+                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] text-right truncate min-w-0 max-w-[70%]" title={`${profitTierPercentage}% ${nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed for next profit tier)` : "(Top Tier)"}`}>
                                 {profitTierPercentage}% {nextTierNeeded > 0 ? `(${nextTierNeeded} PCS needed for next profit tier)` : "(Top Tier)"}
                             </span>
                         </div>
