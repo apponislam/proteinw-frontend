@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
-import { Award, Loader2, Users } from "lucide-react";
+import { Award, Info, Loader2, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateCampaignMutation } from "@/redux/features/campaign/campaignApi";
@@ -135,6 +135,10 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                     <div className="space-y-1">
                         <label className="text-xs font-semibold text-[#1A1C1C]">Short Description</label>
                         <Textarea placeholder="Describe what you are raising money for..." {...register("shortDescription")} className="min-h-20 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]" />
+                        <p className="text-[11px] text-[#D97706] font-medium flex items-center gap-1 pt-0.5">
+                            <Info size={13} className="shrink-0" />
+                            <span>This text will be displayed to customers on the seller’s digital storefront.</span>
+                        </p>
                         {errors.shortDescription && <p className="text-red-500 text-[11px]">{errors.shortDescription.message}</p>}
                     </div>
 
