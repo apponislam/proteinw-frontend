@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { TCampaign, useUpdateCampaignStatusMutation } from "../../../../../redux/features/campaign/campaignApi";
 import { useGetCampaignSellersQuery } from "@/redux/features/campaignSeller/campaignSellerApi";
 import { toast } from "sonner";
-import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone, ChevronDown, Check, ShoppingBag } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Users, Package, Plus, User, Mail, Phone, ChevronDown, Check, ShoppingBag, Headphones } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
@@ -147,7 +147,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                 {/* Campaign Contact / Admin Info Card - Shows first on Mobile, Right Column on Desktop */}
                 <div className="lg:col-span-1 lg:order-2 space-y-4">
                     <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Contact</h3>
-                    <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+                    {/* <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
                         {admin ? (
                             <>
                                 <div className="flex items-center gap-3">
@@ -182,6 +182,30 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                         ) : (
                             <div className="text-sm text-[#78716C] italic text-center py-4">No admin user assigned to this campaign.</div>
                         )}
+                    </div> */}
+                    <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">
+                                <Headphones size={18} />
+                            </div>
+                            <div className="min-w-0">
+                                <h4 className="font-bold text-sm text-[#1A1C1C] truncate">Kundtjänst</h4>
+                            </div>
+                        </div>
+                        <div className="space-y-2 pt-2 border-t border-[#E7E5E4] text-xs text-[#78716C]">
+                            <div className="flex items-center gap-2 min-w-0">
+                                <Mail size={16} className="shrink-0 text-[#D97706]" />
+                                <a href="mailto:support@kungsbjörnen.se" className="truncate block hover:text-[#D97706] transition-colors" title="support@kungsbjörnen.se">
+                                    support@kungsbjörnen.se
+                                </a>
+                            </div>
+                            <div className="flex items-center gap-2 min-w-0">
+                                <Phone size={16} className="shrink-0 text-[#D97706]" />
+                                <a href="tel:000000000" className="truncate block hover:text-[#D97706] transition-colors">
+                                    000 000 000
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

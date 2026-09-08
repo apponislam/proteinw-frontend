@@ -53,27 +53,31 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign,
                     <p className="text-sm text-[#78716C] mt-1.5 leading-relaxed max-w-xl">{shortDescription}</p>
                 </div>
 
-                {/* Kundtjänst Contact Card */}
+                {/* Group Leader Contact Card */}
                 <div className="bg-[#FDFBF7] p-3.5 sm:p-4 rounded-xl border border-amber-100/80 w-full md:w-auto md:min-w-72 shrink-0">
-                    <div className="text-[10px] font-bold text-[#D97706] uppercase tracking-wider mb-2">Kundtjänst</div>
+                    <div className="text-[10px] font-bold text-[#D97706] uppercase tracking-wider mb-2">Group Leader</div>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-100/60 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">
-                                <Headphones size={18} />
+                                {admin?.name ? admin.name.charAt(0).toUpperCase() : "L"}
                             </div>
-                            <h4 className="font-bold text-sm text-[#1A1C1C] sm:hidden truncate">Kundtjänst</h4>
+                            <h4 className="font-bold text-sm text-[#1A1C1C] sm:hidden truncate">{admin?.name || "Group Leader"}</h4>
                         </div>
                         <div className="min-w-0 flex-1 space-y-1">
-                            <h4 className="font-bold text-sm text-[#1A1C1C] hidden sm:block truncate">Kundtjänst</h4>
+                            <h4 className="font-bold text-sm text-[#1A1C1C] hidden sm:block truncate">{admin?.name || "Group Leader"}</h4>
                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#78716C]">
-                                <a href="mailto:support@kungsbjörnen.se" className="flex items-center gap-1 hover:text-[#D97706] transition-colors max-w-full truncate">
-                                    <Mail size={12} className="text-[#D97706] shrink-0" />
-                                    <span className="truncate">support@kungsbjörnen.se</span>
-                                </a>
-                                <a href="tel:000000000" className="flex items-center gap-1 hover:text-[#D97706] transition-colors shrink-0">
-                                    <Phone size={12} className="text-[#D97706] shrink-0" />
-                                    <span>000 000 000</span>
-                                </a>
+                                {admin?.email && (
+                                    <a href={`mailto:${admin.email}`} className="flex items-center gap-1 hover:text-[#D97706] transition-colors max-w-full truncate">
+                                        <Mail size={12} className="text-[#D97706] shrink-0" />
+                                        <span className="truncate">{admin.email}</span>
+                                    </a>
+                                )}
+                                {admin?.phone && (
+                                    <a href={`tel:${admin.phone}`} className="flex items-center gap-1 hover:text-[#D97706] transition-colors shrink-0">
+                                        <Phone size={12} className="text-[#D97706] shrink-0" />
+                                        <span>{admin.phone}</span>
+                                    </a>
+                                )}
                             </div>
                         </div>
                     </div>
