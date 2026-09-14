@@ -23,7 +23,6 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
             <div className="relative z-10">
                 <div className="mb-4">
                     <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">{group.name}</h3>
-                    <p className="text-[#78716C] text-sm mt-1 group-hover:text-[#271900] transition-colors duration-300">Code: {group.code}</p>
                 </div>
 
                 {/* Key-Value Left-Right Data List */}
