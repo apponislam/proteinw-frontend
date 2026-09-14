@@ -8,15 +8,24 @@ import SellerA4QrPrintModal from "./SellerA4QrPrintModal";
 
 interface SellerEmptyOrdersProps {
     campaignId?: string;
+    onAutoSelectCampaign?: (campaignId: string) => void;
 }
 
-const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => {
+const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAutoSelectCampaign }) => {
     const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || undefined);
     const [copied, setCopied] = useState(false);
     const [showPrintModal, setShowPrintModal] = useState(false);
 
     const infoData = campaignInfoResponse?.data;
     const shopLink = infoData?.shopUrl || "";
+    const campaignNameText = infoData?.name ? `the ${infoData.name}` : "your active";
+
+    React.useEffect(() => {
+        const activeCampaignId = infoData?.campaignId;
+        if (!campaignId && activeCampaignId && onAutoSelectCampaign) {
+            onAutoSelectCampaign(activeCampaignId);
+        }
+    }, [campaignId, infoData?.campaignId, onAutoSelectCampaign]);
 
     const handleCopyLink = () => {
         if (!shopLink) return;
@@ -51,7 +60,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId }) => 
                     <div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-[#D97706] text-xs font-bold mb-4">★ Start Your Campaign</div>
                         <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-4">No orders yet!</h2>
-                        <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for the {infoData?.name || "active"} fundraiser.</p>
+                        <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for {campaignNameText} fundraiser.</p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-start items-center">

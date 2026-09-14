@@ -60,11 +60,6 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
 
             if (page === 1) {
                 setAccumulatedCampaigns(fetchedCampaigns);
-                if (fetchedCampaigns.length === 1 && !hasNextPage) {
-                    if (onSelectCampaign) {
-                        onSelectCampaign(fetchedCampaigns[0]);
-                    }
-                }
             } else {
                 setAccumulatedCampaigns((prev) => {
                     const existingIds = new Set(prev.map((c) => c._id));

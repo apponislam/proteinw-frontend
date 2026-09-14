@@ -44,7 +44,10 @@ const SellerOrdersView = () => {
                     </div>
 
                     {!hasOrders ? (
-                        <SellerEmptyOrders campaignId={selectedCampaignId} />
+                        <SellerEmptyOrders
+                            campaignId={selectedCampaignId}
+                            onAutoSelectCampaign={(id) => setSelectedCampaignId(id)}
+                        />
                     ) : (
                         <>
                             <SellerShopShareBanner campaignId={selectedCampaignId} />
