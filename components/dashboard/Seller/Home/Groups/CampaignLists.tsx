@@ -92,7 +92,7 @@ const CampaignLists = () => {
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                         {campaignsList.map((campaign) => {
-                            const isCampaignActive = campaign.status === "ACTIVE";
+                            const statusUpper = (campaign.status || "").toUpperCase();
                             const daysLeftNum = campaign.endDate
                                 ? (() => {
                                       const now = new Date();
@@ -102,6 +102,18 @@ const CampaignLists = () => {
                                       return Math.max(0, Math.round((endStart - nowStart) / (1000 * 60 * 60 * 24)));
                                   })()
                                 : 0;
+
+                            let daysLeftText = "";
+                            if (statusUpper === "FULFILMENT") {
+                                daysLeftText = "Fulfilment Phase";
+                            } else if (statusUpper === "COMPLETED") {
+                                daysLeftText = "Campaign Completed";
+                            } else if (daysLeftNum > 0) {
+                                daysLeftText = `Deadline: In ${daysLeftNum} days`;
+                            } else {
+                                daysLeftText = "Campaign has ended";
+                            }
+
                             const totalRevenue = campaign.totalRevenueSold || 0;
                             const target = campaign.target || 1;
                             const progress = Math.min(100, Math.round((totalRevenue / target) * 100));
@@ -118,11 +130,11 @@ const CampaignLists = () => {
                                     id={campaign._id}
                                     title={campaign.name}
                                     description={campaign.shortDescription || "No description provided."}
-                                    status={isCampaignActive ? "ACTIVE" : "INACTIVE"}
+                                    status={campaign.status || "DRAFT"}
                                     progress={progress}
                                     goal={`${target.toLocaleString()} SEK`}
                                     raised={`${totalRevenue.toLocaleString()} SEK`}
-                                    daysLeft={daysLeftNum > 0 ? `Deadline: In ${daysLeftNum} days` : "Campaign has ended"}
+                                    daysLeft={daysLeftText}
                                     tierInfo={tierInfo}
                                     campaigns={[campaign.name.charAt(0)]}
                                     onViewDetails={() => {

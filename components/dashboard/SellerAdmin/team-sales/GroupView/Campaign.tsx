@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Store, Calendar, Pencil, Loader2, Plus } from "lucide-react";
+import { Store, Calendar, Pencil, Loader2, Plus, Info } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 // import { useGetGroupByIdQuery } from "@/redux/features/group/groupApi";
@@ -137,22 +137,66 @@ export default function Campaign({ groupId }: CampaignProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {campaigns.map((campaign) => {
                         const isEditing = editingId === campaign._id;
-                        const isCampaignActive = campaign.status === "ACTIVE";
                         const statusUpper = (campaign.status || "").toUpperCase();
                         const canEdit = statusUpper !== "FULFILMENT" && statusUpper !== "COMPLETED";
+
+                        const getStatusStyle = (status?: string) => {
+                            const s = (status || "").toUpperCase();
+                            switch (s) {
+                                case "ACTIVE":
+                                    return {
+                                        label: "Active",
+                                        badgeClass: "bg-green-50 text-green-700 border-green-200",
+                                        iconClass: "bg-green-50 text-green-700",
+                                    };
+                                case "FULFILMENT":
+                                    return {
+                                        label: "Fulfilment",
+                                        badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
+                                        iconClass: "bg-blue-50 text-blue-700",
+                                    };
+                                case "COMPLETED":
+                                    return {
+                                        label: "Completed",
+                                        badgeClass: "bg-amber-50 text-amber-800 border-amber-200",
+                                        iconClass: "bg-amber-50 text-amber-700",
+                                    };
+                                case "DRAFT":
+                                    return {
+                                        label: "Draft",
+                                        badgeClass: "bg-gray-100 text-gray-700 border-gray-200",
+                                        iconClass: "bg-gray-100 text-gray-700",
+                                    };
+                                default:
+                                    return {
+                                        label: status || "Expired",
+                                        badgeClass: "bg-red-50 text-red-600 border-red-200",
+                                        iconClass: "bg-red-50 text-red-500",
+                                    };
+                            }
+                        };
+
+                        const statusStyle = getStatusStyle(campaign.status);
 
                         return (
                             <div key={campaign._id} className="bg-white p-4 sm:p-6 rounded-2xl shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)] border border-[#E7E5E4] flex flex-col justify-between h-full">
                                 <div>
                                     <div className="flex justify-between items-start border-b border-[#F5F5F4] pb-4 mb-4 gap-3">
                                         <div className="flex items-start gap-3 flex-1 min-w-0">
-                                            <div className={`p-2.5 rounded-xl shrink-0 ${isCampaignActive ? "bg-green-50 text-green-700" : "bg-red-50 text-red-500"}`}>
+                                            <div className={`p-2.5 rounded-xl shrink-0 ${statusStyle.iconClass}`}>
                                                 <Store size={20} />
                                             </div>
                                             {isEditing ? (
                                                 <div className="space-y-3 w-full">
                                                     <Input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Campaign name" className="h-9 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold text-sm" />
-                                                    <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Short description" className="min-h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-xs" />
+                                                    <div className="space-y-1">
+                                                        <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Short description" className="min-h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-xs" />
+                                                        <p className="text-[11px] text-[#D97706] font-medium flex items-center gap-1 pt-0.5">
+                                                            <Info size={13} className="shrink-0" />
+                                                            <span>This text will be displayed to customers on the seller’s digital storefront.</span>
+                                                        </p>
+                                                    </div>
+
                                                     <div className="grid grid-cols-1 gap-2 pt-1">
                                                         <div>
                                                             <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">Target Goal (SEK)</label>
@@ -211,11 +255,9 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {isCampaignActive ? (
-                                                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide bg-green-50 text-green-700 border border-green-200">Active</span>
-                                                    ) : (
-                                                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide bg-red-50 text-red-600 border border-red-200">{campaign.status || "Expired"}</span>
-                                                    )}
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide border ${statusStyle.badgeClass}`}>
+                                                        {statusStyle.label}
+                                                    </span>
                                                     {canEdit && (
                                                         <button
                                                             onClick={() => {
@@ -310,15 +352,20 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             const endDate = new Date(campaign.endDate);
                                             const today = new Date();
                                             const formattedEndDate = endDate.toLocaleDateString("en-US", { year: "numeric", month: "numeric", day: "numeric", timeZone: "UTC" });
-                                            const isEnded = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED";
+                                            const isEnded = statusUpper === "FULFILMENT" || statusUpper === "COMPLETED";
 
                                             if (isEnded) {
+                                                const isFulfilment = statusUpper === "FULFILMENT";
+                                                const isCompleted = statusUpper === "COMPLETED";
+                                                const colorClass = isFulfilment ? "text-blue-600" : isCompleted ? "text-amber-700" : "text-red-500";
+                                                const labelText = isFulfilment ? "Fulfilment Phase" : isCompleted ? "Campaign Completed" : "Campaign Ended";
                                                 return (
                                                     <div className="w-full flex items-center justify-between text-xs font-semibold">
-                                                        <div className="text-red-500 font-bold flex items-center gap-1.5">
+                                                        <div className={`${colorClass} font-bold flex items-center gap-1.5`}>
                                                             <Calendar size={15} className="shrink-0" />
-                                                            <span>Campaign Ended</span>
+                                                            <span>{labelText}</span>
                                                         </div>
+                                                        <span className="text-[#1A1C1C] font-bold">{formattedEndDate}</span>
                                                     </div>
                                                 );
                                             }

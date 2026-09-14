@@ -45,13 +45,51 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
         tierProgress = Math.min(100, Math.round(((currentPkgs - currentMin) / (nextMin - currentMin)) * 100));
     }
 
+    const getStatusBadgeStyle = (statusStr: string) => {
+        const s = (statusStr || "").toUpperCase();
+        switch (s) {
+            case "ACTIVE":
+                return {
+                    label: "ACTIVE",
+                    bg: "bg-green-100 text-green-800",
+                    dot: "bg-green-500",
+                };
+            case "FULFILMENT":
+                return {
+                    label: "FULFILMENT",
+                    bg: "bg-blue-100 text-blue-800",
+                    dot: "bg-blue-500",
+                };
+            case "COMPLETED":
+                return {
+                    label: "COMPLETED",
+                    bg: "bg-[#FFDEA8] text-amber-900",
+                    dot: "bg-amber-600",
+                };
+            case "DRAFT":
+                return {
+                    label: "DRAFT",
+                    bg: "bg-gray-100 text-gray-800",
+                    dot: "bg-gray-500",
+                };
+            default:
+                return {
+                    label: statusStr || "INACTIVE",
+                    bg: "bg-red-100 text-red-800",
+                    dot: "bg-red-500",
+                };
+        }
+    };
+
+    const statusStyle = getStatusBadgeStyle(status);
+
     return (
         <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group flex flex-col justify-between h-full">
             <div className="relative z-10">
                 <div className="mb-4">
-                    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${status === "ACTIVE" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                        <span className={`w-2 h-2 rounded-full ${status === "ACTIVE" ? "bg-green-500" : "bg-red-500"}`}></span>
-                        {status}
+                    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${statusStyle.bg}`}>
+                        <span className={`w-2 h-2 rounded-full ${statusStyle.dot}`}></span>
+                        {statusStyle.label}
                     </span>
                 </div>
                 <div className="mb-4">
