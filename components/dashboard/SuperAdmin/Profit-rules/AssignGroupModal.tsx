@@ -26,7 +26,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
     const [isTierDropdownOpen, setIsTierDropdownOpen] = useState(false);
 
     const { data: campaignOptionsResponse, isFetching: isFetchingCampaigns } = useGetAllCampaignsSummaryQuery(
-        { page: campaignPage, limit: 8, search: campaignSearchTerm },
+        { page: campaignPage, limit: 8, search: campaignSearchTerm, status: "FULFILMENT" },
         { skip: !isOpen }
     );
 
