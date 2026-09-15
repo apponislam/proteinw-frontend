@@ -56,6 +56,7 @@ export type TAsSellerCampaignInfo = {
     campaignId: string;
     name: string;
     shortDescription: string;
+    status?: string;
     campaignCode: string;
     referralCode: string;
     shopUrl: string;
