@@ -39,7 +39,7 @@ export const campaignFormSchema = z.object({
 
             return d >= today && d <= maxDate;
         },
-        { message: "End date must be between today and 21 days from today" }
+        { message: "End date must be between today and 21 days from today" },
     ),
     addAllGroupSellers: z.boolean(),
 });
@@ -61,6 +61,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
         register,
         handleSubmit,
         watch,
+        setValue,
         formState: { errors },
         reset,
     } = useForm<CampaignFormValues>({
@@ -75,6 +76,10 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
     });
 
     const addAllGroupSellersValue = watch("addAllGroupSellers");
+    const endDateValue = watch("endDate");
+
+    console.log("CreateCampaignForm -> Today:", new Date());
+    console.log("CreateCampaignForm -> Selected Input Date:", endDateValue);
 
     // 21-Day Date Constraints for HTML native date picker min/max
     const today = new Date();
@@ -169,18 +174,35 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
 
                         <div className="space-y-1">
                             <label className="text-xs font-semibold text-[#1A1C1C]">End Date</label>
-                            <Input
-                                type="date"
-                                min={todayStr}
-                                max={maxDateStr}
-                                onClick={(e) => {
-                                    try {
-                                        e.currentTarget.showPicker();
-                                    } catch {}
-                                }}
-                                {...register("endDate")}
-                                className="h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800] cursor-pointer"
-                            />
+                            <div className="relative">
+                                <Input
+                                    type="text"
+                                    readOnly
+                                    value={
+                                        endDateValue
+                                            ? (() => {
+                                                  const parts = endDateValue.split("-");
+                                                  return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : endDateValue;
+                                              })()
+                                            : ""
+                                    }
+                                    placeholder="dd/mm/yyyy"
+                                    className="h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800] cursor-pointer"
+                                />
+                                <input
+                                    type="date"
+                                    min={todayStr}
+                                    max={maxDateStr}
+                                    value={endDateValue || ""}
+                                    onChange={(e) => setValue("endDate", e.target.value, { shouldValidate: true })}
+                                    onClick={(e) => {
+                                        try {
+                                            e.currentTarget.showPicker();
+                                        } catch {}
+                                    }}
+                                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                />
+                            </div>
                             <p className="text-[11px] text-[#7C5800]">Maximum 3-week/21-day period</p>
                             {errors.endDate && <p className="text-red-500 text-[11px]">{errors.endDate.message}</p>}
                         </div>
@@ -205,7 +227,11 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                         {/* Select Sellers / Manage Campaign Sellers button */}
                         {!addAllGroupSellersValue && (
                             <div className="flex flex-col sm:flex-row sm:items-center gap-3 pl-0 sm:pl-8">
-                                <button type="button" onClick={() => setIsManageSellersOpen(true)} className="inline-flex items-center justify-center gap-2 px-3 py-2 sm:py-1.5 border border-[#D97706] text-[#D97706] hover:bg-amber-50 rounded-xl text-xs font-semibold cursor-pointer transition-colors w-full sm:w-auto">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsManageSellersOpen(true)}
+                                    className="inline-flex items-center justify-center gap-2 px-3 py-2 sm:py-1.5 border border-[#D97706] text-[#D97706] hover:bg-amber-50 rounded-xl text-xs font-semibold cursor-pointer transition-colors w-full sm:w-auto"
+                                >
                                     <Users size={14} />
                                     <span>Select Sellers / Manage Campaign Sellers</span>
                                 </button>

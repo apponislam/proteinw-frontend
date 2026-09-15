@@ -24,6 +24,9 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
     const currentStatusStr = campaignInfo?.status || campaign?.status || "DRAFT";
     const endDateRaw = campaignInfo?.endDate || campaign?.endDate;
 
+    const todayDate = new Date();
+    console.log("Today date & time:", todayDate);
+
     const diffDays = (() => {
         if (!endDateRaw) return null;
         const today = new Date();

@@ -218,19 +218,35 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                         </div>
                                                         <div>
                                                             <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">End Date</label>
-                                                            <Input
-                                                                type="date"
-                                                                min={todayStr}
-                                                                max={getCampaignMaxDateStr(campaign)}
-                                                                onClick={(e) => {
-                                                                    try {
-                                                                        e.currentTarget.showPicker();
-                                                                    } catch {}
-                                                                }}
-                                                                value={editEndDate}
-                                                                onChange={(e) => setEditEndDate(e.target.value)}
-                                                                className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold cursor-pointer"
-                                                            />
+                                                            <div className="relative">
+                                                                <Input
+                                                                    type="text"
+                                                                    readOnly
+                                                                    value={
+                                                                        editEndDate
+                                                                            ? (() => {
+                                                                                  const parts = editEndDate.split("-");
+                                                                                  return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : editEndDate;
+                                                                              })()
+                                                                            : ""
+                                                                    }
+                                                                    placeholder="dd/mm/yyyy"
+                                                                    className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold cursor-pointer"
+                                                                />
+                                                                <input
+                                                                    type="date"
+                                                                    min={todayStr}
+                                                                    max={getCampaignMaxDateStr(campaign)}
+                                                                    value={editEndDate}
+                                                                    onChange={(e) => setEditEndDate(e.target.value)}
+                                                                    onClick={(e) => {
+                                                                        try {
+                                                                            e.currentTarget.showPicker();
+                                                                        } catch {}
+                                                                    }}
+                                                                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                                                />
+                                                            </div>
                                                             <p className="text-[10px] text-[#7C5800] mt-0.5">Maximum 3-week/21-day period</p>
                                                         </div>
                                                     </div>
