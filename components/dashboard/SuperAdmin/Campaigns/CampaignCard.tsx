@@ -42,12 +42,10 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
         const endDate = new Date(endDateStr);
         const today = new Date();
 
-        const formattedEndDate = endDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-            timeZone: "UTC",
-        });
+        const day = String(endDate.getUTCDate()).padStart(2, "0");
+        const month = String(endDate.getUTCMonth() + 1).padStart(2, "0");
+        const year = endDate.getUTCFullYear();
+        const formattedEndDate = `${day}/${month}/${year}`;
 
         const isEnded = status === "FULFILMENT" || status === "COMPLETED";
 
@@ -64,8 +62,8 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
 
         const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
         const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
-        const diffDays = Math.max(0, Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24)));
-        const daysText = diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
+        const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
+        const daysText = diffDays < 0 ? "Expired" : diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
 
         return (
             <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold">

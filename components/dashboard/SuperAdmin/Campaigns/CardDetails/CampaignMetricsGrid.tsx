@@ -24,12 +24,10 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
 
     const endDate = new Date(campaign.endDate);
     const today = new Date();
-    const formattedEndDate = endDate.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        timeZone: "UTC",
-    });
+    const day = String(endDate.getUTCDate()).padStart(2, "0");
+    const month = String(endDate.getUTCMonth() + 1).padStart(2, "0");
+    const year = endDate.getUTCFullYear();
+    const formattedEndDate = `${day}/${month}/${year}`;
 
     const getDaysLeft = () => {
         const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());

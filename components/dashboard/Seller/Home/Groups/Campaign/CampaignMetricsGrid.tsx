@@ -22,28 +22,42 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
     const groupRevenue = campaignInfo?.campaignRevenue ?? campaign?.totalRevenueSold ?? 0;
 
     const currentStatusStr = campaignInfo?.status || campaign?.status || "DRAFT";
-    const daysRemaining =
-        campaignInfo?.daysRemaining ??
-        (() => {
-            if (!campaign?.endDate) return 0;
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const end = new Date(campaign.endDate);
-            end.setHours(0, 0, 0, 0);
-            return Math.max(0, Math.round((end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)));
-        })();
+    const endDateRaw = campaignInfo?.endDate || campaign?.endDate;
+
+    const diffDays = (() => {
+        if (!endDateRaw) return null;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const end = new Date(endDateRaw);
+        if (isNaN(end.getTime())) return null;
+        end.setHours(0, 0, 0, 0);
+        return Math.round((end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    })();
+
+    const deadlineText =
+        diffDays === null
+            ? (campaignInfo?.daysRemaining !== undefined && campaignInfo.daysRemaining !== null
+                ? (campaignInfo.daysRemaining < 0 ? "Expired" : campaignInfo.daysRemaining === 0 ? "Ends today" : `${campaignInfo.daysRemaining} days left`)
+                : "N/A")
+            : diffDays < 0
+              ? "Expired"
+              : diffDays === 0
+                ? "Ends today"
+                : `${diffDays} days left`;
 
     const targetGoal = campaignInfo?.target || campaign?.target || 0;
 
-    const endDateRaw = campaignInfo?.endDate || campaign?.endDate;
-    const formattedEndDate = endDateRaw
-        ? new Date(endDateRaw).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              timeZone: "UTC",
-          })
-        : "N/A";
+    const formatDateToDMY = (dateInput?: string | Date) => {
+        if (!dateInput) return "N/A";
+        const d = new Date(dateInput);
+        if (isNaN(d.getTime())) return "N/A";
+        const day = String(d.getUTCDate()).padStart(2, "0");
+        const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+        const year = d.getUTCFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const formattedEndDate = formatDateToDMY(endDateRaw);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -148,8 +162,8 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Deadline</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}>
-                                {daysRemaining === 0 ? "Ends today" : `${daysRemaining} days left`}
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={deadlineText}>
+                                {deadlineText}
                             </span>
                         </div>
 

@@ -28,7 +28,7 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
         },
         {
             skip: !campaignId,
-        }
+        },
     );
 
     const products = response?.data || [];
@@ -60,7 +60,11 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
     }
 
     if (products.length === 0) {
-        return <div className="mt-8 text-center py-16 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4] shadow-xs">No products found in your campaign. Please contact your campaign admin to add products.</div>;
+        return (
+            <div className="mt-8 text-center py-16 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4] shadow-xs">
+                Inga produkter tillgängliga <br /> Lägg till produkter under Hantera försäljning för att komma igång med försäljningen.
+            </div>
+        );
     }
 
     return (
