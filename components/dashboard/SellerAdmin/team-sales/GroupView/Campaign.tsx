@@ -376,7 +376,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
                                             const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
                                             const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
-                                            const daysText = diffDays < 0 ? "Expired" : diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
+                                            const daysText = diffDays < 0 ? "Sales ended" : diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
 
                                             return (
                                                 <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold flex-wrap gap-1">

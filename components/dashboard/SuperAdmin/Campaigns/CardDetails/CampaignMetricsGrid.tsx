@@ -33,7 +33,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
         const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
         const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
         const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
-        if (diffDays < 0) return "Expired";
+        if (diffDays < 0) return "Sales ended";
         if (diffDays === 0) return "Ends today";
         return `In ${diffDays} days`;
     };

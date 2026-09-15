@@ -37,10 +37,10 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
     const deadlineText =
         diffDays === null
             ? (campaignInfo?.daysRemaining !== undefined && campaignInfo.daysRemaining !== null
-                ? (campaignInfo.daysRemaining < 0 ? "Expired" : campaignInfo.daysRemaining === 0 ? "Ends today" : `${campaignInfo.daysRemaining} days left`)
+                ? (campaignInfo.daysRemaining < 0 ? "Sales ended" : campaignInfo.daysRemaining === 0 ? "Ends today" : `${campaignInfo.daysRemaining} days left`)
                 : "N/A")
             : diffDays < 0
-              ? "Expired"
+              ? "Sales ended"
               : diffDays === 0
                 ? "Ends today"
                 : `${diffDays} days left`;
@@ -146,17 +146,23 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                             <Calendar size={15} />
                             <span>Status Information</span>
                         </div>
-                        <span
-                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide border transition-colors ${
+                        {(() => {
+                            const statusStyle =
                                 currentStatusStr === "ACTIVE"
-                                    ? "bg-green-50 text-green-700 border-green-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
-                                    : currentStatusStr === "COMPLETED"
-                                      ? "bg-amber-50 text-amber-900 border-amber-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
-                                      : "bg-gray-100 text-gray-700 border-gray-200 group-hover:bg-[#271900]/10 group-hover:text-[#271900]"
-                            }`}
-                        >
-                            {currentStatusStr}
-                        </span>
+                                    ? { bg: "bg-green-100", text: "text-green-800", border: "border-green-300", dot: "bg-green-500" }
+                                    : currentStatusStr === "FULFILMENT"
+                                      ? { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300", dot: "bg-blue-500" }
+                                      : currentStatusStr === "COMPLETED"
+                                        ? { bg: "bg-amber-100", text: "text-amber-900", border: "border-amber-300", dot: "bg-amber-600" }
+                                        : { bg: "bg-gray-100", text: "text-gray-800", border: "border-gray-300", dot: "bg-gray-500" };
+
+                            return (
+                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${statusStyle.bg} ${statusStyle.text} ${statusStyle.border} shrink-0`}>
+                                    <span className={`w-1.5 h-1.5 rounded-full ${statusStyle.dot}`}></span>
+                                    <span>{currentStatusStr}</span>
+                                </span>
+                            );
+                        })()}
                     </div>
 
                     <div className="space-y-2 pt-0.5">
