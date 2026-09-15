@@ -39,9 +39,13 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
 
     const deadlineText =
         diffDays === null
-            ? (campaignInfo?.daysRemaining !== undefined && campaignInfo.daysRemaining !== null
-                ? (campaignInfo.daysRemaining < 0 ? "Sales ended" : campaignInfo.daysRemaining === 0 ? "Ends today" : `${campaignInfo.daysRemaining} days left`)
-                : "N/A")
+            ? campaignInfo?.daysRemaining !== undefined && campaignInfo.daysRemaining !== null
+                ? campaignInfo.daysRemaining < 0
+                    ? "Sales ended"
+                    : campaignInfo.daysRemaining === 0
+                      ? "Ends today"
+                      : `${campaignInfo.daysRemaining} days left`
+                : "N/A"
             : diffDays < 0
               ? "Sales ended"
               : diffDays === 0

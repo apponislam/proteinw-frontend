@@ -13,16 +13,28 @@ interface CampaignListOrderPageProps {
     placeholder?: string;
 }
 
-const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
-    onSelectCampaign,
-    selectedCampaignId,
-    placeholder = "All Campaigns",
-}) => {
+const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({ onSelectCampaign, selectedCampaignId, placeholder = "All Campaigns" }) => {
     const user = useAppSelector(currentUser);
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [accumulatedCampaigns, setAccumulatedCampaigns] = useState<TCampaign[]>([]);
     const [internalSelectedId, setInternalSelectedId] = useState<string>("");
+
+    // const {
+    //     data: response,
+    //     isFetching,
+    //     isLoading,
+    //     isError,
+    // } = useGetMyJoinedCampaignsQuery(
+    //     {
+    //         page,
+    //         limit: 6,
+    //         status: "ACTIVE",
+    //     },
+    //     {
+    //         skip: !user || user.role !== "SELLER",
+    //     }
+    // );
 
     const {
         data: response,
@@ -33,11 +45,10 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
         {
             page,
             limit: 6,
-            status: "ACTIVE",
         },
         {
             skip: !user || user.role !== "SELLER",
-        }
+        },
     );
 
     const responseData = response as any;
@@ -45,18 +56,10 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
     const hasNextPage = meta?.hasNext || false;
 
     useEffect(() => {
-        const rawList = Array.isArray(responseData)
-            ? responseData
-            : responseData?.data || [];
+        const rawList = Array.isArray(responseData) ? responseData : responseData?.data || [];
 
         if (rawList.length > 0) {
-            const fetchedCampaigns: TCampaign[] = rawList.map((item: any) =>
-                item?.campaignId && typeof item.campaignId === "object"
-                    ? item.campaignId
-                    : item?.campaign && typeof item.campaign === "object"
-                    ? item.campaign
-                    : item
-            );
+            const fetchedCampaigns: TCampaign[] = rawList.map((item: any) => (item?.campaignId && typeof item.campaignId === "object" ? item.campaignId : item?.campaign && typeof item.campaign === "object" ? item.campaign : item));
 
             if (page === 1) {
                 setAccumulatedCampaigns(fetchedCampaigns);
@@ -125,11 +128,7 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
 
     return (
         <div className="relative inline-block text-left w-full sm:w-64">
-            <button
-                type="button"
-                onClick={() => setIsOpen((prev) => !prev)}
-                className="w-full flex items-center justify-between px-4 py-2.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] transition-all cursor-pointer shadow-xs"
-            >
+            <button type="button" onClick={() => setIsOpen((prev) => !prev)} className="w-full flex items-center justify-between px-4 py-2.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-sm font-semibold text-[#1A1C1C] transition-all cursor-pointer shadow-xs">
                 <div className="flex items-center gap-2.5 truncate">
                     <Megaphone className="w-4 h-4 text-[#D97706] shrink-0" />
                     <span className="truncate">{currentCampaign?.name || placeholder}</span>
@@ -140,18 +139,9 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
             {isOpen && (
                 <>
                     <div className="fixed inset-0 z-20" onClick={() => setIsOpen(false)} />
-                    <div
-                        onScroll={handleScroll}
-                        className="absolute left-0 mt-2 z-30 w-full bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150 max-h-60 overflow-y-auto"
-                    >
+                    <div onScroll={handleScroll} className="absolute left-0 mt-2 z-30 w-full bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150 max-h-60 overflow-y-auto">
                         {/* Option 1: All Campaigns */}
-                        <button
-                            type="button"
-                            onClick={handleSelectAll}
-                            className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-[#FCFBFA] transition-colors cursor-pointer ${
-                                !activeId ? "font-bold text-[#D97706] bg-[#FFFBEB]" : "text-[#1A1C1C]"
-                            }`}
-                        >
+                        <button type="button" onClick={handleSelectAll} className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-[#FCFBFA] transition-colors cursor-pointer ${!activeId ? "font-bold text-[#D97706] bg-[#FFFBEB]" : "text-[#1A1C1C]"}`}>
                             <span className="truncate">All Campaigns</span>
                         </button>
 
@@ -162,20 +152,27 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
                                     key={campaign._id}
                                     type="button"
                                     onClick={() => handleSelect(campaign)}
-                                    className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-[#FCFBFA] transition-colors cursor-pointer ${
-                                        isSelected ? "font-bold text-[#D97706] bg-[#FFFBEB]" : "text-[#1A1C1C]"
-                                    }`}
+                                    className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-[#FCFBFA] transition-colors cursor-pointer ${isSelected ? "font-bold text-[#D97706] bg-[#FFFBEB]" : "text-[#1A1C1C]"}`}
                                 >
                                     <span className="truncate">{campaign.name}</span>
-                                    {campaign.status && (
-                                        <span
-                                            className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ml-2 shrink-0 ${
-                                                campaign.status === "ACTIVE" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-700"
-                                            }`}
-                                        >
-                                            {campaign.status}
-                                        </span>
-                                    )}
+                                    {campaign.status &&
+                                        (() => {
+                                            const s = String(campaign.status).toUpperCase();
+                                            const badgeClass =
+                                                s === "ACTIVE"
+                                                    ? "bg-green-100 text-green-800"
+                                                    : s === "FULFILMENT"
+                                                      ? "bg-blue-100 text-blue-800"
+                                                      : s === "COMPLETED"
+                                                        ? "bg-[#FFDEA8] text-amber-900"
+                                                        : "bg-gray-100 text-gray-700";
+
+                                            return (
+                                                <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ml-2 shrink-0 ${badgeClass}`}>
+                                                    {s}
+                                                </span>
+                                            );
+                                        })()}
                                 </button>
                             );
                         })}
@@ -188,11 +185,7 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({
                         )}
 
                         {hasNextPage && !isFetching && (
-                            <button
-                                type="button"
-                                onClick={() => setPage((prev) => prev + 1)}
-                                className="w-full py-2 text-center text-xs font-semibold text-[#D97706] hover:bg-[#FFFBEB] transition-colors border-t border-[#E7E5E4] cursor-pointer"
-                            >
+                            <button type="button" onClick={() => setPage((prev) => prev + 1)} className="w-full py-2 text-center text-xs font-semibold text-[#D97706] hover:bg-[#FFFBEB] transition-colors border-t border-[#E7E5E4] cursor-pointer">
                                 Load More Campaigns
                             </button>
                         )}
