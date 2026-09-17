@@ -13,11 +13,11 @@ import { useState } from "react";
 
 const createPasswordSchema = z
     .object({
-        newPassword: z.string().min(8, "Password must be at least 8 characters"),
-        confirmPassword: z.string().min(8, "Please confirm your password"),
+        newPassword: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
+        confirmPassword: z.string().min(8, "Bekräfta ditt lösenord"),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-        message: "Passwords do not match",
+        message: "Lösenorden matchar inte",
         path: ["confirmPassword"],
     });
 
@@ -54,7 +54,7 @@ const CreatePasswordClient = () => {
     const onSubmit = async (data: CreatePasswordFormValues) => {
         try {
             await resetPassword({ token, newPassword: data.newPassword }).unwrap();
-            toast.success("Password reset successfully!");
+            toast.success("Lösenordet har återställts!");
 
             if (isMember) {
                 const loginParams = new URLSearchParams({
@@ -66,7 +66,7 @@ const CreatePasswordClient = () => {
                 router.push("/auth/reset-successful");
             }
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to reset password");
+            toast.error(err.data?.message || "Misslyckades att återställa lösenordet");
             console.error("Reset password failed:", err);
         }
     };
@@ -83,15 +83,15 @@ const CreatePasswordClient = () => {
                         {/* Logo and Title */}
                         <div className="text-center mb-8">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-lg font-bold text-gray-700 mt-1">Create New Password</h2>
-                            <p className="text-sm text-gray-600 mt-1">Enter your new password below</p>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Skapa nytt lösenord</h2>
+                            <p className="text-sm text-gray-600 mt-1">Ange ditt nya lösenord nedan</p>
                         </div>
 
                         {/* Form */}
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             {/* New Password Input */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">NEW PASSWORD</label>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">NYTT LÖSENORD</label>
                                 <div className="relative">
                                     <Controller
                                         name="newPassword"
@@ -114,10 +114,10 @@ const CreatePasswordClient = () => {
                                         if (/[0-9]/.test(pass)) score += 1;
                                         if (/[^A-Za-z0-9]/.test(pass) || pass.length >= 12) score += 1;
 
-                                        if (score <= 1) return { score: 1, label: "WEAK" };
-                                        if (score === 2) return { score: 2, label: "FAIR" };
-                                        if (score === 3) return { score: 3, label: "MODERATE" };
-                                        return { score: 4, label: "STRONG" };
+                                        if (score <= 1) return { score: 1, label: "SVAGT" };
+                                        if (score === 2) return { score: 2, label: "GODKÄNT" };
+                                        if (score === 3) return { score: 3, label: "MEDEL" };
+                                        return { score: 4, label: "STARKT" };
                                     };
 
                                     const strength = getPasswordStrength(newPasswordValue || "");
@@ -125,7 +125,7 @@ const CreatePasswordClient = () => {
                                     return (
                                         <div className="mt-2 text-xs text-gray-600">
                                             <div className="mb-2">
-                                                <span className="font-semibold">STRENGTH:</span> <span className="text-blue-600 font-semibold">{strength.label}</span>
+                                                <span className="font-semibold">STYRKA:</span> <span className="text-blue-600 font-semibold">{strength.label}</span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 {[1, 2, 3, 4].map((step) => (
@@ -139,7 +139,7 @@ const CreatePasswordClient = () => {
 
                             {/* Confirm Password Input */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">CONFIRM PASSWORD</label>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">BEKRÄFTA LÖSENORD</label>
                                 <div className="relative">
                                     <Controller
                                         name="confirmPassword"
@@ -152,7 +152,7 @@ const CreatePasswordClient = () => {
                                         {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                     </button>
                                 </div>
-                                {errors.confirmPassword ? <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p> : confirmPasswordValue && newPasswordValue && confirmPasswordValue !== newPasswordValue && <p className="text-red-500 text-xs mt-1">Passwords do not match</p>}
+                                {errors.confirmPassword ? <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p> : confirmPasswordValue && newPasswordValue && confirmPasswordValue !== newPasswordValue && <p className="text-red-500 text-xs mt-1">Lösenorden matchar inte</p>}
                             </div>
 
                             {/* Reset Button */}
@@ -161,7 +161,7 @@ const CreatePasswordClient = () => {
                                 disabled={isLoading}
                                 className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {isLoading ? "Resetting..." : "Reset Password"}
+                                {isLoading ? "Återställer..." : "Återställ lösenord"}
                                 <span>→</span>
                             </button>
                         </form>
@@ -169,7 +169,7 @@ const CreatePasswordClient = () => {
                         {/* Back to Login Link */}
                         <div className="text-center mt-6">
                             <Link href="/auth/login" className="text-sm text-gray-600 hover:text-gray-900">
-                                Back to Login
+                                Tillbaka till inloggningen
                             </Link>
                         </div>
                     </div>

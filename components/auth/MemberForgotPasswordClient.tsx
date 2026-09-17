@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import MemberAuthHeader from "./MemberAuthHeader";
 
 const forgotPasswordSchema = z.object({
-    email: z.string().email("Please enter a valid email address"),
+    email: z.string().email("Ange en giltig e-postadress"),
 });
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
@@ -44,10 +44,10 @@ const MemberForgotPasswordForm = () => {
     }, [emailFromQuery, setValue]);
 
     const onSubmit = async (data: ForgotPasswordFormValues) => {
-        const toastId = toast.loading("Sending verification code...");
+        const toastId = toast.loading("Skickar verifieringskod...");
         try {
             await requestPasswordReset({ email: data.email }).unwrap();
-            toast.success("Verification code sent to your email!", { id: toastId });
+            toast.success("Verifieringskod skickad till din e-post!", { id: toastId });
 
             const nextParams = new URLSearchParams({
                 email: data.email,
@@ -57,7 +57,7 @@ const MemberForgotPasswordForm = () => {
 
             router.push(`/auth/member/verify-code?${nextParams}`);
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to send verification code", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades att skicka verifieringskod", { id: toastId });
         }
     };
 
@@ -78,17 +78,17 @@ const MemberForgotPasswordForm = () => {
                         {/* Title */}
                         <div className="text-center mb-6 sm:mb-8">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Forgot Password</h2>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Enter your email to receive a 6-digit verification code.</p>
+                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Glömt lösenord</h2>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Ange din e-post för att få en 6-siffrig verifieringskod.</p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                             {/* Email */}
                             <div>
-                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Email Address</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">E-postadress</label>
                                 <input
                                     type="email"
-                                    placeholder="name@example.com"
+                                    placeholder="namn@exempel.se"
                                     {...register("email")}
                                     className="w-full px-4 py-3 bg-gray-100/80 border border-gray-200 focus:border-[#D97706] focus:bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all font-medium"
                                 />
@@ -104,11 +104,11 @@ const MemberForgotPasswordForm = () => {
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="animate-spin" size={18} />
-                                        <span>Sending Code...</span>
+                                        <span>Skickar kod...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Send Verification Code</span>
+                                        <span>Skicka verifieringskod</span>
                                         <span>→</span>
                                     </>
                                 )}
@@ -117,9 +117,9 @@ const MemberForgotPasswordForm = () => {
 
                         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
                             <p className="text-xs text-gray-600">
-                                Remember your password?{" "}
+                                Kommer du ihåg ditt lösenord?{" "}
                                 <Link href={loginUrl} className="font-bold text-[#7C5800] hover:underline ml-1">
-                                    Back to Sign in
+                                    Tillbaka till inloggningen
                                 </Link>
                             </p>
                         </div>
@@ -132,7 +132,7 @@ const MemberForgotPasswordForm = () => {
 
 const MemberForgotPasswordClient = () => {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Laddar...</div>}>
             <MemberForgotPasswordForm />
         </Suspense>
     );

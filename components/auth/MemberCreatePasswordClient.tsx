@@ -13,11 +13,11 @@ import MemberAuthHeader from "./MemberAuthHeader";
 
 const createPasswordSchema = z
     .object({
-        newPassword: z.string().min(8, "Password must be at least 8 characters"),
-        confirmPassword: z.string().min(8, "Please confirm your password"),
+        newPassword: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
+        confirmPassword: z.string().min(8, "Bekräfta ditt lösenord"),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-        message: "Passwords do not match",
+        message: "Lösenorden matchar inte",
         path: ["confirmPassword"],
     });
 
@@ -45,10 +45,10 @@ const MemberCreatePasswordForm = () => {
     });
 
     const onSubmit = async (data: CreatePasswordFormValues) => {
-        const toastId = toast.loading("Resetting password...");
+        const toastId = toast.loading("Återställer lösenord...");
         try {
             await resetPassword({ token, newPassword: data.newPassword }).unwrap();
-            toast.success("Password reset successfully!", { id: toastId });
+            toast.success("Lösenordet har återställts!", { id: toastId });
 
             const loginParams = new URLSearchParams({
                 ...(email && { email }),
@@ -57,7 +57,7 @@ const MemberCreatePasswordForm = () => {
 
             router.push(`/auth/member/login?${loginParams}`);
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to reset password", { id: toastId });
+            toast.error(err.data?.message || "Misslyckades att återställa lösenordet", { id: toastId });
         }
     };
 
@@ -78,17 +78,17 @@ const MemberCreatePasswordForm = () => {
                         {/* Title */}
                         <div className="text-center mb-6 sm:mb-8">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Create New Password</h2>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Enter your new password for your team member account.</p>
+                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Skapa nytt lösenord</h2>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Ange ditt nya lösenord för ditt medlemskonto.</p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                             {/* New Password */}
                             <div>
-                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">NEW PASSWORD</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">NYTT LÖSENORD</label>
                                 <input
                                     type="password"
-                                    placeholder="Enter at least 8 characters"
+                                    placeholder="Ange minst 8 tecken"
                                     {...register("newPassword")}
                                     className="w-full px-4 py-3 bg-gray-100/80 border border-gray-200 focus:border-[#D97706] focus:bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all font-medium"
                                 />
@@ -97,10 +97,10 @@ const MemberCreatePasswordForm = () => {
 
                             {/* Confirm Password */}
                             <div>
-                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">CONFIRM NEW PASSWORD</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">BEKRÄFTA NYTT LÖSENORD</label>
                                 <input
                                     type="password"
-                                    placeholder="Re-enter your new password"
+                                    placeholder="Upprepa ditt nya lösenord"
                                     {...register("confirmPassword")}
                                     className="w-full px-4 py-3 bg-gray-100/80 border border-gray-200 focus:border-[#D97706] focus:bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all font-medium"
                                 />
@@ -116,11 +116,11 @@ const MemberCreatePasswordForm = () => {
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="animate-spin" size={18} />
-                                        <span>Saving Password...</span>
+                                        <span>Sparar lösenord...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Reset Password & Sign In</span>
+                                        <span>Återställ lösenord och logga in</span>
                                         <span>→</span>
                                     </>
                                 )}
@@ -135,7 +135,7 @@ const MemberCreatePasswordForm = () => {
 
 const MemberCreatePasswordClient = () => {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Laddar...</div>}>
             <MemberCreatePasswordForm />
         </Suspense>
     );

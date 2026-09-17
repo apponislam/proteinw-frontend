@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import ResetSuccessfulClient from "@/components/auth/ResetSuccessfulClient";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Password Reset Successful",
-    description: "Your Kungsbjörnen password has been reset successfully",
+    title: "Kungsbjörnen - Lösenordet återställt",
+    description: "Ditt Kungsbjörnen-lösenord har återställts",
 };
 
 const page = () => {

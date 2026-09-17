@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import LoginClient from "@/components/auth/LoginClient";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Login",
-    description: "Login to your Kungsbjörnen account",
+    title: "Kungsbjörnen - Logga in",
+    description: "Logga in på ditt Kungsbjörnen-konto",
 };
 
 const page = () => {

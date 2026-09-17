@@ -15,9 +15,9 @@ import { toast } from "sonner";
 import MemberAuthHeader from "./MemberAuthHeader";
 
 const memberLoginSchema = z.object({
-    email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Please enter your password"),
-    code: z.string().min(1, "Invitation code is required"),
+    email: z.string().email("Ange en giltig e-postadress"),
+    password: z.string().min(1, "Ange ditt lösenord"),
+    code: z.string().min(1, "Inbjudningskod krävs"),
     remember: z.boolean().optional(),
 });
 
@@ -41,12 +41,12 @@ const LoginMemberForm = () => {
 
         if (codeFromQuery) {
             const handleAutoJoin = async () => {
-                const toastId = toast.loading("Joining group with invitation code...");
+                const toastId = toast.loading("Går med i gruppen med inbjudningskoden...");
                 try {
                     await joinGroupByInvitationCode({ code: codeFromQuery }).unwrap();
-                    toast.success("Successfully joined the group!", { id: toastId });
+                    toast.success("Du har gått med i gruppen!", { id: toastId });
                 } catch (err: any) {
-                    toast.error(err?.data?.message || "Failed to join group with code.", { id: toastId });
+                    toast.error(err?.data?.message || "Misslyckades att gå med i gruppen.", { id: toastId });
                 } finally {
                     router.push("/dashboard");
                 }
@@ -79,7 +79,7 @@ const LoginMemberForm = () => {
     }, [emailFromQuery, codeFromQuery, setValue]);
 
     const onSubmit = async (data: MemberLoginFormValues) => {
-        const toastId = toast.loading("Signing in...");
+        const toastId = toast.loading("Loggar in...");
         try {
             const res = await loginWithInvitationCode({
                 email: data.email,
@@ -88,10 +88,10 @@ const LoginMemberForm = () => {
             }).unwrap();
 
             dispatch(setUser({ user: res.data.user, token: res.data.accessToken }));
-            toast.success("Signed in successfully!", { id: toastId });
+            toast.success("Inloggningen lyckades!", { id: toastId });
             router.push("/dashboard");
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to sign in. Please check your credentials.", { id: toastId });
+            toast.error(err?.data?.message || "Inloggningen misslyckades. Kontrollera dina inloggningsuppgifter.", { id: toastId });
         }
     };
 
@@ -117,8 +117,8 @@ const LoginMemberForm = () => {
                         {/* Title */}
                         <div className="text-center mb-6 sm:mb-8">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Member Sign In</h2>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Sign in to your team member account.</p>
+                            <h2 className="text-xl sm:text-2xl text-gray-900 font-bold mt-1">Medlemsinloggning</h2>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Logga in på ditt medlemskonto.</p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -127,10 +127,10 @@ const LoginMemberForm = () => {
 
                             {/* Email */}
                             <div>
-                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Email Address</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">E-postadress</label>
                                 <input
                                     type="email"
-                                    placeholder="name@example.com"
+                                    placeholder="namn@exempel.se"
                                     {...register("email")}
                                     className="w-full px-4 py-3 bg-gray-100/80 border border-gray-200 focus:border-[#D97706] focus:bg-white rounded-xl text-sm text-gray-900 focus:outline-none transition-all font-medium"
                                 />
@@ -139,7 +139,7 @@ const LoginMemberForm = () => {
 
                             {/* Password */}
                             <div>
-                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Password</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Lösenord</label>
                                 <input
                                     type="password"
                                     placeholder="••••••••"
@@ -172,12 +172,12 @@ const LoginMemberForm = () => {
                                                     )}
                                                 </div>
                                             </div>
-                                            <span className="text-xs font-medium text-gray-700">Remember me</span>
+                                            <span className="text-xs font-medium text-gray-700">Kom ihåg mig</span>
                                         </label>
                                     )}
                                 />
                                 <Link href={forgotPasswordUrl} className="text-xs font-bold text-amber-600 hover:text-amber-700 transition-colors">
-                                    Forgot Password?
+                                    Glömt lösenord?
                                 </Link>
                             </div>
 
@@ -190,11 +190,11 @@ const LoginMemberForm = () => {
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="animate-spin" size={18} />
-                                        <span>Signing In...</span>
+                                        <span>Loggar in...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Sign In</span>
+                                        <span>Logga in</span>
                                         <span>→</span>
                                     </>
                                 )}
@@ -203,9 +203,9 @@ const LoginMemberForm = () => {
 
                         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
                             <p className="text-xs text-gray-600">
-                                Don't have an account yet?{" "}
+                                Har du inget konto än?{" "}
                                 <Link href={registerUrl} className="font-bold text-[#7C5800] hover:underline ml-1">
-                                    Register here
+                                    Registrera dig här
                                 </Link>
                             </p>
                         </div>
@@ -218,7 +218,7 @@ const LoginMemberForm = () => {
 
 const LoginMemberClient = () => {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading login...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Laddar inloggning...</div>}>
             <LoginMemberForm />
         </Suspense>
     );

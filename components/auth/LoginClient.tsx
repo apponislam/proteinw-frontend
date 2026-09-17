@@ -13,8 +13,8 @@ import { toast } from "sonner";
 import AuthHeader from "./AuthHeader";
 
 const loginSchema = z.object({
-    email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Please enter your password"),
+    email: z.string().email("Ange en giltig e-postadress"),
+    password: z.string().min(1, "Ange ditt lösenord"),
     remember: z.boolean().optional(),
 });
 
@@ -42,10 +42,10 @@ const LoginClient = () => {
         try {
             const result = await login({ email: data.email, password: data.password }).unwrap();
             dispatch(setUser({ user: result.data.user, token: result.data.accessToken }));
-            toast.success("Login successful!");
+            toast.success("Inloggningen lyckades!");
             router.push("/dashboard");
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to login");
+            toast.error(err.data?.message || "Inloggningen misslyckades");
             // console.error("Login failed:", err);
         }
     };
@@ -62,12 +62,12 @@ const LoginClient = () => {
                         {/* Logo and Title */}
                         <div className="text-center mb-6">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-lg font-bold text-gray-700 mt-1">Log In</h2>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Logga in</h2>
                         </div>
 
                         {/* Quick Login Helpers */}
                         <div className="mb-6 bg-stone-50 border border-stone-200 rounded-xl p-3.5 space-y-2">
-                            <div className="text-xs font-bold text-[#7C5800] uppercase tracking-wider mb-1 text-center">Quick Login (Testing)</div>
+                            <div className="text-xs font-bold text-[#7C5800] uppercase tracking-wider mb-1 text-center">Snabbinloggning (Test)</div>
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <button
                                     type="button"
@@ -77,7 +77,7 @@ const LoginClient = () => {
                                     }}
                                     className="px-2 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs rounded-lg transition-colors cursor-pointer text-center"
                                 >
-                                    Seller
+                                    Säljare
                                 </button>
                                 <button
                                     type="button"
@@ -87,7 +87,7 @@ const LoginClient = () => {
                                     }}
                                     className="px-2 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-900 font-bold text-xs rounded-lg transition-colors cursor-pointer text-center"
                                 >
-                                    Super Admin
+                                    Superadmin
                                 </button>
                                 <button
                                     type="button"
@@ -106,12 +106,12 @@ const LoginClient = () => {
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             {/* Email Input */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">E-POSTADRESS</label>
                                 <div className="relative">
                                     <Controller
                                         name="email"
                                         control={control}
-                                        render={({ field }) => <input type="email" placeholder="name@example.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        render={({ field }) => <input type="email" placeholder="namn@exempel.se" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                     />
                                 </div>
                                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -119,7 +119,7 @@ const LoginClient = () => {
 
                             {/* Password Input */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">PASSWORD</label>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">LÖSENORD</label>
                                 <div className="relative">
                                     <Controller
                                         name="password"
@@ -130,7 +130,7 @@ const LoginClient = () => {
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                                 <div className="text-right mt-2">
                                     <Link href="/auth/forgot-password" className="text-sm text-amber-600 hover:text-amber-700 font-medium">
-                                        Forgot Password?
+                                        Glömt lösenord?
                                     </Link>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@ const LoginClient = () => {
                                                     )}
                                                 </div>
                                             </div>
-                                            <span className="text-sm font-medium text-gray-700">Remember me</span>
+                                            <span className="text-sm font-medium text-gray-700">Kom ihåg mig</span>
                                         </label>
                                     )}
                                 />
@@ -164,7 +164,7 @@ const LoginClient = () => {
                                 disabled={isSubmitting}
                                 className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {isSubmitting ? "Signing In..." : "Sign In"}
+                                {isSubmitting ? "Loggar in..." : "Logga in"}
                                 <span>→</span>
                             </button>
                         </form>
@@ -172,9 +172,9 @@ const LoginClient = () => {
                         {/* Sign Up Link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-700">
-                                Don&apos;t have an account?{" "}
+                                Har du inget konto?{" "}
                                 <Link href="/auth/register" className="text-amber-600 hover:text-amber-700 font-semibold">
-                                    Create an account
+                                    Skapa ett konto
                                 </Link>
                             </p>
                         </div>

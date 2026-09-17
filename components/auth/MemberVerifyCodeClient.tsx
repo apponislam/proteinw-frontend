@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react";
 import MemberAuthHeader from "./MemberAuthHeader";
 
 const verifyCodeSchema = z.object({
-    code: z.string().length(6, "Please enter the complete 6-digit code"),
+    code: z.string().length(6, "Ange hela den 6-siffriga koden"),
 });
 
 type VerifyCodeFormValues = z.infer<typeof verifyCodeSchema>;
@@ -90,10 +90,10 @@ const MemberVerifyCodeForm = () => {
     };
 
     const onSubmit = async (data: VerifyCodeFormValues) => {
-        const toastId = toast.loading("Verifying code...");
+        const toastId = toast.loading("Verifierar kod...");
         try {
             const result = await verifyOtp({ email, otp: data.code }).unwrap();
-            toast.success("Code verified successfully!", { id: toastId });
+            toast.success("Koden verifierades!", { id: toastId });
             const nextParams = new URLSearchParams({
                 token: result.data.token,
                 ...(email && { email }),
@@ -101,19 +101,19 @@ const MemberVerifyCodeForm = () => {
             }).toString();
             router.push(`/auth/member/create-password?${nextParams}`);
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to verify code", { id: toastId });
+            toast.error(err.data?.message || "Misslyckades att verifiera koden", { id: toastId });
         }
     };
 
     const handleResend = async () => {
         if (!email) return;
-        const toastId = toast.loading("Resending code...");
+        const toastId = toast.loading("Skickar koden igen...");
         try {
             await resendOtp({ email }).unwrap();
-            toast.success("Code resent successfully!", { id: toastId });
+            toast.success("Koden har skickats igen!", { id: toastId });
             setCountdown(60);
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to resend code", { id: toastId });
+            toast.error(err.data?.message || "Misslyckades att skicka koden", { id: toastId });
         }
     };
 
@@ -134,16 +134,16 @@ const MemberVerifyCodeForm = () => {
                         {/* Title */}
                         <div className="text-center mb-8">
                             <h1 className="text-[#1A1C1C] text-xl font-extrabold tracking-tight mb-1">Kungsbjörnen</h1>
-                            <h2 className="text-2xl text-gray-900 font-bold">Verify Code</h2>
+                            <h2 className="text-2xl text-gray-900 font-bold">Verifiera kod</h2>
                             <p className="text-xs text-gray-500 mt-1">
-                                We sent a 6-digit verification code to <span className="font-bold text-gray-900">{email || "your email"}</span>.
+                                Vi skickade en 6-siffrig verifieringskod till <span className="font-bold text-gray-900">{email || "din e-post"}</span>.
                             </p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             {/* OTP Inputs */}
                             <div>
-                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-4 text-center">ENTER 6-DIGIT CODE</label>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-4 text-center">ANGE 6-SIFFRIG KOD</label>
                                 <div className="grid grid-cols-6 gap-1.5 sm:gap-3 max-w-[320px] sm:max-w-none mx-auto">
                                     {otp.map((digit, index) => (
                                         <input
@@ -174,11 +174,11 @@ const MemberVerifyCodeForm = () => {
                                 {isVerifying ? (
                                     <>
                                         <Loader2 className="animate-spin" size={18} />
-                                        <span>Verifying...</span>
+                                        <span>Verifierar...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Verify Code</span>
+                                        <span>Verifiera kod</span>
                                         <span>→</span>
                                     </>
                                 )}
@@ -186,13 +186,13 @@ const MemberVerifyCodeForm = () => {
                         </form>
 
                         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-                            <p className="text-sm text-gray-600 mb-2">Didn't receive the code?</p>
+                            <p className="text-sm text-gray-600 mb-2">Fick du ingen kod?</p>
                             <button
                                 onClick={handleResend}
                                 disabled={countdown > 0 || isResending}
                                 className="font-bold text-[#7C5800] hover:underline disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-sm"
                             >
-                                {isResending ? "Resending..." : countdown > 0 ? `Resend Code in ${countdown}s` : "Resend Code"}
+                                {isResending ? "Skickar igen..." : countdown > 0 ? `Skicka koden igen om ${countdown}s` : "Skicka koden igen"}
                             </button>
                         </div>
                     </div>
@@ -204,7 +204,7 @@ const MemberVerifyCodeForm = () => {
 
 const MemberVerifyCodeClient = () => {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Laddar...</div>}>
             <MemberVerifyCodeForm />
         </Suspense>
     );

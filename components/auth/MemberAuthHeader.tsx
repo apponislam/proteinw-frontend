@@ -24,7 +24,7 @@ const MemberAuthHeader: React.FC<MemberAuthHeaderProps> = ({ signInUrl = "/auth/
                         href={signInUrl}
                         className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-[#7C5800] border border-amber-200 hover:bg-amber-100 rounded-full font-bold text-sm transition-all shadow-xs cursor-pointer"
                     >
-                        <span>Sign In</span>
+                        <span>Logga in</span>
                     </Link>
                 </div>
 
@@ -49,7 +49,7 @@ const MemberAuthHeader: React.FC<MemberAuthHeaderProps> = ({ signInUrl = "/auth/
                         onClick={() => setIsMenuOpen(false)}
                         className="block w-full text-center py-2.5 px-4 bg-amber-50 text-[#7C5800] border border-amber-200 hover:bg-amber-100 rounded-full font-bold text-sm transition-all shadow-xs cursor-pointer"
                     >
-                        Sign In
+                        Logga in
                     </Link>
                 </div>
             )}

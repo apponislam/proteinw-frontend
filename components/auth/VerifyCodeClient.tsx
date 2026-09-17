@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import AuthHeader from "./AuthHeader";
 
 const verifyCodeSchema = z.object({
-    code: z.string().length(6, "Please enter the complete 6-digit code"),
+    code: z.string().length(6, "Ange hela den 6-siffriga koden"),
 });
 
 type VerifyCodeFormValues = z.infer<typeof verifyCodeSchema>;
@@ -91,10 +91,10 @@ const VerifyCodeClient = () => {
     const onSubmit = async (data: VerifyCodeFormValues) => {
         try {
             const result = await verifyOtp({ email, otp: data.code }).unwrap();
-            toast.success("Code verified successfully!");
+            toast.success("Koden verifierades!");
             router.push(`/auth/create-password?token=${encodeURIComponent(result.data.token)}`);
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to verify code");
+            toast.error(err.data?.message || "Misslyckades att verifiera koden");
             console.error("Verify OTP failed:", err);
         }
     };
@@ -103,10 +103,10 @@ const VerifyCodeClient = () => {
         if (!email) return;
         try {
             await resendOtp({ email }).unwrap();
-            toast.success("Code resent successfully!");
+            toast.success("Koden har skickats igen!");
             setCountdown(60); // Reset countdown
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to resend code");
+            toast.error(err.data?.message || "Misslyckades att skicka koden igen");
             console.error("Resend OTP failed:", err);
         }
     };
@@ -124,15 +124,15 @@ const VerifyCodeClient = () => {
                         {/* Logo and Title */}
                         <div className="text-center mb-6 sm:mb-8">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-lg font-bold text-gray-700 mt-1">Verify Your Email</h2>
-                            <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Enter the verification code sent to your email</p>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Verifiera din e-post</h2>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Ange verifieringskoden som skickats till din e-post</p>
                         </div>
 
                         {/* Form */}
                         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                             {/* OTP Input Boxes */}
                             <div>
-                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-4 text-center">VERIFICATION CODE</label>
+                                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-4 text-center">VERIFIERINGSKOD</label>
                                 <Controller
                                     name="code"
                                     control={control}
@@ -166,7 +166,7 @@ const VerifyCodeClient = () => {
                                 disabled={isVerifying}
                                 className="w-full bg-linear-to-r inline-flex items-center justify-center from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {isVerifying ? "Verifying..." : "Verify Code"}
+                                {isVerifying ? "Verifierar..." : "Verifiera kod"}
                                 <span>→</span>
                             </button>
                         </form>
@@ -174,12 +174,12 @@ const VerifyCodeClient = () => {
                         {/* Resend Code Link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-700 text-sm">
-                                Didn&apos;t receive the code?{" "}
+                                Fick du ingen kod?{" "}
                                 {countdown > 0 ? (
-                                    <span className="text-gray-500">Resend in {countdown}s</span>
+                                    <span className="text-gray-500">Skicka igen om {countdown}s</span>
                                 ) : (
                                     <button onClick={handleResend} disabled={isResending} className="cursor-pointer text-amber-600 hover:text-amber-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
-                                        {isResending ? "Resending..." : "Resend"}
+                                        {isResending ? "Skickar igen..." : "Skicka igen"}
                                     </button>
                                 )}
                             </p>
@@ -188,7 +188,7 @@ const VerifyCodeClient = () => {
                         {/* Back to Login Link */}
                         <div className="text-center mt-4">
                             <Link href="/auth/login" className="text-sm text-gray-600 hover:text-gray-900">
-                                Back to Login
+                                Tillbaka till inloggningen
                             </Link>
                         </div>
                     </div>

@@ -15,12 +15,12 @@ import { Loader2 } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 
 const sellerRegisterSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Please enter a valid email address"),
-    phone: z.string().min(5, "Please enter a valid phone number"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
+    email: z.string().email("Ange en giltig e-postadress"),
+    phone: z.string().min(5, "Ange ett giltigt telefonnummer"),
+    password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
     code: z.string().optional(),
-    terms: z.boolean().refine((val) => val === true, "You must agree to the terms"),
+    terms: z.boolean().refine((val) => val === true, "Du måste godkänna villkoren"),
 });
 
 type SellerRegisterFormValues = z.infer<typeof sellerRegisterSchema>;
@@ -50,12 +50,12 @@ const RegisterSellerForm = () => {
 
         if (codeParam) {
             const handleAutoJoin = async () => {
-                const toastId = toast.loading("Joining group with invitation code...");
+                const toastId = toast.loading("Går med i gruppen med inbjudningskoden...");
                 try {
                     await joinGroupByInvitationCode({ code: codeParam }).unwrap();
-                    toast.success("Successfully joined the group!", { id: toastId });
+                    toast.success("Du har gått med i gruppen!", { id: toastId });
                 } catch (err: any) {
-                    toast.error(err?.data?.message || "Failed to join group with code.", { id: toastId });
+                    toast.error(err?.data?.message || "Misslyckades att gå med i gruppen.", { id: toastId });
                 } finally {
                     router.push("/dashboard");
                 }
@@ -94,7 +94,7 @@ const RegisterSellerForm = () => {
     }, [emailFromQuery, codeParam, setValue]);
 
     const onSubmit = async (data: SellerRegisterFormValues) => {
-        const toastId = toast.loading("Creating seller account...");
+        const toastId = toast.loading("Skapar säljarkonto...");
         const codeToSend = data.code || codeParam || searchParams.get("code") || "";
 
         try {
@@ -112,10 +112,10 @@ const RegisterSellerForm = () => {
 
             const result = await registerSeller(formData).unwrap();
             dispatch(setUser({ user: result.data.user, token: result.data.accessToken }));
-            toast.success("Registration successful!", { id: toastId });
+            toast.success("Registreringen lyckades!", { id: toastId });
             router.push("/dashboard");
         } catch (error: any) {
-            toast.error(error?.data?.message || "Registration failed. Please try again.", { id: toastId });
+            toast.error(error?.data?.message || "Registreringen misslyckades. Försök igen.", { id: toastId });
         }
     };
 
@@ -131,8 +131,8 @@ const RegisterSellerForm = () => {
                         {/* Title */}
                         <div className="text-center mb-6 sm:mb-10">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
-                            <h2 className="text-lg font-bold text-gray-700 mt-1">Join the Fundraising Team</h2>
-                            <p className="text-xs sm:text-sm text-gray-600 mt-1">Create your seller account to get started.</p>
+                            <h2 className="text-lg font-bold text-gray-700 mt-1">Gå med i försäljningsteamet</h2>
+                            <p className="text-xs sm:text-sm text-gray-600 mt-1">Skapa ditt säljarkonto för att komma igång.</p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -141,7 +141,7 @@ const RegisterSellerForm = () => {
 
                             {/* Full Name */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">FULL NAME</label>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">FULLSTÄNDIGT NAMN</label>
                                 <Controller
                                     name="name"
                                     control={control}
@@ -153,7 +153,7 @@ const RegisterSellerForm = () => {
                             {/* Email and Phone */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">E-POSTADRESS</label>
                                     <Controller
                                         name="email"
                                         control={control}
@@ -162,11 +162,11 @@ const RegisterSellerForm = () => {
                                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">PHONE NUMBER</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">TELEFONNUMMER</label>
                                     <Controller
                                         name="phone"
                                         control={control}
-                                        render={({ field }) => <input type="tel" placeholder="+46 00 000 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                        render={({ field }) => <input type="tel" placeholder="+46 70 000 00 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                     />
                                     {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                                 </div>
@@ -174,7 +174,7 @@ const RegisterSellerForm = () => {
 
                             {/* Password */}
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">PASSWORD</label>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">LÖSENORD</label>
                                 <Controller
                                     name="password"
                                     control={control}
@@ -201,7 +201,7 @@ const RegisterSellerForm = () => {
                                                 </div>
                                             </div>
                                             <span className="text-sm text-gray-700 flex-1">
-                                                I agree to the <span className="font-semibold">Terms of Service</span> and acknowledge the <span className="font-semibold">Privacy Policy</span>.
+                                                Jag godkänner <span className="font-semibold">användarvillkoren</span> och har tagit del av <span className="font-semibold">integritetspolicyn</span>.
                                             </span>
                                         </label>
                                     )}
@@ -218,11 +218,11 @@ const RegisterSellerForm = () => {
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="animate-spin" size={20} />
-                                        <span>Creating Account...</span>
+                                        <span>Skapar konto...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Join Team</span>
+                                        <span>Gå med i teamet</span>
                                         <span>→</span>
                                     </>
                                 )}
@@ -231,9 +231,9 @@ const RegisterSellerForm = () => {
 
                         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
                             <p className="text-sm text-gray-600">
-                                Already have an invitation code or account?{" "}
+                                Har du redan en inbjudningskod eller ett konto?{" "}
                                 <Link href={loginUrl} className="font-bold text-[#7C5800] hover:underline">
-                                    Sign in here
+                                    Logga in här
                                 </Link>
                             </p>
                         </div>
@@ -246,7 +246,7 @@ const RegisterSellerForm = () => {
 
 const RegisterSellerClient = () => {
     return (
-        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Loading registration...</div>}>
+        <Suspense fallback={<div className="min-h-screen bg-linear-to-b from-blue-100 to-blue-50 flex items-center justify-center p-4">Laddar registrering...</div>}>
             <RegisterSellerForm />
         </Suspense>
     );

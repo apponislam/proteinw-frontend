@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import VerifyCodeClient from "@/components/auth/VerifyCodeClient";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Verify Code",
-    description: "Verify your Kungsbjörnen account",
+    title: "Kungsbjörnen - Verifiera kod",
+    description: "Verifiera ditt Kungsbjörnen-konto",
 };
 
 const Page = () => {

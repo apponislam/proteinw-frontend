@@ -15,16 +15,16 @@ import AuthHeader from "./AuthHeader";
 
 // Step 1 Schema
 const step1Schema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Please enter a valid email address"),
-    phone: z.string().min(5, "Please enter a valid phone number"),
-    profession: z.string().min(1, "Please select your profession"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
-    terms: z.boolean().refine((val) => val === true, "You must agree to the terms"),
-    age: z.boolean().refine((val) => val === true, "You must be 18+"),
+    name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
+    email: z.string().email("Ange en giltig e-postadress"),
+    phone: z.string().min(5, "Ange ett giltigt telefonnummer"),
+    profession: z.string().min(1, "Välj din roll/yrke"),
+    password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
+    confirmPassword: z.string().min(1, "Bekräfta ditt lösenord"),
+    terms: z.boolean().refine((val) => val === true, "Du måste godkänna villkoren"),
+    age: z.boolean().refine((val) => val === true, "Du måste vara 18+"),
 }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Lösenorden matchar inte",
     path: ["confirmPassword"],
 });
 
@@ -57,10 +57,10 @@ const RegisterClient = () => {
     const [register, { isLoading: isRegisterLoading }] = useRegisterMutation();
 
     const professions = [
-        { name: "LEADER", icon: Trophy },
-        { name: "TEACHER", icon: GraduationCap },
-        { name: "PARENT", icon: Users },
-        { name: "COACH", icon: Target },
+        { name: "LEADER", label: "LEDARE", icon: Trophy },
+        { name: "TEACHER", label: "LÄRARE", icon: GraduationCap },
+        { name: "PARENT", label: "FÖRÄLDER", icon: Users },
+        { name: "COACH", label: "TRÄNARE", icon: Target },
     ];
 
     const organizationTypes = ["Skola", "Gymnasium", "Förening", "Annat"];
@@ -169,8 +169,8 @@ const RegisterClient = () => {
                         <div className="text-center mb-6 sm:mb-10">
                             <h1 className="text-2xl font-extrabold text-[#7C5800]">Kungsbjörnen</h1>
                             <h2 className="text-lg font-bold text-gray-700 mt-1">
-                                {currentStep === 1 && "Create your account"}
-                                {currentStep === 2 && "Organization Details"}
+                                {currentStep === 1 && "Skapa ditt konto"}
+                                {currentStep === 2 && "Organisationsuppgifter"}
                             </h2>
                         </div>
 
@@ -179,7 +179,7 @@ const RegisterClient = () => {
                             <form onSubmit={handleSubmitStep1(onSubmitStep1)} className="space-y-6">
                                 {/* Full Name */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">FULL NAME</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">FULLSTÄNDIGT NAMN</label>
                                     <Controller
                                         name="name"
                                         control={controlStep1}
@@ -191,20 +191,20 @@ const RegisterClient = () => {
                                 {/* Two Column Row */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">EMAIL ADDRESS</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">E-POSTADRESS</label>
                                         <Controller
                                             name="email"
                                             control={controlStep1}
-                                            render={({ field }) => <input type="email" placeholder="erik@archive.com" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                            render={({ field }) => <input type="email" placeholder="erik@exempel.se" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                         />
                                         {errorsStep1.email && <p className="text-red-500 text-xs mt-1">{errorsStep1.email.message}</p>}
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">PHONE NUMBER</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">TELEFONNUMMER</label>
                                         <Controller
                                             name="phone"
                                             control={controlStep1}
-                                            render={({ field }) => <input type="tel" placeholder="+46 00 000 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                            render={({ field }) => <input type="tel" placeholder="+46 70 000 00 00" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
                                         />
                                         {errorsStep1.phone && <p className="text-red-500 text-xs mt-1">{errorsStep1.phone.message}</p>}
                                     </div>
@@ -212,7 +212,7 @@ const RegisterClient = () => {
 
                                 {/* Your Profession */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-3">YOUR PROFESSION</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-3">DIN ROLL / YRKE</label>
                                     <Controller
                                         name="profession"
                                         control={controlStep1}
@@ -239,7 +239,7 @@ const RegisterClient = () => {
                                                                 className="sr-only"
                                                             />
                                                             <IconComponent className="w-5 h-5 mb-1.5" />
-                                                            <span className="text-xs font-semibold text-center leading-tight">{profession.name}</span>
+                                                            <span className="text-xs font-semibold text-center leading-tight">{profession.label}</span>
                                                         </label>
                                                     );
                                                 })}
@@ -251,7 +251,7 @@ const RegisterClient = () => {
 
                                 {/* Password */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">PASSWORD</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">LÖSENORD</label>
                                     <div className="relative">
                                         <Controller
                                             name="password"
@@ -274,10 +274,10 @@ const RegisterClient = () => {
                                             if (/[0-9]/.test(pass)) score += 1;
                                             if (/[^A-Za-z0-9]/.test(pass) || pass.length >= 12) score += 1;
 
-                                            if (score <= 1) return { score: 1, label: "WEAK" };
-                                            if (score === 2) return { score: 2, label: "FAIR" };
-                                            if (score === 3) return { score: 3, label: "MODERATE" };
-                                            return { score: 4, label: "STRONG" };
+                                            if (score <= 1) return { score: 1, label: "SVAGT" };
+                                            if (score === 2) return { score: 2, label: "GODKÄNT" };
+                                            if (score === 3) return { score: 3, label: "MEDEL" };
+                                            return { score: 4, label: "STARKT" };
                                         };
 
                                         const strength = getPasswordStrength(passwordValue || "");
@@ -285,7 +285,7 @@ const RegisterClient = () => {
                                         return (
                                             <div className="mt-2 text-xs text-gray-600">
                                                 <div className="mb-2">
-                                                    <span className="font-semibold">STRENGTH:</span> <span className="text-blue-600 font-semibold">{strength.label}</span>
+                                                    <span className="font-semibold">STYRKA:</span> <span className="text-blue-600 font-semibold">{strength.label}</span>
                                                 </div>
                                                 <div className="flex items-center gap-1">
                                                     {[1, 2, 3, 4].map((step) => (
@@ -298,7 +298,7 @@ const RegisterClient = () => {
                                 </div>
                                 {/* Confirm Password */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">CONFIRM PASSWORD</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">BEKRÄFTA LÖSENORD</label>
                                     <div className="relative">
                                         <Controller
                                             name="confirmPassword"
@@ -327,7 +327,7 @@ const RegisterClient = () => {
                                         confirmPasswordValue &&
                                         passwordValue &&
                                         confirmPasswordValue !== passwordValue && (
-                                            <p className="text-red-500 text-xs mt-1">Passwords do not match</p>
+                                            <p className="text-red-500 text-xs mt-1">Lösenorden matchar inte</p>
                                         )
                                     )}
                                 </div>
@@ -350,7 +350,7 @@ const RegisterClient = () => {
                                                     </div>
                                                 </div>
                                                 <span className="text-sm text-gray-700 flex-1">
-                                                    I agree to the <span className="font-semibold">Terms of Service</span> and acknowledge the <span className="font-semibold">Privacy Policy</span> regarding how my data is managed.
+                                                    Jag godkänner <span className="font-semibold">användarvillkoren</span> och har tagit del av <span className="font-semibold">integritetspolicyn</span> om hur mina uppgifter behandlas.
                                                 </span>
                                             </label>
                                         )}
@@ -371,7 +371,7 @@ const RegisterClient = () => {
                                                         )}
                                                     </div>
                                                 </div>
-                                                <span className="text-sm text-gray-700 flex-1">I confirm that I am 18 years of age or older.</span>
+                                                <span className="text-sm text-gray-700 flex-1">Jag bekräftar att jag är 18 år eller äldre.</span>
                                             </label>
                                         )}
                                     />
@@ -383,7 +383,7 @@ const RegisterClient = () => {
                                     type="submit"
                                     className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6 cursor-pointer"
                                 >
-                                    <span>Next Step</span>
+                                    <span>Nästa steg</span>
                                     <span>→</span>
                                 </button>
                             </form>
@@ -394,7 +394,7 @@ const RegisterClient = () => {
                             <form onSubmit={handleSubmitStep2(onSubmitStep2)} className="space-y-6">
                                 {/* Organization Type */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">CATEGORY / ORGANIZATION TYPE</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">KATEGORI / ORGANISATIONSTYP</label>
                                     <Controller
                                         name="address.organizationType"
                                         control={controlStep2}
@@ -407,7 +407,7 @@ const RegisterClient = () => {
                                                 >
                                                     <span className="flex items-center gap-2.5">
                                                         <Building2 className="w-4 h-4 text-gray-500" />
-                                                        {field.value ? <span className="text-gray-900 font-semibold">{field.value}</span> : <span className="text-gray-500">Select category</span>}
+                                                        {field.value ? <span className="text-gray-900 font-semibold">{field.value}</span> : <span className="text-gray-500">Välj kategori</span>}
                                                     </span>
                                                     <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOrgTypeOpen ? "rotate-180 text-[#7C5800]" : ""}`} />
                                                 </button>
@@ -446,17 +446,17 @@ const RegisterClient = () => {
 
                                 {/* Organization Name with Dynamic Placeholder */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">NAME</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">NAMN</label>
                                     <Controller
                                         name="address.organizationName"
                                         control={controlStep2}
                                         render={({ field }) => {
                                             const selectedType = watchStep2("address.organizationType");
-                                            let placeholder = "Enter organization name";
-                                            if (selectedType === "Skola") placeholder = "Enter school name";
-                                            else if (selectedType === "Gymnasium") placeholder = "Enter high school name";
-                                            else if (selectedType === "Förening") placeholder = "Enter association name";
-                                            else if (selectedType === "Annat") placeholder = "Enter organization name";
+                                            let placeholder = "Ange organisationsnamn";
+                                            if (selectedType === "Skola") placeholder = "Ange skolans namn";
+                                            else if (selectedType === "Gymnasium") placeholder = "Ange gymnasiets namn";
+                                            else if (selectedType === "Förening") placeholder = "Ange föreningens namn";
+                                            else if (selectedType === "Annat") placeholder = "Ange organisationsnamn";
 
                                             return <input type="text" placeholder={placeholder} className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />;
                                         }}
@@ -466,7 +466,7 @@ const RegisterClient = () => {
 
                                 {/* Address Section */}
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">GATUADRESS (STREET ADDRESS)</label>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">GATUADRESS</label>
                                     <Controller
                                         name="address.street"
                                         control={controlStep2}
@@ -477,7 +477,7 @@ const RegisterClient = () => {
                                 {/* Postnummer & Ort */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">POSTNUMMER (ZIP CODE)</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">POSTNUMMER</label>
                                         <Controller
                                             name="address.zipCode"
                                             control={controlStep2}
@@ -485,7 +485,7 @@ const RegisterClient = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">ORT (LOCALITY)</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">ORT</label>
                                         <Controller
                                             name="address.locality"
                                             control={controlStep2}
@@ -500,7 +500,7 @@ const RegisterClient = () => {
                                     disabled={isRegisterLoading}
                                     className="w-full inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] gap-2 mt-6 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {isRegisterLoading ? "Creating Account..." : "Create Account"}
+                                    {isRegisterLoading ? "Skapar konto..." : "Skapa konto"}
                                     <span>→</span>
                                 </button>
                             </form>
@@ -509,9 +509,9 @@ const RegisterClient = () => {
                         {/* Sign In Link */}
                         <div className="text-center mt-8">
                             <p className="text-gray-700">
-                                Already have an account?{" "}
+                                Har du redan ett konto?{" "}
                                 <Link href="/auth/login" className="text-amber-600 hover:text-amber-700 font-semibold">
-                                    Sign in here
+                                    Logga in här
                                 </Link>
                             </p>
                         </div>
@@ -521,7 +521,7 @@ const RegisterClient = () => {
 
             {/* Progress Bar */}
             <div className="pb-12 max-w-2xl mx-auto px-4">
-                <p className="mb-2 text-xs sm:text-sm font-medium text-gray-600">Step {currentStep} of 2</p>
+                <p className="mb-2 text-xs sm:text-sm font-medium text-gray-600">Steg {currentStep} av 2</p>
                 <div className="flex items-center gap-3">
                     <div className={`w-full h-1.5 rounded-full ${currentStep >= 1 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>
                     <div className={`w-full h-1.5 rounded-full ${currentStep >= 2 ? "bg-[#7C5800]" : "bg-[#D7CCB2]"}`}></div>

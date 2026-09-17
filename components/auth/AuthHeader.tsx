@@ -22,18 +22,18 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({ activePage }) => {
                 <div className="hidden md:flex gap-4 items-center">
                     {activePage === "login" ? (
                         <Link href="/auth/register" className="text-gray-700 font-medium hover:text-gray-900">
-                            Sign Up
+                            Skapa konto
                         </Link>
                     ) : (
                         <Link href="/auth/login" className="text-gray-700 font-medium hover:text-gray-900">
-                            Sign In
+                            Logga in
                         </Link>
                     )}
                     <Link
                         href="/auth/register"
                         className="inline-flex items-center justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-medium text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 rounded-[24px] cursor-pointer"
                     >
-                        Get Started
+                        Kom igång
                     </Link>
                 </div>
 
@@ -50,15 +50,15 @@ const AuthHeader: React.FC<AuthHeaderProps> = ({ activePage }) => {
                 <div className="md:hidden absolute top-full left-0 right-0 z-50 bg-white border-b border-gray-200 px-4 py-3 space-y-2 shadow-lg rounded-b-xl animate-in fade-in duration-150">
                     {activePage === "login" ? (
                         <Link href="/auth/register" onClick={() => setIsMenuOpen(false)} className="block w-full text-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
-                            Sign Up
+                            Skapa konto
                         </Link>
                     ) : (
                         <Link href="/auth/login" onClick={() => setIsMenuOpen(false)} className="block w-full text-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
-                            Sign In
+                            Logga in
                         </Link>
                     )}
                     <Link href="/auth/register" onClick={() => setIsMenuOpen(false)} className="block w-full text-center bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all rounded-[24px] cursor-pointer">
-                        Get Started
+                        Kom igång
                     </Link>
                 </div>
             )}
