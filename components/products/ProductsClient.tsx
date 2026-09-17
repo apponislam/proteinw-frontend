@@ -74,7 +74,7 @@ const ProductsClient = () => {
         <div className="bg-[#FAFAF9CC] min-h-screen pb-32">
             <div className="container mx-auto py-6 px-4 sm:px-6">
                 <div className="mb-6 sm:mb-8">
-                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">Vårt sortiment</h1>
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">Arkivkollektionent</h1>
                     <p className="text-[#514532] text-sm sm:text-base">
                         Noggrant utvalda kvalitetsprodukter för klass- och föreningsförsäljning. <br className="hidden sm:block" /> Svenska favoriter som gör det enkelt att nå era mål.
                     </p>
@@ -124,7 +124,7 @@ const ProductsClient = () => {
                                             }}
                                             className={`text-[#5E4200] cursor-pointer py-2 px-4 rounded-[20px] text-sm whitespace-nowrap transition-all duration-200 ${activeSubCategory === "Reed Diffusers" ? "bg-[#FFDEA8] font-semibold shadow-xs" : "hover:bg-[#FFDEA8]/30"}`}
                                         >
-                                            Doftpinnar
+                                            Doftstickor
                                         </li>
                                     </ul>
                                 </div>
@@ -139,7 +139,7 @@ const ProductsClient = () => {
                                 className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Premium Socks" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
                             >
                                 <Footprints className="w-4 h-4 text-[#837560]" />
-                                <span>Strumpor</span>
+                                <span>Premiumstrumpor</span>
                             </li>
                         </ul>
 
