@@ -5,36 +5,36 @@ import { useState, Suspense } from "react";
 
 const faqData = [
     {
-        question: "Can we customize our storefront?",
-        answer: "Yes. Your storefront can be fully customized to match your organization’s branding, goals, and campaign style. We help you curate everything for maximum impact.",
+        question: "Kan vi anpassa vår webbshop?",
+        answer: "Ja. Er webbshop kan anpassas för att passa er grupp, era mål och er försäljning. Vi hjälper er att sätta upp allt för bästa resultat.",
     },
     {
-        question: "What is the profit model?",
-        answer: "Our model is simple and transparent. You earn a margin on every product sold, allowing you to generate consistent fundraising revenue without upfront investment.",
+        question: "Hur ser vinstmodellen ut?",
+        answer: "Vår modell är enkel och transparent. Ni tjänar upp till 50% förtjänst på varje såld produkt, vilket ger er en stabil och hög vinst utan några startavgifter.",
     },
     {
-        question: "How quickly can we start our fundraiser?",
-        answer: "Most organizations go live within 48 hours. Once your coordinator is assigned, we help you curate your Nordic Archive storefront and set your goals immediately. The platform is optimized for fast deployment.",
+        question: "Hur snabbt kan vi starta vår försäljning?",
+        answer: "De flesta grupper kommer igång inom 48 timmar. När ni har registrerat er kan ni direkt sätta upp mål och börja sälja.",
     },
     {
-        question: "How do products get delivered?",
-        answer: "All products are delivered directly to customers through our trusted logistics partners. This ensures fast, reliable shipping without any handling required from your organization.",
+        question: "Hur levereras produkterna?",
+        answer: "Alla produkter skickas i en samlad leverans till er grupp eller kontaktperson efter avslutad försäljning, vilket gör utdelningen smidig och välorganiserad.",
     },
     {
-        question: "Is there any upfront cost?",
-        answer: "No. There are no upfront costs to get started. You only pay based on successful sales, making it risk-free to launch your fundraiser.",
+        question: "Finns det några startkostnader?",
+        answer: "Nej. Det är helt kostnadsfritt att starta. Ni betalar ingenting i förskott och risken är noll.",
     },
     {
-        question: "Who handles customer support?",
-        answer: "We provide 24/7 automated support along with human support within 12 hours. Your customers are always taken care of.",
+        question: "Vem hanterar kundtjänst?",
+        answer: "Vi erbjuder engagerad support och hjälper er och era köpare om några frågor uppstår.",
     },
     {
-        question: "Can we track our sales and performance?",
-        answer: "Yes. You’ll have access to a dashboard where you can monitor sales, performance, and progress toward your fundraising goals in real time.",
+        question: "Kan vi följa vår försäljning och förtjänst?",
+        answer: "Ja. Ni har tillgång till en överskådlig meny där ni kan följa försäljningen, deltagarnas resultat och er totala vinst i realtid.",
     },
     {
-        question: "Do we need technical knowledge to start?",
-        answer: "Not at all. Our platform is fully managed and easy to use. We guide you through everything from setup to launch.",
+        question: "Behöver vi några tekniska kunskaper för att starta?",
+        answer: "Inte alls. Vår plattform är extremt enkel att använda. Vi vägleder er hela vägen från start till avslutad försäljning.",
     },
 ];
 
@@ -51,7 +51,7 @@ const AboutUsClient = () => {
     return (
         <div className="py-8 sm:py-12 md:py-24 bg-[#F3F3F3] flex flex-col gap-10 sm:gap-16">
             <SupportPageTop searchQuery={searchQuery} onSearchChange={setSearchQuery} onSearchSubmit={handleSearchSubmit} />
-            <Suspense fallback={<div className="py-12 text-center text-stone-500">Loading support...</div>}>
+            <Suspense fallback={<div className="py-12 text-center text-stone-500">Laddar support...</div>}>
                 <SupportPage faqData={filteredFAQData} />
             </Suspense>
         </div>

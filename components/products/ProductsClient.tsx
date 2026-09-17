@@ -74,16 +74,16 @@ const ProductsClient = () => {
         <div className="bg-[#FAFAF9CC] min-h-screen pb-32">
             <div className="container mx-auto py-6 px-4 sm:px-6">
                 <div className="mb-6 sm:mb-8">
-                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">The Archive Collection</h1>
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 sm:mb-4 leading-tight">Vårt sortiment</h1>
                     <p className="text-[#514532] text-sm sm:text-base">
-                        Curated high-quality products designed for community fundraising. <br className="hidden sm:block" /> Handpicked Scandinavian essentials that represent the Kungsbjörnen spirit.
+                        Noggrant utvalda kvalitetsprodukter för klass- och föreningsförsäljning. <br className="hidden sm:block" /> Svenska favoriter som gör det enkelt att nå era mål.
                     </p>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
                     {/* Sidebar / Categories */}
                     <div className="w-full lg:w-80 lg:shrink-0">
-                        <h3 className="text-[#837560] text-xs sm:text-sm font-bold tracking-wider mb-3 sm:mb-6">CATEGORIES</h3>
+                        <h3 className="text-[#837560] text-xs sm:text-sm font-bold tracking-wider mb-3 sm:mb-6">KATEGORIER</h3>
                         <ul className="flex lg:flex-col gap-2 lg:gap-3 overflow-x-auto pb-2 lg:pb-0">
                             {/* All Products */}
                             <li
@@ -94,7 +94,7 @@ const ProductsClient = () => {
                                 className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "All Products" && !activeSubCategory ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
                             >
                                 <Infinity className="w-4 h-4 text-[#837560]" />
-                                <span>All Products</span>
+                                <span>Alla produkter</span>
                             </li>
 
                             {/* Scented Candles */}
@@ -109,7 +109,7 @@ const ProductsClient = () => {
                                 >
                                     <div className="flex items-center gap-3">
                                         <Leaf className="w-4 h-4 text-[#837560]" />
-                                        <span>Scented Candles</span>
+                                        <span>Doftljus</span>
                                     </div>
                                     <ChevronDown className={`w-4 h-4 text-[#837560] transition-transform duration-300 ${isCandlesOpen ? "rotate-180" : ""}`} />
                                 </div>
@@ -124,7 +124,7 @@ const ProductsClient = () => {
                                             }}
                                             className={`text-[#5E4200] cursor-pointer py-2 px-4 rounded-[20px] text-sm whitespace-nowrap transition-all duration-200 ${activeSubCategory === "Reed Diffusers" ? "bg-[#FFDEA8] font-semibold shadow-xs" : "hover:bg-[#FFDEA8]/30"}`}
                                         >
-                                            Reed Diffusers
+                                            Doftpinnar
                                         </li>
                                     </ul>
                                 </div>
@@ -139,16 +139,16 @@ const ProductsClient = () => {
                                 className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Premium Socks" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
                             >
                                 <Footprints className="w-4 h-4 text-[#837560]" />
-                                <span>Premium Socks</span>
+                                <span>Strumpor</span>
                             </li>
                         </ul>
 
                         <div className="bg-[#F3F3F3] rounded-[24px] px-5 py-3.5 mt-6">
                             <div className="flex items-center gap-2">
                                 <Info className="text-[#7C5800]" size={18} />
-                                <span className="font-bold text-xs text-[#7C5800] uppercase tracking-wider">Fundraising Info</span>
+                                <span className="font-bold text-xs text-[#7C5800] uppercase tracking-wider">INFORMATION</span>
                             </div>
-                            <p className="text-[#514532] mt-2 text-[14px]">Every purchase supports your local community programs. 180 SEK per package.</p>
+                            <p className="text-[#514532] mt-2 text-[14px]">Varje köp stöttar er grupp direkt. 180 kr per paket.</p>
                         </div>
                     </div>
 
@@ -157,10 +157,10 @@ const ProductsClient = () => {
                         {isLoading && accumulatedProducts.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-20 gap-3">
                                 <Loader2 className="animate-spin text-[#D97706]" size={32} />
-                                <p className="text-sm text-[#78716C]">Loading archive collection...</p>
+                                <p className="text-sm text-[#78716C]">Laddar sortimentet...</p>
                             </div>
                         ) : accumulatedProducts.length === 0 ? (
-                            <div className="text-center py-20 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4]">No products found in this category.</div>
+                            <div className="text-center py-20 text-sm text-[#78716C] bg-white rounded-3xl border border-[#E7E5E4]">Inga produkter hittades i denna kategori.</div>
                         ) : (
                             <>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-6">
@@ -180,6 +180,7 @@ const ProductsClient = () => {
                                                     marginBenefit: product.marginBenefit,
                                                     qualityHighlight: product.qualityHighlight,
                                                     ecoHighlight: product.ecoHighlight,
+                                                    createdAt: product.createdAt,
                                                 })
                                             }
                                         />
@@ -189,13 +190,13 @@ const ProductsClient = () => {
                                 {isFetching ? (
                                     <div className="flex items-center justify-center py-6 gap-2">
                                         <Loader2 className="animate-spin text-[#D97706]" size={20} />
-                                        <span className="text-xs text-[#78716C]">Loading more products...</span>
+                                        <span className="text-xs text-[#78716C]">Laddar fler produkter...</span>
                                     </div>
                                 ) : (
                                     hasNextPage && (
                                         <div className="flex justify-center pt-4 pb-6">
                                             <button type="button" onClick={() => setPage((prev) => prev + 1)} className="px-6 py-3 bg-stone-100 hover:bg-stone-200 border border-stone-300 text-stone-700 font-semibold text-sm rounded-full transition-all cursor-pointer shadow-xs active:scale-95">
-                                                Load More Products
+                                                Ladda fler produkter
                                             </button>
                                         </div>
                                     )
@@ -211,12 +212,12 @@ const ProductsClient = () => {
                 <div className="container mx-auto flex justify-center">
                     <div className="w-full sm:w-auto sm:min-w-140 lg:min-w-160 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-[32px] p-3.5 sm:p-5 shadow-2xl border border-[#FFDEA8]/40 pointer-events-auto transition-all duration-300 hover:shadow-amber-100 hover:border-[#FFDEA8]">
                         <div className="text-center sm:text-left sm:pl-4">
-                            <h2 className="text-[10px] sm:text-xs text-[#837560] font-extrabold uppercase tracking-wider">READY TO FUNDRAISE?</h2>
-                            <p className="text-xs sm:text-sm font-semibold text-[#1A1C1C] mt-0.5">Join 500+ successful teams</p>
+                            <h2 className="text-[10px] sm:text-xs text-[#837560] font-extrabold uppercase tracking-wider">REDO ATT STARTA ER FÖRSÄLJNING?</h2>
+                            <p className="text-xs sm:text-sm font-semibold text-[#1A1C1C] mt-0.5">Gör som 500+ framgångsrika grupper</p>
                         </div>
                         <Link href="/auth/register" className="w-full sm:w-auto shrink-0">
                             <button className="w-full sm:w-auto justify-center bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full flex items-center gap-2 cursor-pointer shadow-md transition-all font-bold text-xs sm:text-sm">
-                                <Rocket size={16} /> Start Selling These
+                                <Rocket size={16} /> Starta er försäljning
                             </button>
                         </Link>
                     </div>

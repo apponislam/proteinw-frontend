@@ -17,15 +17,15 @@ const EarnSection = () => {
                 <div className="bg-white rounded-3xl shadow-[0px_20px_25px_-5px_rgba(0,0,0,0.1)] overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-150">
                     {/* LEFT SIDE */}
                     <div className="p-10 lg:p-14 flex flex-col justify-center">
-                        <h2 className="text-3xl lg:text-5xl font-extrabold text-[#1A1C1C]">See how much you can earn.</h2>
+                        <h2 className="text-3xl lg:text-5xl font-extrabold text-[#1A1C1C]">Se hur mycket ni kan tjäna.</h2>
 
-                        <p className="text-gray-600 mt-5 text-sm lg:text-base max-w-md mb-8">Input your group size and products per seller to calculate your estimated profit.</p>
+                        <p className="text-gray-600 mt-5 text-sm lg:text-base max-w-md mb-8">Fyll i antal säljare och antal produkter per säljare för att beräkna er uppskattade förtjänst.</p>
 
                         <div className="space-y-12">
                             {/* SLIDER 1 - Group Size */}
                             <div>
                                 <div className="flex justify-between ">
-                                    <p className="text-xs tracking-widest font-semibold text-gray-500">GROUP SIZE</p>
+                                    <p className="text-xs tracking-widest font-semibold text-gray-500">ANTAL SÄLJARE</p>
                                     <p className="text-sm font-bold text-[#EFAC02]">{groupSize}</p>
                                 </div>
 
@@ -45,7 +45,7 @@ const EarnSection = () => {
                             {/* SLIDER 2 - Products Per Seller */}
                             <div>
                                 <div className="flex justify-between">
-                                    <p className="text-xs tracking-widest font-semibold text-gray-500">PRODUCTS</p>
+                                    <p className="text-xs tracking-widest font-semibold text-gray-500">PRODUKTER PER SÄLJARE</p>
                                     <p className="text-sm font-bold text-[#7C5800]">{productsPerSeller}</p>
                                 </div>
 
@@ -64,14 +64,14 @@ const EarnSection = () => {
 
                             {/* RESULT CARD */}
                             <div className="bg-linear-to-br from-gray-50 to-white p-8 rounded-3xl border border-gray-100 shadow-sm text-center">
-                                <p className="text-xs tracking-widest font-semibold text-gray-500">TOTAL PROFIT</p>
+                                <p className="text-xs tracking-widest font-semibold text-gray-500">TOTAL FÖRTJÄNST</p>
 
                                 <p className="text-5xl font-extrabold text-[#1A1C1C] mt-3">
                                     {totalProfit} <span className="text-2xl">SEK</span>
                                 </p>
 
                                 <p className="text-sm text-gray-600 mt-3">
-                                    Total products: {totalProducts} at {pricePerPackage} SEK/package
+                                    Totalt antal produkter: {totalProducts} st à {pricePerPackage} kr/paket
                                 </p>
                             </div>
                         </div>

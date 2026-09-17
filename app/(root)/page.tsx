@@ -8,8 +8,8 @@ import StepsSection from "@/components/home/StepsSection";
 import TestimonialsFAQ from "@/components/home/TestimonialsFAQ";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Home",
-    description: "Kungsbjörnen - Premium protein fundraising for schools and teams",
+    title: "Kungsbjörnen - Start",
+    description: "Tjäna pengar till klassen, laget eller föreningen med Kungsbjörnen. Enkel digital försäljning och hög förtjänst.",
 };
 
 export default function Home() {

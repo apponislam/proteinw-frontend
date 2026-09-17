@@ -3,23 +3,23 @@ import { Heart, LaptopMinimal, Smile, TrendingUp } from "lucide-react";
 
 const features = [
     {
-        title: "Easy to sell",
-        description: "Our curated product line practically sells itself. High-quality products that people actually want to buy.",
+        title: "Lättsålt sortiment",
+        description: "Vårt utvalda sortiment säljer nästan sig självt. Högkvalitativa produkter som folk faktiskt vill ha.",
         icon: Smile,
     },
     {
-        title: "Digital ordering",
-        description: "No paper forms needed. Manage everything through our simple digital dashboard directly from your phone.",
+        title: "Digital försäljning",
+        description: "Inga pappersblanketter krävs. Hantera allt direkt i er mobila översikt på ett smidigt sätt.",
         icon: LaptopMinimal,
     },
     {
-        title: "High profit margins",
-        description: "Keep a larger piece of the pie. Our model is designed to maximize earnings for your group.",
+        title: "Höga vinstmarginaler",
+        description: "Behåll en större del av vinsten. Vår modell är utformad för att maximera er förtjänst.",
         icon: TrendingUp,
     },
     {
-        title: "Popular products",
-        description: "From scented candles to cozy socks — products that fit every home and every season.",
+        title: "Populära produkter",
+        description: "Från väldoftande ljus till sköna strumpor — produkter som passar i varje hem och alla årstider.",
         icon: Heart,
     },
 ];
@@ -29,7 +29,7 @@ const ChooseWhy = () => {
         <section className="py-20 bg-gray-50">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-14">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Why choose Kungsbjörnen?</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Varför välja Kungsbjörnen?</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

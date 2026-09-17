@@ -13,11 +13,11 @@ import { useSearchParams } from "next/navigation";
 const SUBJECT_OPTIONS = ["Teknisk support", "Frågor om produkten", "Retur och/eller reklamation", "Övriga frågor"];
 
 const supportFormSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Please enter a valid email address"),
-    subject: z.string().min(1, "Please select a topic"),
+    name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
+    email: z.string().email("Ange en giltig e-postadress"),
+    subject: z.string().min(1, "Välj ett ämne"),
     phone: z.string().optional(),
-    message: z.string().min(10, "Message must be at least 10 characters"),
+    message: z.string().min(10, "Meddelandet måste vara minst 10 tecken"),
 });
 
 type SupportFormValues = z.infer<typeof supportFormSchema>;
@@ -80,10 +80,10 @@ export default function SupportPage({ faqData }: SupportPageProps) {
     const onSubmit = async (data: SupportFormValues) => {
         try {
             await createContact(data).unwrap();
-            toast.success("Message sent successfully! We'll get back to you soon.");
+            toast.success("Meddelandet har skickats! Vi återkommer till dig inom kort.");
             reset();
         } catch (err: any) {
-            toast.error(err.data?.message || "Failed to send message. Please try again.");
+            toast.error(err.data?.message || "Det gick inte att skicka meddelandet. Försök igen.");
             console.error("Support form error:", err);
         }
     };
@@ -96,7 +96,7 @@ export default function SupportPage({ faqData }: SupportPageProps) {
         <section className="container mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* LEFT SIDE */}
             <div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 sm:mb-10">Common Questions</h2>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 sm:mb-10">Vanliga frågor</h2>
 
                 <div className="space-y-3 sm:space-y-4">
                     {faqData.map((item, index) => (
@@ -120,7 +120,7 @@ export default function SupportPage({ faqData }: SupportPageProps) {
             <div>
                 {/* RIGHT SIDE */}
                 <div ref={formRef} className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-white shadow-xs">
-                    <h2 className="text-2xl sm:text-3xl text-gray-900 mb-5 sm:mb-6 font-bold">Send us a message</h2>
+                    <h2 className="text-2xl sm:text-3xl text-gray-900 mb-5 sm:mb-6 font-bold">Skicka ett meddelande</h2>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -129,10 +129,10 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 control={control}
                                 render={({ field }) => (
                                     <div>
-                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">NAME</label>
+                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">NAMN</label>
                                         <input
                                             type="text"
-                                            placeholder="Enter your full name"
+                                            placeholder="Fyll i ditt fullständiga namn"
                                             className={`w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.name ? "ring-2 ring-red-500" : ""}`}
                                             {...field}
                                         />
@@ -145,10 +145,10 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 control={control}
                                 render={({ field }) => (
                                     <div>
-                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">EMAIL</label>
+                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">E-POST</label>
                                         <input
                                             type="email"
-                                            placeholder="your@email.com"
+                                            placeholder="din.epost@exempel.se"
                                             className={`w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60 ${errors.email ? "ring-2 ring-red-500" : ""}`}
                                             {...field}
                                         />
@@ -164,14 +164,14 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 control={control}
                                 render={({ field }) => (
                                     <div className="relative" ref={subjectDropdownRef}>
-                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">SUBJECT</label>
+                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">ÄMNE</label>
                                         <div
                                             onClick={() => setIsSubjectOpen((prev) => !prev)}
                                             className={`w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm flex items-center justify-between cursor-pointer border transition-all select-none ${
                                                 errors.subject ? "border-red-500 ring-2 ring-red-500/20" : isSubjectOpen ? "border-[#EFAC02] ring-2 ring-[#EFAC02]/20 bg-white" : "border-transparent hover:border-gray-200"
                                             }`}
                                         >
-                                            <span className={field.value ? "text-[#514532] font-medium" : "text-[#514532]/60"}>{field.value || "Choose a topic from the list"}</span>
+                                            <span className={field.value ? "text-[#514532] font-medium" : "text-[#514532]/60"}>{field.value || "Välj ett ämne från listan"}</span>
                                             <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 shrink-0 ${isSubjectOpen ? "rotate-180 text-[#7C5800]" : ""}`} />
                                         </div>
 
@@ -207,8 +207,8 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                                 control={control}
                                 render={({ field }) => (
                                     <div>
-                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">PHONE</label>
-                                        <input type="text" placeholder="+46 (0) 70 123 45 67" className="w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60" {...field} />
+                                        <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">TELEFON</label>
+                                        <input type="text" placeholder="070 123 45 67" className="w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 h-11 sm:h-12 text-xs sm:text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] placeholder:text-[#514532]/60" {...field} />
                                     </div>
                                 )}
                             />
@@ -219,9 +219,9 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                             control={control}
                             render={({ field }) => (
                                 <div>
-                                    <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">HOW CAN WE HELP YOU?</label>
+                                    <label className="text-[10px] sm:text-xs font-semibold text-gray-500 mb-1.5 block">HUR KAN VI HJÄLPA DIG?</label>
                                     <textarea
-                                        placeholder="Tell us about your fundraising needs or questions..."
+                                        placeholder="Berätta vad du behöver hjälp med eller skriv din fråga..."
                                         className={`w-full bg-[#F8F8F8] rounded-xl px-4 sm:px-6 py-3.5 sm:py-4 h-40 sm:h-52 text-xs sm:text-sm text-[#514532] outline-none focus:ring-2 focus:ring-[#EFAC02] resize-none placeholder:text-[#514532]/60 ${errors.message ? "ring-2 ring-red-500" : ""}`}
                                         {...field}
                                     />
@@ -235,7 +235,7 @@ export default function SupportPage({ faqData }: SupportPageProps) {
                             disabled={isLoading}
                             className="mt-3 sm:mt-4 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white h-11 sm:h-12 rounded-xl text-xs sm:text-sm font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? "Sending..." : "Send Message"}
+                            {isLoading ? "Skickar..." : "Skicka meddelande"}
                         </button>
                     </form>
                 </div>

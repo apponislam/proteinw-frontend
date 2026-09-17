@@ -16,11 +16,21 @@ type ProductDetailModalProps = {
         marginBenefit?: string;
         qualityHighlight?: string;
         ecoHighlight?: string;
+        createdAt?: string | Date;
     } | null;
 };
 
 const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    // Compute if product is new (created within 21 days)
+    const isNew = useMemo(() => {
+        if (!product?.createdAt) return false;
+        const createdTime = new Date(product.createdAt).getTime();
+        if (isNaN(createdTime)) return false;
+        const diffDays = (Date.now() - createdTime) / (1000 * 3600 * 24);
+        return diffDays >= 0 && diffDays <= 21;
+    }, [product?.createdAt]);
 
     // Compute list of valid image URLs
     const imageList: string[] = useMemo(() => {
@@ -113,29 +123,29 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                 {/* Right Side: 50% Content */}
                 <div className="w-full md:w-1/2 p-4 sm:p-8 md:p-10 flex flex-col justify-between overflow-y-auto">
                     <div>
-                        <span className="inline-block text-[10px] font-bold tracking-widest text-[#7C5800] bg-[#FFDEA8] px-3 py-1 rounded-[16px] uppercase mb-2.5 sm:mb-3.5">NEW COLLECTION</span>
+                        {isNew && <span className="inline-block text-[10px] font-bold tracking-widest text-[#7C5800] bg-[#FFDEA8] px-3 py-1 rounded-[16px] uppercase mb-2.5 sm:mb-3.5">NY KOLLEKTION</span>}
                         <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#1C1917] mb-2 leading-tight">{product.title}</h2>
                         <div className="flex flex-wrap items-baseline gap-2 sm:gap-4 mb-3 sm:mb-4">
                             <span className="text-lg sm:text-xl font-bold text-[#7C5800]">{product.price}</span>
-                            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-2.5 py-1 rounded-full">Earn 90 SEK per sale</span>
+                            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-2.5 py-1 rounded-full">Upp till 50% förtjänst</span>
                         </div>
                         <p className="text-gray-600 text-xs sm:text-[15px] leading-relaxed mb-4 sm:mb-6">{product.description}</p>
                     </div>
 
                     <div className="bg-[#F3F3F3] border border-[#D5C4AB1A] rounded-xl sm:rounded-[24px] p-4 sm:p-6">
-                        <h4 className="text-[10px] sm:text-[11px] font-bold tracking-wider text-[#7C5800] uppercase mb-2.5 sm:mb-3.5">WHY IT'S EASY TO SELL</h4>
+                        <h4 className="text-[10px] sm:text-[11px] font-bold tracking-wider text-[#7C5800] uppercase mb-2.5 sm:mb-3.5">VARFÖR DE ÄR LÄTTSÅLDA</h4>
                         <ul className="space-y-2.5 sm:space-y-3">
                             <li className="flex items-start gap-2.5 text-xs sm:text-[13.5px] text-[#514532]">
                                 <Coins className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
-                                <span>{product.marginBenefit || "High-margin product (earn up to 50% profit)"}</span>
+                                <span>{product.marginBenefit || "Hög vinstmarginal (tjäna upp till 50% förtjänst)"}</span>
                             </li>
                             <li className="flex items-start gap-2.5 text-xs sm:text-[13.5px] text-[#514532]">
                                 <Sparkles className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
-                                <span>{product.qualityHighlight || "Premium Scandinavian quality that sells itself"}</span>
+                                <span>{product.qualityHighlight || "Nordisk kvalitet som säljer sig själv"}</span>
                             </li>
                             <li className="flex items-start gap-2.5 text-xs sm:text-[13.5px] text-[#514532]">
                                 <Leaf className="w-4 h-4 text-[#7C5800] shrink-0 mt-0.5" />
-                                <span>{product.ecoHighlight || "Sustainable soy wax and organic scents"}</span>
+                                <span>{product.ecoHighlight || "Hållbara och noggrant utvalda råvaror"}</span>
                             </li>
                         </ul>
                     </div>

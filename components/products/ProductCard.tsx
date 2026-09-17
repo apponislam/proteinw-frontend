@@ -20,7 +20,7 @@ const ProductCard = ({ image, title, price, description, onViewDetails }: Produc
                 </div>
                 <p className="mb-4">{description}</p>
                 <button onClick={onViewDetails} className="bg-[#E2E2E2] cursor-pointer w-full py-3 font-semibold rounded-[24px] transition-all duration-300 hover:bg-[#d9d9d9]">
-                    View Details
+                    Läs mer
                 </button>
             </div>
         </div>

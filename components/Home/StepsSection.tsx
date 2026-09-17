@@ -3,18 +3,18 @@ import React from "react";
 const steps = [
     {
         number: "1",
-        title: "Choose Products",
-        description: "Select your favorite premium items from our curated Nordic archive.",
+        title: "Välj produkter",
+        description: "Välj era favoritprodukter från vårt populära och lättsålda sortiment.",
     },
     {
         number: "2",
-        title: "Sell & Track",
-        description: "Use our simple digital tools to collect orders and monitor your progress live.",
+        title: "Sälj & följ",
+        description: "Använd våra smidiga digitala verktyg för att ta emot beställningar och följa er försäljning live.",
     },
     {
         number: "3",
-        title: "Receive Profit",
-        description: "Get up to 50% profit delivered directly to your group. It's that easy.",
+        title: "Få er vinst",
+        description: "Få upp till 50% förtjänst direkt till er grupp. Så enkelt är det.",
     },
 ];
 
@@ -24,8 +24,8 @@ const StepsSection = () => {
             <div className="container mx-auto px-6">
                 {/* Header */}
                 <div className="text-center mb-20">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Simple 3-Step Success</h2>
-                    <p className="text-gray-600 mt-4 max-w-2xl mx-auto">We&apos;ve removed the friction from fundraising so you can focus on your goals.</p>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Enkelt i 3 steg</h2>
+                    <p className="text-gray-600 mt-4 max-w-2xl mx-auto">Vi har tagit bort allt krångel från försäljningen så att ni kan fokusera på era mål.</p>
                 </div>
 
                 {/* Steps */}

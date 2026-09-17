@@ -19,12 +19,12 @@ export function HeroArea() {
                         <div className="space-y-8">
                             <div className="space-y-6">
                                 <h1 className="text-4xl sm:text-[72px] font-bold text-[#1A1C1C] leading-tight">
-                                    Raise money for <br className="hidden md:block" />
-                                    your <span className="text-transparent bg-clip-text bg-linear-to-r from-[#7C5800] to-[#F59E0B]">dreams</span> with <br className="hidden md:block" />
+                                    Tjäna pengar till <br className="hidden md:block" />
+                                    era <span className="text-transparent bg-clip-text bg-linear-to-r from-[#7C5800] to-[#F59E0B]">drömmar</span> med <br className="hidden md:block" />
                                     Kungsbjörnen
                                 </h1>
 
-                                <p className="text-lg text-gray-600 leading-relaxed max-w-lg">The simplest way for classes, teams, and associations to sell premium Scandinavian candles, diffusers, and socks. Hand-crafted quality for community goals.</p>
+                                <p className="text-lg text-gray-600 leading-relaxed max-w-lg">Det enklaste sättet för klasser, lag och föreningar att sälja populära doftljus, doftpinnar och strumpor. Svensk kvalitet för gemensamma mål.</p>
                             </div>
 
                             {/* CTA Buttons */}
@@ -33,12 +33,12 @@ export function HeroArea() {
                                     href="/auth/register"
                                     className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-semibold px-8 py-4 rounded-[24px] shadow-lg hover:shadow-xl transition-all duration-300"
                                 >
-                                    Get Started
+                                    Kom igång
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
 
                                 <Link href="/profit" className="inline-flex items-center justify-center gap-2 border-2 border-gray-300 text-gray-900 font-semibold px-8 py-4 rounded-[24px] hover:border-[#F59E0B] hover:text-[#F59E0B] transition-colors duration-300">
-                                    See Your Profit
+                                    Se er förtjänst
                                     <ArrowRight className="w-5 h-5" />
                                 </Link>
                             </div>
@@ -46,7 +46,7 @@ export function HeroArea() {
 
                         {/* Right Side - Hero Banner Image */}
                         <div className="relative w-full aspect-square rounded-2xl overflow-hidden">
-                            <Image src="/herobanner.png" alt="Kungsbjörnen Premium Products" fill className="object-contain" priority />
+                            <Image src="/herobanner.png" alt="Kungsbjörnen produkter" fill className="object-contain" priority />
 
                             {/* Profit Box - Absolutely Positioned */}
                             <div className="absolute bottom-4 left-4 backdrop-blur-xl bg-white/80 border border-white/20 rounded-2xl p-6 shadow-md">
@@ -54,7 +54,7 @@ export function HeroArea() {
                                     <TrendingUp className="text-[#7C5800]" />
                                     <p className="text-4xl font-bold text-gray-900">50%</p>
                                 </div>
-                                <p className="text-gray-600 text-sm mt-2 max-w-xs">Industry-leading profit margins for your group.</p>
+                                <p className="text-gray-600 text-sm mt-2 max-w-xs">Marknadsledande vinstmarginaler för er grupp.</p>
                             </div>
                         </div>
                     </div>

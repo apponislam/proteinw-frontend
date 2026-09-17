@@ -7,16 +7,16 @@ import { useRouter } from "next/navigation";
 
 const faqs = [
     {
-        q: "How quickly can we start?",
-        a: "You can start immediately after registration. Everything is set up digitally within minutes.",
+        q: "Hur snabbt kan vi komma igång?",
+        a: "Ni kan starta direkt efter registrering. Allt sätts upp digitalt på bara några minuter.",
     },
     {
-        q: "Is there any upfront cost?",
-        a: "No upfront cost required. You only pay after successful sales.",
+        q: "Finns det några startkostnader?",
+        a: "Inga startkostnader krävs. Ni betalar först efter avslutad och genomförd försäljning.",
     },
     {
-        q: "What is the minimum order size?",
-        a: "There is no strict minimum order size. You can scale based on your group size.",
+        q: "Finns det någon minsta beställning?",
+        a: "Det finns inget krav på minsta beställning. Ni anpassar helt efter gruppens storlek.",
     },
 ];
 
@@ -43,8 +43,8 @@ const TestimonialsFAQ = () => {
             <div className="container mx-auto px-6">
                 {/* Title */}
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">What our partners say</h2>
-                    <p className="text-gray-600 mt-4 max-w-2xl mx-auto">Frequently Asked Questions & real experiences from our community</p>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Vad våra grupper säger</h2>
+                    <p className="text-gray-600 mt-4 max-w-2xl mx-auto">Vanliga frågor & erfarenheter från våra samarbetspartners</p>
                 </div>
 
                 {/* Layout */}
@@ -56,12 +56,12 @@ const TestimonialsFAQ = () => {
                             {/* Big quote mark */}
                             {/* ❝ */}
                             <span className="absolute top-6 left-2 text-[140px] text-[#FFDEA8] font-serif leading-none pointer-events-none select-none opacity-50">❞</span>
-                            <p className="text-gray-700 leading-relaxed mb-6 relative z-10">The quality of the candles is incredible. Our supporters were asking for more weeks after the sale ended. We reached our travel goal in record time!</p>
+                            <p className="text-gray-700 leading-relaxed mb-6 relative z-10">Kvaliteten på ljusen är otrolig. Våra köpare frågade efter mer flera veckor efter att försäljningen var avslutad. Vi nådde vårt mål för klassresan på rekordtid!</p>
                             <div className="flex items-center gap-4">
                                 <Image src="/testimonial.png" alt="Testimonial 1" width={48} height={48} className="rounded-full" />
                                 <div className="relative z-10">
                                     <p className="font-semibold text-gray-900">Elin Andersson</p>
-                                    <p className="text-sm text-gray-500">Class Mentor, Bromma High</p>
+                                    <p className="text-sm text-gray-500">Klassförälder, Bromma</p>
                                 </div>
                             </div>
                         </div>
@@ -70,13 +70,13 @@ const TestimonialsFAQ = () => {
                         <form onSubmit={handleSendMessage} className="bg-white rounded-2xl sm:rounded-[24px] p-4 sm:p-5 shadow-xs flex items-center gap-3 w-full">
                             <input
                                 type="text"
-                                placeholder="Send us a message..."
+                                placeholder="Skriv ett meddelande till oss..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 className="w-full bg-transparent outline-none text-sm text-gray-800 placeholder-gray-400"
                             />
 
-                            <button type="submit" className="w-10 h-10 rounded-full bg-[#EFAC02] flex items-center justify-center text-white hover:opacity-90 transition shrink-0 cursor-pointer" title="Send message">
+                            <button type="submit" className="w-10 h-10 rounded-full bg-[#EFAC02] flex items-center justify-center text-white hover:opacity-90 transition shrink-0 cursor-pointer" title="Skicka meddelande">
                                 <Send size={16} />
                             </button>
                         </form>
@@ -102,7 +102,7 @@ const TestimonialsFAQ = () => {
                         ))}
 
                         <Link href="/faq">
-                            <button className="text-[#EFAC02] font-semibold hover:underline mt-4 cursor-pointer">View all FAQs →</button>
+                            <button className="text-[#EFAC02] font-semibold hover:underline mt-4 cursor-pointer">Se alla vanliga frågor →</button>
                         </Link>
                     </div>
                 </div>

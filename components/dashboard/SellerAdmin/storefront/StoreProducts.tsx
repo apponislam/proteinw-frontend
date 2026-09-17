@@ -88,6 +88,7 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
                                 marginBenefit: product.marginBenefit,
                                 qualityHighlight: product.qualityHighlight,
                                 ecoHighlight: product.ecoHighlight,
+                                createdAt: product.createdAt,
                             })
                         }
                     />

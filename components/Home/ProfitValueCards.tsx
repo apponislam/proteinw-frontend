@@ -4,18 +4,18 @@ import { Wallet, BadgeCheck, WandSparkles } from "lucide-react";
 const cards = [
     {
         icon: Wallet,
-        title: "40–50% Profit",
-        description: "Maximize your fundraising potential with our generous profit-sharing model designed for local groups.",
+        title: "40–50% Förtjänst",
+        description: "Maximera er insamlingspotential med vår generösa vinstmodell utformad för lokala grupper.",
     },
     {
         icon: BadgeCheck,
-        title: "Premium Products",
-        description: "Sell items people actually want. Our artisan candles and sustainable socks are Scandinavian staples.",
+        title: "Kvalitetsprodukter",
+        description: "Sälj produkter som folk faktiskt vill ha. Våra doftljus och strumpor är uppskattade favoriter.",
     },
     {
         icon: WandSparkles,
-        title: "Simple Management",
-        description: "Our digital dashboard makes tracking sales, managing orders, and receiving profit effortless for any leader.",
+        title: "Enkel hantering",
+        description: "Vår digitala översikt gör det enkelt att följa försäljningen, hantera beställningar och få vinsten utbetald.",
     },
 ];
 
