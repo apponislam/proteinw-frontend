@@ -8,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLogoutMutation } from "../../redux/features/auth/authApi";
-import { useDispatch } from "react-redux";
 import { performFullLogout } from "@/redux/utils/logout";
 import { toast } from "sonner";
 
@@ -18,7 +17,6 @@ export function AppSidebar() {
     const { activeRole } = useRole();
     const menuItems = getMenuByRole(activeRole);
     const [logoutApi] = useLogoutMutation();
-    const dispatch = useDispatch();
     const { isMobile, setOpenMobile } = useSidebar();
 
     const roleLabels: Record<string, string> = {

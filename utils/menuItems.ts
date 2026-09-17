@@ -7,28 +7,28 @@ type MenuItem = {
 };
 
 const superAdminMenu: MenuItem[] = [
-    { title: "Dashboard Overview", url: "/dashboard", icon: Home },
-    { title: "Admins", url: "/dashboard/admins", icon: Users },
-    { title: "Groups", url: "/dashboard/groups", icon: Users },
-    { title: "Sellers", url: "/dashboard/sellers", icon: Users },
-    { title: "Orders", url: "/dashboard/orders", icon: CreditCard },
-    { title: "Products", url: "/dashboard/products", icon: Package },
-    { title: "Campaigns", url: "/dashboard/campaigns", icon: BarChart3 },
-    { title: "Profit Rules", url: "/dashboard/profit-rules", icon: Settings },
-    { title: "Policy Center", url: "/dashboard/policy-center", icon: ShieldCheck },
-    { title: "Customer Service", url: "/dashboard/customer-service", icon: Headphones },
+    { title: "Instrumentpanel", url: "/dashboard", icon: Home },
+    { title: "Administratörer", url: "/dashboard/admins", icon: Users },
+    { title: "Grupper", url: "/dashboard/groups", icon: Users },
+    { title: "Säljare", url: "/dashboard/sellers", icon: Users },
+    { title: "Beställningar", url: "/dashboard/orders", icon: CreditCard },
+    { title: "Produkter", url: "/dashboard/products", icon: Package },
+    { title: "Försäljning", url: "/dashboard/campaigns", icon: BarChart3 },
+    { title: "Vinstregler", url: "/dashboard/profit-rules", icon: Settings },
+    { title: "Policycenter", url: "/dashboard/policy-center", icon: ShieldCheck },
+    { title: "Kundtjänst", url: "/dashboard/customer-service", icon: Headphones },
 ];
 
 const sellerAdminMenu: MenuItem[] = [
-    { title: "Dashboard", url: "/dashboard", icon: Home },
-    { title: "Team Sales", url: "/dashboard/team-sales", icon: BarChart3 },
-    { title: "Storefront", url: "/dashboard/storefront", icon: Store },
-    { title: "Orders", url: "/dashboard/orders", icon: CreditCard },
+    { title: "Instrumentpanel", url: "/dashboard", icon: Home },
+    { title: "Lagförsäljning", url: "/dashboard/team-sales", icon: BarChart3 },
+    { title: "Butikssida", url: "/dashboard/storefront", icon: Store },
+    { title: "Beställningar", url: "/dashboard/orders", icon: CreditCard },
 ];
 
 const sellerMenu: MenuItem[] = [
-    { title: "Dashboard", url: "/dashboard", icon: Home },
-    { title: "Orders", url: "/dashboard/orders", icon: CreditCard },
+    { title: "Instrumentpanel", url: "/dashboard", icon: Home },
+    { title: "Beställningar", url: "/dashboard/orders", icon: CreditCard },
 ];
 
 export type Role = "SUPER_ADMIN" | "ADMIN" | "SELLER";
