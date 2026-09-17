@@ -54,11 +54,11 @@ const Fundraisingcalculator = () => {
         progress = 100;
     }
 
-    let nextTier = "Max Tier Reached";
+    let nextTier = "Maximal nivå uppnådd";
     if (packagesNeeded < 150) {
-        nextTier = `${150 - packagesNeeded} pkgs to 45%`;
+        nextTier = `${150 - packagesNeeded} st kvar till 45%`;
     } else if (packagesNeeded < 225) {
-        nextTier = `${225 - packagesNeeded} pkgs to 50%`;
+        nextTier = `${225 - packagesNeeded} st kvar till 50%`;
     }
 
     return (

@@ -99,11 +99,11 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                     {/* TARGET PROFIT */}
                     <div>
                         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                            <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">TARGET PROFIT (SEK)</h3>
+                            <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">MÅLFÖRTJÄNST (SEK)</h3>
 
                             <div 
                                 className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200/80 border border-gray-300 rounded-xl cursor-text transition-all focus-within:bg-white focus-within:border-[#EFAC02] focus-within:ring-2 focus-within:ring-[#EFAC02]/20"
-                                title="Click to type custom target profit"
+                                title="Klicka för att skriva in målförtjänst"
                             >
                                 <input
                                     type="text"
@@ -136,19 +136,19 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
 
                         <div className="mt-2 flex justify-between text-xs sm:text-sm text-[#837560]">
                             <span>1 KR</span>
-                            <span>40,000 KR</span>
-                            <span>80,000 KR</span>
+                            <span>40 000 KR</span>
+                            <span>80 000 KR</span>
                         </div>
                     </div>
 
                     {/* SELLERS */}
                     <div>
                         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                            <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">NUMBER OF SELLERS</h3>
+                            <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-[#514532]">ANTAL SÄLJARE</h3>
 
                             <div 
                                 className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200/80 border border-gray-300 rounded-xl cursor-text transition-all focus-within:bg-white focus-within:border-[#7C5800] focus-within:ring-2 focus-within:ring-[#7C5800]/20"
-                                title="Click to type number of sellers"
+                                title="Klicka för att skriva in antal säljare"
                             >
                                 <input
                                     type="text"
@@ -163,7 +163,7 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                                     className="text-2xl sm:text-3xl font-bold text-[#7C5800] bg-transparent outline-none text-right transition-all min-w-8"
                                     style={{ width: `${Math.max(1, (isStudentFocused ? studentInput : String(students)).length) * 0.7}em` }}
                                 />
-                                <span className="text-xs sm:text-sm font-semibold text-[#7C5800] shrink-0">sellers</span>
+                                <span className="text-xs sm:text-sm font-semibold text-[#7C5800] shrink-0">säljare</span>
                             </div>
                         </div>
 
@@ -181,8 +181,8 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
 
                         <div className="mt-2 flex justify-between text-xs sm:text-sm text-[#837560]">
                             <span>1 PERSON</span>
-                            <span>40 PEOPLE</span>
-                            <span>80 PEOPLE</span>
+                            <span>40 PERSONER</span>
+                            <span>80 PERSONER</span>
                         </div>
                     </div>
 
@@ -190,23 +190,23 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                     <div>
                         <div className="flex items-center gap-2.5 sm:gap-3">
                             <Info className="text-[#7C5800] shrink-0 w-5 h-5" />
-                            <p className="text-base sm:text-lg font-semibold text-[#514532]">Price per package: {packagePrice} SEK</p>
+                            <p className="text-base sm:text-lg font-semibold text-[#514532]">Pris per paket: {packagePrice} kr</p>
                         </div>
 
                         <div className="mt-4 space-y-2 text-xs sm:text-sm text-zinc-600">
                             <div className={`flex justify-between p-2.5 rounded-lg border-l-4 transition-colors ${profitPercent === 40 ? "bg-[#FFB80033] border-l-[#7C5800]" : "border-l-transparent hover:bg-[#FFB80033] hover:border-l-[#FFB80033]"}`}>
-                                <span className="text-[#837560]">0 - 149 pkgs</span>
-                                <span className="text-[#1A1C1C] font-bold">40% Profit</span>
+                                <span className="text-[#837560]">0 - 149 st</span>
+                                <span className="text-[#1A1C1C] font-bold">40% Förtjänst</span>
                             </div>
 
                             <div className={`flex justify-between p-2.5 rounded-lg border-l-4 transition-colors ${profitPercent === 45 ? "bg-[#FFB80033] border-l-[#7C5800]" : "border-l-transparent hover:bg-[#FFB80033] hover:border-l-[#FFB80033]"}`}>
-                                <span className="text-[#837560]">150 - 224 pkgs</span>
-                                <span className="text-[#1A1C1C] font-bold">45% Profit</span>
+                                <span className="text-[#837560]">150 - 224 st</span>
+                                <span className="text-[#1A1C1C] font-bold">45% Förtjänst</span>
                             </div>
 
                             <div className={`flex justify-between p-2.5 rounded-lg border-l-4 transition-colors ${profitPercent === 50 ? "bg-[#FFB80033] border-l-[#7C5800]" : "border-l-transparent hover:bg-[#FFB80033] hover:border-l-[#FFB80033]"}`}>
-                                <span className="text-[#837560]">225+ pkgs</span>
-                                <span className="text-[#1A1C1C] font-bold">50% Profit</span>
+                                <span className="text-[#837560]">225+ st</span>
+                                <span className="text-[#1A1C1C] font-bold">50% Förtjänst</span>
                             </div>
                         </div>
                     </div>
@@ -216,12 +216,12 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
             {/* CTA */}
             <div className="mt-6 sm:mt-8 rounded-3xl bg-[#2F3131] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-center sm:text-left">
-                    <h3 className="text-lg sm:text-xl font-bold leading-tight">Ready to start?</h3>
-                    <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-zinc-400">Takes less than 2 minutes to set up.</p>
+                    <h3 className="text-lg sm:text-xl font-bold leading-tight">Redo att köra igång?</h3>
+                    <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-zinc-400">Det tar mindre än 2 minuter att komma igång.</p>
                 </div>
 
                 <Link href="/auth/register" className="w-full sm:w-auto">
-                    <button className="w-full sm:w-auto rounded-2xl bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3.5 sm:py-4 text-sm sm:text-lg font-semibold text-white transition hover:scale-[1.02] cursor-pointer">Start Fundraising Now</button>
+                    <button className="w-full sm:w-auto rounded-2xl bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3.5 sm:py-4 text-sm sm:text-lg font-semibold text-white transition hover:scale-[1.02] cursor-pointer">Starta er försäljning nu</button>
                 </Link>
             </div>
         </div>
