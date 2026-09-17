@@ -17,20 +17,20 @@ export function MissionHero() {
                         {/* Left Content */}
                         <div className="space-y-8">
                             <div className="space-y-6">
-                                <button className="bg-[#FFDEA8] text-[#7C5800] text-[10px] font-bold px-4 py-2 rounded-full">ESTABLISHED {new Date().getFullYear()}</button>
+                                <button className="bg-[#FFDEA8] text-[#7C5800] text-[10px] font-bold px-4 py-2 rounded-full">GRUNDAT {new Date().getFullYear()}</button>
                                 <h1 className="text-4xl sm:text-[72px] font-extrabold text-[#1A1C1C] leading-tight">
-                                    About <br />
+                                    Om <br />
                                     <span className="text-transparent bg-clip-text bg-linear-to-r from-[#7C5800] to-[#F59E0B]">Kungsbjörnen</span>
                                 </h1>
 
-                                <p className="text-lg text-gray-600 leading-relaxed max-w-lg">We are building a digital sanctuary for generosity. Our mission is to empower local communities through sustainable fundraising, blending Nordic precision with human-centric design.</p>
+                                <p className="text-lg text-gray-600 leading-relaxed max-w-lg">Vi bygger en digital plattform för gemenskap och engagemang. Vårt uppdrag är att stärka lokala grupper och föreningar genom hållbar försäljning, där nordisk kvalitet möter enkla digitala verktyg.</p>
                             </div>
                         </div>
 
                         {/* Right Side - Hero Banner Image */}
                         <div className="relative w-full aspect-square">
                             <div className="absolute inset-0 rounded-2xl overflow-hidden">
-                                <Image src="/mission/missionbg.png" alt="Kungsbjörnen Premium Products" fill className="object-contain" priority />
+                                <Image src="/mission/missionbg.png" alt="Kungsbjörnen produkter" fill className="object-contain" priority />
                             </div>
 
                             {/* Profit Box - Absolutely Positioned */}
@@ -43,7 +43,7 @@ export function MissionHero() {
                                 }}
                             >
                                 <Leaf style={{ color: "#7C5800" }} />
-                                <p style={{ color: "#7C5800", marginTop: "0.5rem", maxWidth: "10rem", fontSize: "0.875rem" }}>100% Sustainable</p>
+                                <p style={{ color: "#7C5800", marginTop: "0.5rem", maxWidth: "10rem", fontSize: "0.875rem" }}>100% Hållbart</p>
                             </div>
                         </div>
                     </div>

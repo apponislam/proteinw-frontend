@@ -4,21 +4,21 @@ export function CoreVision() {
     const pillars = [
         {
             icon: Shield,
-            title: "Trust",
-            description: "Built on Swedish principles of transparency. Every krona is tracked, ensuring that impact is felt where it's needed most.",
-            features: ["Verified Partners", "Real-time Reporting"],
+            title: "Trygghet",
+            description: "Byggt på svenska principer om transparens. Varje krona redovisas så att vinsten hamnar där den behövs som mest.",
+            features: ["Verifierade partners", "Realtidsrapportering"],
         },
         {
             icon: Zap,
-            title: "Simplicity",
-            description: "We remove the friction from giving. Our tools are designed to be intuitive, allowing groups to launch in minutes, not days.",
-            features: ["Mobile-first Design", "1-Click Setup"],
+            title: "Enkelhet",
+            description: "Vi tar bort allt krångel kring försäljningen. Våra verktyg är utformade för att vara intuitiva så att grupper kan komma igång på några minuter.",
+            features: ["Mobilanpassat", "Kom igång på 1 klick"],
         },
         {
             icon: TrendingUp,
-            title: "Impact",
-            description: "Maximizing the return for your cause. Our model ensures more resources reach the community through efficient logistics.",
-            features: ["High Profit Margins", "Local Empowerment"],
+            title: "Resultat",
+            description: "Maximal förtjänst för er insamling. Vår modell säkerställer att mer pengar går direkt till gruppen genom effektiv logistik.",
+            features: ["Hög vinstmarginal", "Lokal stärkt gemenskap"],
         },
     ];
 
@@ -27,8 +27,8 @@ export function CoreVision() {
             <div className="mx-auto container px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-3xl sm:text-5xl font-bold text-[#1A1C1C] mb-6">Our Core Vision</h2>
-                    <p className="text-lg text-gray-600 leading-relaxed">We believe fundraising should be as natural as the Swedish seasons—rhythmic, purposeful, and rewarding for everyone involved.</p>
+                    <h2 className="text-3xl sm:text-5xl font-bold text-[#1A1C1C] mb-6">Vår vision</h2>
+                    <p className="text-lg text-gray-600 leading-relaxed">Vi tror att försäljning och insamling ska kännas enkelt och naturligt—meningsfullt, tryggt och givande för alla inblandade.</p>
                 </div>
 
                 {/* Pillars Grid */}

@@ -5,8 +5,8 @@ import { MakeDifference } from "@/components/about-us/MakeDifference";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Mission",
-    description: "Kungsbjörnen mission",
+    title: "Kungsbjörnen - Om oss",
+    description: "Om Kungsbjörnen och vårt uppdrag",
 };
 
 const page = () => {

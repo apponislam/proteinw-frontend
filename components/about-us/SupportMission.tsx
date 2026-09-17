@@ -5,18 +5,18 @@ export function SupportMission() {
     const supportFeatures = [
         {
             icon: Banknote,
-            title: "Superior Profit Margins",
-            description: "Keep more of what you raise. Our lean Nordic logistics model minimizes overhead.",
+            title: "Höga vinstmarginaler",
+            description: "Behåll en stor del av det ni säljer för. Vår smidiga logistikmodell minimerar alla onödiga kostnader.",
         },
         {
             icon: TabletSmartphone,
-            title: "Seamless Digital Tools",
-            description: "Integrated dashboards and mobile apps for easy management and real-time tracking.",
+            title: "Smidiga digitala verktyg",
+            description: "Inbyggda översikter och verktyg för enkel hantering och uppföljning i realtid.",
         },
         {
             icon: Shield,
-            title: "Zero-Risk Foundation",
-            description: "Start your campaign with no upfront costs and zero inventory risk. We handle the heavy lifting.",
+            title: "Riskfri försäljning",
+            description: "Starta er försäljning helt utan startavgifter eller lagerkrav. Vi sköter det tunga arbetet.",
         },
     ];
 
@@ -28,10 +28,10 @@ export function SupportMission() {
                     <div className="lg:col-span-6 space-y-8">
                         <div>
                             <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1A1C1C] leading-tight mb-6">
-                                How Can We Support <br />
-                                Your Mission?
+                                Hur kan vi stötta <br />
+                                er insamling?
                             </h2>
-                            <p className="text-lg text-gray-600 leading-relaxed max-w-xl">We provide the framework, you provide the passion. Our ecosystem is built to scale your local impact with professional-grade tools.</p>
+                            <p className="text-lg text-gray-600 leading-relaxed max-w-xl">Vi står för ramverket, ni står för engagemanget. Vårt system är byggt för att ge er maximal förtjänst med professionella verktyg.</p>
                         </div>
 
                         {/* Features Cards */}
