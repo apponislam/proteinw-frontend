@@ -8,9 +8,9 @@ const SellWithUs = () => {
             <div className="container mx-auto px-4 sm:px-6">
                 {/* HEADER */}
                 <div className="text-center mb-8 sm:mb-14">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[60px] font-extrabold text-gray-900 leading-tight">Sell With Us</h2>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[60px] font-extrabold text-gray-900 leading-tight">Här börjar ni</h2>
 
-                    <p className="text-gray-600 mt-2 sm:mt-4 text-center text-base sm:text-lg md:text-xl">Choose how you want to start your fundraising</p>
+                    <p className="text-gray-600 mt-2 sm:mt-4 text-center text-base sm:text-lg md:text-xl">Välj hur ni vill starta er försäljning</p>
                 </div>
 
                 {/* CARDS */}
@@ -20,31 +20,31 @@ const SellWithUs = () => {
                         <div className="bg-[#F59E0B33] w-16 h-16 rounded-[24px] flex items-center justify-center mb-4">
                             <GraduationCap className="text-[#F59E0B] text-xl" />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">For Class Fundraising</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">För klassens försäljning</h3>
 
-                        <p className="text-gray-600 mb-6">Tailored for school classes planning trips or graduation events.</p>
+                        <p className="text-gray-600 mb-6">Anpassat för klasser och skolor som vill samla in pengar till exempelvis klassresor, studentfirandet eller gemensamma aktiviteter.</p>
 
                         {/* FEATURES */}
                         <div className="space-y-3 text-gray-700 text-sm">
                             <p className="flex items-center gap-2">
                                 <Smile className="text-[#F59E0B]" size={18} />
-                                Easy for students
+                                Enkelt för eleverna
                             </p>
 
                             <p className="flex items-center gap-2">
                                 <PlaneTakeoff className="text-[#F59E0B]" size={18} />
-                                Class trips
+                                Klassresor & aktiviteter
                             </p>
 
                             <p className="flex items-center gap-2">
                                 <LaptopMinimal className="text-[#F59E0B]" size={18} />
-                                Easy to manage
+                                Upp till 50% förtjänst
                             </p>
                         </div>
 
                         {/* CTA */}
                         <Link href="/auth/register?profession=teacher">
-                            <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Start for Class</button>
+                            <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Starta för klassen</button>
                         </Link>
                     </div>
 
@@ -54,31 +54,31 @@ const SellWithUs = () => {
                             <Volleyball className="text-[#F59E0B] text-xl" />
                         </div>
 
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">For Team Fundraising</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">För lagets insamling</h3>
 
-                        <p className="text-gray-600 mb-6">Designed for sports teams and associations to fund kits or travel.</p>
+                        <p className="text-gray-600 mb-6">Utformat för idrottslag och föreningar som vill samla in pengar till exempelvis cuper, utrustning eller resor.</p>
 
                         {/* FEATURES */}
                         <div className="space-y-3 text-gray-700 text-sm">
                             <p className="flex items-center gap-2">
                                 <Users className="text-[#F59E0B]" size={18} />
-                                Sports teams
+                                För idrottslag & föreningar
                             </p>
 
                             <p className="flex items-center gap-2">
                                 <FileCheck className="text-[#F59E0B]" size={18} />
-                                Digital selling
+                                Digital försäljning
                             </p>
 
                             <p className="flex items-center gap-2">
                                 <TrendingUp className="text-[#F59E0B]" size={18} />
-                                Earn more
+                                Upp till 50% förtjänst
                             </p>
                         </div>
 
                         {/* CTA */}
                         <Link href="/auth/register?profession=coach">
-                            <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Start for Team</button>
+                            <button className="mt-8 w-full bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white py-3 rounded-2xl font-semibold transition-all hover:from-[#8B6500] hover:to-[#FFCC00] cursor-pointer">Starta för laget</button>
                         </Link>
                     </div>
                 </div>

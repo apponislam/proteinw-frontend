@@ -5,7 +5,7 @@ import SellWithUs from "@/components/sell-with-us/SellWithUs";
 import React from "react";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Sell With Us",
+    title: "Kungsbjörnen - Börja här",
     description: "Start selling with Kungsbjörnen and fundraise for your team",
 };
 

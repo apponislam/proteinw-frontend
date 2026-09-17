@@ -2,42 +2,55 @@
 
 import { UserPlus, Link, Share2, ShoppingCart, Truck, Wallet } from "lucide-react";
 
+// 01 – Skapa er grupp
+// Det första steget är att registrera din klass, ditt lag eller din förening på vår plattform. Det är snabbt, enkelt och helt kostnadsfritt. På bara några minuter har ni allt på plats och kan börja er försäljning. Vi har gjort processen så enkel som möjligt, så att ni kan fokusera på försäljningen istället för tekniken.
+// 02 – Få din personliga webbshop
+// Varje deltagare får en unik personlig länk till sin webbshop, kopplad till sin profil. Länken gör det enkelt att följa den egna försäljningen, se sina framsteg och hålla koll på resultatet under hela försäljningen med uppdateringar i realtid.
+// 03 – Dela din webbshop
+// Dela din personliga länk via sociala medier, meddelandeappar eller e-post. De som vill stötta er kan enkelt besöka din webbshop och handla direkt online, vilket gör försäljningen snabb, modern och smidig – utan att behöva använda traditionella papperskataloger. Genom vårt digitala system kan ni nå ut till fler potentiella kunder än genom endast traditionell försäljning, exempelvis genom att kombinera dörrförsäljning med den digitala webbshopen.
+// 04 – Följ försäljningen
+// Alla beställningar samlas och organiseras automatiskt i er översikt. Här kan ni följa försäljningen, se kundernas beställningar, följa gruppens totala förtjänst och hålla koll på försäljningens utveckling – allt samlat på ett och samma ställe. Vi sköter lager och allt annat tråkigt i bakgrunden.
+// 05 – Vi samlar och levererar
+// När eran försäljning är avslutad sammanställer vi alla beställningar och skickar dem till er i en samlad leverans. Ni får enkelt koll på alla produkter, samtidigt som utdelningen blir smidig och välorganiserad.
+// 06 – Nå ert mål
+// När försäljningen är avslutad får ni er förtjänst baserat på det antal produkter ni har sålt. Ju mer gruppen säljer, desto högre blir förtjänstnivån. Ni kan följa ert resultat under hela försäljningstiden och se hur era pengar rullar in i realtid. All kontakt kommer att ske mellan kontaktpersonen för gruppen och Kungsbjörnen.
+
 const steps = [
     {
         num: "01",
         icon: UserPlus,
-        title: "Register your class or team",
-        desc: "Get started by signing up your class, club, or team on our platform. The registration process is quick, simple, and completely free. Within minutes, you'll have everything set up and ready to begin your fundraising journey without any technical hassle.",
+        title: "Skapa er grupp",
+        desc: "Det första steget är att registrera din klass, ditt lag eller din förening på vår plattform. Det är snabbt, enkelt och helt kostnadsfritt. På bara några minuter har ni allt på plats och kan börja er försäljning. Vi har gjort processen så enkel som möjligt, så att ni kan fokusera på försäljningen istället för tekniken.",
     },
     {
         num: "02",
         icon: Link,
-        title: "Receive your fundraising link",
-        desc: "Each participant receives a unique personal fundraising link connected to their profile. This allows you to track individual performance, monitor progress, and ensure transparency across your entire team with real-time updates.",
+        title: "Få din personliga webbshop",
+        desc: "Varje deltagare får en unik personlig länk till sin webbshop, kopplad till sin profil. Länken gör det enkelt att följa den egna försäljningen, se sina framsteg och hålla koll på resultatet under hela försäljningen med uppdateringar i realtid.",
     },
     {
         num: "03",
         icon: Share2,
-        title: "Start selling products digitally",
-        desc: "Share your personalized link through social media, messaging apps, or email. Supporters can browse and purchase directly online, making the process fast, modern, and convenient without relying on outdated paper catalogs.",
+        title: "Dela din webbshop",
+        desc: "Dela din personliga länk via sociala medier, meddelandeappar eller e-post. De som vill stötta er kan enkelt besöka din webbshop och handla direkt online, vilket gör försäljningen snabb, modern och smidig – utan att behöva använda traditionella papperskataloger. Genom vårt digitala system kan ni nå ut till fler potentiella kunder än genom endast traditionell försäljning, exempelvis genom att kombinera dörrförsäljning med den digitala webbshopen. ",
     },
     {
         num: "04",
         icon: ShoppingCart,
-        title: "Collect and track orders",
-        desc: "All orders are automatically collected and organized in your dashboard. You can monitor sales performance, view customer activity, and manage everything in one place while we handle stock and system operations behind the scenes.",
+        title: "Följ försäljningen",
+        desc: "Alla beställningar samlas och organiseras automatiskt i er översikt. Här kan ni följa försäljningen, se kundernas beställningar, följa gruppens totala förtjänst och hålla koll på försäljningens utveckling – allt samlat på ett och samma ställe. Vi sköter lager och allt annat tråkigt i bakgrunden.",
     },
     {
         num: "05",
         icon: Truck,
-        title: "Receive and distribute products",
-        desc: "Once your fundraising period ends, we carefully prepare and ship all collected orders directly to you in one consolidated delivery. This makes distribution simple, organized, and stress-free for your entire team.",
+        title: "Vi samlar och levererar",
+        desc: "När eran försäljning är avslutad sammanställer vi alla beställningar och skickar dem till er i en samlad leverans. Ni får enkelt koll på alla produkter, samtidigt som utdelningen blir smidig och välorganiserad. ",
     },
     {
         num: "06",
         icon: Wallet,
-        title: "Earn and withdraw funds",
-        desc: "After all sales are completed, you earn a generous commission from every purchase. Payments are processed quickly and securely, giving you full visibility and confidence in your fundraising earnings.",
+        title: "Nå ert mål",
+        desc: "När försäljningen är avslutad får ni er förtjänst baserat på det antal produkter ni har sålt. Ju mer gruppen säljer, desto högre blir förtjänstnivån. Ni kan följa ert resultat under hela försäljningstiden och se hur era pengar rullar in i realtid. All kontakt kommer att ske mellan kontaktpersonen för gruppen och Kungsbjörnen.",
     },
 ];
 
@@ -46,7 +59,7 @@ const HowItWorks = () => {
         <section className="py-12 sm:py-16 lg:py-24 min-h-fit bg-[#F6F6F6]">
             <div className="container mx-auto px-4 sm:px-6">
                 <div className="text-center mb-8 sm:mb-14">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">How It Works</h2>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">Så funkar det</h2>
                 </div>
 
                 {/* GRID */}

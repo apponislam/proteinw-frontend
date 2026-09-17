@@ -52,9 +52,12 @@ const FundraisingSection = () => {
                     {/* 4th CARD (3/4 on lg, full on md) */}
                     <div className="md:col-span-2 lg:col-span-3 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row lg:items-start gap-6 overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl">
                         <div className="min-w-0 flex-1">
-                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Produkter folk faktiskt vill ha</h3>
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Produkter som är lätta att sälja</h3>
 
-                            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">Vi har noga valt ut lättsålda kvalitetsprodukter som ljus, strumpor och delikatesser. Kvalitet som gör att kunderna gärna köper igen.</p>
+                            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+                                Vi väljer våra produkter med fokus på kvalitet, efterfrågan och vad som faktiskt fungerar i en försäljning. Hos oss hittar ni doftljus och strumpor – noggrant utvalda produkter som är enkla att sälja och uppskattade av kunder i olika åldrar. Sortimentet utvecklas
+                                kontinuerligt med nya produkter och kategorier för att ge er ännu fler möjligheter att lyckas med er försäljning.{" "}
+                            </p>
 
                             <Link href="/products">
                                 <button className="mt-4 sm:mt-6 text-[#EFAC02] font-semibold text-sm sm:text-base transition-all duration-300 hover:underline hover:translate-x-1 cursor-pointer">Se hela sortimentet →</button>
