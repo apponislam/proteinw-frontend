@@ -8,19 +8,19 @@ const OrdersCard = () => {
 
     const orderStats = [
         {
-            title: "TOTAL REVENUE",
+            title: "TOTALA INTÄKTER",
             value: isLoading ? "..." : `${stats.totalRevenue.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",
         },
         {
-            title: "ACTIVE ORDERS",
+            title: "AKTIVA BESTÄLLNINGAR",
             value: isLoading ? "..." : stats.activeOrders.toLocaleString(),
             subtitle: "",
             color: "#D97706",
         },
         {
-            title: "Total Sales (MTD)",
+            title: "TOTAL FÖRSÄLJNING (DENNA MÅNAD)",
             value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",

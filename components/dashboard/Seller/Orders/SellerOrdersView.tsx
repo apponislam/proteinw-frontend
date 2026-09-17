@@ -25,14 +25,14 @@ const SellerOrdersView = () => {
             {isLoading ? (
                 <div className="text-center py-12">
                     <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-[#78716C] text-sm">Loading your orders...</p>
+                    <p className="text-[#78716C] text-sm">Laddar dina beställningar...</p>
                 </div>
             ) : (
                 <>
                     <div className="flex items-center justify-between mb-4 md:mb-8 gap-4 flex-col md:flex-row">
                         <div>
-                            <h1 className="text-3xl font-bold text-[#1A1C1C]">My Sales Orders</h1>
-                            <p className="text-[#78716C] mt-2 max-w-2xl">View and track all customer orders placed through your personal fundraising sales link.</p>
+                            <h1 className="text-3xl font-bold text-[#1A1C1C]">Mina försäljningsbeställningar</h1>
+                            <p className="text-[#78716C] mt-2 max-w-2xl">Visa och spåra alla kundbeställningar som lagts via din personliga försäljningslänk.</p>
                         </div>
 
                         <CampaignListOrderPage

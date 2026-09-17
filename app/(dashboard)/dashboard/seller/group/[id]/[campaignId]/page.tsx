@@ -24,7 +24,7 @@ export default function SellerCampaignDetailPage() {
         return (
             <div className="flex flex-col items-center justify-center min-h-100 gap-3">
                 <Loader2 className="w-8 h-8 animate-spin text-[#D97706]" />
-                <p className="text-[#78716C] text-sm font-medium">Loading campaign details...</p>
+                <p className="text-[#78716C] text-sm font-medium">Laddar försäljningsuppgifter...</p>
             </div>
         );
     }
@@ -32,8 +32,8 @@ export default function SellerCampaignDetailPage() {
     if (error || !campaignInfo) {
         return (
             <div className="flex flex-col items-center justify-center min-h-100 gap-3">
-                <p className="text-red-500 font-bold">Failed to load campaign</p>
-                <p className="text-sm text-[#78716C]">The campaign could not be found or you do not have permission to view it.</p>
+                <p className="text-red-500 font-bold">Kunde inte ladda försäljningen</p>
+                <p className="text-sm text-[#78716C]">Försäljningen kunde inte hittas eller så saknar du behörighet att visa den.</p>
             </div>
         );
     }

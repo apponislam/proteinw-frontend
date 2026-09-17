@@ -140,9 +140,9 @@ const SellerA4QrPrintModal: React.FC<SellerA4QrPrintModalProps> = ({ isOpen, onC
                         <div className="min-w-0 flex-1">
                             <h2 className="text-sm sm:text-base md:text-lg font-bold text-white flex items-center gap-1.5 sm:gap-2 truncate">
                                 <Printer className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 shrink-0" />
-                                <span className="truncate">Print A4 QR Flyer</span>
+                                <span className="truncate">Skriv ut A4 QR-flygblad</span>
                             </h2>
-                            <p className="text-[11px] sm:text-xs text-stone-400 mt-0.5 truncate">Print on an A4 paper and cut in the middle</p>
+                            <p className="text-[11px] sm:text-xs text-stone-400 mt-0.5 truncate">Skriv ut på ett A4-papper och klipp i mitten</p>
                         </div>
 
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -152,7 +152,7 @@ const SellerA4QrPrintModal: React.FC<SellerA4QrPrintModalProps> = ({ isOpen, onC
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-bold text-[11px] sm:text-xs rounded-xl shadow-md transition-all cursor-pointer active:scale-95 whitespace-nowrap"
                             >
                                 <Printer className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                                <span>Print A4 Sheet</span>
+                                <span>Skriv ut A4-ark</span>
                             </button>
                             <button type="button" onClick={onClose} className="p-1.5 sm:p-2 text-stone-400 hover:text-white rounded-xl hover:bg-stone-800 transition-colors cursor-pointer">
                                 <X className="w-4 h-4 sm:w-5 sm:h-5" />

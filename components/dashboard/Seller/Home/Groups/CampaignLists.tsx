@@ -28,7 +28,7 @@ const CampaignLists = () => {
         return (
             <div className="text-center py-12">
                 <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-[#78716C] text-sm">Loading campaign details...</p>
+                <p className="text-[#78716C] text-sm">Laddar försäljningsuppgifter...</p>
             </div>
         );
     }
@@ -42,13 +42,13 @@ const CampaignLists = () => {
                             type="button"
                             onClick={() => router.back()}
                             className="p-2 bg-white hover:bg-stone-100 border border-stone-200 rounded-xl transition-all cursor-pointer shadow-xs text-stone-700 hover:text-stone-900 shrink-0"
-                            title="Go Back"
+                            title="Gå tillbaka"
                         >
                             <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
                         </button>
                         <div>
-                            <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Group Campaigns</h2>
-                            <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Fundraising campaigns running for your group</p>
+                            <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Gruppens försäljningar</h2>
+                            <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Försäljningar som pågår för din grupp</p>
                         </div>
                     </div>
                     <div className="w-full sm:w-auto overflow-x-auto scrollbar-none flex items-center gap-1.5 sm:gap-2 pb-1 sm:pb-0">
@@ -57,28 +57,28 @@ const CampaignLists = () => {
                             onClick={() => { setActiveTab("ALL"); setPage(1); }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
-                            All
+                            Alla
                         </button>
                         <button
                             type="button"
                             onClick={() => { setActiveTab("ACTIVE"); setPage(1); }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
-                            Active
+                            Aktiva
                         </button>
                         <button
                             type="button"
                             onClick={() => { setActiveTab("FULFILMENT"); setPage(1); }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
-                            Fulfilment
+                            Leverans
                         </button>
                         <button
                             type="button"
                             onClick={() => { setActiveTab("COMPLETED"); setPage(1); }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
-                            Completed
+                            Avslutade
                         </button>
                     </div>
                 </div>
@@ -86,7 +86,7 @@ const CampaignLists = () => {
 
             {campaignsList.length === 0 ? (
                 <div className="text-center py-12 text-[#78716C] text-sm">
-                    No campaigns found matching your selection.
+                    Inga försäljningar hittades som matchar ditt val.
                 </div>
             ) : (
                 <>
@@ -105,13 +105,13 @@ const CampaignLists = () => {
 
                             let daysLeftText = "";
                             if (statusUpper === "FULFILMENT") {
-                                daysLeftText = "Fulfilment Phase";
+                                daysLeftText = "Leveransfas";
                             } else if (statusUpper === "COMPLETED") {
-                                daysLeftText = "Campaign Completed";
+                                daysLeftText = "Försäljning avslutad";
                             } else if (daysLeftNum > 0) {
-                                daysLeftText = `Deadline: In ${daysLeftNum} days`;
+                                daysLeftText = `Sista dag: Om ${daysLeftNum} dagar`;
                             } else {
-                                daysLeftText = "Campaign has ended";
+                                daysLeftText = "Försäljningen har avslutats";
                             }
 
                             const totalRevenue = campaign.totalRevenueSold || 0;
@@ -129,7 +129,7 @@ const CampaignLists = () => {
                                     key={campaign._id}
                                     id={campaign._id}
                                     title={campaign.name}
-                                    description={campaign.shortDescription || "No description provided."}
+                                    description={campaign.shortDescription || "Ingen beskrivning angiven."}
                                     status={campaign.status || "DRAFT"}
                                     progress={progress}
                                     goal={`${target.toLocaleString()} SEK`}
@@ -145,7 +145,7 @@ const CampaignLists = () => {
                         })}
                     </div>
 
-                    <Pagination meta={pagination} onPageChange={setPage} itemName="CAMPAIGNS" />
+                    <Pagination meta={pagination} onPageChange={setPage} itemName="FORSALJNINGAR" />
                 </>
             )}
         </div>

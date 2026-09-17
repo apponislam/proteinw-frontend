@@ -19,6 +19,19 @@ const getStatusColor = (status: string) => {
     }
 };
 
+const formatStatusText = (status: string) => {
+    switch (status) {
+        case "delivered":
+            return "Levererad";
+        case "pending":
+            return "Väntande";
+        case "cancelled":
+            return "Avbruten";
+        default:
+            return status;
+    }
+};
+
 interface SellerOrdersTableProps {
     campaignId?: string;
 }
@@ -32,10 +45,10 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
     const [updateOrderStatus] = useUpdateOrderStatusMutation();
 
     const filterOptions = [
-        { value: "", label: "All Status", color: "bg-gray-400" },
-        { value: "pending", label: "Pending", color: "bg-yellow-500" },
-        { value: "delivered", label: "Delivered", color: "bg-green-600" },
-        { value: "cancelled", label: "Cancelled", color: "bg-red-500" },
+        { value: "", label: "Alla statusar", color: "bg-gray-400" },
+        { value: "pending", label: "Väntande", color: "bg-yellow-500" },
+        { value: "delivered", label: "Levererad", color: "bg-green-600" },
+        { value: "cancelled", label: "Avbruten", color: "bg-red-500" },
     ];
 
     const selectedFilterOption = filterOptions.find((opt) => opt.value === statusFilter) || filterOptions[0];
@@ -58,8 +71,8 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
         <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">My Customer Orders</h2>
-                    <p className="text-[#78716C] text-xs mt-1">Track orders placed through your personal referral link</p>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Mina kundbeställningar</h2>
+                    <p className="text-[#78716C] text-xs mt-1">Spåra beställningar som gjorts via din personliga värvningslänk</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="text-[#78716C] text-sm font-medium">Filter:</div>
@@ -106,10 +119,10 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
             {isLoading ? (
                 <div className="text-center py-12">
                     <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-[#78716C] text-sm">Loading your orders...</p>
+                    <p className="text-[#78716C] text-sm">Laddar dina beställningar...</p>
                 </div>
             ) : ordersList.length === 0 ? (
-                <div className="text-center py-12 text-[#78716C]">No customer orders found.</div>
+                <div className="text-center py-12 text-[#78716C]">Inga kundbeställningar hittades.</div>
             ) : (
                 <>
                     {/* Mobile & Tablet Cards View (< md) */}
@@ -117,13 +130,13 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                         {ordersList.map((order, index) => {
                             const orderIdStr = `${order._id}`;
                             const productNames = order.items.map((i) => i.productName).join(", ");
-                            const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
+                            const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "Ej angivet";
 
                             return (
                                 <div key={order._id || index} onClick={() => setSelectedOrder(order)} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-3.5 sm:p-4 rounded-xl border border-[#E7E5E4] transition-colors cursor-pointer space-y-3 shadow-2xs">
                                     <div className="flex items-center justify-between gap-2">
                                         <span className="text-[#D97706] font-bold text-xs sm:text-sm font-mono truncate max-w-[60%]">{orderIdStr}</span>
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(order.status)}`}>{order.status}</span>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize shrink-0 ${getStatusColor(order.status)}`}>{formatStatusText(order.status)}</span>
                                     </div>
 
                                     <div className="flex justify-between items-start text-xs text-[#78716C] gap-2">
@@ -134,7 +147,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                         <div className="text-right shrink-0">
                                             <div className="text-[#1A1C1C] font-bold text-sm">{order.totalPrice} SEK</div>
                                             <div className="text-[11px] mt-0.5">
-                                                {order.totalPackage} QTY • {dateStr}
+                                                {order.totalPackage} ST • {dateStr}
                                             </div>
                                         </div>
                                     </div>
@@ -151,7 +164,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                             }}
                                             className="inline-flex items-center gap-1 text-[#D97706] font-bold shrink-0 hover:underline cursor-pointer px-2 py-1 bg-amber-50 sm:bg-transparent rounded-md sm:rounded-none"
                                         >
-                                            <Eye size={14} /> View Details
+                                            <Eye size={14} /> Visa detaljer
                                         </button>
                                     </div>
                                 </div>
@@ -164,21 +177,21 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                         <table className="w-full min-w-187.5 text-left text-sm">
                             <thead>
                                 <tr className="bg-[#FAFAF9]">
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDER ID</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">CUSTOMER</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRODUCTS</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">QTY</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">TOTAL</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDER-ID</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">KUND</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRODUKTER</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ANTAL</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">TOTALT</th>
                                     <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">DATE</th>
-                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ACTION</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">DATUM</th>
+                                    <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ÅTGÄRD</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {ordersList.map((order, index) => {
                                     const orderIdStr = `${order._id}`;
                                     const productNames = order.items.map((i) => i.productName).join(", ");
-                                    const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
+                                    const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "Ej angivet";
 
                                     return (
                                         <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="border-b border-[#F5F5F4] last:border-0 hover:bg-[#FFDEA8] transition-colors duration-200 cursor-pointer">
@@ -195,7 +208,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                             <td className="px-4 py-3.5 text-[#1A1C1C] font-medium text-sm whitespace-nowrap">{order.totalPackage}</td>
                                             <td className="px-4 py-3.5 text-[#1A1C1C] font-bold text-sm whitespace-nowrap">{order.totalPrice} SEK</td>
                                             <td className="px-4 py-3.5 whitespace-nowrap">
-                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${getStatusColor(order.status)}`}>{formatStatusText(order.status)}</span>
                                             </td>
                                             <td className="px-4 py-3.5 text-[#1A1C1C] font-medium text-sm whitespace-nowrap">{dateStr}</td>
                                             <td className="px-4 py-3.5 whitespace-nowrap">
@@ -207,7 +220,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                                     }}
                                                     className="inline-flex items-center gap-1 cursor-pointer text-[#D97706] hover:underline text-sm font-bold"
                                                 >
-                                                    <Eye size={16} /> View
+                                                    <Eye size={16} /> Visa
                                                 </button>
                                             </td>
                                         </tr>
@@ -218,7 +231,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                     </div>
 
                     {/* Pagination Component */}
-                    <Pagination meta={pagination} onPageChange={setPage} itemName="ORDERS" />
+                    <Pagination meta={pagination} onPageChange={setPage} itemName="BESTÄLLNINGAR" />
                 </>
             )}
 
@@ -231,59 +244,59 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                         </button>
 
                         <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-6 pr-10 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                            <span>Order Details -</span>
+                            <span>Orderdetaljer -</span>
                             <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all w-fit">{activeSelectedOrder._id}</span>
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div className="space-y-3 bg-[#FAFAF9] p-4 rounded-xl border border-[#E7E5E4]">
-                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Customer Details</h4>
+                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Kundinformation</h4>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}
+                                    <span className="font-semibold text-gray-600">Namn:</span> {activeSelectedOrder.customerName}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}
+                                    <span className="font-semibold text-gray-600">E-post:</span> {activeSelectedOrder.customerEmail}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
+                                    <span className="font-semibold text-gray-600">Telefon:</span> {activeSelectedOrder.customerPhone || "Ej angivet"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Shipping Address:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
+                                    <span className="font-semibold text-gray-600">Leveransadress:</span> {activeSelectedOrder.address.street}, {activeSelectedOrder.address.city}, {activeSelectedOrder.address.postalCode}, {activeSelectedOrder.address.locality}
                                 </p>
                             </div>
                             <div className="space-y-3 bg-[#FAFAF9] p-4 rounded-xl border border-[#E7E5E4]">
-                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Order Information</h4>
+                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Orderinformation</h4>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Order Date:</span> {activeSelectedOrder.createdAt ? new Date(activeSelectedOrder.createdAt).toLocaleString() : "N/A"}
+                                    <span className="font-semibold text-gray-600">Orderdatum:</span> {activeSelectedOrder.createdAt ? new Date(activeSelectedOrder.createdAt).toLocaleString() : "Ej angivet"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Group:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}
+                                    <span className="font-semibold text-gray-600">Grupp:</span> {(activeSelectedOrder.groupId as any)?.name || "Ej angivet"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Campaign:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}
+                                    <span className="font-semibold text-gray-600">Kampanj:</span> {(activeSelectedOrder.campaignId as any)?.name || "Ej angivet"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Total Packages:</span> {activeSelectedOrder.totalPackage}
+                                    <span className="font-semibold text-gray-600">Totalt antal paket:</span> {activeSelectedOrder.totalPackage}
                                 </p>
                             </div>
                         </div>
 
                         <div className="mb-6">
-                            <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2 mb-3">Purchased Items</h4>
+                            <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2 mb-3">Köpta artiklar</h4>
                             <div className="space-y-2">
                                 {activeSelectedOrder.items.map((item, index) => (
                                     <div key={index} className="flex justify-between items-center text-xs bg-gray-50 p-3 rounded-xl border border-gray-100">
                                         <div>
                                             <p className="font-bold text-gray-900">{item.productName}</p>
                                             <p className="text-[11px] text-gray-500">
-                                                Qty: {item.quantity} x {item.singlePrice} SEK
+                                                Antal: {item.quantity} x {item.singlePrice} SEK
                                             </p>
                                         </div>
                                         <span className="font-bold text-gray-900">{item.lineTotal} SEK</span>
                                     </div>
                                 ))}
                                 <div className="flex justify-between items-center font-extrabold text-sm pt-3 border-t">
-                                    <span>Total Price</span>
+                                    <span>Totalpris</span>
                                     <span className="text-[#D97706]">{activeSelectedOrder.totalPrice} SEK</span>
                                 </div>
                             </div>
@@ -292,7 +305,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                         <div className="border-t pt-4">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-3 relative">
-                                    <span className="font-bold text-xs text-gray-700 uppercase">Update Status:</span>
+                                    <span className="font-bold text-xs text-gray-700 uppercase">Uppdatera status:</span>
                                     <div className="relative">
                                         <button
                                             type="button"
@@ -300,7 +313,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                             className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                         >
                                             <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
-                                            <span className="text-gray-800">{activeSelectedOrder.status}</span>
+                                            <span className="text-gray-800">{formatStatusText(activeSelectedOrder.status)}</span>
                                             <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>
 
@@ -309,9 +322,9 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                                 <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
                                                 <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                     {[
-                                                        { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
-                                                        { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
-                                                        { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
+                                                        { value: "pending", label: "Väntande", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                        { value: "delivered", label: "Levererad", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
+                                                        { value: "cancelled", label: "Avbruten", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
                                                     ].map((opt) => (
                                                         <button
                                                             key={opt.value}
@@ -319,9 +332,9 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                                             onClick={async () => {
                                                                 try {
                                                                     await updateOrderStatus({ orderId: activeSelectedOrder._id!, status: opt.value as TOrderStatus }).unwrap();
-                                                                    toast.success("Order status updated successfully!");
+                                                                    toast.success("Orderstatus uppdaterades framgångsrikt!");
                                                                 } catch (err: any) {
-                                                                    toast.error(err?.data?.message || "Failed to update status");
+                                                                    toast.error(err?.data?.message || "Misslyckades med att uppdatera status");
                                                                 }
                                                                 setIsStatusDropdownOpen(false);
                                                             }}
@@ -337,7 +350,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
                                     </div>
                                 </div>
                                 <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
-                                    Close
+                                    Stäng
                                 </button>
                             </div>
                             <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">

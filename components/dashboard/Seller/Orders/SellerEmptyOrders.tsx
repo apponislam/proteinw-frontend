@@ -37,8 +37,8 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
     };
 
     const handleShareSocials = () => {
-        const shareTitle = infoData?.name ? `Support ${infoData.name}` : "Support my Fundraiser";
-        const shareText = infoData?.shortDescription ? `${infoData.shortDescription} — Buy delicious products from my shop link to support our fundraiser!` : "Buy delicious products from my shop link to support our fundraiser!";
+        const shareTitle = infoData?.name ? `Stötta ${infoData.name}` : "Stötta vår försäljning";
+        const shareText = infoData?.shortDescription ? `${infoData.shortDescription} — Handla goda produkter från min butikslänk för att stötta vår försäljning!` : "Handla goda produkter från min butikslänk för att stötta vår försäljning!";
 
         if (navigator.share && shopLink) {
             navigator
@@ -58,9 +58,9 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
             {!isCampaignActive ? (
                 /* Non-Active Campaign Closed State */
                 <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] border border-stone-100 flex flex-col items-center justify-center text-center min-h-80">
-                    <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-3">No orders placed</h2>
+                    <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-3">Inga beställningar har lagts</h2>
                     <p className="text-[#78716C] text-base lg:text-lg leading-relaxed max-w-xl">
-                        This campaign is currently in <span className="font-semibold text-[#1A1C1C]">{infoData?.status ? infoData.status.toLowerCase() : "closed"}</span> status and is no longer accepting new customer orders.
+                        Denna försäljning är för närvarande i status <span className="font-semibold text-[#1A1C1C]">{infoData?.status ? infoData.status.toLowerCase() : "stängd"}</span> och tar inte längre emot nya kundbeställningar.
                     </p>
                 </div>
             ) : (
@@ -69,9 +69,9 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                     {/* Left Side inside card */}
                     <div className="flex-1 flex flex-col justify-between">
                         <div>
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-[#D97706] text-xs font-bold mb-4">★ Start Your Campaign</div>
-                            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-4">No orders yet!</h2>
-                            <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">Your archive is waiting for its first treasure. Share your unique shop link with friends and family to start collecting orders for {campaignNameText} fundraiser.</p>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-[#D97706] text-xs font-bold mb-4">★ Starta din försäljning</div>
+                            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-4">Inga beställningar än!</h2>
+                            <p className="text-[#78716C] text-base lg:text-lg leading-relaxed mb-8 max-w-xl">Du har inte fått din första beställning än. Dela din unika butikslänk med vänner och familj för att börja ta emot beställningar för din försäljning.</p>
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-start items-center">
@@ -90,7 +90,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                                     </svg>
                                 )}
-                                <span>{copied ? "Link Copied!" : "Copy My Link"}</span>
+                                <span>{copied ? "Länk kopierad!" : "Kopiera min länk"}</span>
                             </button>
                             <button
                                 type="button"
@@ -104,7 +104,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                                     <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                                 </svg>
-                                <span>Share on Socials</span>
+                                <span>Dela i sociala medier</span>
                             </button>
                         </div>
                     </div>
@@ -113,12 +113,12 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                     <div className="lg:w-100 shrink-0 bg-[#F3F3F3] rounded-xl p-6 flex flex-col items-center justify-center text-center border border-stone-200/80">
                         <div className="mb-3 w-40 h-40 flex items-center justify-center bg-white rounded-md p-2 shadow-xs">
                             {shopLink ? (
-                                <img key={shopLink} src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shopLink)}`} alt="Scan to shop QR code" width={160} height={160} className="w-full h-full object-contain rounded-md" />
+                                <img key={shopLink} src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(shopLink)}`} alt="Skanna för att handla QR-kod" width={160} height={160} className="w-full h-full object-contain rounded-md" />
                             ) : (
-                                <div className="text-xs text-stone-400 text-center">Loading QR code...</div>
+                                <div className="text-xs text-stone-400 text-center">Laddar QR-kod...</div>
                             )}
                         </div>
-                        <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase mb-3">SCAN TO SHOP</h3>
+                        <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase mb-3">SKANNA FÖR ATT HANDLA</h3>
                         {shopLink && (
                             <button
                                 type="button"
@@ -126,7 +126,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                                 className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-all cursor-pointer shadow-xs active:scale-95"
                             >
                                 <Printer size={14} />
-                                <span>Print A4 Sheet</span>
+                                <span>Skriv ut A4-ark</span>
                             </button>
                         )}
                     </div>
@@ -150,8 +150,8 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                             <Image src="/dashboard/orders/ordericon1.svg" width={24} height={24} className="w-6 h-6 object-contain" alt="ordericon1" />
                         </div>
                         <div>
-                            <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Social Reach</h4>
-                            <p className="text-sm text-[#78716C] leading-relaxed">Post your link on Instagram to reach 40% more supporters.</p>
+                            <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Nå ut i sociala medier</h4>
+                            <p className="text-sm text-[#78716C] leading-relaxed">Dela din länk på Instagram för att nå 40% fler supportrar.</p>
                         </div>
                     </div>
 
@@ -161,8 +161,8 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                             <Image src="/dashboard/orders/ordericon2.svg" width={24} height={24} className="w-6 h-6 object-contain" alt="ordericon2" />
                         </div>
                         <div>
-                            <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Team Effort</h4>
-                            <p className="text-sm text-[#78716C] leading-relaxed">Top-performing classes share their link at least twice a week.</p>
+                            <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Gemensam insats</h4>
+                            <p className="text-sm text-[#78716C] leading-relaxed">De bästa klasserna och lagen delar sin länk minst två gånger i veckan.</p>
                         </div>
                     </div>
 
@@ -172,8 +172,8 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                             <Image src="/dashboard/orders/ordericon3.svg" width={24} height={24} className="w-6 h-6 object-contain" alt="ordericon3" />
                         </div>
                         <div>
-                            <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Goal Tracking</h4>
-                            <p className="text-sm text-[#78716C] leading-relaxed">Keep sharing your sales link regularly to reach your fundraising goals faster.</p>
+                            <h4 className="font-bold text-[#1A1C1C] text-base mb-1">Måluppföljning</h4>
+                            <p className="text-sm text-[#78716C] leading-relaxed">Fortsätt dela din försäljningslänk regelbundet för att nå ert försäljningsmål snabbare.</p>
                         </div>
                     </div>
                 </div>

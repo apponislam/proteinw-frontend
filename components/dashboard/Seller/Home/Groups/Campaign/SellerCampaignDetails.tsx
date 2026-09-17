@@ -14,17 +14,17 @@ interface SellerCampaignDetailsProps {
 }
 
 const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; label: string; bg: string; text: string; dot: string }[] = [
-    { value: "DRAFT", label: "DRAFT", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
-    { value: "ACTIVE", label: "ACTIVE", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
-    { value: "FULFILMENT", label: "FULFILMENT", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
-    { value: "COMPLETED", label: "COMPLETED", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
+    { value: "DRAFT", label: "UTKAST", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
+    { value: "ACTIVE", label: "AKTIV", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
+    { value: "FULFILMENT", label: "LEVERANS", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
+    { value: "COMPLETED", label: "AVSLUTAD", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
 ];
 
 const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign, campaignInfo }) => {
     const router = useRouter();
 
     const campaignId = campaignInfo?._id || campaign?._id || "";
-    const name = campaignInfo?.name || campaign?.name || "Campaign Details";
+    const name = campaignInfo?.name || campaign?.name || "Försäljningsuppgifter";
     const shortDescription = campaignInfo?.shortDescription || campaign?.shortDescription || "";
     const admin = campaignInfo?.campaignAdmin || campaign?.campaignAdmin;
 
@@ -37,7 +37,7 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign,
             <div className="flex items-center justify-between">
                 <button onClick={() => router.back()} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium">
                     <ArrowLeft size={16} />
-                    <span>Back to Campaigns</span>
+                    <span>Tillbaka till försäljningar</span>
                 </button>
 
                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border border-stone-200 ${currentOption.bg} ${currentOption.text}`}>
@@ -55,16 +55,16 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign,
 
                 {/* Group Leader Contact Card */}
                 <div className="bg-[#FDFBF7] p-3.5 sm:p-4 rounded-xl border border-amber-100/80 w-full md:w-auto md:min-w-72 shrink-0">
-                    <div className="text-[10px] font-bold text-[#D97706] uppercase tracking-wider mb-2">Group Leader</div>
+                    <div className="text-[10px] font-bold text-[#D97706] uppercase tracking-wider mb-2">Gruppledare</div>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-100/60 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">
-                                {admin?.name ? admin.name.charAt(0).toUpperCase() : "L"}
+                                {admin?.name ? admin.name.charAt(0).toUpperCase() : "G"}
                             </div>
-                            <h4 className="font-bold text-sm text-[#1A1C1C] sm:hidden truncate">{admin?.name || "Group Leader"}</h4>
+                            <h4 className="font-bold text-sm text-[#1A1C1C] sm:hidden truncate">{admin?.name || "Gruppledare"}</h4>
                         </div>
                         <div className="min-w-0 flex-1 space-y-1">
-                            <h4 className="font-bold text-sm text-[#1A1C1C] hidden sm:block truncate">{admin?.name || "Group Leader"}</h4>
+                            <h4 className="font-bold text-sm text-[#1A1C1C] hidden sm:block truncate">{admin?.name || "Gruppledare"}</h4>
                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#78716C]">
                                 {admin?.email && (
                                     <a href={`mailto:${admin.email}`} className="flex items-center gap-1 hover:text-[#D97706] transition-colors max-w-full truncate">
@@ -89,7 +89,7 @@ const SellerCampaignDetails: React.FC<SellerCampaignDetailsProps> = ({ campaign,
 
             {/* Campaign Orders Section */}
             <div className="space-y-4">
-                <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Orders</h3>
+                <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Beställningar för försäljningen</h3>
                 <div className="bg-white rounded-xl border border-[#E7E5E4] shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
                     <SellerCampaignOrdersList campaignId={campaignId} />
                 </div>
