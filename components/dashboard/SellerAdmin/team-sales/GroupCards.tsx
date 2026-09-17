@@ -28,7 +28,7 @@ const GroupCards = () => {
         return (
             <div className="text-center py-12">
                 <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-[#78716C] text-sm">Loading your groups information...</p>
+                <p className="text-[#78716C] text-sm">Laddar din gruppinformation...</p>
             </div>
         );
     }
@@ -41,7 +41,7 @@ const GroupCards = () => {
                         <GroupCard key={group._id} group={group} />
                     ))
                 ) : (
-                    <div className="col-span-full bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">You don't have any groups yet. Click below to start a new group!</div>
+                    <div className="col-span-full bg-white p-8 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] text-center text-[#78716C]">Du har inga grupper ännu. Klicka nedan för att starta en ny grupp!</div>
                 )}
 
                 <button
@@ -52,15 +52,15 @@ const GroupCards = () => {
                         <div className="w-12 h-12 rounded-full bg-amber-50 group-hover:bg-white text-[#D97706] flex items-center justify-center mb-3 transition-colors duration-300 shadow-xs">
                             <Plus size={24} />
                         </div>
-                        <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300 mb-1">Start New Group</h3>
-                        <p className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Add your next class or team</p>
+                        <h3 className="text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300 mb-1">Starta ny grupp</h3>
+                        <p className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Lägg till din nästa klass eller ditt nästa lag</p>
                     </div>
                 </button>
             </div>
 
             {meta && (
                 <div className="mt-8">
-                    <Pagination meta={meta} onPageChange={setPage} itemName="GROUPS" />
+                    <Pagination meta={meta} onPageChange={setPage} itemName="GRUPPER" />
                 </div>
             )}
 

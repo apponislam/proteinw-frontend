@@ -10,17 +10,17 @@ const CampaignsOverviewCards = () => {
 
     const campaignStats = [
         {
-            title: "TOTAL GOAL",
+            title: "TOTALTMÅL",
             value: isLoading ? "..." : `SEK ${(overview.totalGoal || 0).toLocaleString()}`,
             color: "#D97706",
         },
         {
-            title: "ACTIVE CAMPAIGNS",
+            title: "AKTIVA KAMPANJER",
             value: isLoading ? "..." : (overview.activeCampaigns || 0).toLocaleString(),
             color: "#D97706",
         },
         {
-            title: "TOTAL SOLD",
+            title: "TOTALTSÅLT",
             value: isLoading ? "..." : `SEK ${(overview.totalSold || 0).toLocaleString()}`,
             color: "#D97706",
         },

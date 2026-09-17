@@ -46,7 +46,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             setSelectedFiles((prev) => {
                 const combined = [...prev, ...newFiles];
                 if (combined.length > 3) {
-                    toast.error("Maximum 3 photos allowed per product.");
+                    toast.error("Maximalt 3 bilder tillåtna per produkt.");
                     return combined.slice(0, 3);
                 }
                 return combined;
@@ -60,7 +60,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             setSelectedFiles((prev) => {
                 const combined = [...prev, ...newFiles];
                 if (combined.length > 3) {
-                    toast.error("Maximum 3 photos allowed per product.");
+                    toast.error("Maximalt 3 bilder tillåtna per produkt.");
                     return combined.slice(0, 3);
                 }
                 return combined;
@@ -104,7 +104,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             }
 
             const res = (await createProduct(formData).unwrap()) as any;
-            toast.success(res?.message || "Product created successfully!");
+            toast.success(res?.message || "Produkten har skapats!");
             onClose();
             // Reset form
             setName("");
@@ -116,7 +116,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
             setEcoHighlight("");
             setSelectedFiles([]);
         } catch (err: any) {
-            const errorMessage = err?.data?.message || err?.message || "Failed to create product";
+            const errorMessage = err?.data?.message || err?.message || "Misslyckades med att skapa produkt";
             toast.error(errorMessage);
         }
     };
@@ -137,11 +137,11 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                             <Package size={22} />
                         </div>
                         <div>
-                            <h2 className="text-lg sm:text-xl font-bold text-stone-900 leading-tight">Add New Product</h2>
-                            <p className="text-xs text-stone-500 font-medium">Create a new product listing with up to 3 showcase photos.</p>
+                            <h2 className="text-lg sm:text-xl font-bold text-stone-900 leading-tight">Lägg till ny produkt</h2>
+                            <p className="text-xs text-stone-500 font-medium">Skapa en ny produkt med upp till 3 bildvisningar.</p>
                         </div>
                     </div>
-                    <button onClick={onClose} className="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors cursor-pointer" aria-label="Close">
+                    <button onClick={onClose} className="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors cursor-pointer" aria-label="Stäng">
                         <X size={18} />
                     </button>
                 </div>
@@ -151,33 +151,33 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     {/* Section 1: Basic Information */}
                     <div className="space-y-4">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Basic Details
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Grundläggande information
                         </h3>
 
                         <div>
                             <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
-                                Product Name <span className="text-red-500">*</span>
+                                Produktnamn <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                placeholder="e.g. Scented Candle - Lavender & Vanilla"
+                                placeholder="t.ex. Doftljus - Lavendel & Vanilj"
                                 className="w-full h-11 sm:h-12 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 placeholder:text-stone-400 font-medium"
                             />
                         </div>
 
                         <div>
                             <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
-                                Short Description <span className="text-red-500">*</span>
+                                Kort beskrivning <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 value={shortDescription}
                                 onChange={(e) => setShortDescription(e.target.value)}
                                 required
                                 rows={3}
-                                placeholder="Describe product benefits, aroma notes, or materials..."
+                                placeholder="Beskriv produktens fördelar, doftnoter eller material..."
                                 className="w-full px-4 py-3 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 placeholder:text-stone-400 font-medium resize-none"
                             />
                         </div>
@@ -186,14 +186,14 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     {/* Section 2: Category & Subcategory */}
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Categorization
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Kategorisering
                         </h3>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Category Dropdown */}
                             <div>
                                 <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
-                                    Product Category <span className="text-red-500">*</span>
+                                    Produktkategori <span className="text-red-500">*</span>
                                 </label>
                                 <div className="relative">
                                     <button
@@ -204,7 +204,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                                         }}
                                         className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
                                     >
-                                        <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>{category || "Select category"}</span>
+                                        <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>
+                                            {category === "Scented Candles" ? "Doftljus" : category === "Premium Socks" ? "Premiumstrumpor" : category || "Välj kategori"}
+                                        </span>
                                         <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
 
@@ -212,19 +214,22 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                                         <>
                                             <div className="fixed inset-0 z-20" onClick={() => setIsCatDropdownOpen(false)}></div>
                                             <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                {["Scented Candles", "Premium Socks"].map((catOption) => (
+                                                {[
+                                                    { value: "Scented Candles", label: "Doftljus" },
+                                                    { value: "Premium Socks", label: "Premiumstrumpor" },
+                                                ].map((catOption) => (
                                                     <button
-                                                        key={catOption}
+                                                        key={catOption.value}
                                                         type="button"
                                                         onClick={() => {
-                                                            setCategory(catOption);
-                                                            if (catOption !== "Scented Candles") setSubCategory("");
+                                                            setCategory(catOption.value);
+                                                            if (catOption.value !== "Scented Candles") setSubCategory("");
                                                             setIsCatDropdownOpen(false);
                                                         }}
-                                                        className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${category === catOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
+                                                        className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${category === catOption.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                                     >
-                                                        <span>{catOption}</span>
-                                                        {category === catOption && <Check size={16} className="text-[#D97706]" />}
+                                                        <span>{catOption.label}</span>
+                                                        {category === catOption.value && <Check size={16} className="text-[#D97706]" />}
                                                     </button>
                                                 ))}
                                             </div>
@@ -236,7 +241,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                             {/* Subcategory Dropdown */}
                             {category === "Scented Candles" ? (
                                 <div>
-                                    <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">Subcategory</label>
+                                    <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">Underkategori</label>
                                     <div className="relative">
                                         <button
                                             type="button"
@@ -246,7 +251,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                                             }}
                                             className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
                                         >
-                                            <span className={subCategory ? "text-stone-900 font-medium" : "text-stone-400"}>{subCategory || "Select subcategory"}</span>
+                                            <span className={subCategory ? "text-stone-900 font-medium" : "text-stone-400"}>
+                                                {subCategory === "Reed Diffusers" ? "Doftpinnar" : subCategory || "Välj underkategori"}
+                                            </span>
                                             <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isSubCatDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>
 
@@ -254,18 +261,18 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                                             <>
                                                 <div className="fixed inset-0 z-20" onClick={() => setIsSubCatDropdownOpen(false)}></div>
                                                 <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                    {["Reed Diffusers"].map((subOption) => (
+                                                    {[{ value: "Reed Diffusers", label: "Doftpinnar" }].map((subOption) => (
                                                         <button
-                                                            key={subOption}
+                                                            key={subOption.value}
                                                             type="button"
                                                             onClick={() => {
-                                                                setSubCategory(subOption);
+                                                                setSubCategory(subOption.value);
                                                                 setIsSubCatDropdownOpen(false);
                                                             }}
-                                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${subCategory === subOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
+                                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${subCategory === subOption.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                                         >
-                                                            <span>{subOption}</span>
-                                                            {subCategory === subOption && <Check size={16} className="text-[#D97706]" />}
+                                                            <span>{subOption.label}</span>
+                                                            {subCategory === subOption.value && <Check size={16} className="text-[#D97706]" />}
                                                         </button>
                                                     ))}
                                                 </div>
@@ -282,45 +289,45 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     {/* Section 3: Product Highlights */}
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Selling Point Highlights
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Försäljningsargument
                         </h3>
 
                         <div className="grid grid-cols-1 gap-3.5">
                             <div>
                                 <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
-                                    <Coins size={14} className="text-[#D97706]" /> Margin Benefit
+                                    <Coins size={14} className="text-[#D97706]" /> Vinstmarginal
                                 </label>
                                 <input
                                     type="text"
                                     value={marginBenefit}
                                     onChange={(e) => setMarginBenefit(e.target.value)}
-                                    placeholder="e.g. High-margin product (earn up to 50% profit)"
+                                    placeholder="t.ex. Hög vinstmarginal (tjäna upp till 50% förtjänst)"
                                     className="w-full h-11 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 placeholder:text-stone-400 font-medium"
                                 />
                             </div>
 
                             <div>
                                 <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
-                                    <Sparkles size={14} className="text-[#D97706]" /> Quality Highlight
+                                    <Sparkles size={14} className="text-[#D97706]" /> Kvalitetsfokus
                                 </label>
                                 <input
                                     type="text"
                                     value={qualityHighlight}
                                     onChange={(e) => setQualityHighlight(e.target.value)}
-                                    placeholder="e.g. Premium Scandinavian quality that sells itself"
+                                    placeholder="t.ex. Nordisk kvalitet som säljer sig själv"
                                     className="w-full h-11 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 placeholder:text-stone-400 font-medium"
                                 />
                             </div>
 
                             <div>
                                 <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
-                                    <Leaf size={14} className="text-[#D97706]" /> Eco Highlight
+                                    <Leaf size={14} className="text-[#D97706]" /> Miljöfokus
                                 </label>
                                 <input
                                     type="text"
                                     value={ecoHighlight}
                                     onChange={(e) => setEcoHighlight(e.target.value)}
-                                    placeholder="e.g. Sustainable soy wax and organic scents"
+                                    placeholder="t.ex. Hållbara och noggrant utvalda råvaror"
                                     className="w-full h-11 px-4 text-xs sm:text-sm bg-stone-50/50 border border-stone-200 rounded-xl focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all text-stone-900 placeholder:text-stone-400 font-medium"
                                 />
                             </div>
@@ -331,9 +338,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <div className="flex items-center justify-between">
                             <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Showcase Photos
+                                <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Produktbilder
                             </h3>
-                            <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">{selectedFiles.length} / 3 Selected</span>
+                            <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">{selectedFiles.length} / 3 valda</span>
                         </div>
 
                         <input type="file" accept="image/*" multiple ref={fileInputRef} onChange={handleFileSelect} className="hidden" />
@@ -343,9 +350,9 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                             <div className="grid grid-cols-3 gap-3">
                                 {previewUrls.map((url, idx) => (
                                     <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden border border-amber-200 bg-amber-50/50 shadow-sm transition-transform hover:scale-[1.02]">
-                                        <img src={url} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
-                                        {idx === 0 && <span className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Cover</span>}
-                                        <button type="button" onClick={() => handleRemoveFile(idx)} className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-md cursor-pointer" title="Remove photo">
+                                        <img src={url} alt={`Förhandsgranskning ${idx + 1}`} className="w-full h-full object-cover" />
+                                        {idx === 0 && <span className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Omslag</span>}
+                                        <button type="button" onClick={() => handleRemoveFile(idx)} className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-md cursor-pointer" title="Ta bort bild">
                                             <X size={14} />
                                         </button>
                                     </div>
@@ -368,13 +375,13 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                                     <Upload size={22} />
                                 </div>
                                 <div>
-                                    <p className="text-xs sm:text-sm font-bold text-stone-800">Click to upload photos or drag & drop</p>
-                                    <p className="text-[11px] text-stone-400 font-medium mt-0.5">Supports PNG, JPG, or WEBP (Up to 3 images max)</p>
+                                    <p className="text-xs sm:text-sm font-bold text-stone-800">Klicka för att ladda upp bilder eller dra och släpp</p>
+                                    <p className="text-[11px] text-stone-400 font-medium mt-0.5">Stöder PNG, JPG eller WEBP (Max 3 bilder)</p>
                                 </div>
                             </div>
                         ) : (
                             <div className="p-3.5 bg-amber-50/80 border border-amber-200/80 rounded-2xl text-center">
-                                <p className="text-xs font-semibold text-amber-900">Maximum 3 photos selected. Remove a photo to replace.</p>
+                                <p className="text-xs font-semibold text-amber-900">Maximalt 3 bilder valda. Ta bort en bild för att ersätta.</p>
                             </div>
                         )}
                     </div>
@@ -383,7 +390,7 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                 {/* Footer Buttons */}
                 <div className="px-6 py-4 border-t border-stone-100 bg-stone-50/50 flex items-center justify-end gap-3">
                     <button type="button" onClick={onClose} className="px-5 h-11 bg-white hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs sm:text-sm font-semibold rounded-xl transition-all cursor-pointer">
-                        Cancel
+                        Avbryt
                     </button>
                     <button
                         onClick={handleSubmit}
@@ -393,11 +400,11 @@ const AddNewProduct: React.FC<AddNewProductProps> = ({ isOpen, onClose }) => {
                         {isLoading ? (
                             <>
                                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                Adding Product...
+                                Lägger till produkt...
                             </>
                         ) : (
                             <>
-                                <Plus size={16} /> Add Product
+                                <Plus size={16} /> Lägg till produkt
                             </>
                         )}
                     </button>

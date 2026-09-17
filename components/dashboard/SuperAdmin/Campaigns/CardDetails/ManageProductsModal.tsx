@@ -90,11 +90,11 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
             if (deletions.length > 0) {
                 await removeMultipleProducts({ campaignId, productIds: deletions }).unwrap();
             }
-            toast.success("Campaign products updated successfully!");
+            toast.success("Kampanjprodukter uppdaterades framgångsrikt!");
             onClose();
         } catch (err) {
             console.error("Failed to update campaign products:", err);
-            toast.error("Failed to update products. Please try again.");
+            toast.error("Misslyckades med att uppdatera produkter. Försök igen.");
         }
     };
 
@@ -103,7 +103,7 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
             <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden border border-[#E7E5E4] flex flex-col max-h-[85vh]">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-[#E7E5E4] flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-[#1A1C1C]">Manage Campaign Products</h3>
+                    <h3 className="text-lg font-bold text-[#1A1C1C]">Hantera kampanjprodukter</h3>
                     <button onClick={onClose} className="p-1 hover:bg-[#F3F3F3] rounded-lg transition-colors text-[#78716C] cursor-pointer">
                         <X size={20} />
                     </button>
@@ -115,7 +115,7 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
                         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E]" size={16} />
                         <input
                             type="text"
-                            placeholder="Search products by name or category..."
+                            placeholder="Sök produkter på namn eller kategori..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 bg-[#F3F3F3] border border-[#E7E5E4] rounded-xl text-sm focus:outline-none focus:border-[#D97706] transition-all"
@@ -128,10 +128,10 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
                     {products.length === 0 && isFetching ? (
                         <div className="flex items-center justify-center py-8">
                             <Loader2 className="animate-spin text-[#D97706]" size={24} />
-                            <span className="text-sm text-[#78716C] ml-2">Loading products...</span>
+                            <span className="text-sm text-[#78716C] ml-2">Laddar produkter...</span>
                         </div>
                     ) : products.length === 0 ? (
-                        <div className="text-center text-sm text-[#78716C] py-8">No products found matching your search.</div>
+                        <div className="text-center text-sm text-[#78716C] py-8">Inga produkter hittades som matchar din sökning.</div>
                     ) : (
                         <>
                             {products.map((product: any) => {
@@ -173,7 +173,7 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
                             {isFetching && (
                                 <div className="flex items-center justify-center py-4">
                                     <Loader2 className="animate-spin text-[#D97706]" size={20} />
-                                    <span className="text-xs text-[#78716C] ml-2">Loading more...</span>
+                                    <span className="text-xs text-[#78716C] ml-2">Laddar fler...</span>
                                 </div>
                             )}
                         </>
@@ -182,21 +182,21 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
 
                 {/* Footer */}
                 <div className="px-6 py-4 border-t border-[#E7E5E4] flex items-center justify-between bg-[#F8F6F4]">
-                    <span className="text-xs font-semibold text-[#78716C]">{selectedProductIds.length} products selected</span>
+                    <span className="text-xs font-semibold text-[#78716C]">{selectedProductIds.length} produkter valda</span>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={onClose}
                             className="px-4 py-2 border border-[#E7E5E4] hover:bg-[#F3F3F3] text-sm font-semibold rounded-xl transition-all cursor-pointer text-[#1A1C1C]"
                             disabled={isAdding || isRemoving}
                         >
-                            Cancel
+                            Avbryt
                         </button>
                         <button
                             onClick={handleSave}
                             className="px-5 py-2 bg-[#D97706] hover:bg-[#B45309] text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
                             disabled={isAdding || isRemoving}
                         >
-                            {isAdding || isRemoving ? "Saving..." : "Save Changes"}
+                            {isAdding || isRemoving ? "Sparar..." : "Spara ändringar"}
                         </button>
                     </div>
                 </div>

@@ -35,28 +35,43 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
         const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
         const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
         const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
-        if (diffDays < 0) return "Sales ended";
-        if (diffDays === 0) return "Ends today";
-        return `In ${diffDays} days`;
+        if (diffDays < 0) return "Försäljningen har avslutats";
+        if (diffDays === 0) return "Slutar idag";
+        return `Om ${diffDays} dagar`;
     };
 
-    const currentStatusStr = campaign.status || "DRAFT";
+    const getStatusLabel = (statusStr: string) => {
+        switch (statusStr) {
+            case "ACTIVE":
+                return "AKTIV";
+            case "FULFILMENT":
+                return "UPPFYLLNAD";
+            case "COMPLETED":
+                return "AVSLUTAD";
+            case "DRAFT":
+                return "UTKAST";
+            default:
+                return statusStr;
+        }
+    };
+
+    const currentStatusStr = getStatusLabel(campaign.status || "DRAFT");
 
     const defaultStats = [
         {
-            subtitle: packagesNeeded && packagesNeeded > 0 ? `NEXT TIER: ${packagesNeeded} PCS NEEDED` : "TOTAL SOLD",
-            value: `${campaign.totalPackagesSold || 0} pcs`,
-            title: targetRevenue > 0 ? `GOAL: SEK ${targetRevenue.toLocaleString()} (${sekProgress}%)` : `GOAL: SEK 0`,
+            subtitle: packagesNeeded && packagesNeeded > 0 ? `NÄSTA NIVÅ: ${packagesNeeded} ST KRÄVS` : "TOTALT SÅLDA",
+            value: `${campaign.totalPackagesSold || 0} st`,
+            title: targetRevenue > 0 ? `MÅL: ${targetRevenue.toLocaleString()} SEK (${sekProgress}%)` : `MÅL: 0 SEK`,
         },
         {
-            subtitle: `EST. PROFIT (${profitPercentage}%)`,
-            value: `SEK ${estProfit.toLocaleString()}`,
-            title: `REVENUE RAISED: SEK ${totalSoldAmount.toLocaleString()}`,
+            subtitle: `BERÄKNAD VINST (${profitPercentage}%)`,
+            value: `${estProfit.toLocaleString()} SEK`,
+            title: `INSAMLADE INTÄKTER: ${totalSoldAmount.toLocaleString()} SEK`,
         },
         {
             subtitle: `STATUS (${getDaysLeft()})`,
             value: currentStatusStr,
-            title: `END DATE: ${formattedEndDate}`,
+            title: `SLUTDATUM: ${formattedEndDate}`,
         },
     ];
 

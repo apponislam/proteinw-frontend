@@ -13,20 +13,31 @@ const getStatusColor = (status: string) => {
     }
 };
 
+const formatStatus = (status: string) => {
+    switch (status) {
+        case "Active":
+            return "Aktiv";
+        case "Inactive":
+            return "Inaktiv";
+        default:
+            return status;
+    }
+};
+
 export const getNormalizedSalesLinks = (seller: TSellerListItem): TSalesLinkItem[] => {
     if (Array.isArray(seller.salesLinks) && seller.salesLinks.length > 0) {
         const result: TSalesLinkItem[] = [];
         seller.salesLinks.forEach((item, idx) => {
             if (typeof item === "string" && item.trim() !== "" && item !== "N/A") {
-                result.push({ name: `Store Link #${idx + 1}`, link: item });
+                result.push({ name: `Butikslänk #${idx + 1}`, link: item });
             } else if (typeof item === "object" && item && item.link && item.link !== "N/A") {
-                result.push({ name: item.name || `Store Link #${idx + 1}`, link: item.link });
+                result.push({ name: item.name || `Butikslänk #${idx + 1}`, link: item.link });
             }
         });
         return result;
     }
     if (seller.salesLink && seller.salesLink !== "N/A") {
-        return [{ name: "Store Link", link: seller.salesLink }];
+        return [{ name: "Butikslänk", link: seller.salesLink }];
     }
     return [];
 };
@@ -67,7 +78,7 @@ export const SellerTableRow: React.FC<SellerTableRowProps> = ({
             </td>
             <td className="px-4 py-4 text-[#1A1C1C] font-medium">
                 {groupsList.length === 0 ? (
-                    <span className="text-gray-400 text-sm">N/A</span>
+                    <span className="text-gray-400 text-sm">Ej tillgängligt</span>
                 ) : (
                     <div className="flex items-center gap-2">
                         <span className="font-semibold text-[#1A1C1C]">{groupsList[0]}</span>
@@ -77,7 +88,7 @@ export const SellerTableRow: React.FC<SellerTableRowProps> = ({
                                 onClick={(e) => onOpenGroups(seller._id, groupsList, e)}
                                 onMouseEnter={(e) => onMouseEnterGroups(seller._id, groupsList, e)}
                                 className="inline-flex items-center text-xs bg-amber-100 hover:bg-amber-200 text-[#7C5800] font-bold px-2 py-0.5 rounded-full transition-all cursor-pointer border border-amber-300/40 shadow-2xs"
-                                title="Click or hover to view all assigned groups"
+                                title="Klicka eller hovra för att visa alla tilldelade grupper"
                             >
                                 <span>+{groupsList.length - 1}</span>
                             </button>
@@ -88,23 +99,23 @@ export const SellerTableRow: React.FC<SellerTableRowProps> = ({
             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{seller.orders}</td>
             <td className="px-4 py-4 text-[#1A1C1C] font-medium">{seller.packages}</td>
             <td className="px-4 py-4">
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(seller.status)}`}>{seller.status}</span>
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(seller.status)}`}>{formatStatus(seller.status)}</span>
             </td>
             <td className="px-4 py-4">
                 {!firstLink ? (
-                    <span className="text-gray-400 text-sm">N/A</span>
+                    <span className="text-gray-400 text-sm">Ej tillgängligt</span>
                 ) : (
                     <div className="flex items-center gap-2">
                         <button onClick={() => onCopy(seller._id, firstLink)} className="flex items-center gap-1.5 text-[#D97706] hover:text-[#7C5800] transition-colors font-medium text-sm cursor-pointer">
                             {copiedId === seller._id ? (
                                 <>
                                     <Check size={14} className="text-green-600" />
-                                    <span className="text-green-600">Copied!</span>
+                                    <span className="text-green-600">Kopierad!</span>
                                 </>
                             ) : (
                                 <>
                                     <Copy size={14} />
-                                    <span>Copy Link</span>
+                                    <span>Kopiera länk</span>
                                 </>
                             )}
                         </button>
@@ -113,7 +124,7 @@ export const SellerTableRow: React.FC<SellerTableRowProps> = ({
                                 type="button"
                                 onClick={() => onOpenLinksModal(seller.name, seller.email, salesLinksList)}
                                 className="inline-flex items-center text-xs bg-amber-100 hover:bg-amber-200 text-[#7C5800] font-bold px-2 py-0.5 rounded-full transition-all cursor-pointer border border-amber-300/40 shadow-2xs"
-                                title="Click to view all sales links"
+                                title="Klicka för att visa alla försäljningslänkar"
                             >
                                 <span>+{salesLinksList.length - 1}</span>
                             </button>
@@ -123,7 +134,7 @@ export const SellerTableRow: React.FC<SellerTableRowProps> = ({
             </td>
             <td className="px-4 py-4">
                 <button onClick={() => onViewSeller(seller)} className="text-[#D97706] hover:underline text-sm font-semibold cursor-pointer">
-                    View
+                    Visa
                 </button>
             </td>
         </tr>

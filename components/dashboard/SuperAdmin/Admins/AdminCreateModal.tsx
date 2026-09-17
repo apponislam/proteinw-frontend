@@ -9,10 +9,10 @@ import { useCreateAdminMutation } from "../../../../redux/features/auth/authApi"
 import Swal from "sweetalert2";
 
 const adminFormSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Please enter a valid email address"),
-    phone: z.string().min(10, "Phone number must be at least 10 characters"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
+    email: z.string().email("Ange en giltig e-postadress"),
+    phone: z.string().min(10, "Telefonnumret måste vara minst 10 tecken"),
+    password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
 });
 
 type AdminFormValues = z.infer<typeof adminFormSchema>;
@@ -39,8 +39,8 @@ const AdminCreateModal: React.FC<AdminCreateModalProps> = ({ isOpen, onClose }) 
             await createAdmin(data).unwrap();
             Swal.fire({
                 icon: "success",
-                title: "Success",
-                text: "Admin created successfully! Credentials have been sent to their email.",
+                title: "Framgång",
+                text: "Administratören har skapats! Inloggningsuppgifter har skickats till deras e-post.",
                 confirmButtonColor: "#D97706",
             });
             onClose();
@@ -48,8 +48,8 @@ const AdminCreateModal: React.FC<AdminCreateModalProps> = ({ isOpen, onClose }) 
         } catch (error: any) {
             Swal.fire({
                 icon: "error",
-                title: "Error",
-                text: error?.data?.message || "Failed to create admin.",
+                title: "Fel",
+                text: error?.data?.message || "Misslyckades med att skapa administratör.",
                 confirmButtonColor: "#EF4444",
             });
         }
@@ -72,28 +72,28 @@ const AdminCreateModal: React.FC<AdminCreateModalProps> = ({ isOpen, onClose }) 
                 </button>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-[#1A1C1C]">Create new admin</h2>
-                    <p className="text-[#78716C] mt-1">Add a new administrator to the system.</p>
+                    <h2 className="text-2xl font-bold text-[#1A1C1C]">Skapa ny administratör</h2>
+                    <p className="text-[#78716C] mt-1">Lägg till en ny administratör i systemet.</p>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Name</label>
-                        <Input placeholder="Enter admin name" {...register("name")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                        <label className="text-sm font-medium text-[#1A1C1C]">Namn</label>
+                        <Input placeholder="Ange administratörens namn" {...register("name")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Email address</label>
-                        <Input type="email" placeholder="Enter email" {...register("email")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                        <label className="text-sm font-medium text-[#1A1C1C]">E-postadress</label>
+                        <Input type="email" placeholder="Ange e-post" {...register("email")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Phone</label>
-                        <Input placeholder="Enter phone number" {...register("phone")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                        <label className="text-sm font-medium text-[#1A1C1C]">Telefon</label>
+                        <Input placeholder="Ange telefonnummer" {...register("phone")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
                     </div>
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Set Password</label>
+                        <label className="text-sm font-medium text-[#1A1C1C]">Ange lösenord</label>
                         <Input type="password" placeholder="••••••••" {...register("password")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
                     </div>
@@ -102,7 +102,7 @@ const AdminCreateModal: React.FC<AdminCreateModalProps> = ({ isOpen, onClose }) 
                         disabled={isLoading}
                         className="w-full inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                     >
-                        {isLoading ? "Creating..." : "Create"}
+                        {isLoading ? "Skapar..." : "Skapa"}
                     </button>
                 </form>
             </div>

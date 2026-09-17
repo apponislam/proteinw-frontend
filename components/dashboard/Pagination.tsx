@@ -61,7 +61,7 @@ const getPaginationRange = (currentPage: number, totalPages: number, maxVisible:
 const Pagination: React.FC<PaginationProps> = ({
     meta,
     onPageChange,
-    itemName = "ITEMS",
+    itemName = "POSTER",
     className = "",
     maxVisiblePages = 5,
 }) => {
@@ -87,9 +87,9 @@ const Pagination: React.FC<PaginationProps> = ({
         <div className={`flex flex-col md:flex-row items-center justify-between gap-4 py-3 ${className}`}>
             {/* Info Text */}
             <div className="text-[#78716C] text-xs font-semibold uppercase tracking-wider">
-                SHOWING <span className="text-[#1A1C1C] font-bold">{startItem}</span> TO{" "}
-                <span className="text-[#1A1C1C] font-bold">{endItem}</span> OF{" "}
-                <span className="text-[#1A1C1C] font-bold">{total.toLocaleString()}</span> {itemName}
+                VISAR <span className="text-[#1A1C1C] font-bold">{startItem}</span> TILL{" "}
+                <span className="text-[#1A1C1C] font-bold">{endItem}</span> AV{" "}
+                <span className="text-[#1A1C1C] font-bold">{total.toLocaleString("sv-SE")}</span> {itemName}
             </div>
 
             {/* Pagination Controls */}
@@ -100,7 +100,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         <button
                             onClick={() => onPageChange(1)}
                             className="w-9 h-9 rounded-full flex items-center justify-center border border-[#E7E5E4] hover:bg-[#F5F5F4] transition-all text-[#78716C] cursor-pointer"
-                            title="First Page"
+                            title="Första sidan"
                         >
                             <ChevronsLeft size={16} />
                         </button>
@@ -111,8 +111,8 @@ const Pagination: React.FC<PaginationProps> = ({
                         disabled={!hasPrev}
                         onClick={() => onPageChange(page - 1)}
                         className="w-9 h-9 rounded-full flex items-center justify-center border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-40 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
-                        title="Previous Page"
-                        aria-label="Previous Page"
+                        title="Föregående sida"
+                        aria-label="Föregående sida"
                     >
                         <ChevronLeft size={16} />
                     </button>
@@ -147,8 +147,8 @@ const Pagination: React.FC<PaginationProps> = ({
                         disabled={!hasNext}
                         onClick={() => onPageChange(page + 1)}
                         className="w-9 h-9 rounded-full flex items-center justify-center border border-[#E7E5E4] hover:bg-[#F5F5F4] disabled:opacity-40 transition-all text-[#78716C] cursor-pointer disabled:cursor-not-allowed"
-                        title="Next Page"
-                        aria-label="Next Page"
+                        title="Nästa sida"
+                        aria-label="Nästa sida"
                     >
                         <ChevronRight size={16} />
                     </button>
@@ -158,7 +158,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         <button
                             onClick={() => onPageChange(totalPages)}
                             className="w-9 h-9 rounded-full flex items-center justify-center border border-[#E7E5E4] hover:bg-[#F5F5F4] transition-all text-[#78716C] cursor-pointer"
-                            title="Last Page"
+                            title="Sista sidan"
                         >
                             <ChevronsRight size={16} />
                         </button>

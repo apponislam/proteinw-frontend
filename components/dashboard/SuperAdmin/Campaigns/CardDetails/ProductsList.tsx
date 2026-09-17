@@ -34,13 +34,13 @@ const ProductsList: React.FC<ProductsListProps> = ({ campaignId, fallbackProduct
         return (
             <div className="p-8 flex flex-col items-center justify-center gap-2 text-[#78716C]">
                 <Loader2 className="w-6 h-6 animate-spin text-[#D97706]" />
-                <p className="text-xs">Loading campaign products...</p>
+                <p className="text-xs">Laddar kampanjprodukter...</p>
             </div>
         );
     }
 
     if (!products || products.length === 0) {
-        return <div className="p-8 text-center text-sm text-[#78716C]">No products associated with this campaign.</div>;
+        return <div className="p-8 text-center text-sm text-[#78716C]">Inga produkter kopplade till denna kampanj.</div>;
     }
 
     return (
@@ -66,8 +66,8 @@ const ProductsList: React.FC<ProductsListProps> = ({ campaignId, fallbackProduct
                         </div>
                         <div className="flex items-center gap-6 sm:gap-12 shrink-0 w-full sm:w-auto justify-between sm:justify-end mt-3 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-0 border-[#E7E5E4]">
                             <div>
-                                <span className="block text-[10px] text-[#78716C] font-semibold uppercase">Price</span>
-                                <span className="text-sm font-bold text-[#1A1C1C]">SEK {product.price}</span>
+                                <span className="block text-[10px] text-[#78716C] font-semibold uppercase">Pris</span>
+                                <span className="text-sm font-bold text-[#1A1C1C]">{product.price} SEK</span>
                             </div>
                         </div>
                     </div>
@@ -78,9 +78,9 @@ const ProductsList: React.FC<ProductsListProps> = ({ campaignId, fallbackProduct
             {meta && meta.totalPages > 1 && (
                 <div className="p-4 bg-[#FAF9F6] border-t border-[#E7E5E4] flex items-center justify-between">
                     <p className="text-xs text-[#78716C]">
-                        Showing <span className="font-bold text-[#1A1C1C]">{(page - 1) * limit + 1}</span> to{" "}
-                        <span className="font-bold text-[#1A1C1C]">{Math.min(page * limit, meta.total)}</span> of{" "}
-                        <span className="font-bold text-[#1A1C1C]">{meta.total}</span> products
+                        Visar <span className="font-bold text-[#1A1C1C]">{(page - 1) * limit + 1}</span> till{" "}
+                        <span className="font-bold text-[#1A1C1C]">{Math.min(page * limit, meta.total)}</span> av{" "}
+                        <span className="font-bold text-[#1A1C1C]">{meta.total}</span> produkter
                     </p>
                     <div className="flex items-center gap-2">
                         <button
@@ -91,7 +91,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ campaignId, fallbackProduct
                             <ChevronLeft size={16} />
                         </button>
                         <span className="text-xs font-semibold text-[#1A1C1C] px-2">
-                            Page {page} of {meta.totalPages}
+                            Sida {page} av {meta.totalPages}
                         </span>
                         <button
                             onClick={() => setPage((p) => p + 1)}

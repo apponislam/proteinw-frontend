@@ -9,8 +9,8 @@ const GroupsPage = () => {
         <div>
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-[#1A1C1C]">Group Management</h1>
-                    <p className="text-[#78716C] mt-2 max-w-2xl">Orchestrate fundraising initiatives across all regional clusters and maintain real-time oversight of profit tiers.</p>
+                    <h1 className="text-3xl font-bold text-[#1A1C1C]">Grupphantering</h1>
+                    <p className="text-[#78716C] mt-2 max-w-2xl">Organisera insamlingsinitiativ i alla regionala kluster och upprätthåll realtidstillsyn över vinstnivåer.</p>
                 </div>
             </div>
 

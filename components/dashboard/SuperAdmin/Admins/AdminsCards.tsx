@@ -39,24 +39,24 @@ const AdminsCards = () => {
 
     const cardsData = [
         {
-            title: "TOTAL ADMINS",
+            title: "TOTALT ANTAL ADMINISTRATÖRER",
             value: stats ? stats.totalAdmins : "--",
-            subtitle: "All system controllers",
+            subtitle: "Alla systemansvariga",
         },
         {
-            title: "APPROVED ADMINS",
+            title: "GODKÄNDA ADMINISTRATÖRER",
             value: stats ? stats.approvedAdmins : "--",
-            subtitle: "Active & approved",
+            subtitle: "Aktiva & godkända",
         },
         {
-            title: "UNAPPROVED ADMINS",
+            title: "ICKE GODKÄNDA ADMINISTRATÖRER",
             value: stats ? stats.unapprovedAdmins : "--",
-            subtitle: "Pending super admin approval",
+            subtitle: "Väntar på godkännande av superadmin",
         },
         {
-            title: "UNASSIGNED GROUP ADMINS",
+            title: "OTILLDELADE GRUPPADMINISTRATÖRER",
             value: stats ? stats.unassignedGroupAdmins : "--",
-            subtitle: "No group assigned yet",
+            subtitle: "Ingen grupp tilldelad ännu",
         },
     ];
 

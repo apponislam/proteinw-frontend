@@ -12,13 +12,13 @@ import { useCreateCampaignMutation } from "@/redux/features/campaign/campaignApi
 import { ManageCampaignSellersModal } from "./ManageCampaignSellersModal";
 
 export const campaignFormSchema = z.object({
-    name: z.string().min(2, "Campaign name must be at least 2 characters"),
-    shortDescription: z.string().min(2, "Short description must be at least 2 characters"),
+    name: z.string().min(2, "Kampanjnamnet måste vara minst 2 tecken"),
+    shortDescription: z.string().min(2, "Kort beskrivning måste vara minst 2 tecken"),
     target: z
         .string()
-        .min(1, "Target goal is required")
-        .refine((val) => !isNaN(Number(val)) && Number(val) > 0, "Target goal must be a positive number")
-        .refine((val) => Number(val) <= 99999, "Target goal cannot exceed 99,999 SEK"),
+        .min(1, "Målsättning krävs")
+        .refine((val) => !isNaN(Number(val)) && Number(val) > 0, "Målsättningen måste vara ett positivt nummer")
+        .refine((val) => Number(val) <= 99999, "Målsättningen kan inte överstiga 99 999 SEK"),
     endDate: z.string().refine(
         (val) => {
             if (!val) return false;
@@ -39,7 +39,7 @@ export const campaignFormSchema = z.object({
 
             return d >= today && d <= maxDate;
         },
-        { message: "End date must be between today and 21 days from today" },
+        { message: "Slutdatum måste vara mellan idag och 21 dagar från idag" },
     ),
     addAllGroupSellers: z.boolean(),
 });
@@ -78,9 +78,6 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
     const addAllGroupSellersValue = watch("addAllGroupSellers");
     const endDateValue = watch("endDate");
 
-    console.log("CreateCampaignForm -> Today:", new Date());
-    console.log("CreateCampaignForm -> Selected Input Date:", endDateValue);
-
     // 21-Day Date Constraints for HTML native date picker min/max
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -98,7 +95,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
     const maxDateStr = formatDateStr(maxDate);
 
     const onSubmit = async (data: CampaignFormValues) => {
-        const toastId = toast.loading("Starting campaign...");
+        const toastId = toast.loading("Startar kampanj...");
         try {
             const parts = data.endDate.split("-");
             const year = parseInt(parts[0], 10);
@@ -115,11 +112,11 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                 addAllGroupSellers: data.addAllGroupSellers,
                 sellerIds: !data.addAllGroupSellers && selectedSellerIds.length > 0 ? selectedSellerIds : undefined,
             }).unwrap();
-            toast.success("Campaign started!", { id: toastId });
+            toast.success("Kampanj startad!", { id: toastId });
             onClose();
             reset();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to start campaign", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att starta kampanj", { id: toastId });
         }
     };
 
@@ -127,29 +124,29 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
         <>
             <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#E7E5E4] w-full max-w-xl shadow-sm">
                 <div className="border-b border-[#F5F5F4] pb-4 mb-6">
-                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Start Fundraising Campaign</h3>
-                    <p className="text-xs text-[#78716C]">Define campaign parameters to start accepting sales.</p>
+                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Starta insamlingskampanj</h3>
+                    <p className="text-xs text-[#78716C]">Definiera kampanjparametrar för att börja ta emot försäljning.</p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="space-y-1">
-                        <label className="text-xs font-semibold text-[#1A1C1C]">Campaign Name</label>
-                        <Input placeholder="e.g. Autumn Bake Sale 2026" {...register("name")} className="h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]" />
+                        <label className="text-xs font-semibold text-[#1A1C1C]">Kampanjnamn</label>
+                        <Input placeholder="t.ex. Höstbakat 2026" {...register("name")} className="h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]" />
                         {errors.name && <p className="text-red-500 text-[11px]">{errors.name.message}</p>}
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-xs font-semibold text-[#1A1C1C]">Short Description</label>
-                        <Textarea placeholder="Describe what you are raising money for..." {...register("shortDescription")} className="min-h-20 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]" />
+                        <label className="text-xs font-semibold text-[#1A1C1C]">Kort beskrivning</label>
+                        <Textarea placeholder="Beskriv vad ni samlar in pengar till..." {...register("shortDescription")} className="min-h-20 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]" />
                         <p className="text-[11px] text-[#D97706] font-medium flex items-center gap-1 pt-0.5">
                             <Info size={13} className="shrink-0" />
-                            <span>This text will be displayed to customers on the seller’s digital storefront.</span>
+                            <span>Denna text kommer att visas för kunder i säljarens digitala butik.</span>
                         </p>
                         {errors.shortDescription && <p className="text-red-500 text-[11px]">{errors.shortDescription.message}</p>}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
                         <div className="space-y-1">
-                            <label className="text-xs font-semibold text-[#1A1C1C]">Target Goal (SEK)</label>
+                            <label className="text-xs font-semibold text-[#1A1C1C]">Målsättning (SEK)</label>
                             <div className="p-3 bg-gray-50 border border-gray-200 rounded-xl flex items-center gap-3 h-10">
                                 <div className="text-[#D97706] shrink-0">
                                     <Award size={18} />
@@ -157,7 +154,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                 <input
                                     type="number"
                                     max={99999}
-                                    placeholder="e.g. 5000"
+                                    placeholder="t.ex. 5000"
                                     {...register("target", {
                                         onChange: (e) => {
                                             const val = parseInt(e.target.value, 10);
@@ -173,7 +170,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs font-semibold text-[#1A1C1C]">End Date</label>
+                            <label className="text-xs font-semibold text-[#1A1C1C]">Slutdatum</label>
                             <div className="relative">
                                 <Input
                                     type="text"
@@ -203,7 +200,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                                 />
                             </div>
-                            <p className="text-[11px] text-[#7C5800]">Maximum 3-week/21-day period</p>
+                            <p className="text-[11px] text-[#7C5800]">Maximal period om 3 veckor/21 dagar</p>
                             {errors.endDate && <p className="text-red-500 text-[11px]">{errors.endDate.message}</p>}
                         </div>
                     </div>
@@ -221,7 +218,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                     )}
                                 </div>
                             </div>
-                            <span className="text-xs text-gray-700 font-medium">Automatically add all current group members/sellers to this campaign</span>
+                            <span className="text-xs text-gray-700 font-medium">Lägg automatiskt till alla nuvarande gruppmedlemmar/säljare i denna kampanj</span>
                         </label>
 
                         {/* Select Sellers / Manage Campaign Sellers button */}
@@ -233,12 +230,12 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                                     className="inline-flex items-center justify-center gap-2 px-3 py-2 sm:py-1.5 border border-[#D97706] text-[#D97706] hover:bg-amber-50 rounded-xl text-xs font-semibold cursor-pointer transition-colors w-full sm:w-auto"
                                 >
                                     <Users size={14} />
-                                    <span>Select Sellers / Manage Campaign Sellers</span>
+                                    <span>Välj säljare / Hantera kampanjsäljare</span>
                                 </button>
 
                                 {selectedSellerIds.length > 0 && (
                                     <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200 self-start sm:self-auto">
-                                        {selectedSellerIds.length} seller{selectedSellerIds.length > 1 ? "s" : ""} selected
+                                        {selectedSellerIds.length} säljare valda
                                     </span>
                                 )}
                             </div>
@@ -247,7 +244,7 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
 
                     <div className="pt-4 border-t border-[#F5F5F4] mt-6 flex justify-end items-center gap-3">
                         <button type="button" onClick={onClose} className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl text-xs font-semibold cursor-pointer">
-                            Cancel
+                            Avbryt
                         </button>
                         <button
                             type="submit"
@@ -257,10 +254,10 @@ export function CreateCampaignForm({ groupId, onClose }: CreateCampaignFormProps
                             {isCreating ? (
                                 <>
                                     <Loader2 className="animate-spin" size={14} />
-                                    <span>Starting...</span>
+                                    <span>Startar...</span>
                                 </>
                             ) : (
-                                "Start Campaign"
+                                "Starta kampanj"
                             )}
                         </button>
                     </div>

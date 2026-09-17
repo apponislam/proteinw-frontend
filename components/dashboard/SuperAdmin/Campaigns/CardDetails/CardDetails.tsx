@@ -20,10 +20,10 @@ interface CardDetailsProps {
 }
 
 const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; label: string; bg: string; text: string; dot: string }[] = [
-    { value: "DRAFT", label: "DRAFT", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
-    { value: "ACTIVE", label: "ACTIVE", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
-    { value: "FULFILMENT", label: "FULFILMENT", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
-    { value: "COMPLETED", label: "COMPLETED", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
+    { value: "DRAFT", label: "UTKAST", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
+    { value: "ACTIVE", label: "AKTIV", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
+    { value: "FULFILMENT", label: "UPPFYLLNAD", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
+    { value: "COMPLETED", label: "AVSLUTAD", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
 ];
 
 const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
@@ -58,9 +58,9 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
         }
         try {
             await updateCampaignStatus({ campaignId, status }).unwrap();
-            toast.success(`Campaign status updated to ${status}`);
+            toast.success(`Kampanjstatus uppdaterades till ${status}`);
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to update campaign status");
+            toast.error(err?.data?.message || "Misslyckades med att uppdatera kampanjstatus");
         } finally {
             setIsDropdownOpen(false);
         }
@@ -72,7 +72,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             <div className="flex items-center justify-between">
                 <button onClick={() => router.back()} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium">
                     <ArrowLeft size={16} />
-                    <span>Back to Campaigns</span>
+                    <span>Tillbaka till kampanjer</span>
                 </button>
 
                 {/* Status Dropdown */}
@@ -136,8 +136,8 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                 <div className="flex gap-3 bg-red-50 p-4 rounded-xl border border-red-100">
                     <AlertTriangle className="text-red-600 shrink-0 mt-0.5" size={18} />
                     <div>
-                        <div className="text-xs font-bold text-red-800 uppercase">Auto-Deletion Warning</div>
-                        <p className="text-xs text-red-700 mt-0.5 leading-relaxed">This campaign has ended and is scheduled to be automatically deleted in 2 months.</p>
+                        <div className="text-xs font-bold text-red-800 uppercase">Varning för automatisk radering</div>
+                        <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Denna kampanj har avslutats och är planerad att raderas automatiskt om 2 månader.</p>
                     </div>
                 </div>
             )}
@@ -146,43 +146,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Campaign Contact / Admin Info Card - Shows first on Mobile, Right Column on Desktop */}
                 <div className="lg:col-span-1 lg:order-2 space-y-4">
-                    <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Contact</h3>
-                    {/* <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
-                        {admin ? (
-                            <>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">
-                                        <User size={18} />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{admin.name || "N/A"}</h4>
-                                        <span className="text-xs text-[#78716C] block">Group Leader</span>
-                                    </div>
-                                </div>
-                                <div className="space-y-2 pt-2 border-t border-[#E7E5E4] text-xs text-[#78716C]">
-                                    <div className="flex items-center gap-2 min-w-0">
-                                        <Mail size={16} className="shrink-0" />
-                                        <span className="truncate block" title={admin.email}>
-                                            {admin.email}
-                                        </span>
-                                    </div>
-                                    {admin.phone ? (
-                                        <div className="flex items-center gap-2 min-w-0">
-                                            <Phone size={16} className="shrink-0" />
-                                            <span className="truncate block">{admin.phone}</span>
-                                        </div>
-                                    ) : (
-                                        <div className="flex items-center gap-2 opacity-50">
-                                            <Phone size={16} className="shrink-0" />
-                                            <span>No phone number</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </>
-                        ) : (
-                            <div className="text-sm text-[#78716C] italic text-center py-4">No admin user assigned to this campaign.</div>
-                        )}
-                    </div> */}
+                    <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Kampanjkontakt</h3>
                     <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">
@@ -216,23 +180,23 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                         <div className="flex gap-4 sm:gap-6 w-full sm:w-auto">
                             <button onClick={() => setActiveTab("sellers")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "sellers" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
                                 <Users size={16} />
-                                Sellers ({currentCampaignSellers.length}){activeTab === "sellers" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
+                                Säljare ({currentCampaignSellers.length}){activeTab === "sellers" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
                             </button>
                             <button onClick={() => setActiveTab("products")} className={`pb-2 sm:pb-3 text-sm font-bold transition-all relative flex items-center gap-2 cursor-pointer ${activeTab === "products" ? "text-[#D97706]" : "text-[#78716C] hover:text-[#1A1C1C]"}`}>
                                 <Package size={16} />
-                                Products ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
+                                Produkter ({totalProductsCount}){activeTab === "products" && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D97706] rounded-full" />}
                             </button>
                         </div>
                         {(user?.role === "SUPER_ADMIN" || user?.role === "ADMIN") && activeTab === "sellers" && (
                             <button onClick={() => setIsSellerModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
                                 <Plus size={14} />
-                                Manage Sellers
+                                Hantera säljare
                             </button>
                         )}
                         {(user?.role === "SUPER_ADMIN" || user?.role === "ADMIN") && activeTab === "products" && (
                             <button onClick={() => setIsProductModalOpen(true)} className="mb-1 sm:mb-2 px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0">
                                 <Plus size={14} />
-                                Manage Products
+                                Hantera produkter
                             </button>
                         )}
                     </div>

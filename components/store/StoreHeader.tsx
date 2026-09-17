@@ -9,7 +9,7 @@ const StoreHeader = () => {
                         <h1 className="text-xl font-bold text-black">Kungsbjörnen</h1>
                     </div>
                     <div className="flex items-center border-b border-[#F59E0B]">
-                        <span className="text-sm font-medium text-[#F59E0B]">Storefront</span>
+                        <span className="text-sm font-medium text-[#F59E0B]">Webbutik</span>
                     </div>
                 </div>
             </div>
@@ -18,3 +18,4 @@ const StoreHeader = () => {
 };
 
 export default StoreHeader;
+

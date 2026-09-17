@@ -40,7 +40,7 @@ const ProfitRuleHead = () => {
     });
 
     const onSubmit = async (data: TierFormValues) => {
-        const toastId = toast.loading("Creating tier...");
+        const toastId = toast.loading("Skapar niv\u00e5...");
         try {
             await createTier({
                 name: data.name,
@@ -49,11 +49,11 @@ const ProfitRuleHead = () => {
                 maxSalesVolume: data.maxSalesVolume || undefined,
                 isPopular: data.isPopular,
             }).unwrap();
-            toast.success("Tier created successfully!", { id: toastId });
+            toast.success("Niv\u00e5n skapades framg\u00e5ngsrikt!", { id: toastId });
             setIsModalOpen(false);
             reset();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to create tier", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att skapa niv\u00e5", { id: toastId });
         }
     };
 
@@ -62,13 +62,13 @@ const ProfitRuleHead = () => {
             <div className="bg-[#1C1917] rounded-2xl sm:rounded-[32px] p-5 sm:p-10">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-6">
                     <div>
-                        <h1 className="text-xs sm:text-sm text-[#FBBF24] mb-2 sm:mb-4 uppercase tracking-widest font-semibold">Revenue Management</h1>
-                        <h2 className="text-white text-2xl sm:text-4xl font-extrabold mb-2 sm:mb-3">Profit & Pricing Strategy.</h2>
-                        <p className="text-[#A8A29E] max-w-2xl text-xs sm:text-sm leading-relaxed">Configure your performance tiers and profit margins to drive growth. These rules define the automatic payout structures for all active campaigns.</p>
+                        <h1 className="text-xs sm:text-sm text-[#FBBF24] mb-2 sm:mb-4 uppercase tracking-widest font-semibold">Int\u00e4ktshantering</h1>
+                        <h2 className="text-white text-2xl sm:text-4xl font-extrabold mb-2 sm:mb-3">Vinst- och prisstrategi.</h2>
+                        <p className="text-[#A8A29E] max-w-2xl text-xs sm:text-sm leading-relaxed">Konfigurera dina prestationsniv\u00e5er och vinstmarginaler f\u00f6r att driva tillv\u00e4xt. Dessa regler definierar automatiska utbetalningsstrukturer f\u00f6r alla aktiva kampanjer.</p>
                     </div>
                     <button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
                         <Plus size={16} />
-                        Add New Tier
+                        L\u00e4gg till ny niv\u00e5
                     </button>
                 </div>
             </div>
@@ -81,7 +81,7 @@ const ProfitRuleHead = () => {
                                 <div className="p-1.5 sm:p-2 bg-amber-50 rounded-xl text-[#D97706]">
                                     <TrendingUp size={18} />
                                 </div>
-                                <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Add New Tier</h2>
+                                <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">L\u00e4gg till ny niv\u00e5</h2>
                             </div>
                             <button
                                 onClick={() => {
@@ -95,36 +95,36 @@ const ProfitRuleHead = () => {
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
                             <div>
-                                <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Tier Name</label>
-                                <input type="text" placeholder="e.g., GROWTH ACCELERATOR" {...register("name")} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
+                                <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Niv\u00e5namn</label>
+                                <input type="text" placeholder="t.ex. TILLV\u00c4XTBONUS" {...register("name")} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
                                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                             </div>
                             <div>
-                                <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Profit Percentage (%)</label>
-                                <input type="number" step="0.1" placeholder="e.g., 45" {...register("percentage", { valueAsNumber: true })} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
+                                <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Vinstprocent (%)</label>
+                                <input type="number" step="0.1" placeholder="t.ex. 45" {...register("percentage", { valueAsNumber: true })} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
                                 {errors.percentage && <p className="text-red-500 text-xs mt-1">{errors.percentage.message}</p>}
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div>
-                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Min Sales (Items)</label>
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Min f\u00f6rs\u00e4ljning (artiklar)</label>
                                     <input type="number" placeholder="0" {...register("minSalesVolume", { valueAsNumber: true })} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
                                     {errors.minSalesVolume && <p className="text-red-500 text-xs mt-1">{errors.minSalesVolume.message}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Max Sales (Items)</label>
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Max f\u00f6rs\u00e4ljning (artiklar)</label>
                                     <input
                                         type="number"
-                                        placeholder="Leave blank for unlimited"
+                                        placeholder="L\u00e4mna tomt f\u00f6r obegr\u00e4nsat"
                                         {...register("maxSalesVolume", { valueAsNumber: true })}
                                         className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm"
                                     />
-                                    <p className="text-[#A8A29E] text-[10px] mt-1">Blank = unlimited</p>
+                                    <p className="text-[#A8A29E] text-[10px] mt-1">Tomt = obegr\u00e4nsat</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 p-3 bg-amber-50 rounded-xl border border-amber-100">
                                 <input type="checkbox" id="isPopular" {...register("isPopular")} className="w-4 h-4 accent-[#D97706] cursor-pointer" />
                                 <label htmlFor="isPopular" className="text-xs sm:text-sm font-semibold text-[#1A1C1C] cursor-pointer">
-                                    Mark as Most Popular
+                                    Markera som mest popul\u00e4r
                                 </label>
                             </div>
                             <button
@@ -135,10 +135,10 @@ const ProfitRuleHead = () => {
                                 {isCreating ? (
                                     <>
                                         <Loader2 className="animate-spin" size={16} />
-                                        <span>Creating...</span>
+                                        <span>Skapar...</span>
                                     </>
                                 ) : (
-                                    "Create Tier"
+                                    "Skapa niv\u00e5"
                                 )}
                             </button>
                         </form>

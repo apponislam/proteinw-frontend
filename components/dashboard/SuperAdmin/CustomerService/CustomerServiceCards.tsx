@@ -29,27 +29,27 @@ const CustomerServiceCards: React.FC<CustomerServiceCardsProps> = ({
 
     const cardStats = [
         {
-            title: "TOTAL REQUESTS",
+            title: "TOTALT ÄRENDEN",
             value: isLoading ? "..." : stats.totalRequests.toLocaleString(),
-            subtitle: "ALL TIME",
+            subtitle: "ALLTID",
             color: "#D97706",
         },
         {
-            title: "PENDING CLAIMS",
+            title: "VÄNTANDE ÄRENDEN",
             value: isLoading ? "..." : stats.pendingCount.toLocaleString(),
-            subtitle: "ACTION REQUIRED",
+            subtitle: "ÅTGÄRD KRÄVS",
             color: "#D97706",
         },
         {
-            title: "IN PROGRESS",
+            title: "UNDER BEHANDLING",
             value: isLoading ? "..." : stats.inProgressCount.toLocaleString(),
-            subtitle: "UNDER REVIEW",
+            subtitle: "UNDER GRANSKNING",
             color: "#D97706",
         },
         {
-            title: "RESOLVED CLAIMS",
+            title: "LÖSTA ÄRENDEN",
             value: isLoading ? "..." : stats.resolvedCount.toLocaleString(),
-            subtitle: "COMPLETED",
+            subtitle: "SLUTFÖRDA",
             color: "#D97706",
         },
     ];

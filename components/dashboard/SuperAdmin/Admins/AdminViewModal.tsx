@@ -36,52 +36,52 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                         <div className="flex items-center gap-2 mt-1">
                             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">ADMIN</span>
                             <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved === true ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                                {admin.isApproved === true ? "Approved" : "Not Approved"}
+                                {admin.isApproved === true ? "Godkänd" : "Ej godkänd"}
                             </span>
                         </div>
                     </div>
                 </div>
 
                 {isLoading ? (
-                    <div className="py-12 text-center text-[#78716C]">Loading admin details...</div>
+                    <div className="py-12 text-center text-[#78716C]">Laddar administratörsdetaljer...</div>
                 ) : (
                     <div className="space-y-5">
                         {/* Basic Info */}
                         <div className="bg-[#FAFAF9] p-3.5 sm:p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
-                            <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Account Overview</h3>
+                            <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Kontoöversikt</h3>
 
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm">
                                 <div className="flex items-center gap-2 shrink-0">
                                     <Mail size={16} className="text-[#D97706]" />
-                                    <span className="text-[#78716C] w-20 sm:w-24">Email:</span>
+                                    <span className="text-[#78716C] w-20 sm:w-24">E-post:</span>
                                 </div>
-                                <span className="font-semibold text-[#1A1C1C] break-all">{user.email || "N/A"}</span>
+                                <span className="font-semibold text-[#1A1C1C] break-all">{user.email || "Ej tillgängligt"}</span>
                             </div>
 
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm">
                                 <div className="flex items-center gap-2 shrink-0">
                                     <Phone size={16} className="text-[#D97706]" />
-                                    <span className="text-[#78716C] w-20 sm:w-24">Phone:</span>
+                                    <span className="text-[#78716C] w-20 sm:w-24">Telefon:</span>
                                 </div>
-                                <span className="font-semibold text-[#1A1C1C]">{user.phone || "N/A"}</span>
+                                <span className="font-semibold text-[#1A1C1C]">{user.phone || "Ej tillgängligt"}</span>
                             </div>
 
                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm">
                                 <div className="flex items-center gap-2 shrink-0">
                                     <Briefcase size={16} className="text-[#D97706]" />
-                                    <span className="text-[#78716C] w-20 sm:w-24">Profession:</span>
+                                    <span className="text-[#78716C] w-20 sm:w-24">Yrke:</span>
                                 </div>
-                                <span className="font-semibold text-[#1A1C1C]">{user.profession || "N/A"}</span>
+                                <span className="font-semibold text-[#1A1C1C]">{user.profession || "Ej tillgängligt"}</span>
                             </div>
                         </div>
 
                         {/* Assigned Group & Stats */}
                         <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
-                            <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Performance & Assignment</h3>
+                            <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2">Prestanda & tilldelning</h3>
 
                             <div className="flex items-center gap-3 text-sm">
                                 <Group size={16} className="text-[#D97706]" />
-                                <span className="text-[#78716C] w-24">Group(s):</span>
+                                <span className="text-[#78716C] w-24">Grupp(er):</span>
                                 {Array.isArray(admin.groupName) ? (
                                     admin.groupName.length > 0 ? (
                                         <div className="relative group/modalpaper inline-block cursor-pointer">
@@ -101,7 +101,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
 
                                             {/* Hover Card list popup */}
                                             <div className="absolute left-0 top-full mt-2 hidden group-hover/modalpaper:flex flex-col gap-1.5 z-50 p-3 bg-white rounded-xl shadow-2xl border border-stone-200 min-w-48 max-w-xs animate-in fade-in zoom-in-95 duration-150">
-                                                <div className="text-[10px] font-bold text-[#78716C] uppercase tracking-wider mb-1">Assigned Groups ({admin.groupName.length})</div>
+                                                <div className="text-[10px] font-bold text-[#78716C] uppercase tracking-wider mb-1">Tilldelade grupper ({admin.groupName.length})</div>
                                                 <div className="max-h-40 overflow-y-auto space-y-1 pr-1">
                                                     {admin.groupName.map((g, idx) => (
                                                         <div key={idx} className="px-2.5 py-1 rounded-md bg-amber-50 text-[#D97706] text-xs font-semibold border border-amber-200/60">
@@ -112,21 +112,21 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                             </div>
                                         </div>
                                     ) : (
-                                        <span className="font-semibold px-2.5 py-0.5 rounded-full text-xs bg-gray-200 text-gray-700">UNASSIGNED</span>
+                                        <span className="font-semibold px-2.5 py-0.5 rounded-full text-xs bg-gray-200 text-gray-700">OTILLDELAD</span>
                                     )
                                 ) : (
-                                    <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>{admin.groupName || "UNASSIGNED"}</span>
+                                    <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${admin.groupName ? "bg-[#D97706] text-white" : "bg-gray-200 text-gray-700"}`}>{admin.groupName || "OTILLDELAD"}</span>
                                 )}
                             </div>
 
                             <div className="grid grid-cols-2 gap-4 pt-2">
                                 <div className="bg-white p-3 rounded-lg border border-[#E7E5E4] text-center">
                                     <div className="text-xl font-bold text-[#1A1C1C]">{admin.sellerCount}</div>
-                                    <div className="text-xs text-[#78716C] uppercase font-medium">Sellers</div>
+                                    <div className="text-xs text-[#78716C] uppercase font-medium">Säljare</div>
                                 </div>
                                 <div className="bg-white p-3 rounded-lg border border-[#E7E5E4] text-center">
                                     <div className="text-xl font-bold text-[#1A1C1C]">{admin.orderCount.toLocaleString()}</div>
-                                    <div className="text-xs text-[#78716C] uppercase font-medium">Orders</div>
+                                    <div className="text-xs text-[#78716C] uppercase font-medium">Beställningar</div>
                                 </div>
                             </div>
                         </div>
@@ -135,9 +135,9 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                         {address && (
                             <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-2 border border-[#E7E5E4]">
                                 <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                    <MapPin size={14} className="text-[#D97706]" /> Address Info
+                                    <MapPin size={14} className="text-[#D97706]" /> Adressinformation
                                 </h3>
-                                <p className="text-sm text-[#1A1C1C] font-medium">{[address.street, address.city, address.state, address.zipCode, address.locality].filter(Boolean).join(", ") || "No address provided."}</p>
+                                <p className="text-sm text-[#1A1C1C] font-medium">{[address.street, address.city, address.state, address.zipCode, address.locality].filter(Boolean).join(", ") || "Ingen adress angiven."}</p>
                             </div>
                         )}
                     </div>
@@ -146,7 +146,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                 {/* Footer Close Button */}
                 <div className="mt-6 pt-4 border-t border-[#F5F5F4] flex justify-end">
                     <button onClick={onClose} className="px-5 py-2 bg-[#D97706] hover:bg-[#C06A06] text-white text-sm font-semibold rounded-lg transition-colors cursor-pointer">
-                        Close
+                        Stäng
                     </button>
                 </div>
             </div>

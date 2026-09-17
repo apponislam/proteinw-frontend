@@ -24,7 +24,7 @@ const StoreContent = () => {
         return (
             <div className="min-h-screen bg-[#FAFAF9] flex flex-col justify-center items-center">
                 <div className="w-16 h-16 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
-                <p className="mt-4 text-gray-600 font-semibold text-lg animate-pulse">Loading digital store...</p>
+                <p className="mt-4 text-gray-600 font-semibold text-lg animate-pulse">Laddar digital butik...</p>
             </div>
         );
     }
@@ -37,13 +37,13 @@ const StoreContent = () => {
                         <AlertCircle size={36} />
                     </div>
                     <div className="space-y-2">
-                        <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Invalid Store Link</h1>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">This fundraising link is invalid, incomplete, or the campaign is no longer active. Please contact your seller to get the correct link.</p>
+                        <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Ogiltig butikslänk</h1>
+                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Denna insamlingslänk är ogiltig, ofullständig eller så är kampanjen inte längre aktiv. Kontakta din säljare för att få rätt länk.</p>
                     </div>
                     <div className="pt-2">
                         <Link href="/" className="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all w-full justify-center">
                             <ArrowLeft size={20} />
-                            Go Back to Home
+                            Tillbaka till startsidan
                         </Link>
                     </div>
                 </div>
@@ -66,7 +66,7 @@ const Page = () => {
         <Suspense
             fallback={
                 <div className="min-h-screen bg-[#FAFAF9] flex flex-col justify-center items-center">
-                    <p className="text-[#78716C] text-lg">Loading store details...</p>
+                    <p className="text-[#78716C] text-lg">Laddar butiksinformation...</p>
                 </div>
             }
         >

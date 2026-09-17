@@ -10,7 +10,7 @@ import { useCreateGroupMutation } from "@/redux/features/group/groupApi";
 import { toast } from "sonner";
 
 const groupFormSchema = z.object({
-    className: z.string().min(2, "Class name must be at least 2 characters"),
+    className: z.string().min(2, "Klassnamnet måste vara minst 2 tecken"),
 });
 
 type GroupFormValues = z.infer<typeof groupFormSchema>;
@@ -33,17 +33,17 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
     const [createGroup, { isLoading: isCreating }] = useCreateGroupMutation();
 
     const onSubmit = async (data: GroupFormValues) => {
-        const toastId = toast.loading("Creating group...");
+        const toastId = toast.loading("Skapar grupp...");
         try {
             await createGroup({
                 name: data.className,
             }).unwrap();
 
-            toast.success("Group created successfully!", { id: toastId });
+            toast.success("Gruppen skapades framgångsrikt!", { id: toastId });
             reset();
             onClose();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to create group", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att skapa grupp", { id: toastId });
         }
     };
 
@@ -58,13 +58,13 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
                 </button>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-[#1A1C1C]">Start New Group</h2>
+                    <h2 className="text-2xl font-bold text-[#1A1C1C]">Starta ny grupp</h2>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Class Name</label>
-                        <Input placeholder="Enter class name" {...register("className")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                        <label className="text-sm font-medium text-[#1A1C1C]">Klassnamn</label>
+                        <Input placeholder="Ange klassnamn" {...register("className")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.className && <p className="text-red-500 text-xs">{errors.className.message}</p>}
                     </div>
                     <button
@@ -72,7 +72,7 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
                         disabled={isCreating}
                         className="w-full inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 cursor-pointer disabled:opacity-50"
                     >
-                        {isCreating ? <Loader2 className="animate-spin" size={18} /> : "Create Group"}
+                        {isCreating ? <Loader2 className="animate-spin" size={18} /> : "Skapa grupp"}
                     </button>
                 </form>
             </div>

@@ -28,31 +28,31 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
                 {/* Key-Value Left-Right Data List */}
                 <div className="space-y-3 mb-6">
                     <div className="flex items-center justify-between">
-                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider">Active Sellers</span>
-                        <span className="text-[#D97706] font-bold text-sm">{totalSellersCount} Seller{totalSellersCount !== 1 ? "s" : ""}</span>
+                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider">Aktiva säljare</span>
+                        <span className="text-[#D97706] font-bold text-sm">{totalSellersCount} Säljare</span>
                     </div>
 
                     <div className="flex items-start justify-between">
-                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Active Campaigns</span>
+                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Aktiva kampanjer</span>
                         <div className="flex flex-col items-end">
-                            <span className="text-[#D97706] font-bold text-sm">{activeCampaignsCount} Active</span>
-                            <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{totalCampaignsCount} Total</span>
+                            <span className="text-[#D97706] font-bold text-sm">{activeCampaignsCount} Aktiva</span>
+                            <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{totalCampaignsCount} Totalt</span>
                         </div>
                     </div>
 
                     <div className="flex items-start justify-between">
-                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Active Campaign Sales</span>
+                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Försäljning aktiva kampanjer</span>
                         <div className="flex flex-col items-end">
                             <span className="text-[#1A1C1C] font-bold text-sm group-hover:text-[#271900] transition-colors duration-300">{activeCampaignRevenue.toLocaleString()} SEK</span>
-                            <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{activeCampaignPkgs} package{activeCampaignPkgs !== 1 ? "s" : ""}</span>
+                            <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{activeCampaignPkgs} paket</span>
                         </div>
                     </div>
 
                     <div className="flex items-start justify-between">
-                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Total Sales</span>
+                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Total försäljning</span>
                         <div className="flex flex-col items-end">
                             <span className="text-[#1A1C1C] font-bold text-sm group-hover:text-[#271900] transition-colors duration-300">{totalSalesNum.toLocaleString()} SEK</span>
-                            <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{totalPackages} package{totalPackages !== 1 ? "s" : ""}</span>
+                            <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{totalPackages} paket</span>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
                     href={`/dashboard/team-sales/${group._id}`}
                     className="w-full h-10 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3 text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2"
                 >
-                    Manage Group
+                    Hantera grupp
                 </Link>
             </div>
         </div>

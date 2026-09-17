@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import PrivacyPolicyContent from "@/components/policy/PrivacyPolicyContent";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Privacy Policy",
-    description: "Kungsbjörnen privacy policy",
+    title: "Kungsbjörnen - Integritetspolicy",
+    description: "Kungsbjörnen integritetspolicy",
 };
 
 export default function PrivacyPolicy() {
@@ -13,3 +13,4 @@ export default function PrivacyPolicy() {
         </main>
     );
 }
+

@@ -64,17 +64,17 @@ export default function Campaign({ groupId }: CampaignProps) {
     const handleSaveEdit = async (campaign: TCampaign) => {
         if (!campaign._id) return;
         if (!editName.trim() || !editDesc.trim()) {
-            toast.error("Name and description cannot be empty");
+            toast.error("Namn och beskrivning kan inte vara tomma");
             return;
         }
         if (editTarget) {
             const targetNum = Number(editTarget);
             if (isNaN(targetNum) || targetNum <= 0) {
-                toast.error("Target goal must be a positive number");
+                toast.error("Målsättningen måste vara ett positivt nummer");
                 return;
             }
             if (targetNum > 99999) {
-                toast.error("Target goal cannot exceed 99,999 SEK");
+                toast.error("Målsättningen kan inte överstiga 99 999 SEK");
                 return;
             }
         }
@@ -90,13 +90,13 @@ export default function Campaign({ groupId }: CampaignProps) {
                 const checkMax = getCampaignMaxDate(campaign);
 
                 if (d < checkToday || d > checkMax) {
-                    toast.error(`End date cannot exceed 21 days from campaign creation date (${formatDateStr(checkMax)})`);
+                    toast.error(`Slutdatum kan inte överstiga 21 dagar från kampanjens skapandedatum (${formatDateStr(checkMax)})`);
                     return;
                 }
             }
         }
 
-        const toastId = toast.loading("Updating campaign...");
+        const toastId = toast.loading("Uppdaterar kampanj...");
         try {
             const updatePayload: Record<string, any> = {
                 name: editName,
@@ -115,10 +115,10 @@ export default function Campaign({ groupId }: CampaignProps) {
                 campaignId: campaign._id,
                 data: updatePayload,
             }).unwrap();
-            toast.success("Campaign updated!", { id: toastId });
+            toast.success("Kampanj uppdaterad!", { id: toastId });
             setEditingId(null);
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to update", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att uppdatera", { id: toastId });
         }
     };
 
@@ -145,31 +145,31 @@ export default function Campaign({ groupId }: CampaignProps) {
                             switch (s) {
                                 case "ACTIVE":
                                     return {
-                                        label: "Active",
+                                        label: "Aktiv",
                                         badgeClass: "bg-green-50 text-green-700 border-green-200",
                                         iconClass: "bg-green-50 text-green-700",
                                     };
                                 case "FULFILMENT":
                                     return {
-                                        label: "Fulfilment",
+                                        label: "Uppfyllnad",
                                         badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
                                         iconClass: "bg-blue-50 text-blue-700",
                                     };
                                 case "COMPLETED":
                                     return {
-                                        label: "Completed",
+                                        label: "Avslutad",
                                         badgeClass: "bg-amber-50 text-amber-800 border-amber-200",
                                         iconClass: "bg-amber-50 text-amber-700",
                                     };
                                 case "DRAFT":
                                     return {
-                                        label: "Draft",
+                                        label: "Utkast",
                                         badgeClass: "bg-gray-100 text-gray-700 border-gray-200",
                                         iconClass: "bg-gray-100 text-gray-700",
                                     };
                                 default:
                                     return {
-                                        label: status || "Expired",
+                                        label: status || "Utgången",
                                         badgeClass: "bg-red-50 text-red-600 border-red-200",
                                         iconClass: "bg-red-50 text-red-500",
                                     };
@@ -188,18 +188,18 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             </div>
                                             {isEditing ? (
                                                 <div className="space-y-3 w-full">
-                                                    <Input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Campaign name" className="h-9 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold text-sm" />
+                                                    <Input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Kampanjnamn" className="h-9 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold text-sm" />
                                                     <div className="space-y-1">
-                                                        <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Short description" className="min-h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-xs" />
+                                                        <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Kort beskrivning" className="min-h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-xs" />
                                                         <p className="text-[11px] text-[#D97706] font-medium flex items-center gap-1 pt-0.5">
                                                             <Info size={13} className="shrink-0" />
-                                                            <span>This text will be displayed to customers on the seller’s digital storefront.</span>
+                                                            <span>Denna text kommer att visas för kunder i säljarens digitala butik.</span>
                                                         </p>
                                                     </div>
 
                                                     <div className="grid grid-cols-1 gap-2 pt-1">
                                                         <div>
-                                                            <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">Target Goal (SEK)</label>
+                                                            <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">Målsättning (SEK)</label>
                                                             <Input
                                                                 type="number"
                                                                 max={99999}
@@ -212,12 +212,12 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                                         setEditTarget(e.target.value);
                                                                     }
                                                                 }}
-                                                                placeholder="Target Goal"
+                                                                placeholder="Målsättning"
                                                                 className="h-8 border-[#F5F5F4] focus:border-[#D97706] text-xs font-bold"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">End Date</label>
+                                                            <label className="block text-[10px] font-semibold text-[#78716C] uppercase mb-1">Slutdatum</label>
                                                             <div className="relative">
                                                                 <Input
                                                                     type="text"
@@ -247,7 +247,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                                                                 />
                                                             </div>
-                                                            <p className="text-[10px] text-[#7C5800] mt-0.5">Maximum 3-week/21-day period</p>
+                                                            <p className="text-[10px] text-[#7C5800] mt-0.5">Maximal period om 3 veckor/21 dagar</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -263,10 +263,10 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 <div className="flex flex-col gap-1">
                                                     <button onClick={() => handleSaveEdit(campaign)} disabled={isUpdating} className="px-2.5 py-1 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-semibold cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1">
                                                         {isUpdating && <Loader2 className="animate-spin" size={12} />}
-                                                        Save
+                                                        Spara
                                                     </button>
                                                     <button onClick={() => setEditingId(null)} className="px-2.5 py-1 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold cursor-pointer">
-                                                        Cancel
+                                                        Avbryt
                                                     </button>
                                                 </div>
                                             ) : (
@@ -284,7 +284,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                                 setEditEndDate(campaign.endDate ? new Date(campaign.endDate).toISOString().split("T")[0] : "");
                                                             }}
                                                             className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
-                                                            title="Edit"
+                                                            title="Redigera"
                                                         >
                                                             <Pencil size={15} />
                                                         </button>
@@ -301,15 +301,15 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             return (
                                                 <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                                                     <div className="min-w-0">
-                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">SELLERS</div>
+                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">SÄLJARE</div>
                                                         <div className="text-[#D97706] font-bold text-sm sm:text-base lg:text-lg truncate">{totalSellers}</div>
                                                     </div>
                                                     <div className="text-center min-w-0">
-                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">SOLD</div>
-                                                        <div className="text-[#D97706] font-bold text-sm sm:text-base lg:text-lg truncate">{campaign.totalPackagesSold || 0} pcs</div>
+                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">SÅLDA</div>
+                                                        <div className="text-[#D97706] font-bold text-sm sm:text-base lg:text-lg truncate">{campaign.totalPackagesSold || 0} st</div>
                                                     </div>
                                                     <div className="text-right min-w-0">
-                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">TARGET</div>
+                                                        <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">MÅL</div>
                                                         <div className="text-[#1A1C1C] font-bold text-sm sm:text-base lg:text-lg truncate">SEK {(campaign.target || 0).toLocaleString()}</div>
                                                     </div>
                                                 </div>
@@ -330,7 +330,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 <>
                                                     <div className="mb-3 sm:mb-4">
                                                         <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                                                            <span className="text-[#78716C] text-xs sm:text-sm font-semibold">Tier Progress</span>
+                                                            <span className="text-[#78716C] text-xs sm:text-sm font-semibold">Nivåframsteg</span>
                                                             <span className="text-[#D97706] font-bold text-xs sm:text-sm">{progressPct}%</span>
                                                         </div>
                                                         <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
@@ -339,20 +339,20 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-2 sm:gap-4">
                                                         <div className="min-w-0">
-                                                            <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">CURRENT TIER</div>
-                                                            <div className="text-[#D97706] font-bold text-xs sm:text-sm md:text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
+                                                            <div className="text-[#78716C] text-[10px] sm:text-xs uppercase font-semibold truncate">NUVARANDE NIVÅ</div>
+                                                            <div className="text-[#D97706] font-bold text-xs sm:text-sm md:text-base truncate" title={campaign.currentTier?.name || "Ingen nivå"}>
                                                                 {campaign.currentTier ? `${campaign.currentTier.percentage}%` : "0%"}
                                                             </div>
                                                         </div>
                                                         <div className="min-w-0">
-                                                            <div className="text-[#78716C] text-[10px] sm:text-xs text-right uppercase font-semibold truncate">NEXT TIER NEEDED</div>
+                                                            <div className="text-[#78716C] text-[10px] sm:text-xs text-right uppercase font-semibold truncate">NÄSTA NIVÅ KRÄVS</div>
                                                             <div className="text-[#1A1C1C] font-bold text-xs sm:text-sm md:text-base text-right truncate">
                                                                 {campaign.nextTier ? (
                                                                     <>
-                                                                        {campaign.packagesNeededForNextTier || 0} PKGS <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
+                                                                        {campaign.packagesNeededForNextTier || 0} PAKET <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
                                                                     </>
                                                                 ) : (
-                                                                    "MAX TIER"
+                                                                    "MAXIMAL NIVÅ"
                                                                 )}
                                                             </div>
                                                         </div>
@@ -377,7 +377,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 const isFulfilment = statusUpper === "FULFILMENT";
                                                 const isCompleted = statusUpper === "COMPLETED";
                                                 const colorClass = isFulfilment ? "text-blue-600" : isCompleted ? "text-amber-700" : "text-red-500";
-                                                const labelText = isFulfilment ? "Fulfilment Phase" : isCompleted ? "Campaign Completed" : "Campaign Ended";
+                                                const labelText = isFulfilment ? "Uppfyllnadsfas" : isCompleted ? "Kampanj avslutad" : "Kampanj avslutad";
                                                 return (
                                                     <div className="w-full flex items-center justify-between text-xs font-semibold">
                                                         <div className={`${colorClass} font-bold flex items-center gap-1.5`}>
@@ -392,7 +392,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
                                             const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
                                             const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
-                                            const daysText = diffDays < 0 ? "Sales ended" : diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
+                                            const daysText = diffDays < 0 ? "Försäljningen har avslutats" : diffDays === 0 ? "Slutar idag" : `Sista dag: Om ${diffDays} dagar`;
 
                                             return (
                                                 <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold flex-wrap gap-1">
@@ -411,7 +411,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             href={`/dashboard/team-sales/${groupId}/${campaign._id}`}
                                             className="w-full h-9 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
                                         >
-                                            Manage Campaign
+                                            Hantera kampanj
                                         </Link>
                                     </div>
                                 </div>
@@ -428,8 +428,8 @@ export default function Campaign({ groupId }: CampaignProps) {
                             <div className="w-14 h-14 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <Plus size={28} />
                             </div>
-                            <h4 className="text-base font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Start New Campaign</h4>
-                            <p className="text-xs text-[#78716C] mt-1 max-w-50">Define parameters to start accepting sales for your group.</p>
+                            <h4 className="text-base font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Starta ny kampanj</h4>
+                            <p className="text-xs text-[#78716C] mt-1 max-w-50">Definiera parametrar för att börja ta emot försäljning för din grupp.</p>
                         </div>
                     ) : (
                         <CreateCampaignForm groupId={groupId} onClose={() => setShowCreateForm(false)} />
@@ -447,8 +447,8 @@ export default function Campaign({ groupId }: CampaignProps) {
                         <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <Plus size={32} />
                         </div>
-                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Start New Campaign</h3>
-                        <p className="text-xs text-[#78716C] mt-1">Start a campaign so team members can raise money.</p>
+                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Starta ny kampanj</h3>
+                        <p className="text-xs text-[#78716C] mt-1">Starta en kampanj så att teammedlemmar kan samla in pengar.</p>
                     </div>
                 </div>
             )}

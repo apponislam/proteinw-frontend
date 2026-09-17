@@ -18,7 +18,7 @@ const getStatusBadge = (status: TCustomerServiceStatus) => {
             return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-red-100 text-red-800">Avslagen</span>;
         case "pending":
         default:
-            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">Pending</span>;
+            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">Väntande</span>;
     }
 };
 
@@ -55,15 +55,15 @@ export default function CustomerServiceTable() {
     const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
 
     const filterOptions = [
-        { value: "", label: "Alla Statusar", color: "bg-gray-400" },
-        { value: "pending", label: "Pending", color: "bg-yellow-500" },
+        { value: "", label: "Alla statusar", color: "bg-gray-400" },
+        { value: "pending", label: "Väntande", color: "bg-yellow-500" },
         { value: "in_progress", label: "Under behandling", color: "bg-blue-500" },
         { value: "resolved", label: "Löst", color: "bg-green-600" },
         { value: "rejected", label: "Avslagen", color: "bg-red-500" },
     ];
 
     const issueOptions = [
-        { value: "", label: "Alla Typer" },
+        { value: "", label: "Alla typer" },
         { value: "reklamation", label: "Reklamation" },
         { value: "byte", label: "Byte" },
     ];
@@ -117,11 +117,11 @@ export default function CustomerServiceTable() {
                 {/* Header & Title */}
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 sm:gap-4 border-b border-[#E7E5E4] pb-4">
                     <div>
-                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">All Customer Support Requests</h2>
+                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Alla kundtjänstärenden</h2>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full lg:w-auto">
-                        <div className="text-[#78716C] text-xs sm:text-sm font-medium hidden sm:block">Filters:</div>
+                        <div className="text-[#78716C] text-xs sm:text-sm font-medium hidden sm:block">Filtrera:</div>
 
                         {/* Search Bar */}
                         <div className="relative flex-1 sm:w-64 min-w-50">
@@ -130,7 +130,7 @@ export default function CustomerServiceTable() {
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Search requests..."
+                                placeholder="Sök ärenden..."
                                 className="w-full pl-9 pr-3 py-2 sm:py-1.5 bg-white border border-[#E7E5E4] focus:border-[#D97706] rounded-xl text-xs sm:text-sm text-[#1A1C1C] outline-none shadow-xs transition-all"
                             />
                         </div>
@@ -226,7 +226,7 @@ export default function CustomerServiceTable() {
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="bg-[#FAFAF9] border-b border-[#E7E5E4]">
-                                        <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDER ID</th>
+                                        <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDER-ID</th>
                                         <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">TYP</th>
                                         <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">KUND</th>
                                         <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">BESKRIVNING</th>
@@ -254,7 +254,7 @@ export default function CustomerServiceTable() {
                                             <td className="px-4 py-4 text-right">
                                                 <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                                                     <button type="button" onClick={() => setSelectedRequest(req)} className="cursor-pointer text-[#D97706] hover:underline text-sm font-bold flex items-center gap-1">
-                                                        <Eye size={16} /> View
+                                                        <Eye size={16} /> Visa
                                                     </button>
                                                     <button type="button" onClick={() => handleDelete(req._id)} className="p-1 hover:bg-red-100 text-red-600 rounded-lg transition-colors cursor-pointer" title="Ta bort ärende">
                                                         <Trash2 size={16} />
@@ -290,7 +290,7 @@ export default function CustomerServiceTable() {
             {/* Pagination outside main card box */}
             {filteredRequests.length > 0 && (
                 <div className="mt-4">
-                    <Pagination meta={pagination} onPageChange={setPage} itemName="REQUESTS" />
+                    <Pagination meta={pagination} onPageChange={setPage} itemName="ÄRENDEN" />
                 </div>
             )}
 

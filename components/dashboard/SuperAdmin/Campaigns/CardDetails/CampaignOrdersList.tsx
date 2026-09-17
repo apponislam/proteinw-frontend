@@ -25,6 +25,19 @@ const getStatusColor = (status: string) => {
     }
 };
 
+const formatStatus = (status: string) => {
+    switch (status) {
+        case "delivered":
+            return "Levererad";
+        case "pending":
+            return "Väntande";
+        case "cancelled":
+            return "Avbruten";
+        default:
+            return status;
+    }
+};
+
 const getInitials = (name: string) => {
     if (!name) return "U";
     return name
@@ -45,10 +58,10 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
     const role = user?.role;
 
     const filterOptions = [
-        { value: "", label: "All Status", color: "bg-gray-400" },
-        { value: "pending", label: "Pending", color: "bg-yellow-500" },
-        { value: "delivered", label: "Delivered", color: "bg-green-600" },
-        { value: "cancelled", label: "Cancelled", color: "bg-red-500" },
+        { value: "", label: "Alla statusar", color: "bg-gray-400" },
+        { value: "pending", label: "Väntande", color: "bg-yellow-500" },
+        { value: "delivered", label: "Levererad", color: "bg-green-600" },
+        { value: "cancelled", label: "Avbruten", color: "bg-red-500" },
     ];
 
     const selectedFilterOption = filterOptions.find((opt) => opt.value === statusFilter) || filterOptions[0];
@@ -73,9 +86,9 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
     const handleStatusChange = async (orderId: string, newStatus: TOrderStatus) => {
         try {
             await updateOrderStatus({ orderId, status: newStatus }).unwrap();
-            toast.success("Order status updated successfully!");
+            toast.success("Orderstatus uppdaterades framgångsrikt!");
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to update order status");
+            toast.error(err?.data?.message || "Misslyckades med att uppdatera orderstatus");
         }
     };
 
@@ -83,7 +96,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
         return (
             <div className="p-8 text-center">
                 <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                <p className="text-[#78716C] text-sm font-medium">Loading campaign orders...</p>
+                <p className="text-[#78716C] text-sm font-medium">Laddar kampanjorder...</p>
             </div>
         );
     }
@@ -94,7 +107,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
             <div className="p-4 border-b border-[#E7E5E4] bg-[#FAF9F6] rounded-t-xl flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                     <ShoppingBag size={18} className="text-[#D97706]" />
-                    <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Campaign Orders ({pagination.total})</span>
+                    <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Kampanjorder ({pagination.total})</span>
                 </div>
                 <div className="relative">
                     <button type="button" onClick={() => setIsFilterDropdownOpen((prev) => !prev)} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs font-semibold text-[#1A1C1C] shadow-2xs transition-all cursor-pointer">
@@ -133,29 +146,29 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
 
             {/* Table or Empty state */}
             {ordersList.length === 0 ? (
-                <div className="p-8 text-center text-sm text-[#78716C]">No orders found for this campaign.</div>
+                <div className="p-8 text-center text-sm text-[#78716C]">Inga beställningar hittades för denna kampanj.</div>
             ) : (
                 <div className="overflow-x-auto w-full">
                     <table className="w-full text-left border-collapse min-w-150">
                         <thead>
                             <tr className="bg-[#F8F6F4] text-xs font-bold text-[#78716C] uppercase tracking-wider border-b border-[#E7E5E4] whitespace-nowrap">
-                                <th className="py-3 px-4">Order ID</th>
-                                <th className="py-3 px-4">Seller</th>
-                                <th className="py-3 px-4">Customer</th>
-                                <th className="py-3 px-4">Product</th>
-                                <th className="py-3 px-4 text-center">Qty</th>
+                                <th className="py-3 px-4">Order-ID</th>
+                                <th className="py-3 px-4">Säljare</th>
+                                <th className="py-3 px-4">Kund</th>
+                                <th className="py-3 px-4">Produkt</th>
+                                <th className="py-3 px-4 text-center">Antal</th>
                                 <th className="py-3 px-4 text-center">Status</th>
-                                <th className="py-3 px-4 text-right">Date</th>
-                                <th className="py-3 px-4 text-right">Action</th>
+                                <th className="py-3 px-4 text-right">Datum</th>
+                                <th className="py-3 px-4 text-right">Åtgärd</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-[#E7E5E4] text-sm text-[#1A1C1C]">
                             {ordersList.map((order, index) => {
                                 const orderIdStr = `${order._id}`;
-                                const sellerName = (order.memberId as any)?.name || "Guest / Direct";
+                                const sellerName = (order.memberId as any)?.name || "Gäst / Direkt";
                                 const sellerInitials = getInitials(sellerName);
                                 const productNames = order.items.map((i) => i.productName).join(", ");
-                                const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A";
+                                const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "Ej tillgängligt";
 
                                 return (
                                     <tr key={order._id || index} onClick={() => setSelectedOrder(order)} className="hover:bg-[#FCFBFA] transition-colors whitespace-nowrap cursor-pointer">
@@ -172,7 +185,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                         </td>
                                         <td className="py-3.5 px-4 text-center font-medium text-xs">{order.totalPackage}</td>
                                         <td className="py-3.5 px-4 text-center">
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold capitalize ${getStatusColor(order.status)}`}>{order.status}</span>
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${getStatusColor(order.status)}`}>{formatStatus(order.status)}</span>
                                         </td>
                                         <td className="py-3.5 px-4 text-right text-xs text-[#78716C]">{dateStr}</td>
                                         <td className="py-3.5 px-4 text-right">
@@ -185,7 +198,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                                 className="inline-flex items-center gap-1 text-xs font-bold text-[#D97706] hover:underline cursor-pointer"
                                             >
                                                 <Eye size={14} />
-                                                <span>View</span>
+                                                <span>Visa</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -196,7 +209,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
 
                     {pagination.totalPages && pagination.totalPages > 1 ? (
                         <div className="p-4 border-t border-[#E7E5E4]">
-                            <Pagination meta={pagination} onPageChange={setPage} itemName="ORDERS" />
+                            <Pagination meta={pagination} onPageChange={setPage} itemName="BESTÄLLNINGAR" />
                         </div>
                     ) : null}
                 </div>
@@ -211,59 +224,59 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                         </button>
 
                         <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-6 pr-10 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                            <span>Order Details -</span>
+                            <span>Orderdetaljer -</span>
                             <span className="text-xs sm:text-sm font-semibold font-mono text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60 break-all w-fit">{activeSelectedOrder._id}</span>
                         </h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div className="space-y-3 bg-[#FAFAF9] p-4 rounded-xl border border-[#E7E5E4]">
-                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Customer Info</h4>
+                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Kundinformation</h4>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Name:</span> {activeSelectedOrder.customerName}
+                                    <span className="font-semibold text-gray-600">Namn:</span> {activeSelectedOrder.customerName}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Email:</span> {activeSelectedOrder.customerEmail}
+                                    <span className="font-semibold text-gray-600">E-post:</span> {activeSelectedOrder.customerEmail}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Phone:</span> {activeSelectedOrder.customerPhone || "N/A"}
+                                    <span className="font-semibold text-gray-600">Telefon:</span> {activeSelectedOrder.customerPhone || "Ej tillgängligt"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Address:</span> {activeSelectedOrder.address?.street}, {activeSelectedOrder.address?.city}, {activeSelectedOrder.address?.postalCode}, {activeSelectedOrder.address?.locality}
+                                    <span className="font-semibold text-gray-600">Adress:</span> {activeSelectedOrder.address?.street}, {activeSelectedOrder.address?.city}, {activeSelectedOrder.address?.postalCode}, {activeSelectedOrder.address?.locality}
                                 </p>
                             </div>
                             <div className="space-y-3 bg-[#FAFAF9] p-4 rounded-xl border border-[#E7E5E4]">
-                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Campaign & Seller</h4>
+                                <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2">Kampanj & Säljare</h4>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Seller Name:</span> {(activeSelectedOrder.memberId as any)?.name || "Guest / Direct"}
+                                    <span className="font-semibold text-gray-600">Säljarens namn:</span> {(activeSelectedOrder.memberId as any)?.name || "Gäst / Direkt"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Seller Email:</span> {(activeSelectedOrder.memberId as any)?.email || "N/A"}
+                                    <span className="font-semibold text-gray-600">Säljarens e-post:</span> {(activeSelectedOrder.memberId as any)?.email || "Ej tillgängligt"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Group Name:</span> {(activeSelectedOrder.groupId as any)?.name || "N/A"}
+                                    <span className="font-semibold text-gray-600">Gruppnamn:</span> {(activeSelectedOrder.groupId as any)?.name || "Ej tillgängligt"}
                                 </p>
                                 <p className="text-xs text-[#1A1C1C]">
-                                    <span className="font-semibold text-gray-600">Campaign Name:</span> {(activeSelectedOrder.campaignId as any)?.name || "N/A"}
+                                    <span className="font-semibold text-gray-600">Kampanjnamn:</span> {(activeSelectedOrder.campaignId as any)?.name || "Ej tillgängligt"}
                                 </p>
                             </div>
                         </div>
 
                         <div className="mb-6">
-                            <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2 mb-3">Items Ordered</h4>
+                            <h4 className="font-bold text-xs text-[#78716C] uppercase tracking-wider border-b pb-2 mb-3">Beställda artiklar</h4>
                             <div className="space-y-2">
                                 {activeSelectedOrder.items.map((item, index) => (
                                     <div key={index} className="flex justify-between items-center text-xs bg-gray-50 p-3 rounded-xl border border-gray-100">
                                         <div>
                                             <p className="font-bold text-gray-900">{item.productName}</p>
                                             <p className="text-[11px] text-gray-500">
-                                                Qty: {item.quantity} x {item.singlePrice} SEK
+                                                Antal: {item.quantity} x {item.singlePrice} SEK
                                             </p>
                                         </div>
                                         <span className="font-bold text-gray-900">{item.lineTotal} SEK</span>
                                     </div>
                                 ))}
                                 <div className="flex justify-between items-center font-extrabold text-sm pt-3 border-t">
-                                    <span>Total Price</span>
+                                    <span>Totalpris</span>
                                     <span className="text-[#D97706]">{activeSelectedOrder.totalPrice} SEK</span>
                                 </div>
                             </div>
@@ -272,15 +285,15 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-5">
                             {role === "SUPER_ADMIN" || role === "ADMIN" ? (
                                 <div className="flex items-center gap-3 relative">
-                                    <span className="font-bold text-xs text-gray-700 uppercase">Update Status:</span>
+                                    <span className="font-bold text-xs text-gray-700 uppercase">Uppdatera status:</span>
                                     <div className="relative">
                                         <button
                                             type="button"
                                             onClick={() => setIsStatusDropdownOpen((prev) => !prev)}
-                                            className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
+                                            className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all cursor-pointer"
                                         >
                                             <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
-                                            <span className="text-gray-800">{activeSelectedOrder.status}</span>
+                                            <span className="text-gray-800">{formatStatus(activeSelectedOrder.status)}</span>
                                             <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>
 
@@ -289,9 +302,9 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                                 <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
                                                 <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                     {[
-                                                        { value: "pending", label: "Pending", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
-                                                        { value: "delivered", label: "Delivered", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
-                                                        { value: "cancelled", label: "Cancelled", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
+                                                        { value: "pending", label: "Väntande", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                        { value: "delivered", label: "Levererad", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
+                                                        { value: "cancelled", label: "Avbruten", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
                                                     ].map((opt) => (
                                                         <button
                                                             key={opt.value}
@@ -314,11 +327,11 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                             ) : (
                                 <div className="flex items-center gap-2">
                                     <span className="font-bold text-xs text-gray-700 uppercase">Status:</span>
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status}</span>
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${getStatusColor(activeSelectedOrder.status)}`}>{formatStatus(activeSelectedOrder.status)}</span>
                                 </div>
                             )}
                             <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
-                                Close
+                                Stäng
                             </button>
                         </div>
                     </div>

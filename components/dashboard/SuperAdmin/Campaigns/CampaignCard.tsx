@@ -10,10 +10,10 @@ interface CampaignCardProps {
 }
 
 const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; label: string; bg: string; text: string; dot: string }[] = [
-    { value: "DRAFT", label: "DRAFT", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
-    { value: "ACTIVE", label: "ACTIVE", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
-    { value: "FULFILMENT", label: "FULFILMENT", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
-    { value: "COMPLETED", label: "COMPLETED", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
+    { value: "DRAFT", label: "UTKAST", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
+    { value: "ACTIVE", label: "AKTIV", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
+    { value: "FULFILMENT", label: "UPPFYLLNAD", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
+    { value: "COMPLETED", label: "AVSLUTAD", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
 ];
 
 const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
@@ -54,7 +54,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                 <div className="w-full flex items-center justify-between text-xs font-semibold">
                     <div className="text-red-500 font-bold flex items-center gap-1.5">
                         <Calendar size={15} className="shrink-0" />
-                        <span>Campaign Ended</span>
+                        <span>Kampanjen har avslutats</span>
                     </div>
                 </div>
             );
@@ -63,7 +63,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
         const todayStart = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
         const endStart = Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate());
         const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
-        const daysText = diffDays < 0 ? "Sales ended" : diffDays === 0 ? "Ends today" : `Deadline: In ${diffDays} days`;
+        const daysText = diffDays < 0 ? "Försäljningen har avslutats" : diffDays === 0 ? "Slutar idag" : `Deadline: Om ${diffDays} dagar`;
 
         return (
             <div className="w-full flex items-center justify-between text-xs text-[#78716C] font-semibold">
@@ -75,8 +75,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             </div>
         );
     };
-
-    // const isEndedOrInactive = campaign.status === "FULFILMENT" || campaign.status === "COMPLETED" || new Date(campaign.endDate).getTime() < new Date().getTime();
 
     return (
         <div className="flex flex-col justify-between h-full bg-white p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
@@ -94,28 +92,6 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     <p className="text-[#78716C] text-sm mt-1 group-hover:text-[#271900] transition-colors duration-300">{campaign.shortDescription}</p>
                 </div>
 
-                {/* Commented out original progress target box */}
-                {/* 
-                <div className="bg-[#F3F3F3] py-4 px-6 rounded-[24px] mb-4">
-                    <div className="mb-4">
-                        <div className="flex items-center justify-between mb-2">
-                            <span className="text-[#78716C] text-sm group-hover:text-[#271900] transition-colors duration-300">Progress</span>
-                            <span className="text-[#D97706] font-bold">{progress}%</span>
-                        </div>
-                        <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
-                            <div className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">SOLD</div>
-                            <div className="text-[#D97706] font-bold text-lg">SEK {(campaign.totalRevenueSold || 0).toLocaleString()}</div>
-                        </div>
-                <div className="mb-3 sm:mb-4">
-                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300 line-clamp-2">{campaign.name}</h3>
-                    <p className="text-[#78716C] text-xs sm:text-sm mt-1 group-hover:text-[#271900] transition-colors duration-300 line-clamp-2">{campaign.shortDescription}</p>
-                </div>
-
                 {/* Tier Progress Details Box */}
                 <div className="bg-[#F3F3F3] p-3 sm:py-4 sm:px-6 rounded-2xl sm:rounded-[24px] mb-3 sm:mb-4">
                     {(() => {
@@ -129,7 +105,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                             <>
                                 <div className="mb-3 sm:mb-4">
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-[#78716C] text-xs sm:text-sm group-hover:text-[#271900] transition-colors duration-300">Tier Progress</span>
+                                        <span className="text-[#78716C] text-xs sm:text-sm group-hover:text-[#271900] transition-colors duration-300">Nivåframsteg</span>
                                         <span className="text-[#D97706] font-bold text-xs sm:text-sm">{progressPct}%</span>
                                     </div>
                                     <div className="w-full h-2 bg-[#E7E5E4] rounded-full overflow-hidden">
@@ -138,20 +114,20 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 sm:gap-4">
                                     <div>
-                                        <div className="text-[#78716C] text-[10px] sm:text-xs group-hover:text-[#271900] transition-colors duration-300 uppercase">CURRENT TIER</div>
-                                        <div className="text-[#D97706] font-bold text-xs sm:text-base truncate" title={campaign.currentTier?.name || "No Tier"}>
+                                        <div className="text-[#78716C] text-[10px] sm:text-xs group-hover:text-[#271900] transition-colors duration-300 uppercase">NUVARANDE NIVÅ</div>
+                                        <div className="text-[#D97706] font-bold text-xs sm:text-base truncate" title={campaign.currentTier?.name || "Ingen nivå"}>
                                             {campaign.currentTier ? `${campaign.currentTier.percentage}%` : "0%"}
                                         </div>
                                     </div>
                                     <div>
-                                        <div className="text-[#78716C] text-[10px] sm:text-xs group-hover:text-[#271900] transition-colors duration-300 text-right uppercase">NEXT TIER NEEDED</div>
+                                        <div className="text-[#78716C] text-[10px] sm:text-xs group-hover:text-[#271900] transition-colors duration-300 text-right uppercase">NÄSTA NIVÅ KRÄVS</div>
                                         <div className="text-[#1A1C1C] font-bold text-xs sm:text-base group-hover:text-[#271900] transition-colors duration-300 text-right truncate">
                                             {campaign.nextTier ? (
                                                 <>
-                                                    {campaign.packagesNeededForNextTier || 0} PKGS <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
+                                                    {campaign.packagesNeededForNextTier || 0} PAKET <span className="text-[#D97706] font-bold">({campaign.nextTier.percentage}%)</span>
                                                 </>
                                             ) : (
-                                                "MAX TIER"
+                                                "MAXNIVÅ"
                                             )}
                                         </div>
                                     </div>
@@ -170,7 +146,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     href={`/dashboard/campaigns/${campaign._id}`}
                     className="flex-1 min-w-0 h-9 sm:h-10 inline-flex items-center justify-center gap-1.5 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none truncate"
                 >
-                    <span className="truncate">Manage Campaign</span>
+                    <span className="truncate">Hantera kampanj</span>
                 </Link>
 
                 {/* Status Dropdown Picker for SuperAdmin */}

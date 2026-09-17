@@ -56,13 +56,13 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             const newFiles = Array.from(e.dataTransfer.files);
             const availableSlot = MAX_PHOTOS - keptExistingImages.length;
             if (availableSlot <= 0) {
-                toast.error(`Maximum ${MAX_PHOTOS} photos reached. Remove an existing photo to upload new ones.`);
+                toast.error(`Maximalt ${MAX_PHOTOS} bilder uppnått. Ta bort en befintlig bild för att ladda upp nya.`);
                 return;
             }
             setSelectedFiles((prev) => {
                 const combined = [...prev, ...newFiles];
                 if (combined.length > availableSlot) {
-                    toast.error(`You can only add ${availableSlot} more photo(s) (Maximum ${MAX_PHOTOS} total).`);
+                    toast.error(`Du kan bara lägga till ${availableSlot} bild(er) till (Maximalt ${MAX_PHOTOS} totalt).`);
                     return combined.slice(0, availableSlot);
                 }
                 return combined;
@@ -75,14 +75,14 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             const newFiles = Array.from(e.target.files);
             const availableSlot = MAX_PHOTOS - keptExistingImages.length;
             if (availableSlot <= 0) {
-                toast.error(`Maximum ${MAX_PHOTOS} photos reached. Remove an existing photo to upload new ones.`);
+                toast.error(`Maximalt ${MAX_PHOTOS} bilder uppnått. Ta bort en befintlig bild för att ladda upp nya.`);
                 e.target.value = "";
                 return;
             }
             setSelectedFiles((prev) => {
                 const combined = [...prev, ...newFiles];
                 if (combined.length > availableSlot) {
-                    toast.error(`You can only add ${availableSlot} more photo(s) (Maximum ${MAX_PHOTOS} total).`);
+                    toast.error(`Du kan bara lägga till ${availableSlot} bild(er) till (Maximalt ${MAX_PHOTOS} totalt).`);
                     return combined.slice(0, availableSlot);
                 }
                 return combined;
@@ -154,10 +154,10 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             }
 
             const res = (await updateProduct({ productId: product._id, formData }).unwrap()) as any;
-            toast.success(res?.message || "Product updated successfully!");
+            toast.success(res?.message || "Produkten har uppdaterats!");
             onClose();
         } catch (err: any) {
-            const errorMessage = err?.data?.message || err?.message || "Failed to update product";
+            const errorMessage = err?.data?.message || err?.message || "Misslyckades med att uppdatera produkt";
             toast.error(errorMessage);
         }
     };
@@ -178,11 +178,11 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                             <Edit3 size={22} />
                         </div>
                         <div>
-                            <h2 className="text-lg sm:text-xl font-bold text-stone-900 leading-tight">Edit Product</h2>
-                            <p className="text-xs text-stone-500 font-medium">Update details and manage showcase photos for "{product.name}".</p>
+                            <h2 className="text-lg sm:text-xl font-bold text-stone-900 leading-tight">Redigera produkt</h2>
+                            <p className="text-xs text-stone-500 font-medium">Uppdatera detaljer och hantera bilder för "{product.name}".</p>
                         </div>
                     </div>
-                    <button onClick={onClose} className="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors cursor-pointer" aria-label="Close">
+                    <button onClick={onClose} className="w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-900 flex items-center justify-center transition-colors cursor-pointer" aria-label="Stäng">
                         <X size={18} />
                     </button>
                 </div>
@@ -192,12 +192,12 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                     {/* Section 1: Basic Information */}
                     <div className="space-y-4">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Basic Details
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Grundläggande information
                         </h3>
 
                         <div>
                             <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
-                                Product Name <span className="text-red-500">*</span>
+                                Produktnamn <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -210,7 +210,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
 
                         <div>
                             <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
-                                Short Description <span className="text-red-500">*</span>
+                                Kort beskrivning <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 value={shortDescription}
@@ -225,14 +225,14 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                     {/* Section 2: Category & Subcategory */}
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Categorization
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Kategorisering
                         </h3>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Category Dropdown */}
                             <div>
                                 <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
-                                    Product Category <span className="text-red-500">*</span>
+                                    Produktkategori <span className="text-red-500">*</span>
                                 </label>
                                 <div className="relative">
                                     <button
@@ -243,7 +243,9 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                         }}
                                         className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
                                     >
-                                        <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>{category || "Select category"}</span>
+                                        <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>
+                                            {category === "Scented Candles" ? "Doftljus" : category === "Premium Socks" ? "Premiumstrumpor" : category || "Välj kategori"}
+                                        </span>
                                         <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
 
@@ -251,19 +253,22 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                         <>
                                             <div className="fixed inset-0 z-20" onClick={() => setIsCatDropdownOpen(false)}></div>
                                             <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                {["Scented Candles", "Premium Socks"].map((catOption) => (
+                                                {[
+                                                    { value: "Scented Candles", label: "Doftljus" },
+                                                    { value: "Premium Socks", label: "Premiumstrumpor" },
+                                                ].map((catOption) => (
                                                     <button
-                                                        key={catOption}
+                                                        key={catOption.value}
                                                         type="button"
                                                         onClick={() => {
-                                                            setCategory(catOption);
-                                                            if (catOption !== "Scented Candles") setSubCategory("");
+                                                            setCategory(catOption.value);
+                                                            if (catOption.value !== "Scented Candles") setSubCategory("");
                                                             setIsCatDropdownOpen(false);
                                                         }}
-                                                        className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${category === catOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
+                                                        className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${category === catOption.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                                     >
-                                                        <span>{catOption}</span>
-                                                        {category === catOption && <Check size={16} className="text-[#D97706]" />}
+                                                        <span>{catOption.label}</span>
+                                                        {category === catOption.value && <Check size={16} className="text-[#D97706]" />}
                                                     </button>
                                                 ))}
                                             </div>
@@ -275,7 +280,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                             {/* Subcategory Dropdown */}
                             {category === "Scented Candles" ? (
                                 <div>
-                                    <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">Subcategory</label>
+                                    <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">Underkategori</label>
                                     <div className="relative">
                                         <button
                                             type="button"
@@ -285,7 +290,9 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                             }}
                                             className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
                                         >
-                                            <span className={subCategory ? "text-stone-900 font-medium" : "text-stone-400"}>{subCategory || "Select subcategory"}</span>
+                                            <span className={subCategory ? "text-stone-900 font-medium" : "text-stone-400"}>
+                                                {subCategory === "Reed Diffusers" ? "Doftpinnar" : subCategory || "Välj underkategori"}
+                                            </span>
                                             <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isSubCatDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>
 
@@ -293,18 +300,18 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                             <>
                                                 <div className="fixed inset-0 z-20" onClick={() => setIsSubCatDropdownOpen(false)}></div>
                                                 <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                    {["Reed Diffusers"].map((subOption) => (
+                                                    {[{ value: "Reed Diffusers", label: "Doftpinnar" }].map((subOption) => (
                                                         <button
-                                                            key={subOption}
+                                                            key={subOption.value}
                                                             type="button"
                                                             onClick={() => {
-                                                                setSubCategory(subOption);
+                                                                setSubCategory(subOption.value);
                                                                 setIsSubCatDropdownOpen(false);
                                                             }}
-                                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${subCategory === subOption ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
+                                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${subCategory === subOption.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
                                                         >
-                                                            <span>{subOption}</span>
-                                                            {subCategory === subOption && <Check size={16} className="text-[#D97706]" />}
+                                                            <span>{subOption.label}</span>
+                                                            {subCategory === subOption.value && <Check size={16} className="text-[#D97706]" />}
                                                         </button>
                                                     ))}
                                                 </div>
@@ -321,13 +328,13 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                     {/* Section 3: Product Highlights */}
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Selling Point Highlights
+                            <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Försäljningsargument
                         </h3>
 
                         <div className="grid grid-cols-1 gap-3.5">
                             <div>
                                 <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
-                                    <Coins size={14} className="text-[#D97706]" /> Margin Benefit
+                                    <Coins size={14} className="text-[#D97706]" /> Vinstmarginal
                                 </label>
                                 <input
                                     type="text"
@@ -339,7 +346,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
 
                             <div>
                                 <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
-                                    <Sparkles size={14} className="text-[#D97706]" /> Quality Highlight
+                                    <Sparkles size={14} className="text-[#D97706]" /> Kvalitetsfokus
                                 </label>
                                 <input
                                     type="text"
@@ -351,7 +358,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
 
                             <div>
                                 <label className="flex items-center gap-1.5 text-stone-700 text-xs font-semibold mb-1">
-                                    <Leaf size={14} className="text-[#D97706]" /> Eco Highlight
+                                    <Leaf size={14} className="text-[#D97706]" /> Miljöfokus
                                 </label>
                                 <input
                                     type="text"
@@ -367,25 +374,25 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <div className="flex items-center justify-between">
                             <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Showcase Photos
+                                <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Produktbilder
                             </h3>
-                            <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">{totalCurrentPhotos} / 3 Total</span>
+                            <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">{totalCurrentPhotos} / 3 Totalt</span>
                         </div>
 
                         {/* Saved Photos */}
                         {keptExistingImages.length > 0 && (
                             <div>
-                                <span className="text-[11px] font-bold text-stone-600 uppercase tracking-wider block mb-2">Saved Photos ({keptExistingImages.length})</span>
+                                <span className="text-[11px] font-bold text-stone-600 uppercase tracking-wider block mb-2">Sparade bilder ({keptExistingImages.length})</span>
                                 <div className="grid grid-cols-3 gap-3">
                                     {keptExistingImages.map((imgUrl, idx) => (
                                         <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden border border-stone-200 bg-stone-50 shadow-sm transition-transform hover:scale-[1.02]">
-                                            <img src={getImageUrl(imgUrl)} alt={`Existing ${idx + 1}`} className="w-full h-full object-cover" />
-                                            {idx === 0 && <span className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Cover</span>}
+                                            <img src={getImageUrl(imgUrl)} alt={`Befintlig ${idx + 1}`} className="w-full h-full object-cover" />
+                                            {idx === 0 && <span className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-xs text-white text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Omslag</span>}
                                             <button
                                                 type="button"
                                                 onClick={() => handleRemoveExistingImage(idx)}
                                                 className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-md cursor-pointer"
-                                                title="Delete photo"
+                                                title="Ta bort bild"
                                             >
                                                 <X size={14} />
                                             </button>
@@ -400,16 +407,16 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                         {/* Newly Selected Upload Previews */}
                         {previewUrls.length > 0 && (
                             <div>
-                                <span className="text-[11px] font-bold text-[#D97706] uppercase tracking-wider block mb-2">New Uploads (+{previewUrls.length})</span>
+                                <span className="text-[11px] font-bold text-[#D97706] uppercase tracking-wider block mb-2">Nya uppladdningar (+{previewUrls.length})</span>
                                 <div className="grid grid-cols-3 gap-3">
                                     {previewUrls.map((url, idx) => (
                                         <div key={idx} className="relative group aspect-square rounded-2xl overflow-hidden border border-amber-300 bg-amber-50/50 shadow-sm transition-transform hover:scale-[1.02]">
-                                            <img src={url} alt={`New Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                                            <img src={url} alt={`Ny förhandsgranskning ${idx + 1}`} className="w-full h-full object-cover" />
                                             <button
                                                 type="button"
                                                 onClick={() => handleRemoveNewFile(idx)}
                                                 className="absolute top-2 right-2 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-md cursor-pointer"
-                                                title="Remove new photo"
+                                                title="Ta bort ny bild"
                                             >
                                                 <X size={14} />
                                             </button>
@@ -434,13 +441,13 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                     <Upload size={22} />
                                 </div>
                                 <div>
-                                    <p className="text-xs sm:text-sm font-bold text-stone-800">Click to upload new photo(s) or drag & drop</p>
-                                    <p className="text-[11px] text-stone-400 font-medium mt-0.5">Can add {MAX_PHOTOS - totalCurrentPhotos} more photo(s)</p>
+                                    <p className="text-xs sm:text-sm font-bold text-stone-800">Klicka för att ladda upp nya bilder eller dra och släpp</p>
+                                    <p className="text-[11px] text-stone-400 font-medium mt-0.5">Kan lägga till {MAX_PHOTOS - totalCurrentPhotos} bild(er) till</p>
                                 </div>
                             </div>
                         ) : (
                             <div className="p-3.5 bg-amber-50/80 border border-amber-200/80 rounded-2xl text-center">
-                                <p className="text-xs font-semibold text-amber-900">Maximum 3 photos reached. Remove a photo to replace.</p>
+                                <p className="text-xs font-semibold text-amber-900">Maximalt 3 bilder uppnått. Ta bort en bild för att ersätta.</p>
                             </div>
                         )}
                     </div>
@@ -449,7 +456,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                 {/* Footer Buttons */}
                 <div className="px-6 py-4 border-t border-stone-100 bg-stone-50/50 flex items-center justify-end gap-3">
                     <button type="button" onClick={onClose} className="px-5 h-11 bg-white hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs sm:text-sm font-semibold rounded-xl transition-all cursor-pointer">
-                        Cancel
+                        Avbryt
                     </button>
                     <button
                         onClick={handleSubmit}
@@ -459,10 +466,10 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                         {isLoading ? (
                             <>
                                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                Updating Product...
+                                Uppdaterar produkt...
                             </>
                         ) : (
-                            <>Update Product</>
+                            <>Uppdatera produkt</>
                         )}
                     </button>
                 </div>

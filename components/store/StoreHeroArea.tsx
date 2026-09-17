@@ -14,8 +14,8 @@ const StoreHeroContent = () => {
 
     const { data: storeInfo } = useGetStoreInfoQuery({ campaign, referral }, { skip: !campaign || !referral });
 
-    const sellerName = storeInfo?.validation ? storeInfo.sellerName : "Unknown";
-    // const campaignName = storeInfo?.validation ? storeInfo.campaignName : "Unknown";
+    const sellerName = storeInfo?.validation ? storeInfo.sellerName : "Okänd";
+    // const campaignName = storeInfo?.validation ? storeInfo.campaignName : "Okänd";
     const campaignDescription = storeInfo?.validation ? storeInfo.campaignDescription : "";
 
     return (
@@ -23,12 +23,12 @@ const StoreHeroContent = () => {
             <div className="min-h-0 py-4 sm:py-8 lg:py-12 lg:min-h-[calc(100vh-100px)] flex items-center">
                 <div className="relative flex flex-col lg:flex-row items-center w-full">
                     <div className="bg-[#FFFFFFCC] p-5 sm:p-8 md:p-12 shadow-[0px_12px_32px_rgba(26,28,28,0.06)] backdrop-blur-3xl rounded-[24px] w-full lg:w-162.5 lg:relative lg:z-10 lg:-mr-12.5 space-y-4 sm:space-y-6 mb-6 lg:mb-0">
-                        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold wrap-break-word">Welcome to {sellerName}'s digital store</h1>
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold wrap-break-word">Välkommen till {sellerName}s digitala butik</h1>
                         <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed">
-                            {campaignDescription ? `${campaignDescription}` : "Your support helps us create memories that will last a lifetime. "}. Explore {sellerName}'s collection below.
+                            {campaignDescription ? `${campaignDescription}` : "Ditt stöd hjälper oss att skapa minnen för livet. "}. Utforska {sellerName}s utbud nedan.
                         </p>
                         <Link href="#products-section" className="flex items-center w-fit gap-2 sm:gap-3 font-bold px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all">
-                            Shop Now <ArrowDown size={18} />
+                            Handla nu <ArrowDown size={18} />
                         </Link>
                     </div>
                     <div className="w-full lg:flex-1">
@@ -46,7 +46,7 @@ const StoreHeroArea = () => {
             fallback={
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="min-h-screen flex items-center justify-center">
-                        <p className="text-[#78716C] text-lg">Loading store details...</p>
+                        <p className="text-[#78716C] text-lg">Laddar butiksinformation...</p>
                     </div>
                 </div>
             }

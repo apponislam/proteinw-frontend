@@ -9,8 +9,8 @@ export default function PrivacyPolicyContent() {
         return (
             <div className="container mx-auto px-6 max-w-4xl">
                 <div className="mb-12">
-                    <h1 className="text-5xl font-bold mb-4 text-[#1C1917]">Privacy Policy</h1>
-                    <p className="text-gray-600">Loading...</p>
+                    <h1 className="text-5xl font-bold mb-4 text-[#1C1917]">Integritetspolicy</h1>
+                    <p className="text-gray-600">Laddar...</p>
                 </div>
             </div>
         );
@@ -19,11 +19,11 @@ export default function PrivacyPolicyContent() {
     return (
         <div className="container mx-auto px-6 max-w-4xl">
             <div className="mb-12">
-                <h1 className="text-5xl font-bold mb-4 text-[#1C1917]">{policyData?.data?.title || "Privacy Policy"}</h1>
+                <h1 className="text-5xl font-bold mb-4 text-[#1C1917]">{policyData?.data?.title || "Integritetspolicy"}</h1>
                 {policyData?.data?.publishedAt && (
                     <p className="text-gray-600">
-                        Last updated:{" "}
-                        {new Date(policyData.data.publishedAt).toLocaleDateString("en-US", {
+                        Senast uppdaterad:{" "}
+                        {new Date(policyData.data.publishedAt).toLocaleDateString("sv-SE", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
@@ -34,9 +34,10 @@ export default function PrivacyPolicyContent() {
             <div
                 className="space-y-8 rich-text-content"
                 dangerouslySetInnerHTML={{
-                    __html: policyData?.data?.content || "<p>Privacy policy content not available yet.</p>",
+                    __html: policyData?.data?.content || "<p>Integritetspolicy innehåll är inte tillgängligt ännu.</p>",
                 }}
             />
         </div>
     );
 }
+

@@ -27,19 +27,19 @@ const Page = () => {
         <div className="space-y-6">
             <button onClick={() => router.push("/dashboard/team-sales")} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium mb-2">
                 <ArrowLeft size={16} />
-                <span>Back to Groups</span>
+                <span>Tillbaka till grupper</span>
             </button>
 
             {group && (
                 <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)]">
                     <div className="mb-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
-                            <span className="inline-block text-[11px] sm:text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Class / Team Group</span>
+                            <span className="inline-block text-[11px] sm:text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Klass / Lag-grupp</span>
                             <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1C] mt-2 mb-1 truncate">{group.name}</h1>
                         </div>
                         <div className="text-xs text-[#78716C] font-semibold flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 shrink-0 self-start">
                             <Calendar size={14} className="text-[#D97706]" />
-                            <span>Created: {group.createdAt ? new Date(group.createdAt).toLocaleDateString() : "N/A"}</span>
+                            <span>Skapad: {group.createdAt ? new Date(group.createdAt).toLocaleDateString() : "Ej angivet"}</span>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-4 border-t border-[#F5F5F4]">
@@ -48,7 +48,7 @@ const Page = () => {
                                 <Users size={16} />
                             </div>
                             <div className="min-w-0">
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Total Sellers</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">TOTALT ANTAL SÄLJARE</div>
                                 <div className="text-sm font-bold text-[#1A1C1C] truncate">{group.sellerCount ?? 0}</div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@ const Page = () => {
                                 <Award size={16} />
                             </div>
                             <div className="min-w-0">
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Active Campaigns</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">AKTIVA KAMPANJER</div>
                                 <div className="text-sm font-bold text-[#1A1C1C] truncate">
                                     {group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}
                                 </div>
@@ -68,7 +68,7 @@ const Page = () => {
                                 <Calendar size={16} />
                             </div>
                             <div className="min-w-0">
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Pending Invitations</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">VÄNTANDE INBJUDNINGAR</div>
                                 <div className="text-sm font-bold text-[#1A1C1C] truncate">{group.invitationCount ?? 0}</div>
                             </div>
                         </div>

@@ -46,7 +46,7 @@ const getStatusBadge = (status: TCustomerServiceStatus) => {
         default:
             return (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-900 border border-amber-200/70">
-                    <Clock className="w-3 h-3" /> Pending
+                    <Clock className="w-3 h-3" /> Väntande
                 </span>
             );
     }
@@ -185,7 +185,7 @@ function OrderViewModal({ orderId, onClose }: { orderId: string; onClose: () => 
                                                 : "bg-white border border-stone-200 text-stone-700 hover:bg-stone-100"
                                         }`}
                                     >
-                                        {st === "pending" ? "Väntar (Pending)" : st === "delivered" ? "Levererad (Delivered)" : "Avbruten (Cancelled)"}
+                                        {st === "pending" ? "Väntar" : st === "delivered" ? "Levererad" : "Avbruten"}
                                     </button>
                                 ))}
                             </div>
@@ -269,7 +269,7 @@ export default function CustomerServiceDetailModal({ request, onClose }: Custome
     };
 
     const statusOptions: { value: TCustomerServiceStatus; label: string; activeClass: string; icon: any }[] = [
-        { value: "pending", label: "Pending", activeClass: "bg-amber-500 text-white border-amber-600 shadow-xs ring-1 ring-amber-400/50", icon: Clock },
+        { value: "pending", label: "Väntande", activeClass: "bg-amber-500 text-white border-amber-600 shadow-xs ring-1 ring-amber-400/50", icon: Clock },
         { value: "in_progress", label: "Under behandling", activeClass: "bg-blue-600 text-white border-blue-700 shadow-xs ring-1 ring-blue-400/50", icon: RefreshCw },
         { value: "resolved", label: "Löst", activeClass: "bg-emerald-600 text-white border-emerald-700 shadow-xs ring-1 ring-emerald-400/50", icon: CheckCircle2 },
         { value: "rejected", label: "Avslagen", activeClass: "bg-rose-600 text-white border-rose-700 shadow-xs ring-1 ring-rose-400/50", icon: XCircle },
@@ -341,7 +341,7 @@ export default function CustomerServiceDetailModal({ request, onClose }: Custome
                                     className="text-[11px] font-bold text-[#D97706] hover:underline flex items-center gap-1 cursor-pointer"
                                     title="Visa orderdetaljer"
                                 >
-                                    <Eye size={13} /> View Order
+                                    <Eye size={13} /> Visa order
                                 </button>
                             )}
                         </div>
@@ -370,7 +370,7 @@ export default function CustomerServiceDetailModal({ request, onClose }: Custome
                             {/* Quick Order Status Update directly in card */}
                             {hasValidOrderId && (
                                 <div className="pt-1.5 border-t border-stone-200/60 flex flex-wrap items-center justify-between gap-1">
-                                    <span className="text-[10px] font-bold text-stone-500 uppercase">Order Status:</span>
+                                    <span className="text-[10px] font-bold text-stone-500 uppercase">Orderstatus:</span>
                                     <div className="flex items-center gap-1">
                                         {(["pending", "delivered", "cancelled"] as TOrderStatus[]).map((st) => {
                                             const isActive = activeOrderStatus === st;
@@ -390,7 +390,7 @@ export default function CustomerServiceDetailModal({ request, onClose }: Custome
                                                     }`}
                                                     title={`Ändra orderstatus till ${st}`}
                                                 >
-                                                    {st === "pending" ? "Pending" : st === "delivered" ? "Levererad" : "Avbruten"}
+                                                    {st === "pending" ? "Väntar" : st === "delivered" ? "Levererad" : "Avbruten"}
                                                 </button>
                                             );
                                         })}

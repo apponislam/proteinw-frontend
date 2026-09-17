@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import TermsOfServiceContent from "@/components/policy/TermsOfServiceContent";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Terms of Service",
-    description: "Kungsbjörnen terms of service",
+    title: "Kungsbjörnen - Allmänna villkor",
+    description: "Kungsbjörnen allmänna villkor",
 };
 
 export default function TermsOfService() {
@@ -13,3 +13,4 @@ export default function TermsOfService() {
         </main>
     );
 }
+

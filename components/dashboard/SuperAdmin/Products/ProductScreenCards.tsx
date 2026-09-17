@@ -19,19 +19,19 @@ const ProductScreenCards = () => {
 
     const productStats = [
         {
-            title: "TOTAL PRODUCTS",
+            title: "TOTALT ANTAL PRODUKTER",
             value: stats?.total?.toLocaleString() || "0",
         },
         {
-            title: "ACTIVE NOW",
+            title: "AKTIVA NU",
             value: stats?.active?.toLocaleString() || "0",
         },
         {
-            title: "ASSIGNED PRODUCTS",
+            title: "TILLDELADE PRODUKTER",
             value: stats?.assigned?.toLocaleString() || "0",
         },
         {
-            title: "UNASSIGNED PRODUCTS",
+            title: "OTILLDELADE PRODUKTER",
             value: stats?.unassigned?.toLocaleString() || "0",
         },
     ];

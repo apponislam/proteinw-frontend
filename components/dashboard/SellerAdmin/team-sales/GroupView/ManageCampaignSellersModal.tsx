@@ -87,8 +87,8 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                 {/* Modal Header */}
                 <div className="flex items-center justify-between border-b border-[#F5F5F4] p-4 sm:p-5 shrink-0">
                     <div>
-                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Manage Campaign Sellers</h3>
-                        <p className="text-xs text-[#78716C]">Select group members to participate in this campaign.</p>
+                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Hantera kampanjsäljare</h3>
+                        <p className="text-xs text-[#78716C]">Välj gruppmedlemmar som ska delta i denna kampanj.</p>
                     </div>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg transition-colors cursor-pointer">
                         <X size={20} />
@@ -100,7 +100,7 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                     <div className="relative">
                         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <Input
-                            placeholder="Search sellers by name or email..."
+                            placeholder="Sök säljare efter namn eller e-post..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="pl-9 h-10 text-xs border-[#E7E5E4] focus:border-[#7C5800] focus:ring-[#7C5800]"
@@ -109,7 +109,7 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
 
                     <div className="flex items-center justify-between text-xs pt-1">
                         <span className="font-semibold text-gray-700">
-                            {tempSelected.length} sellers selected
+                            {tempSelected.length} säljare valda
                         </span>
                     </div>
 
@@ -121,16 +121,16 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                         {isFetching && loadedSellers.length === 0 ? (
                             <div className="py-8 text-center text-xs text-gray-500 flex items-center justify-center gap-2">
                                 <Loader2 className="animate-spin text-[#D97706]" size={16} />
-                                <span>Loading sellers...</span>
+                                <span>Laddar säljare...</span>
                             </div>
                         ) : filteredSellers.length === 0 && !isFetching ? (
-                            <div className="py-8 text-center text-xs text-gray-500">{searchQuery ? "No sellers match your search." : "No members found in this group."}</div>
+                            <div className="py-8 text-center text-xs text-gray-500">{searchQuery ? "Inga säljare matchar din sökning." : "Inga medlemmar hittades i denna grupp."}</div>
                         ) : (
                             <>
                                 {filteredSellers.map((seller: any) => {
                                     const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
                                     const sellerUserId = userObj._id || seller._id || "";
-                                    const sellerName = userObj.name || "Unnamed Member";
+                                    const sellerName = userObj.name || "Namnlös medlem";
                                     const sellerEmail = userObj.email || "";
 
                                     const isChecked = tempSelected.includes(sellerUserId);
@@ -163,7 +163,7 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                                 {isFetching && (
                                     <div className="py-3 text-center text-xs text-[#D97706] font-semibold flex items-center justify-center gap-2 bg-amber-50/50">
                                         <Loader2 className="animate-spin" size={14} />
-                                        <span>Loading more members...</span>
+                                        <span>Laddar fler medlemmar...</span>
                                     </div>
                                 )}
                             </>
@@ -174,10 +174,10 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                 {/* Modal Footer */}
                 <div className="flex justify-end items-center gap-3 p-4 border-t border-[#F5F5F4] bg-gray-50/50 shrink-0">
                     <button type="button" onClick={onClose} className="px-4 py-2 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-xl text-xs font-semibold cursor-pointer">
-                        Cancel
+                        Avbryt
                     </button>
                     <button type="button" onClick={handleApply} className="px-5 py-2 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white rounded-full text-xs font-bold shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
-                        Save Selection ({tempSelected.length})
+                        Spara val ({tempSelected.length})
                     </button>
                 </div>
             </div>

@@ -30,9 +30,9 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
 
     // Define categories and their subcategories
     const categories = [
-        { value: "All", label: "Category: All", subcategories: [] },
-        { value: "Scented Candles", label: "Category: Scented Candles", subcategories: ["Reed Diffusers"] },
-        { value: "Premium Socks", label: "Category: Premium Socks", subcategories: [] },
+        { value: "All", label: "Kategori: Alla", subcategories: [] },
+        { value: "Scented Candles", label: "Kategori: Doftljus", subcategories: ["Reed Diffusers"] },
+        { value: "Premium Socks", label: "Kategori: Premiumstrumpor", subcategories: [] },
     ];
 
     // Get current category data
@@ -53,24 +53,24 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
     const handleToggleStatus = async (productId: string) => {
         try {
             await toggleProductStatus(productId).unwrap();
-            toast.success("Product status updated!");
+            toast.success("Produktstatus uppdaterad!");
         } catch (err) {
             console.error(err);
-            toast.error("Failed to update product status");
+            toast.error("Misslyckades med att uppdatera produktstatus");
         }
     };
 
     // Handle delete product
     const handleDelete = async (productId: string) => {
         Swal.fire({
-            title: "Are you sure?",
-            text: "This product will be permanently deleted.",
+            title: "Är du säker?",
+            text: "Denna produkt kommer att raderas permanent.",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#D97706",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "Cancel",
+            confirmButtonText: "Ja, radera den!",
+            cancelButtonText: "Avbryt",
             customClass: {
                 confirmButton: "rounded-lg",
                 cancelButton: "rounded-lg",
@@ -80,14 +80,14 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                 try {
                     await deleteProduct(productId).unwrap();
                     Swal.fire({
-                        title: "Deleted!",
-                        text: "Your product has been deleted.",
+                        title: "Raderad!",
+                        text: "Din produkt har raderats.",
                         icon: "success",
                         confirmButtonColor: "#D97706",
                     });
                 } catch (err) {
                     console.error(err);
-                    toast.error("Failed to delete product");
+                    toast.error("Misslyckades med att radera produkt");
                 }
             }
         });
@@ -111,7 +111,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
     if (error) {
         return (
             <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
-                <div className="text-red-500">Failed to load products</div>
+                <div className="text-red-500">Misslyckades med att ladda produkter</div>
             </div>
         );
     }
@@ -122,10 +122,10 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
         <div className="bg-white p-4 sm:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Product Archive</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Produktarkiv</h2>
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
-                    <div className="text-[#78716C] text-xs sm:text-sm font-medium">Filter</div>
+                    <div className="text-[#78716C] text-xs sm:text-sm font-medium">Filtrera</div>
                     <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
                         {/* Category Custom Dropdown */}
                         <div className="relative flex-1 sm:flex-none">
@@ -179,7 +179,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                     }}
                                     className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                                 >
-                                    <span className="truncate">Subcategory: {selectedSubcategory}</span>
+                                    <span className="truncate">Underkategori: {selectedSubcategory === "All" ? "Alla" : selectedSubcategory === "Reed Diffusers" ? "Doftpinnar" : selectedSubcategory}</span>
                                     <ChevronDown size={16} className={`text-[#78716C] shrink-0 transition-transform duration-200 ${isSubcategoryOpen ? "rotate-180" : ""}`} />
                                 </button>
 
@@ -196,7 +196,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                                 }}
                                                 className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === "All" ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                             >
-                                                <span>Subcategory: All</span>
+                                                <span>Underkategori: Alla</span>
                                                 {selectedSubcategory === "All" && <Check size={14} className="text-[#D97706]" />}
                                             </button>
                                             {currentSubcategories.map((subcat) => (
@@ -210,7 +210,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                                     }}
                                                     className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === subcat ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                                 >
-                                                    <span>Subcategory: {subcat}</span>
+                                                    <span>Underkategori: {subcat === "Reed Diffusers" ? "Doftpinnar" : subcat}</span>
                                                     {selectedSubcategory === subcat && <Check size={14} className="text-[#D97706]" />}
                                                 </button>
                                             ))}
@@ -231,7 +231,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                 }}
                                 className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                             >
-                                <span className="truncate">Status: {selectedStatus}</span>
+                                <span className="truncate">Status: {selectedStatus === "All" ? "Alla" : selectedStatus === "Active" ? "Aktiv" : "Inaktiv"}</span>
                                 <ChevronDown size={16} className={`text-[#78716C] shrink-0 transition-transform duration-200 ${isStatusOpen ? "rotate-180" : ""}`} />
                             </button>
 
@@ -239,19 +239,23 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                 <>
                                     <div className="fixed inset-0 z-20" onClick={() => setIsStatusOpen(false)}></div>
                                     <div className="absolute right-0 mt-2 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                        {["All", "Active", "Inactive"].map((status) => (
+                                        {[
+                                            { value: "All", label: "Alla" },
+                                            { value: "Active", label: "Aktiv" },
+                                            { value: "Inactive", label: "Inaktiv" },
+                                        ].map((item) => (
                                             <button
-                                                key={status}
+                                                key={item.value}
                                                 type="button"
                                                 onClick={() => {
-                                                    setSelectedStatus(status);
+                                                    setSelectedStatus(item.value);
                                                     setCurrentPage(1);
                                                     setIsStatusOpen(false);
                                                 }}
-                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedStatus === status ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
+                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedStatus === item.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
                                             >
-                                                <span>Status: {status}</span>
-                                                {selectedStatus === status && <Check size={14} className="text-[#D97706]" />}
+                                                <span>Status: {item.label}</span>
+                                                {selectedStatus === item.value && <Check size={14} className="text-[#D97706]" />}
                                             </button>
                                         ))}
                                     </div>
@@ -265,7 +269,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
             {/* Mobile Cards View (< md) */}
             <div className="block md:hidden space-y-3">
                 {products.length === 0 ? (
-                    <div className="p-8 text-center text-[#78716C]">No products found</div>
+                    <div className="p-8 text-center text-[#78716C]">Inga produkter hittades</div>
                 ) : (
                     products.map((product) => (
                         <div key={product._id} className="bg-[#FAFAF9] hover:bg-[#FFDEA8] p-4 rounded-xl border border-[#E7E5E4] transition-colors space-y-3">
@@ -275,24 +279,24 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                     <span className="text-[#78716C] text-[10px] font-mono break-all">{product._id}</span>
                                 </div>
                                 <button onClick={() => product._id && handleToggleStatus(product._id)} className={`cursor-pointer shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(product.isActive)}`}>
-                                    {product.isActive ? "Active" : "Inactive"}
+                                    {product.isActive ? "Aktiv" : "Inaktiv"}
                                 </button>
                             </div>
 
                             <div className="flex items-center justify-between pt-2 border-t border-[#E7E5E4]/60 text-xs">
                                 <div>
-                                    <span className="text-[#78716C] block text-[10px]">PRICE</span>
+                                    <span className="text-[#78716C] block text-[10px]">PRIS</span>
                                     <span className="text-[#D97706] font-bold text-sm">{product.price} SEK</span>
                                 </div>
 
                                 <div className="flex items-center gap-2">
-                                    <button onClick={() => onView && onView(product)} className="cursor-pointer w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="View Details">
+                                    <button onClick={() => onView && onView(product)} className="cursor-pointer w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="Visa detaljer">
                                         <Eye size={15} />
                                     </button>
-                                    <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Edit">
+                                    <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Redigera">
                                         <Pencil size={15} />
                                     </button>
-                                    <button onClick={() => product._id && handleDelete(product._id)} className="cursor-pointer w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors" title="Delete">
+                                    <button onClick={() => product._id && handleDelete(product._id)} className="cursor-pointer w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors" title="Radera">
                                         <Trash2 size={15} />
                                     </button>
                                 </div>
@@ -307,18 +311,18 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                 <table className="w-full text-left">
                     <thead>
                         <tr className="bg-[#FAFAF9]">
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRODUCT DETAILS</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRODUKTDETALJER</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRICING</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">CAMPAIGNS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">Action</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRISSÄTTNING</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">KAMPANJER</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">Åtgärd</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-4 py-8 text-center text-[#78716C]">
-                                    No products found
+                                    Inga produkter hittades
                                 </td>
                             </tr>
                         ) : (
@@ -332,7 +336,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                     </td>
                                     <td className="px-4 py-4">
                                         <button onClick={() => product._id && handleToggleStatus(product._id)} className={`cursor-pointer inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(product.isActive)}`}>
-                                            {product.isActive ? "Active" : "Inactive"}
+                                            {product.isActive ? "Aktiv" : "Inaktiv"}
                                         </button>
                                     </td>
                                     <td className="px-4 py-4">
@@ -340,7 +344,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                     </td>
                                     <td className="px-4 py-4">
                                         {!product.campaigns || product.campaigns.length === 0 ? (
-                                            <span className="text-[#78716C] text-sm">None assigned</span>
+                                            <span className="text-[#78716C] text-sm">Inga tilldelade</span>
                                         ) : (
                                             <div className="flex items-center relative group">
                                                 {product.campaigns.slice(0, 2).map((campaign, idx) => (
@@ -363,13 +367,13 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                     </td>
                                     <td className="px-4 py-4">
                                         <div className="flex items-center gap-2">
-                                            <button onClick={() => onView && onView(product)} className="cursor-pointer w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="View Details">
+                                            <button onClick={() => onView && onView(product)} className="cursor-pointer w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="Visa detaljer">
                                                 <Eye size={16} />
                                             </button>
-                                            <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Edit">
+                                            <button onClick={() => onEdit && onEdit(product)} className="cursor-pointer w-8 h-8 rounded-full bg-[#FFB80033] text-[#D97706] flex items-center justify-center hover:bg-[#D97706] hover:text-white transition-colors" title="Redigera">
                                                 <Pencil size={16} />
                                             </button>
-                                            <button onClick={() => product._id && handleDelete(product._id)} className="cursor-pointer w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors" title="Delete">
+                                            <button onClick={() => product._id && handleDelete(product._id)} className="cursor-pointer w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors" title="Radera">
                                                 <Trash2 size={16} />
                                             </button>
                                         </div>
@@ -382,7 +386,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
             </div>
 
             {/* Pagination Component */}
-            <Pagination meta={data?.meta} onPageChange={setCurrentPage} itemName="PRODUCTS" />
+            <Pagination meta={data?.meta} onPageChange={setCurrentPage} itemName="PRODUKTER" />
         </div>
     );
 };

@@ -37,8 +37,8 @@ const StoreProductsContent = () => {
         }
     }, [campaignProductsData]);
 
-    const sellerName = storeInfo?.validation ? storeInfo.sellerName : "Unknown";
-    const firstName = sellerName && sellerName !== "Unknown" ? sellerName.split(" ")[0] : "Unknown";
+    const sellerName = storeInfo?.validation ? storeInfo.sellerName : "Okänd";
+    const firstName = sellerName && sellerName !== "Okänd" ? sellerName.split(" ")[0] : "Okänd";
 
     const totalCount = storeInfo?.campaignProductCount ?? allProducts.length;
     const hasNext = campaignProductsData?.meta?.hasNext || false;
@@ -52,13 +52,13 @@ const StoreProductsContent = () => {
     return (
         <div id="products-section" className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-8 mb-6 sm:mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-black">{firstName}'s Collection</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-black">{firstName}s utbud</h2>
                 <span className="hidden sm:block flex-1 h-0.5 bg-[#EEEEEE]"></span>
-                <p className="text-[#A8A29E] text-xs sm:text-sm font-semibold tracking-wider">{totalCount} PRODUCTS AVAILABLE</p>
+                <p className="text-[#A8A29E] text-xs sm:text-sm font-semibold tracking-wider">{totalCount} PRODUKTER TILLGÄNGLIGA</p>
             </div>
             {allProducts.length === 0 && !isFetching ? (
                 <div className="text-center py-12">
-                    <p className="text-[#78716C] text-lg">No products available in this campaign.</p>
+                    <p className="text-[#78716C] text-lg">Inga produkter tillgängliga i denna kampanj.</p>
                 </div>
             ) : (
                 <>
@@ -79,7 +79,7 @@ const StoreProductsContent = () => {
                     {hasNext && (
                         <div className="flex justify-center mt-12">
                             <button onClick={handleLoadMore} disabled={isFetching} className="font-bold px-8 py-3 rounded-[24px] border border-[#7C5800] text-[#7C5800] hover:bg-[#7C5800] hover:text-white transition-all disabled:opacity-50 cursor-pointer">
-                                {isFetching ? "Loading..." : "See More"}
+                                {isFetching ? "Laddar..." : "Visa mer"}
                             </button>
                         </div>
                     )}
@@ -94,7 +94,7 @@ const StoreProducts = () => {
         <Suspense
             fallback={
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-28 text-center">
-                    <p className="text-[#78716C] text-lg">Loading products...</p>
+                    <p className="text-[#78716C] text-lg">Laddar produkter...</p>
                 </div>
             }
         >

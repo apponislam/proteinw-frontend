@@ -13,10 +13,10 @@ interface AdminEditModalProps {
 }
 
 const PROFESSIONS = [
-    { label: "Leader", value: "LEADER" },
-    { label: "Teacher", value: "TEACHER" },
-    { label: "Parent", value: "PARENT" },
-    { label: "Coach", value: "COACH" },
+    { label: "Ledare", value: "LEADER" },
+    { label: "Lärare", value: "TEACHER" },
+    { label: "Förälder", value: "PARENT" },
+    { label: "Tränare", value: "COACH" },
 ];
 
 const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin }) => {
@@ -80,7 +80,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const toastId = toast.loading("Updating admin details...");
+        const toastId = toast.loading("Uppdaterar administratörsdetaljer...");
         try {
             const bodyObj: Record<string, any> = {};
             if (name) bodyObj.name = name;
@@ -105,10 +105,10 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                 body: bodyObj,
             }).unwrap();
 
-            toast.success("Admin profile updated successfully!", { id: toastId });
+            toast.success("Administratörsprofilen uppdaterades framgångsrikt!", { id: toastId });
             onClose();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to update admin profile", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att uppdatera administratörsprofil", { id: toastId });
         }
     };
 
@@ -128,9 +128,9 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                             <Sparkles size={18} />
                         </div>
                         <div>
-                            <h2 className="text-lg font-bold text-[#1A1C1C]">Edit Admin Details</h2>
+                            <h2 className="text-lg font-bold text-[#1A1C1C]">Redigera administratörsdetaljer</h2>
                             <p className="text-xs text-[#78716C] mt-0.5">
-                                Update profile information for <span className="font-semibold text-[#D97706]">{admin.name}</span>
+                                Uppdatera profilinformation för <span className="font-semibold text-[#D97706]">{admin.name}</span>
                             </p>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                 {isFetchingUser ? (
                     <div className="p-12 sm:p-16 flex flex-col items-center justify-center text-[#78716C] gap-3">
                         <Loader2 className="animate-spin text-[#D97706]" size={30} />
-                        <span className="text-sm font-medium">Loading user details...</span>
+                        <span className="text-sm font-medium">Laddar användardetaljer...</span>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="overflow-y-auto p-5 sm:p-8 space-y-6 sm:space-y-7 flex-1 custom-scrollbar">
@@ -154,40 +154,40 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 pb-1 border-b border-[#E7E5E4]">
                                 <User size={16} className="text-[#D97706]" />
-                                <h4 className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Basic Information</h4>
+                                <h4 className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Grundläggande information</h4>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5 md:col-span-2">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Full Name</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Fullständigt namn</label>
                                     <Input
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        placeholder="Full Name"
+                                        placeholder="Fullständigt namn"
                                         required
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Phone Number</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Telefonnummer</label>
                                     <Input
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value)}
-                                        placeholder="Phone Number"
+                                        placeholder="Telefonnummer"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
 
                                 {/* Custom Profession Dropdown */}
                                 <div className="space-y-1.5 relative" ref={dropdownRef}>
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Profession</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Yrke</label>
                                     <button
                                         type="button"
                                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                         className="w-full h-11 px-3.5 border border-[#E7E5E4] rounded-xl text-sm bg-[#FAFAF9] text-[#1A1C1C] flex items-center justify-between hover:border-[#D97706] focus:outline-none focus:border-[#D97706] transition-all cursor-pointer font-medium"
                                     >
                                         <span className={selectedProfessionLabel ? "text-[#1A1C1C]" : "text-[#78716C]"}>
-                                            {selectedProfessionLabel || "Select Profession"}
+                                            {selectedProfessionLabel || "Välj yrke"}
                                         </span>
                                         <ChevronDown size={16} className={`text-[#78716C] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
@@ -223,70 +223,70 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 pb-1 border-b border-[#E7E5E4]">
                                 <Building2 size={16} className="text-[#D97706]" />
-                                <h4 className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Organization & Address</h4>
+                                <h4 className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Organisation & Adress</h4>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Organization Name</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Organisationsnamn</label>
                                     <Input
                                         value={organizationName}
                                         onChange={(e) => setOrganizationName(e.target.value)}
-                                        placeholder="Organization Name"
+                                        placeholder="Organisationsnamn"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Organization Type</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Organisationstyp</label>
                                     <Input
                                         value={organizationType}
                                         onChange={(e) => setOrganizationType(e.target.value)}
-                                        placeholder="e.g. School, Club"
+                                        placeholder="t.ex. Skola, Förening"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5 md:col-span-2">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Street Address</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Gatuadress</label>
                                     <Input
                                         value={street}
                                         onChange={(e) => setStreet(e.target.value)}
-                                        placeholder="Street Address"
+                                        placeholder="Gatuadress"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">City</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Stad</label>
                                     <Input
                                         value={city}
                                         onChange={(e) => setCity(e.target.value)}
-                                        placeholder="City"
+                                        placeholder="Stad"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">State / Province</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Län / Region</label>
                                     <Input
                                         value={state}
                                         onChange={(e) => setState(e.target.value)}
-                                        placeholder="State"
+                                        placeholder="Region"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Zip Code</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Postnummer</label>
                                     <Input
                                         value={zipCode}
                                         onChange={(e) => setZipCode(e.target.value)}
-                                        placeholder="Zip Code"
+                                        placeholder="Postnummer"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Locality</label>
+                                    <label className="text-xs font-semibold text-[#78716C] uppercase">Ort</label>
                                     <Input
                                         value={locality}
                                         onChange={(e) => setLocality(e.target.value)}
-                                        placeholder="Locality"
+                                        placeholder="Ort"
                                         className="h-11 border-[#E7E5E4] focus:border-[#D97706] rounded-xl bg-[#FAFAF9] text-sm font-medium"
                                     />
                                 </div>
@@ -300,7 +300,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                                 onClick={onClose}
                                 className="px-5 py-2.5 rounded-xl border border-[#E7E5E4] text-sm font-semibold text-[#1A1C1C] hover:bg-[#F3F3F3] transition-all cursor-pointer"
                             >
-                                Cancel
+                                Avbryt
                             </button>
                             <button
                                 type="submit"
@@ -308,7 +308,7 @@ const AdminEditModal: React.FC<AdminEditModalProps> = ({ isOpen, onClose, admin 
                                 className="inline-flex items-center gap-2 rounded-xl bg-[#D97706] hover:bg-[#B45309] px-6 py-2.5 text-sm font-bold text-white shadow-xs transition-all disabled:opacity-50 cursor-pointer"
                             >
                                 {isUpdating && <Loader2 size={16} className="animate-spin" />}
-                                {isUpdating ? "Saving..." : "Save All Changes"}
+                                {isUpdating ? "Sparar..." : "Spara alla ändringar"}
                             </button>
                         </div>
                     </form>

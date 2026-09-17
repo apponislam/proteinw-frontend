@@ -24,28 +24,28 @@ const AdminChangePasswordModal: React.FC<AdminChangePasswordModalProps> = ({ isO
         e.preventDefault();
 
         if (password.length < 8) {
-            toast.error("Password must be at least 8 characters long.");
+            toast.error("Lösenordet måste vara minst 8 tecken långt.");
             return;
         }
 
         if (password !== confirmPassword) {
-            toast.error("Passwords do not match.");
+            toast.error("Lösenorden matchar inte.");
             return;
         }
 
-        const toastId = toast.loading(`Updating password for ${admin.name}...`);
+        const toastId = toast.loading(`Uppdaterar lösenord för ${admin.name}...`);
         try {
             await updateUserBySuperAdmin({
                 userId: admin._id,
                 body: { password },
             }).unwrap();
 
-            toast.success("Password changed successfully!", { id: toastId });
+            toast.success("Lösenordet ändrades framgångsrikt!", { id: toastId });
             setPassword("");
             setConfirmPassword("");
             onClose();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to change password.", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att ändra lösenord.", { id: toastId });
         }
     };
 
@@ -60,7 +60,7 @@ const AdminChangePasswordModal: React.FC<AdminChangePasswordModalProps> = ({ isO
                 <div className="flex items-center justify-between pb-4 border-b border-[#F5F5F4]">
                     <div className="flex items-center gap-2 text-[#D97706]">
                         <KeyRound size={20} />
-                        <h2 className="text-lg font-bold text-[#1A1C1C]">Change Password</h2>
+                        <h2 className="text-lg font-bold text-[#1A1C1C]">Ändra lösenord</h2>
                     </div>
                     <button onClick={onClose} className="text-[#78716C] hover:text-[#1A1C1C] cursor-pointer p-1 rounded-lg hover:bg-gray-100 transition-colors">
                         <X size={20} />
@@ -69,28 +69,28 @@ const AdminChangePasswordModal: React.FC<AdminChangePasswordModalProps> = ({ isO
 
                 <form onSubmit={handleSubmit} className="space-y-4 pt-4">
                     <p className="text-xs text-[#78716C]">
-                        Set a new password for <span className="font-semibold text-[#1A1C1C]">{admin.name}</span> ({admin.email}).
+                        Ange ett nytt lösenord för <span className="font-semibold text-[#1A1C1C]">{admin.name}</span> ({admin.email}).
                     </p>
 
                     <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-[#1A1C1C]">New Password</label>
+                        <label className="text-sm font-medium text-[#1A1C1C]">Nytt lösenord</label>
                         <Input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter new password (min 8 chars)"
+                            placeholder="Ange nytt lösenord (minst 8 tecken)"
                             required
                             className="h-11 border-[#F5F5F4] focus:border-[#D97706]"
                         />
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Confirm New Password</label>
+                        <label className="text-sm font-medium text-[#1A1C1C]">Bekräfta nytt lösenord</label>
                         <Input
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Re-enter new password"
+                            placeholder="Ange nytt lösenord igen"
                             required
                             className="h-11 border-[#F5F5F4] focus:border-[#D97706]"
                         />
@@ -98,7 +98,7 @@ const AdminChangePasswordModal: React.FC<AdminChangePasswordModalProps> = ({ isO
 
                     <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#F5F5F4]">
                         <button type="button" onClick={onClose} className="px-4 py-2 rounded-full border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-all cursor-pointer">
-                            Cancel
+                            Avbryt
                         </button>
                         <button
                             type="submit"
@@ -106,7 +106,7 @@ const AdminChangePasswordModal: React.FC<AdminChangePasswordModalProps> = ({ isO
                             className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 py-2 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all disabled:opacity-70 cursor-pointer"
                         >
                             {isUpdating && <Loader2 size={14} className="animate-spin" />}
-                            Update Password
+                            Uppdatera lösenord
                         </button>
                     </div>
                 </form>

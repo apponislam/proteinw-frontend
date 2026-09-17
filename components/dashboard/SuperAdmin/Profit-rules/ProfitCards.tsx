@@ -17,7 +17,7 @@ const TierCard = ({ tier }: { tier: TTier }) => {
     const [editIsPopular, setEditIsPopular] = useState(tier.isPopular || false);
 
     const handleSave = async () => {
-        const toastId = toast.loading("Updating tier...");
+        const toastId = toast.loading("Uppdaterar nivå...");
         try {
             await updateTier({
                 tierId: tier._id!,
@@ -29,23 +29,23 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                     isPopular: editIsPopular,
                 },
             }).unwrap();
-            toast.success("Tier updated!", { id: toastId });
+            toast.success("Nivån uppdaterades!", { id: toastId });
             setIsEditing(false);
         } catch (err: any) {
-            toast.error(err?.data?.message || "Update failed", { id: toastId });
+            toast.error(err?.data?.message || "Uppdateringen misslyckades", { id: toastId });
         }
     };
 
     const handleTogglePopular = async () => {
-        const toastId = toast.loading(tier.isPopular ? "Removing Most Popular status..." : "Setting as Most Popular...");
+        const toastId = toast.loading(tier.isPopular ? "Tar bort status som mest populär..." : "Sätter som mest populär...");
         try {
             await updateTier({
                 tierId: tier._id!,
                 data: { isPopular: !tier.isPopular },
             }).unwrap();
-            toast.success(tier.isPopular ? "Removed Most Popular status!" : "Marked as Most Popular!", { id: toastId });
+            toast.success(tier.isPopular ? "Tog bort status som mest populär!" : "Markerades som mest populär!", { id: toastId });
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to update popularity", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att uppdatera populäritet", { id: toastId });
         }
     };
 
@@ -78,9 +78,9 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                         onClick={handleTogglePopular}
                         disabled={isUpdating}
                         className="inline-flex items-center gap-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full cursor-pointer hover:scale-105 transition-transform"
-                        title="Click to toggle Most Popular status"
+                        title="Klicka för att ändra status som mest populär"
                     >
-                        <Star size={10} fill="currentColor" /> Most Popular
+                        <Star size={10} fill="currentColor" /> Mest populär
                     </button>
                 </div>
             )}
@@ -96,17 +96,17 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                     ) : (
                         <div className="min-w-0">
                             <h3 className="text-xs sm:text-sm font-bold text-[#1A1C1C] uppercase tracking-wide truncate">{tier.name}</h3>
-                            <span className={`text-[10px] font-semibold uppercase ${tier.isActive ? "text-green-600" : "text-gray-400"}`}>{tier.isActive ? "Active" : "Inactive"}</span>
+                            <span className={`text-[10px] font-semibold uppercase ${tier.isActive ? "text-green-600" : "text-gray-400"}`}>{tier.isActive ? "Aktiv" : "Inaktiv"}</span>
                         </div>
                     )}
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                     {isEditing ? (
                         <>
-                            <button onClick={handleSave} disabled={isUpdating} className="p-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 cursor-pointer disabled:opacity-50" title="Save">
+                            <button onClick={handleSave} disabled={isUpdating} className="p-1.5 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 cursor-pointer disabled:opacity-50" title="Spara">
                                 {isUpdating ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
                             </button>
-                            <button onClick={() => setIsEditing(false)} className="p-1.5 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 cursor-pointer" title="Cancel">
+                            <button onClick={() => setIsEditing(false)} className="p-1.5 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 cursor-pointer" title="Avbryt">
                                 <X size={14} />
                             </button>
                         </>
@@ -116,11 +116,11 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                                 onClick={handleTogglePopular}
                                 disabled={isUpdating}
                                 className={`p-1.5 rounded-lg transition-colors cursor-pointer ${tier.isPopular ? "text-[#D97706] bg-amber-50 hover:bg-amber-100" : "text-gray-400 hover:text-[#D97706] hover:bg-amber-50"}`}
-                                title={tier.isPopular ? "Remove Most Popular tag" : "Set as Most Popular"}
+                                title={tier.isPopular ? "Ta bort tagg för mest populär" : "Sätt som mest populär"}
                             >
                                 <Star size={14} fill={tier.isPopular ? "currentColor" : "none"} />
                             </button>
-                            <button onClick={() => setIsEditing(true)} className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg cursor-pointer" title="Edit">
+                            <button onClick={() => setIsEditing(true)} className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg cursor-pointer" title="Redigera">
                                 <Pencil size={14} />
                             </button>
                         </>
@@ -141,13 +141,13 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                         <span className="text-xl sm:text-2xl text-[#D97706] ml-0.5">%</span>
                     </div>
                 )}
-                <p className="text-xs text-[#78716C] mt-1">Profit margin</p>
+                <p className="text-xs text-[#78716C] mt-1">Vinstmarginal</p>
             </div>
 
             {/* Volume Range & Edit Popular Toggle */}
             <div className="border-t border-[#F5F5F4] pt-3 sm:pt-4 space-y-2">
                 <div className="flex items-center justify-between">
-                    <span className="text-[10px] sm:text-xs text-[#78716C] font-semibold uppercase">Sales Volume Range</span>
+                    <span className="text-[10px] sm:text-xs text-[#78716C] font-semibold uppercase">Försäljningsvolym</span>
                 </div>
                 {isEditing ? (
                     <div className="space-y-3">
@@ -158,14 +158,14 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                         </div>
                         <label className="flex items-center gap-2 pt-1 cursor-pointer select-none">
                             <input type="checkbox" checked={editIsPopular} onChange={(e) => setEditIsPopular(e.target.checked)} className="w-4 h-4 accent-[#D97706] cursor-pointer rounded" />
-                            <span className="text-xs font-bold text-[#1A1C1C]">Mark as Most Popular</span>
+                            <span className="text-xs font-bold text-[#1A1C1C]">Markera som mest populär</span>
                         </label>
                     </div>
                 ) : (
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#1A1C1C] flex-wrap">
-                        <span>{tier.minSalesVolume.toLocaleString()} items</span>
+                        <span>{tier.minSalesVolume.toLocaleString()} artiklar</span>
                         <ChevronRight size={14} className="text-[#78716C] shrink-0" />
-                        <span>{tier.maxSalesVolume ? `${tier.maxSalesVolume.toLocaleString()} items` : "Unlimited ∞"}</span>
+                        <span>{tier.maxSalesVolume ? `${tier.maxSalesVolume.toLocaleString()} artiklar` : "Obegränsat ∞"}</span>
                     </div>
                 )}
             </div>
@@ -196,8 +196,8 @@ const ProfitCards = () => {
                 <div className="h-12 w-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 text-[#D97706]">
                     <TrendingUp size={24} />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-2">No tiers configured</h3>
-                <p className="text-xs sm:text-sm text-[#78716C]">Add your first tier using the button above.</p>
+                <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-2">Inga nivåer konfigurerade</h3>
+                <p className="text-xs sm:text-sm text-[#78716C]">Lägg till din första nivå med knappen ovan.</p>
             </div>
         );
     }

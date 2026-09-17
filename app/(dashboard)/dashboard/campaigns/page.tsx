@@ -7,7 +7,7 @@ const page = () => {
         <div>
             <CampaignsOverviewCards />
             <div className="mt-8">
-                <Suspense fallback={<div className="py-12 text-center text-stone-500">Loading campaigns...</div>}>
+                <Suspense fallback={<div className="py-12 text-center text-stone-500">Laddar kampanjer...</div>}>
                     <AllCampaignCards />
                 </Suspense>
             </div>

@@ -40,7 +40,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                         </div>
                         <div className="min-w-0">
                             <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] block leading-tight">{seller.packages}</span>
-                            <span className="text-[11px] sm:text-xs font-bold text-[#7C5800] truncate block">Packages Sold</span>
+                            <span className="text-[11px] sm:text-xs font-bold text-[#7C5800] truncate block">Sålda paket</span>
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                         </div>
                         <div className="min-w-0">
                             <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] block leading-tight">{seller.orders}</span>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Total Orders</span>
+                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Totalt antal order</span>
                         </div>
                     </div>
 
@@ -62,7 +62,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                         </div>
                         <div className="min-w-0">
                             <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] block leading-tight">{totalGroupsCount}</span>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Assigned Groups</span>
+                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Tilldelade grupper</span>
                         </div>
                     </div>
 
@@ -76,11 +76,11 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                                 <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] leading-tight">{totalCampaignsCount}</span>
                                 {activeCampaignsCount > 0 && (
                                     <span className="text-[9px] sm:text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md truncate">
-                                        {activeCampaignsCount} Active
+                                        {activeCampaignsCount} Aktiva
                                     </span>
                                 )}
                             </div>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Total Campaigns</span>
+                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Totalt antal kampanjer</span>
                         </div>
                     </div>
                 </div>
@@ -91,11 +91,11 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                         <div className="w-8 h-8 rounded-lg bg-amber-100 text-[#7C5800] flex items-center justify-center font-bold shrink-0">
                             <Users size={18} />
                         </div>
-                        <span className="text-xs font-bold text-[#78716C] uppercase tracking-wider">Assigned Groups</span>
+                        <span className="text-xs font-bold text-[#78716C] uppercase tracking-wider">Tilldelade grupper</span>
                     </div>
 
                     {groupsList.length === 0 ? (
-                        <p className="text-sm text-stone-400 font-medium">No groups assigned</p>
+                        <p className="text-sm text-stone-400 font-medium">Inga grupper tilldelade</p>
                     ) : (
                         <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto pr-1">
                             {groupsList.map((groupName, idx) => (
@@ -110,14 +110,14 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
 
                 {/* Bottom: Seller Orders */}
                 <div className="mb-6 border-t border-[#F5F5F4] pt-6">
-                    <h4 className="text-sm font-bold text-[#D97706] uppercase tracking-wider mb-3">Seller Orders</h4>
+                    <h4 className="text-sm font-bold text-[#D97706] uppercase tracking-wider mb-3">Säljarens beställningar</h4>
                     <SellerCampaignOrders memberId={seller._id} />
                 </div>
 
                 {/* Footer */}
                 <div className="flex justify-end pt-4 border-t border-[#F5F5F4] mt-auto">
                     <button onClick={onClose} className="px-5 py-2.5 bg-[#FAFAF9] hover:bg-[#F5F5F4] text-[#1A1C1C] font-semibold rounded-xl border border-[#E7E5E4] transition-colors duration-200 cursor-pointer">
-                        Close
+                        Stäng
                     </button>
                 </div>
             </div>

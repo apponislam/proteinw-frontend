@@ -8,25 +8,25 @@ const SellersCard = () => {
 
     const sellerStats = [
         {
-            title: "TOTAL SELLERS",
+            title: "TOTALT ANTAL SÄLJARE",
             value: isLoading ? "..." : (stats?.totalSellers ?? 0).toLocaleString(),
             subtitle: "",
             color: "#D97706",
         },
         {
-            title: "ACTIVE GROUPS",
+            title: "AKTIVA GRUPPER",
             value: isLoading ? "..." : (stats?.activeGroups ?? 0).toLocaleString(),
             subtitle: "",
             color: "#D97706",
         },
         {
-            title: "ORDERS (MTD)",
+            title: "BESTÄLLNINGAR (MTD)",
             value: isLoading ? "..." : (stats?.mtdOrders ?? 0).toLocaleString(),
             subtitle: "",
             color: "#D97706",
         },
         {
-            title: "SALES REVENUE",
+            title: "FÖRSÄLJNINGSINTÄKTER",
             value: isLoading ? "..." : `${(stats?.salesRevenue ?? 0).toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",

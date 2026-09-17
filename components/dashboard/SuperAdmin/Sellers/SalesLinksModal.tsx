@@ -36,7 +36,7 @@ export const SalesLinksModal: React.FC<SalesLinksModalProps> = ({
                             <Link2 size={22} />
                         </div>
                         <div className="min-w-0">
-                            <h3 className="text-base sm:text-lg font-extrabold text-[#1A1C1C] truncate">Store Sales Links</h3>
+                            <h3 className="text-base sm:text-lg font-extrabold text-[#1A1C1C] truncate">Butikens försäljningslänkar</h3>
                             <p className="text-xs text-[#78716C] truncate">{sellerName} • {sellerEmail}</p>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ export const SalesLinksModal: React.FC<SalesLinksModalProps> = ({
                 <button
                     onClick={onClose}
                     className="absolute right-3.5 top-3.5 sm:right-5 sm:top-5 p-2 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
-                    title="Close"
+                    title="Stäng"
                 >
                     <X size={18} />
                 </button>
@@ -63,10 +63,10 @@ export const SalesLinksModal: React.FC<SalesLinksModalProps> = ({
                                 <div className="flex items-center justify-between gap-2">
                                     <span className="text-xs sm:text-sm font-bold text-[#1A1C1C] flex items-center gap-2 truncate">
                                         <span className="w-2 h-2 rounded-full bg-[#D97706] shrink-0"></span>
-                                        <span className="truncate">{item.name || `Store Link #${idx + 1}`}</span>
+                                        <span className="truncate">{item.name || `Butikslänk #${idx + 1}`}</span>
                                     </span>
                                     <span className="text-[10px] font-extrabold text-[#7C5800] bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-200/50 shrink-0">
-                                        Link #{idx + 1}
+                                        Länk #{idx + 1}
                                     </span>
                                 </div>
 
@@ -84,7 +84,7 @@ export const SalesLinksModal: React.FC<SalesLinksModalProps> = ({
                                         className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-[#57534E] hover:text-[#1A1C1C] bg-white hover:bg-stone-100 px-3.5 py-2 rounded-xl border border-stone-200 transition-colors"
                                     >
                                         <ExternalLink size={13} />
-                                        <span>Open Store</span>
+                                        <span>Öppna butik</span>
                                     </a>
                                     <button
                                         type="button"
@@ -98,12 +98,12 @@ export const SalesLinksModal: React.FC<SalesLinksModalProps> = ({
                                         {isCopied ? (
                                             <>
                                                 <Check size={14} />
-                                                <span>Copied!</span>
+                                                <span>Kopierad!</span>
                                             </>
                                         ) : (
                                             <>
                                                 <Copy size={14} />
-                                                <span>Copy Link</span>
+                                                <span>Kopiera länk</span>
                                             </>
                                         )}
                                     </button>
@@ -116,13 +116,13 @@ export const SalesLinksModal: React.FC<SalesLinksModalProps> = ({
                 {/* Footer */}
                 <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between shrink-0">
                     <span className="text-xs font-extrabold text-[#78716C]">
-                        Total Links: <span className="text-[#D97706]">{links.length}</span>
+                        Totalt antal länkar: <span className="text-[#D97706]">{links.length}</span>
                     </span>
                     <button
                         onClick={onClose}
                         className="px-5 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs rounded-xl transition-colors cursor-pointer"
                     >
-                        Close
+                        Stäng
                     </button>
                 </div>
             </div>

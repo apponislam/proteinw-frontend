@@ -47,9 +47,9 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
     const handleMarkAllAsRead = async () => {
         try {
             await markAllAsRead().unwrap();
-            toast.success("All messages marked as read");
+            toast.success("Alla meddelanden har markerats som lästa");
         } catch (error) {
-            toast.error("Failed to mark all messages as read");
+            toast.error("Misslyckades med att markera alla meddelanden som lästa");
         }
     };
 
@@ -57,16 +57,16 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
         try {
             await markAsRead(id).unwrap();
         } catch (error) {
-            toast.error("Failed to mark message as read");
+            toast.error("Misslyckades med att markera meddelandet som läst");
         }
     };
 
     const handleDelete = async (id: string) => {
         try {
             await deleteContact(id).unwrap();
-            toast.success("Message deleted successfully");
+            toast.success("Meddelandet raderades framgångsrikt");
         } catch (error) {
-            toast.error("Failed to delete message");
+            toast.error("Misslyckades med att radera meddelandet");
         }
     };
 
@@ -79,8 +79,8 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
                 <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#F5F5F4] gap-2">
                     <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-wrap">
                         <Bell className="text-[#D97706] shrink-0" />
-                        <h2 className="text-base sm:text-xl font-bold text-[#1A1C1C] truncate">Message Notifications</h2>
-                        {unreadCount > 0 && <span className="bg-[#D97706]/10 text-[#D97706] text-xs font-bold px-2 py-0.5 rounded-full shrink-0">{unreadCount} new</span>}
+                        <h2 className="text-base sm:text-xl font-bold text-[#1A1C1C] truncate">Meddelandeaviseringar</h2>
+                        {unreadCount > 0 && <span className="bg-[#D97706]/10 text-[#D97706] text-xs font-bold px-2 py-0.5 rounded-full shrink-0">{unreadCount} nya</span>}
                     </div>
                     <button onClick={onClose} className="p-1.5 sm:p-2 rounded-full hover:bg-[#F5F5F4] transition-all cursor-pointer shrink-0">
                         <X size={20} className="text-[#78716C]" />
@@ -89,9 +89,9 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
 
                 {unreadCount > 0 && (
                     <div className="px-6 py-2 bg-[#D97706]/5 border-b border-[#D97706]/10 flex justify-between items-center">
-                        <span className="text-xs text-[#78716C]">You have unread messages</span>
+                        <span className="text-xs text-[#78716C]">Du har olästa meddelanden</span>
                         <button onClick={handleMarkAllAsRead} className="text-xs font-bold text-[#D97706] hover:text-[#B45309] hover:underline transition-colors cursor-pointer">
-                            Mark all as read
+                            Markera alla som lästa
                         </button>
                     </div>
                 )}
@@ -100,15 +100,15 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
                     {isLoading ? (
                         <div className="flex flex-col items-center justify-center h-48 space-y-2">
                             <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
-                            <span className="text-sm text-gray-500">Loading notifications...</span>
+                            <span className="text-sm text-gray-500">Laddar aviseringar...</span>
                         </div>
                     ) : isError ? (
-                        <div className="text-center text-red-500 py-8">Failed to load notifications. Please try again.</div>
+                        <div className="text-center text-red-500 py-8">Misslyckades med att ladda aviseringar. Försök igen.</div>
                     ) : notifications.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-64 text-center space-y-3">
                             <MailOpen className="text-gray-300 w-12 h-12" />
-                            <h3 className="font-bold text-gray-600">No message notifications</h3>
-                            <p className="text-xs text-gray-400 max-w-50">When clients submit contact forms, they will show up here.</p>
+                            <h3 className="font-bold text-gray-600">Inga meddelandeaviseringar</h3>
+                            <p className="text-xs text-gray-400 max-w-50">När kunder skickar in kontaktformulär visas de här.</p>
                         </div>
                     ) : (
                         <>
@@ -138,7 +138,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
                                                         handleMarkAsRead(notification._id!);
                                                     }}
                                                     className="p-1 text-gray-400 hover:text-[#D97706] rounded transition-colors cursor-pointer"
-                                                    title="Mark as read"
+                                                    title="Markera som läst"
                                                 >
                                                     <Mail size={16} />
                                                 </button>
@@ -149,7 +149,7 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
                                                     handleDelete(notification._id!);
                                                 }}
                                                 className="p-1 text-gray-400 hover:text-red-500 rounded transition-colors cursor-pointer"
-                                                title="Delete notification"
+                                                title="Radera avisering"
                                             >
                                                 <Trash2 size={16} />
                                             </button>
@@ -161,11 +161,11 @@ const Notifications: React.FC<NotificationsProps> = ({ isOpen, onClose }) => {
                                     <div className="space-y-1 text-xs border-t border-[#F5F5F4] pt-2 mt-2">
                                         {notification.phone && (
                                             <div>
-                                                <span className="text-[#78716C]">Phone:</span> <span className="text-[#1A1C1C] font-medium">{notification.phone}</span>
+                                                <span className="text-[#78716C]">Telefon:</span> <span className="text-[#1A1C1C] font-medium">{notification.phone}</span>
                                             </div>
                                         )}
                                         <div>
-                                            <span className="text-[#78716C]">Email:</span>{" "}
+                                            <span className="text-[#78716C]">E-post:</span>{" "}
                                             <a href={`mailto:${notification.email}`} onClick={(e) => e.stopPropagation()} className="text-[#1A1C1C] font-medium hover:text-[#D97706] hover:underline">
                                                 {notification.email}
                                             </a>

@@ -43,7 +43,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
             {/* Back Button */}
             <Link href="/dashboard/groups" className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium mb-2">
                 <ArrowLeft size={16} />
-                <span>Back to Groups</span>
+                <span>Tillbaka till grupper</span>
             </Link>
 
             {/* Group Header Info */}
@@ -51,7 +51,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_0px_20px_0px_rgba(0,0,0,0.04)]">
                     <div className="mb-4 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                         <div>
-                            <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Group Details</span>
+                            <span className="text-xs font-semibold text-[#D97706] uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Gruppdetaljer</span>
                             <h1 className="text-xl sm:text-2xl font-bold text-[#1A1C1C] mt-2 mb-1">{group.name}</h1>
                         </div>
                         <div className="flex flex-col sm:items-end gap-2 shrink-0">
@@ -61,7 +61,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                         {(group.createdBy.name || "A").charAt(0).toUpperCase()}
                                     </div>
                                     <div className="text-left leading-tight min-w-0">
-                                        <div className="text-[10px] text-[#78716C] font-semibold uppercase tracking-wider">Created By</div>
+                                        <div className="text-[10px] text-[#78716C] font-semibold uppercase tracking-wider">Skapad av</div>
                                         <div className="text-xs font-bold text-[#1A1C1C] mt-0.5 truncate">{group.createdBy.name || "Admin"}</div>
                                         <div className="text-[11px] text-[#78716C] font-medium flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                                             {group.createdBy.phone && <span className="text-[#D97706] font-semibold">{group.createdBy.phone}</span>}
@@ -72,7 +72,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                             )}
                             <div className="text-xs text-[#78716C] font-semibold flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200 w-fit">
                                 <Calendar size={14} className="text-[#D97706]" />
-                                <span>Created: {group.createdAt ? new Date(group.createdAt).toLocaleDateString() : "N/A"}</span>
+                                <span>Skapad: {group.createdAt ? new Date(group.createdAt).toLocaleDateString() : "Ej tillgängligt"}</span>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                 <Users size={18} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Total Sellers</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Totalt antal säljare</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">{group.sellerCount ?? 0}</div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                 <Award size={18} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Active Campaigns</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Aktiva kampanjer</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">{group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}</div>
                             </div>
                         </div>
@@ -101,22 +101,22 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                 <Calendar size={18} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Pending Invitations</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Väntande inbjudningar</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">{group.invitationCount ?? 0}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             ) : (
-                <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] text-center text-[#78716C]">Group not found.</div>
+                <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] text-center text-[#78716C]">Gruppen hittades inte.</div>
             )}
 
             {/* Campaigns Section fetched from /campaigns/group/:groupId */}
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A1C1C]">Group Campaigns</h2>
-                        <p className="text-sm text-[#78716C]">Campaigns belonging to this group</p>
+                        <h2 className="text-xl font-bold text-[#1A1C1C]">Gruppens kampanjer</h2>
+                        <p className="text-sm text-[#78716C]">Kampanjer som tillhör denna grupp</p>
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                 ) : campaigns.length === 0 ? (
                     <div className="bg-white rounded-2xl border border-[#E7E5E4] p-10 text-center text-[#78716C]">
                         <Store size={32} className="mx-auto mb-2 opacity-50" />
-                        <p className="font-medium">No campaigns found for this group.</p>
+                        <p className="font-medium">Inga kampanjer hittades för denna grupp.</p>
                     </div>
                 ) : (
                     <>
@@ -139,7 +139,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
 
                         {/* Standard Pagination Component */}
                         <div className="mt-8">
-                            <Pagination meta={meta} onPageChange={(p) => setPage(p)} itemName="CAMPAIGNS" />
+                            <Pagination meta={meta} onPageChange={(p) => setPage(p)} itemName="KAMPANJER" />
                         </div>
                     </>
                 )}

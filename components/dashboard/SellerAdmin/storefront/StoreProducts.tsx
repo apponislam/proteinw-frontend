@@ -54,7 +54,7 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
         return (
             <div className="flex flex-col items-center justify-center py-20 gap-3">
                 <Loader2 className="animate-spin text-[#D97706]" size={32} />
-                <p className="text-sm text-[#78716C]">Loading campaign storefront...</p>
+                <p className="text-sm text-[#78716C]">Laddar kampanjens butik...</p>
             </div>
         );
     }
@@ -98,7 +98,7 @@ const StoreProducts: React.FC<StoreProductsProps> = ({ campaignId }) => {
             {isFetching && (
                 <div className="flex items-center justify-center py-8 gap-2">
                     <Loader2 className="animate-spin text-[#D97706]" size={20} />
-                    <span className="text-xs text-[#78716C]">Loading more products...</span>
+                    <span className="text-xs text-[#78716C]">Laddar fler produkter...</span>
                 </div>
             )}
 

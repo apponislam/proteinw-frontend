@@ -107,10 +107,10 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                 const delRes = await removeSellersFromCampaign({ campaignId, sellerIds: deletions }).unwrap();
                 resMsg = delRes?.message || resMsg;
             }
-            toast.success(resMsg || "Campaign sellers updated successfully!");
+            toast.success(resMsg || "Kampanjsäljare uppdaterades framgångsrikt!");
             onClose();
         } catch (err: any) {
-            const errorMsg = err?.data?.message || err?.message || "Failed to update sellers. Please try again.";
+            const errorMsg = err?.data?.message || err?.message || "Misslyckades med att uppdatera säljare. Försök igen.";
             toast.error(errorMsg);
         }
     };
@@ -129,8 +129,8 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-[#E7E5E4] flex items-center justify-between">
                     <div>
-                        <h3 className="text-lg font-bold text-[#1A1C1C]">Manage Campaign Sellers</h3>
-                        <p className="text-xs text-[#78716C]">Add or remove group sellers from this campaign</p>
+                        <h3 className="text-lg font-bold text-[#1A1C1C]">Hantera kampanjsäljare</h3>
+                        <p className="text-xs text-[#78716C]">Lägg till eller ta bort gruppsäljare från denna kampanj</p>
                     </div>
                     <button onClick={onClose} className="p-1 hover:bg-[#F3F3F3] rounded-lg transition-colors text-[#78716C] cursor-pointer">
                         <X size={20} />
@@ -143,7 +143,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8A29E]" size={16} />
                         <input
                             type="text"
-                            placeholder="Search group sellers by name or email..."
+                            placeholder="Sök gruppsäljare på namn eller e-post..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 bg-[#F3F3F3] border border-[#E7E5E4] rounded-xl text-sm focus:outline-none focus:border-[#D97706] transition-all"
@@ -159,16 +159,16 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                     {isFetchingGroupSellers && loadedGroupSellers.length === 0 ? (
                         <div className="flex items-center justify-center py-8">
                             <Loader2 className="animate-spin text-[#D97706]" size={24} />
-                            <span className="text-sm text-[#78716C] ml-2">Loading sellers...</span>
+                            <span className="text-sm text-[#78716C] ml-2">Laddar säljare...</span>
                         </div>
                     ) : filteredSellers.length === 0 && !isFetchingGroupSellers ? (
-                        <div className="text-center text-sm text-[#78716C] py-8">No sellers found matching your search.</div>
+                        <div className="text-center text-sm text-[#78716C] py-8">Inga säljare hittades som matchar din sökning.</div>
                     ) : (
                         <>
                             {filteredSellers.map((seller: any) => {
                                 const userObj = seller?.sellerId && typeof seller.sellerId === "object" ? seller.sellerId : seller;
                                 const sellerUserId = userObj._id || seller._id || "";
-                                const sellerName = userObj.name || "Unnamed Member";
+                                const sellerName = userObj.name || "Namnlös medlem";
                                 const sellerEmail = userObj.email || "";
 
                                 const isSelected = selectedSellerIds.includes(sellerUserId);
@@ -199,7 +199,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                             {isFetchingGroupSellers && (
                                 <div className="py-3 text-center text-xs text-[#D97706] font-semibold flex items-center justify-center gap-2 bg-amber-50/50 rounded-xl">
                                     <Loader2 className="animate-spin" size={14} />
-                                    <span>Loading more sellers...</span>
+                                    <span>Laddar fler säljare...</span>
                                 </div>
                             )}
                         </>
@@ -208,13 +208,13 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
 
                 {/* Footer */}
                 <div className="px-6 py-4 border-t border-[#E7E5E4] flex items-center justify-between bg-[#F8F6F4]">
-                    <span className="text-xs font-semibold text-[#78716C]">{selectedSellerIds.length} sellers selected</span>
+                    <span className="text-xs font-semibold text-[#78716C]">{selectedSellerIds.length} säljare valda</span>
                     <div className="flex items-center gap-3">
                         <button onClick={onClose} className="px-4 py-2 border border-[#E7E5E4] hover:bg-[#F3F3F3] text-sm font-semibold rounded-xl transition-all cursor-pointer text-[#1A1C1C]" disabled={isAdding || isRemoving}>
-                            Cancel
+                            Avbryt
                         </button>
                         <button onClick={handleSave} className="px-5 py-2 bg-[#D97706] hover:bg-[#B45309] text-white text-sm font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50" disabled={isAdding || isRemoving}>
-                            {isAdding || isRemoving ? "Saving..." : "Save Changes"}
+                            {isAdding || isRemoving ? "Sparar..." : "Spara ändringar"}
                         </button>
                     </div>
                 </div>

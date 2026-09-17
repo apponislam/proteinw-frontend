@@ -15,12 +15,12 @@ type StoreProductCardProps = {
     sellerName?: string;
 };
 
-const StoreProductCard = ({ productId, image, title, price, rawPrice, description, sellerName = "Unknown" }: StoreProductCardProps) => {
+const StoreProductCard = ({ productId, image, title, price, rawPrice, description, sellerName = "Okänd" }: StoreProductCardProps) => {
     const dispatch = useAppDispatch();
     const cartItem = useAppSelector((state) => state.cart.items.find((item) => item.productId === productId));
     const quantity = cartItem ? cartItem.quantity : 0;
 
-    const firstName = sellerName && sellerName !== "Unknown" ? sellerName.split(" ")[0] : "Seller";
+    const firstName = sellerName && sellerName !== "Okänd" ? sellerName.split(" ")[0] : "Säljare";
 
     const handleIncrement = () => {
         dispatch(updateQuantity({ productId, quantity: quantity + 1, price: rawPrice, name: title }));
@@ -53,12 +53,12 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
                         className="flex-1 h-10 sm:h-11 px-3 sm:px-4 rounded-full font-bold text-xs sm:text-sm text-white bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] active:scale-[0.98] transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-1.5 truncate cursor-pointer"
                     >
                         <ShoppingBag size={15} className="shrink-0" />
-                        <span className="truncate">Support {firstName}</span>
+                        <span className="truncate">Stötta {firstName}</span>
                     </button>
                     <div className="h-10 sm:h-11 px-1.5 bg-gray-100/90 border border-gray-200/60 rounded-full flex items-center gap-1 shrink-0">
                         <button
                             onClick={handleDecrement}
-                            aria-label="Decrease quantity"
+                            aria-label="Minska antal"
                             className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-gray-200/80 active:scale-95 transition-all shadow-2xs cursor-pointer"
                         >
                             <Minus size={14} />
@@ -66,7 +66,7 @@ const StoreProductCard = ({ productId, image, title, price, rawPrice, descriptio
                         <span className="font-bold min-w-5 text-center text-xs sm:text-sm text-gray-900">{quantity}</span>
                         <button
                             onClick={handleIncrement}
-                            aria-label="Increase quantity"
+                            aria-label="Öka antal"
                             className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-gray-200/80 active:scale-95 transition-all shadow-2xs cursor-pointer"
                         >
                             <Plus size={14} />

@@ -13,22 +13,22 @@ const GroupCards = () => {
 
     const groupStats = [
         {
-            title: "ACTIVE GROUPS",
+            title: "AKTIVA GRUPPER",
             value: isLoading ? "..." : stats.activeGroups.toLocaleString(),
             color: "#D97706",
         },
         {
-            title: "PACKAGES SOLD",
+            title: "SÅLDA PAKET",
             value: isLoading ? "..." : stats.packagesSold.toLocaleString(),
             color: "#D97706",
         },
         {
-            title: "AVG. PROFIT TIER",
+            title: "SNITT. VINSTNIVÅ",
             value: isLoading ? "..." : `${stats.avgProfitTier.toFixed(1)}%`,
             color: "#D97706",
         },
         {
-            title: "DEADLINES THIS WEEK",
+            title: "DEADLINES DENNA VECKA",
             value: isLoading ? "..." : stats.deadlinesThisWeek.toLocaleString(),
             color: "#D97706",
         },

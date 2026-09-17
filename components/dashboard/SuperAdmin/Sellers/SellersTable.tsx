@@ -77,7 +77,7 @@ const SellersTable = () => {
         <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">All Sellers</h2>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Alla säljare</h2>
                 </div>
             </div>
 
@@ -87,18 +87,18 @@ const SellersTable = () => {
                         <div className="w-10 h-10 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : sellers.length === 0 ? (
-                    <div className="text-center py-20 text-[#78716C]">No sellers registered in the system yet.</div>
+                    <div className="text-center py-20 text-[#78716C]">Inga säljare registrerade i systemet ännu.</div>
                 ) : (
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-[#FAFAF9]">
-                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">SELLER NAME</th>
-                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GROUP</th>
-                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ORDERS</th>
-                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PACKAGES</th>
+                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">SÄLJARENS NAMN</th>
+                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GRUPP</th>
+                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">BESTÄLLNINGAR</th>
+                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PAKET</th>
                                 <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
-                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">SALES LINK</th>
-                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ACTIONS</th>
+                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">FÖRSÄLJNINGSLÄNK</th>
+                                <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ÅTGÄRDER</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -120,7 +120,7 @@ const SellersTable = () => {
             </div>
 
             {/* Pagination Component */}
-            <Pagination meta={meta} onPageChange={setPage} itemName="SELLERS" />
+            <Pagination meta={meta} onPageChange={setPage} itemName="SÄLJARE" />
 
             {/* View Details Modal */}
             {selectedSeller && <SellerDetailsModal seller={selectedSeller} onClose={() => setSelectedSeller(null)} />}

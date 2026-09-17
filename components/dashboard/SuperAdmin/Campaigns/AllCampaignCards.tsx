@@ -80,8 +80,8 @@ const AllCampaignCards = () => {
                 <div className="mb-8">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <div>
-                            <h2 className="text-xl font-bold text-[#1A1C1C]">All Campaigns</h2>
-                            <p className="text-[#78716C] text-sm mt-1">Explore and manage regional fundraising initiatives</p>
+                            <h2 className="text-xl font-bold text-[#1A1C1C]">Alla kampanjer</h2>
+                            <p className="text-[#78716C] text-sm mt-1">Utforska och hantera regionala insamlingsinitiativ</p>
                         </div>
                     </div>
                 </div>
@@ -99,24 +99,24 @@ const AllCampaignCards = () => {
             <div className="mb-6 sm:mb-8">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">All Campaigns</h2>
-                        <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Explore and manage regional fundraising initiatives</p>
+                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Alla kampanjer</h2>
+                        <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Utforska och hantera regionala insamlingsinitiativ</p>
                     </div>
                     <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
                         <button type="button" onClick={() => handleTabChange("ALL")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            All
+                            Alla
                         </button>
                         <button type="button" onClick={() => handleTabChange("DRAFT")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "DRAFT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            Draft
+                            Utkast
                         </button>
                         <button type="button" onClick={() => handleTabChange("ACTIVE")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            Active
+                            Aktiva
                         </button>
                         <button type="button" onClick={() => handleTabChange("FULFILMENT")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            Fulfilment
+                            Leverans
                         </button>
                         <button type="button" onClick={() => handleTabChange("COMPLETED")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            Completed
+                            Avslutade
                         </button>
                     </div>
                 </div>
@@ -127,8 +127,8 @@ const AllCampaignCards = () => {
                     <div className="h-10 sm:h-12 w-10 sm:w-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-[#D97706]">
                         <TrendingUp size={24} />
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-1 sm:mb-2">No campaigns found</h3>
-                    <p className="text-xs sm:text-sm text-[#78716C]">There are no campaigns matching the current filter.</p>
+                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-1 sm:mb-2">Inga kampanjer hittades</h3>
+                    <p className="text-xs sm:text-sm text-[#78716C]">Det finns inga kampanjer som matchar det aktuella filtret.</p>
                 </div>
             ) : (
                 <>
@@ -140,7 +140,7 @@ const AllCampaignCards = () => {
 
                     {/* Pagination Component */}
                     <div className="mt-6 sm:mt-8">
-                        <Pagination meta={meta} onPageChange={handlePageChange} itemName="CAMPAIGNS" />
+                        <Pagination meta={meta} onPageChange={handlePageChange} itemName="KAMPANJER" />
                     </div>
                 </>
             )}

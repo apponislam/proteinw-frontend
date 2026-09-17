@@ -18,7 +18,7 @@ const GroupsTable = () => {
         <div className="mt-8 bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">All Groups</h2>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Alla grupper</h2>
                 </div>
             </div>
 
@@ -26,27 +26,27 @@ const GroupsTable = () => {
                 <table className="w-full text-left">
                     <thead>
                         <tr className="bg-[#FAFAF9]">
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GROUP NAME</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ASSIGNED ADMIN</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">SELLERS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">ACTIVE CAMPAIGNS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">PACKAGES SOLD</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">REVENUE</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GRUPPNAMN</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">TILLDELAD ADMIN</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">SÄLJARE</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">AKTIVA KAMPANJER</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">SÅLDA PAKET</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">INTÄKTER</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ACTIONS</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">ÅTGÄRDER</th>
                         </tr>
                     </thead>
                     <tbody>
                         {isLoading ? (
                             <tr>
                                 <td colSpan={8} className="text-center py-8 text-[#78716C]">
-                                    Loading groups...
+                                    Laddar grupper...
                                 </td>
                             </tr>
                         ) : groupsData.length === 0 ? (
                             <tr>
                                 <td colSpan={8} className="text-center py-8 text-[#78716C]">
-                                    No groups found.
+                                    Inga grupper hittades.
                                 </td>
                             </tr>
                         ) : (
@@ -61,13 +61,13 @@ const GroupsTable = () => {
                                                 <span className="w-10 h-10 rounded-md bg-[#D97706] text-white flex items-center justify-center font-bold text-sm shrink-0">{group.groupCode || "GP"}</span>
                                                 <div>
                                                     <div className="text-[#1A1C1C] font-medium">{group.groupName}</div>
-                                                    <div className="text-[#78716C] text-xs">Code: {group.groupCode}</div>
+                                                    <div className="text-[#78716C] text-xs">Kod: {group.groupCode}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-4 py-4">
                                             <div>
-                                                <div className="text-[#1A1C1C] font-medium">{adminName || "UNASSIGNED"}</div>
+                                                <div className="text-[#1A1C1C] font-medium">{adminName || "OTILLDELAD"}</div>
                                                 {adminEmail && <div className="text-[#78716C] text-xs">{adminEmail}</div>}
                                             </div>
                                         </td>
@@ -76,11 +76,11 @@ const GroupsTable = () => {
                                         <td className="px-4 py-4 text-[#1A1C1C] font-medium text-center">{(group.packagesSold ?? 0).toLocaleString()}</td>
                                         <td className="px-4 py-4 text-[#1A1C1C] font-medium">SEK {(group.revenue ?? 0).toLocaleString()}</td>
                                         <td className="px-4 py-4">
-                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(group.status)}`}>{group.status ? "ACTIVE" : "PAUSED"}</span>
+                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(group.status)}`}>{group.status ? "AKTIV" : "PAUSAD"}</span>
                                         </td>
                                         <td className="px-4 py-4">
                                             <Link href={`/dashboard/groups/${group._id}`} className="text-[#D97706] hover:underline text-sm font-medium cursor-pointer">
-                                                View
+                                                Visa
                                             </Link>
                                         </td>
                                     </tr>
@@ -92,7 +92,7 @@ const GroupsTable = () => {
             </div>
 
             {/* Pagination Component */}
-            <Pagination meta={meta} onPageChange={setPage} itemName="GROUPS" />
+            <Pagination meta={meta} onPageChange={setPage} itemName="GRUPPER" />
         </div>
     );
 };
