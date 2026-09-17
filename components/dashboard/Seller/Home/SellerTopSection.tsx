@@ -23,9 +23,9 @@ const SellerTopSection = () => {
         <div className="space-y-6">
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-8">
                 <div>
-                    <h1 className="text-xs sm:text-sm text-[#7C5800] mb-1.5 sm:mb-3 uppercase font-medium tracking-wider">COORDINATOR DASHBOARD</h1>
-                    <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[#1A1C1C] mb-2 sm:mb-3">Welcome back, {user?.name || "Erik"}!</h2>
-                    <p className="text-[#78716C] text-sm sm:text-base lg:text-lg">{hasActiveCampaign ? "Your campaign is active and performing well." : "There is no active campaign running."}</p>
+                    <h1 className="text-xs sm:text-sm text-[#7C5800] mb-1.5 sm:mb-3 uppercase font-medium tracking-wider">SÄLJARPANEL</h1>
+                    <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[#1A1C1C] mb-2 sm:mb-3">Välkommen tillbaka, {user?.name || "Erik"}!</h2>
+                    <p className="text-[#78716C] text-sm sm:text-base lg:text-lg">{hasActiveCampaign ? "Din försäljning är aktiv och går bra." : "Det finns ingen aktiv försäljning igång."}</p>
                 </div>
                 <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-3 w-full lg:w-auto">
                     <SellerShopLink statsShopUrl={statsData?.shopUrl} statsCampaignCode={statsData?.campaignCode} statsReferralCode={statsData?.referralCode} />
@@ -42,7 +42,7 @@ const SellerTopSection = () => {
             </div>
 
             {!isStatsLoading && !hasActiveCampaign ? (
-                <div className="p-8 h-96 text-center bg-white rounded-xl border border-[#E7E5E4] text-[#78716C] font-medium text-lg shadow-xs flex items-center justify-center">There is no active campaign running.</div>
+                <div className="p-8 h-96 text-center bg-white rounded-xl border border-[#E7E5E4] text-[#78716C] font-medium text-lg shadow-xs flex items-center justify-center">Det finns ingen aktiv försäljning igång.</div>
             ) : (
                 <>
                     <SellerHomeCards data={statsData} isLoading={isStatsLoading} />

@@ -66,7 +66,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
         return (
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#E7E5E4] rounded-xl text-sm text-[#78716C]">
                 <Loader2 className="w-4 h-4 animate-spin text-[#D97706]" />
-                <span>Loading campaigns...</span>
+                <span>Laddar försäljningar...</span>
             </div>
         );
     }
@@ -75,7 +75,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
         return (
             <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#E7E5E4] rounded-xl text-sm text-[#78716C]">
                 <Megaphone className="w-4 h-4 text-[#A8A29E]" />
-                <span>No active campaigns</span>
+                <span>Inga aktiva försäljningar</span>
             </div>
         );
     }
@@ -89,7 +89,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
             >
                 <div className="flex items-center gap-2.5 truncate">
                     <Megaphone className="w-4 h-4 text-[#D97706] shrink-0" />
-                    <span className="truncate">{currentCampaign?.name || "Select Campaign"}</span>
+                    <span className="truncate">{currentCampaign?.name || "Välj försäljning"}</span>
                 </div>
                 <ChevronDown className={`w-4 h-4 text-[#78716C] transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
             </button>
@@ -121,7 +121,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
                                                     : "bg-gray-100 text-gray-700"
                                             }`}
                                         >
-                                            {campaign.status}
+                                            {campaign.status === "ACTIVE" ? "AKTIV" : campaign.status}
                                         </span>
                                     )}
                                 </button>
@@ -131,7 +131,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
                         {isFetching && (
                             <div className="flex items-center justify-center py-2 gap-2 text-xs text-[#78716C]">
                                 <Loader2 className="w-3.5 h-3.5 animate-spin text-[#D97706]" />
-                                <span>Loading more...</span>
+                                <span>Laddar mer...</span>
                             </div>
                         )}
 
@@ -141,7 +141,7 @@ const CampaignList: React.FC<CampaignListProps> = ({ onSelectCampaign, selectedC
                                 onClick={() => setPage((prev) => prev + 1)}
                                 className="w-full py-2 text-center text-xs font-semibold text-[#D97706] hover:bg-[#FFFBEB] transition-colors border-t border-[#E7E5E4] cursor-pointer"
                             >
-                                Load More Campaigns
+                                Ladda fler försäljningar
                             </button>
                         )}
                     </div>

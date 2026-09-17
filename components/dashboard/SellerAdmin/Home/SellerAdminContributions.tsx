@@ -19,12 +19,12 @@ const formatTimeAgo = (dateStr: string) => {
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffMins < 1) return "Just nu";
+    if (diffMins < 60) return `${diffMins}m sedan`;
+    if (diffHours < 24) return `${diffHours}t sedan`;
+    if (diffDays < 7) return `${diffDays}d sedan`;
 
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return date.toLocaleDateString("sv-SE", { month: "short", day: "numeric" });
 };
 
 const getActivityIcon = (type: string) => {
@@ -90,9 +90,9 @@ const SellerAdminContributions = () => {
             <div className="lg:col-span-2 bg-white p-5 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden">
                 <div className="relative z-10">
                     <div className="flex items-center justify-between mb-4 sm:mb-6">
-                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider">Top Contributors</h3>
+                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider">Mest sålda säljare</h3>
                         <Link href="/dashboard/team-sales" className="text-[#D97706] text-xs sm:text-sm font-medium hover:text-[#7C5800] transition-colors">
-                            View all team
+                            Visa hela teamet
                         </Link>
                     </div>
                     <div className="overflow-x-auto -mx-2 px-2">
@@ -101,14 +101,14 @@ const SellerAdminContributions = () => {
                                 <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         ) : contributors.length === 0 ? (
-                            <div className="text-center py-12 text-[#78716C] text-sm">No team members found. Invite some members to your group!</div>
+                            <div className="text-center py-12 text-[#78716C] text-sm">Inga säljare hittades. Bjud in medlemmar till din grupp!</div>
                         ) : (
                             <table className="w-full min-w-100">
                                 <thead>
                                     <tr className="border-b border-[#E7E5E4]">
-                                        <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">NAME</th>
-                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">PACKAGES SOLD</th>
-                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">TOTAL SALES</th>
+                                        <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">NAMN</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">SÅLDA PAKET</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">TOTAL FÖRSÄLJNING</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -121,7 +121,7 @@ const SellerAdminContributions = () => {
                                                 </div>
                                             </td>
                                             <td className="py-3 sm:py-4 text-right text-[#1A1C1C] text-xs sm:text-sm px-2">
-                                                {contributor.packages.toLocaleString()} Unit{contributor.packages !== 1 ? "s" : ""}
+                                                {contributor.packages.toLocaleString()} st
                                             </td>
                                             <td className="py-3 sm:py-4 text-right text-[#D97706] font-bold text-xs sm:text-sm rounded-r-md px-2">{contributor.sales.toLocaleString()} SEK</td>
                                         </tr>
@@ -136,14 +136,14 @@ const SellerAdminContributions = () => {
             {/* Recent Activity - 1/3 width (Fixed height + Scroll Lazy Loading) */}
             <div className="bg-white p-5 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden flex flex-col h-100 sm:h-130">
                 <div className="relative z-10 flex flex-col h-full">
-                    <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-4 sm:mb-6 shrink-0">Recent Activity</h3>
+                    <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-4 sm:mb-6 shrink-0">Senaste aktivitet</h3>
                     <div ref={scrollContainerRef} onScroll={handleScroll} className="space-y-3 sm:space-y-4 overflow-y-auto flex-1 pr-1 custom-scrollbar">
                         {isLoading ? (
                             <div className="flex justify-center py-8">
                                 <div className="w-6 h-6 border-2 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
                             </div>
                         ) : allActivities.length === 0 ? (
-                            <p className="text-gray-400 text-xs sm:text-sm text-center py-8">No recent activities</p>
+                            <p className="text-gray-400 text-xs sm:text-sm text-center py-8">Inga senaste aktiviteter</p>
                         ) : (
                             <>
                                 {allActivities.map((activity) => (

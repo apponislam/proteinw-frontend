@@ -25,9 +25,9 @@ const SellerFundraisingTarget: React.FC<SellerFundraisingTargetProps> = ({ data,
             <div className="relative z-10">
                 <div className="mb-3 sm:mb-6 flex flex-row items-center justify-between gap-3">
                     <div className="min-w-0 flex-1">
-                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-1 sm:mb-2 group-hover:text-[#271900] transition-colors duration-300">Fundraising Progress</h3>
+                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-1 sm:mb-2 group-hover:text-[#271900] transition-colors duration-300">Försäljningsframsteg</h3>
                         <p className="text-[#78716C] text-xs sm:text-base lg:text-lg group-hover:text-[#271900] transition-colors duration-300 leading-snug">
-                            {isLoading ? "Loading progress details..." : `Targeting ${statsData.shortDescription || "the fundraising goal"} of ${goal.toLocaleString()} SEK`}
+                            {isLoading ? "Laddar framsteg..." : `Mål ${statsData.shortDescription || "för försäljningen"} på ${goal.toLocaleString()} SEK`}
                         </p>
                     </div>
                     <div className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#D97706] group-hover:text-[#7C5800] transition-colors duration-300 shrink-0 whitespace-nowrap">
@@ -41,19 +41,19 @@ const SellerFundraisingTarget: React.FC<SellerFundraisingTargetProps> = ({ data,
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-6">
                     <div className="flex sm:block justify-between items-center bg-stone-50/70 sm:bg-transparent px-3 py-2 sm:p-0 rounded-md">
-                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">CURRENT</div>
+                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">NUVARANDE</div>
                         <div className="text-base sm:text-xl lg:text-2xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">
                             {isLoading ? "..." : `${current.toLocaleString()} SEK`}
                         </div>
                     </div>
                     <div className="flex sm:block justify-between items-center bg-stone-50/70 sm:bg-transparent px-3 py-2 sm:p-0 rounded-md">
-                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">GOAL</div>
+                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">MÅL</div>
                         <div className="text-base sm:text-xl lg:text-2xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">
                             {isLoading ? "..." : `${goal.toLocaleString()} SEK`}
                         </div>
                     </div>
                     <div className="flex sm:block justify-between items-center bg-stone-50/70 sm:bg-transparent px-3 py-2 sm:p-0 rounded-md">
-                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">REMAINING</div>
+                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">ÅTERSTÅR</div>
                         <div className="text-base sm:text-xl lg:text-2xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">
                             {isLoading ? "..." : `${remaining.toLocaleString()} SEK`}
                         </div>

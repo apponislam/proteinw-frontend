@@ -32,8 +32,8 @@ const SellerShopLink: React.FC<SellerShopLinkProps> = ({
         (referralCode
             ? hasCampaign
                 ? `${clientUrl}/store?campaign=${campaignCode}&referral=${referralCode}`
-                : "You are not in any campaign"
-            : "Loading link...");
+                : "Du har ingen aktiv försäljning"
+            : "Laddar länk...");
 
     const isLinkValid = Boolean(statsShopUrl) || (Boolean(referralCode) && hasCampaign);
 
@@ -51,7 +51,7 @@ const SellerShopLink: React.FC<SellerShopLinkProps> = ({
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E7E5E4] text-[#D97706] text-sm font-medium hover:bg-[#F5F5F4] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs bg-white"
         >
             {copied ? <Check size={18} /> : <Copy size={18} />}
-            <span className="max-w-50 sm:max-w-xs truncate">{copied ? "Copied!" : shopUrl}</span>
+            <span className="max-w-50 sm:max-w-xs truncate">{copied ? "Kopierad!" : shopUrl}</span>
         </button>
     );
 };

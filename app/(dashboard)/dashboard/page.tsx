@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import DashboardClient from "@/components/dashboard/DashboardClient";
 
 export const metadata: Metadata = {
-    title: "Kungsbjörnen - Dashboard",
-    description: "Your Kungsbjörnen dashboard",
+    title: "Kungsbjörnen - Instrumentpanel",
+    description: "Din Kungsbjörnen-instrumentpanel",
 };
 
 const Page = () => {

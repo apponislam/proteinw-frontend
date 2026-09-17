@@ -29,10 +29,10 @@ const SellerAdminStatsSection: React.FC<SellerAdminStatsSectionProps> = ({ campa
     const progressPercent = goal > 0 ? Math.min(Math.round((totalSales / goal) * 100), 100) : 0;
 
     const cards = [
-        { label: "Total Sales", value: isLoading ? "..." : `${(statsData.totalSales ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon1.svg" },
-        { label: "Total Profit", value: isLoading ? "..." : `${(statsData.totalProfit ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon2.svg" },
-        { label: "Packages Sold", value: isLoading ? "..." : `${(statsData.packagesSold ?? 0).toLocaleString()} Units`, icon: "/dashboard/selleradmindashicon3.svg" },
-        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Days`, icon: "/dashboard/selleradmindashicon4.svg" },
+        { label: "Total försäljning", value: isLoading ? "..." : `${(statsData.totalSales ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon1.svg" },
+        { label: "Total vinst", value: isLoading ? "..." : `${(statsData.totalProfit ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon2.svg" },
+        { label: "Sålda paket", value: isLoading ? "..." : `${(statsData.packagesSold ?? 0).toLocaleString()} st`, icon: "/dashboard/selleradmindashicon3.svg" },
+        { label: "Återstående dagar", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Dagar`, icon: "/dashboard/selleradmindashicon4.svg" },
     ];
 
     return (
@@ -60,9 +60,9 @@ const SellerAdminStatsSection: React.FC<SellerAdminStatsSectionProps> = ({ campa
                 <div className="relative z-10">
                     <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-1 sm:mb-2 group-hover:text-[#271900] transition-colors duration-300">Fundraising Progress</h3>
+                            <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider mb-1 sm:mb-2 group-hover:text-[#271900] transition-colors duration-300">Insamlingsframsteg</h3>
                             <p className="text-[#78716C] text-sm sm:text-base md:text-lg group-hover:text-[#271900] transition-colors duration-300">
-                                {isLoading ? "Loading progress details..." : `Targeting ${statsData.shortDescription || "the fundraising goal"} of ${goal.toLocaleString()} SEK`}
+                                {isLoading ? "Laddar framstegsdetaljer..." : `Mål för ${statsData.shortDescription || "insamlingsmålet"} på ${goal.toLocaleString()} SEK`}
                             </p>
                         </div>
                         <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#D97706] group-hover:text-[#7C5800] transition-colors duration-300 shrink-0">
@@ -76,19 +76,19 @@ const SellerAdminStatsSection: React.FC<SellerAdminStatsSectionProps> = ({ campa
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 pt-2 border-t border-stone-100 sm:border-0">
                         <div className="flex sm:block items-center justify-between">
-                            <div className="text-[#78716C] text-xs uppercase tracking-wider mb-0 sm:mb-1 group-hover:text-[#271900] transition-colors duration-300">CURRENT</div>
+                            <div className="text-[#78716C] text-xs uppercase tracking-wider mb-0 sm:mb-1 group-hover:text-[#271900] transition-colors duration-300">NUVARANDE</div>
                             <div className="text-lg sm:text-2xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">
                                 {isLoading ? "..." : `${totalSales.toLocaleString()} SEK`}
                             </div>
                         </div>
                         <div className="flex sm:block items-center justify-between">
-                            <div className="text-[#78716C] text-xs uppercase tracking-wider mb-0 sm:mb-1 group-hover:text-[#271900] transition-colors duration-300">GOAL</div>
+                            <div className="text-[#78716C] text-xs uppercase tracking-wider mb-0 sm:mb-1 group-hover:text-[#271900] transition-colors duration-300">MÅL</div>
                             <div className="text-lg sm:text-2xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">
                                 {isLoading ? "..." : `${goal.toLocaleString()} SEK`}
                             </div>
                         </div>
                         <div className="flex sm:block items-center justify-between">
-                            <div className="text-[#78716C] text-xs uppercase tracking-wider mb-0 sm:mb-1 group-hover:text-[#271900] transition-colors duration-300">REMAINING</div>
+                            <div className="text-[#78716C] text-xs uppercase tracking-wider mb-0 sm:mb-1 group-hover:text-[#271900] transition-colors duration-300">ÅTERSTÅR</div>
                             <div className="text-lg sm:text-2xl font-bold text-[#1A1C1C] group-hover:text-[#271900] transition-colors duration-300">
                                 {isLoading ? "..." : `${remaining.toLocaleString()} SEK`}
                             </div>

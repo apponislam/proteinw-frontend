@@ -15,9 +15,9 @@ const SellerHomeCards: React.FC<SellerHomeCardsProps> = ({ data, isLoading }) =>
     };
 
     const stats = [
-        { label: "Total Sales", value: isLoading ? "..." : `${statsData.totalSales?.toLocaleString() ?? 0} SEK` },
-        { label: "Packages Sold", value: isLoading ? "..." : `${statsData.packagesSold?.toLocaleString() ?? 0} Units` },
-        { label: "Days Remaining", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Days` },
+        { label: "Total försäljning", value: isLoading ? "..." : `${statsData.totalSales?.toLocaleString() ?? 0} SEK` },
+        { label: "Sålda paket", value: isLoading ? "..." : `${statsData.packagesSold?.toLocaleString() ?? 0} st` },
+        { label: "Återstående dagar", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Dagar` },
     ];
 
     return (
