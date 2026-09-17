@@ -56,7 +56,7 @@ const FundraisingSection = () => {
 
                             <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                                 Vi väljer våra produkter med fokus på kvalitet, efterfrågan och vad som faktiskt fungerar i en försäljning. Hos oss hittar ni doftljus och strumpor – noggrant utvalda produkter som är enkla att sälja och uppskattade av kunder i olika åldrar. Sortimentet utvecklas
-                                kontinuerligt med nya produkter och kategorier för att ge er ännu fler möjligheter att lyckas med er försäljning.{" "}
+                                kontinuerligt med nya produkter och kategorier för att ge er ännu fler möjligheter att lyckas med er försäljning.
                             </p>
 
                             <Link href="/products">
