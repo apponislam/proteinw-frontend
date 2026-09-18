@@ -103,7 +103,7 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
             <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden border border-[#E7E5E4] flex flex-col max-h-[85vh]">
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-[#E7E5E4] flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-[#1A1C1C]">Hantera kampanjprodukter</h3>
+                    <h3 className="text-lg font-bold text-[#1A1C1C]">Hantera produkter</h3>
                     <button onClick={onClose} className="p-1 hover:bg-[#F3F3F3] rounded-lg transition-colors text-[#78716C] cursor-pointer">
                         <X size={20} />
                     </button>

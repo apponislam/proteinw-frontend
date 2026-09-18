@@ -5,7 +5,7 @@ import { useSidebar } from "../ui/sidebar";
 import React, { useState, useRef, useEffect } from "react";
 import Notifications from "./Notifications";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { currentUser, logOut } from "@/redux/features/auth/authSlice";
+import { currentUser } from "@/redux/features/auth/authSlice";
 import { performFullLogout } from "@/redux/utils/logout";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import { useGetUnreadCountQuery } from "@/redux/features/contact/contactApi";
@@ -16,7 +16,6 @@ import ChangePasswordUserModal from "./ChangePasswordUserModal";
 
 const DashBoradHeader = () => {
     const { toggleSidebar } = useSidebar();
-    const dispatch = useAppDispatch();
     const router = useRouter();
 
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -123,7 +122,7 @@ const DashBoradHeader = () => {
                                             className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold text-[#1A1C1C] hover:bg-amber-50 hover:text-[#D97706] flex items-center gap-2 transition-colors cursor-pointer"
                                         >
                                             <User size={14} className="text-[#D97706]" />
-                                            <span>My Profile</span>
+                                            <span>Min profil</span>
                                         </button>
 
                                         <button
@@ -134,7 +133,7 @@ const DashBoradHeader = () => {
                                             className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold text-[#1A1C1C] hover:bg-amber-50 hover:text-[#D97706] flex items-center gap-2 transition-colors cursor-pointer"
                                         >
                                             <Edit3 size={14} className="text-[#D97706]" />
-                                            <span>Update Profile</span>
+                                            <span>Uppdatera profil</span>
                                         </button>
 
                                         <button
@@ -145,7 +144,7 @@ const DashBoradHeader = () => {
                                             className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-semibold text-[#1A1C1C] hover:bg-amber-50 hover:text-[#D97706] flex items-center gap-2 transition-colors cursor-pointer"
                                         >
                                             <KeyRound size={14} className="text-[#D97706]" />
-                                            <span>Change Password</span>
+                                            <span>Ändra lösenord</span>
                                         </button>
                                     </div>
 
@@ -154,7 +153,7 @@ const DashBoradHeader = () => {
                                     <div className="px-1">
                                         <button onClick={handleLogout} className="w-full px-2.5 py-1.5 rounded-lg text-left text-xs font-bold text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors cursor-pointer">
                                             <LogOut size={14} />
-                                            <span>Log Out</span>
+                                            <span>Logga ut</span>
                                         </button>
                                     </div>
                                 </div>

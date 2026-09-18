@@ -54,7 +54,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                 <div className="w-full flex items-center justify-between text-xs font-semibold">
                     <div className="text-red-500 font-bold flex items-center gap-1.5">
                         <Calendar size={15} className="shrink-0" />
-                        <span>Kampanjen har avslutats</span>
+                        <span>Försäljningen har avslutats</span>
                     </div>
                 </div>
             );
@@ -146,7 +146,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
                     href={`/dashboard/campaigns/${campaign._id}`}
                     className="flex-1 min-w-0 h-9 sm:h-10 inline-flex items-center justify-center gap-1.5 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white shadow-xs hover:from-[#8B6500] hover:to-[#FFCC00] transition-all focus-visible:outline-none truncate"
                 >
-                    <span className="truncate">Hantera kampanj</span>
+                    <span className="truncate">Hantera Försäljning</span>
                 </Link>
 
                 {/* Status Dropdown Picker for SuperAdmin */}

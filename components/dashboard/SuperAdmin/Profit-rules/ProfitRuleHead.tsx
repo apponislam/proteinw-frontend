@@ -64,7 +64,7 @@ const ProfitRuleHead = () => {
                     <div>
                         <h1 className="text-xs sm:text-sm text-[#FBBF24] mb-2 sm:mb-4 uppercase tracking-widest font-semibold">Int\u00e4ktshantering</h1>
                         <h2 className="text-white text-2xl sm:text-4xl font-extrabold mb-2 sm:mb-3">Vinst- och prisstrategi.</h2>
-                        <p className="text-[#A8A29E] max-w-2xl text-xs sm:text-sm leading-relaxed">Konfigurera dina prestationsniv\u00e5er och vinstmarginaler f\u00f6r att driva tillv\u00e4xt. Dessa regler definierar automatiska utbetalningsstrukturer f\u00f6r alla aktiva kampanjer.</p>
+                        <p className="text-[#A8A29E] max-w-2xl text-xs sm:text-sm leading-relaxed">Konfigurera dina prestationsnivåer och vinstmarginaler för att driva tillväxt. Dessa regler definierar automatiska utbetalningsstrukturer för alla aktiva försäljningar.</p>
                     </div>
                     <button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
                         <Plus size={16} />

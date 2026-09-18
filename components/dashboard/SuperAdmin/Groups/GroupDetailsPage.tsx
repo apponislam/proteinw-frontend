@@ -92,7 +92,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                                 <Award size={18} />
                             </div>
                             <div>
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Aktiva kampanjer</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">Aktiva försäljningar</div>
                                 <div className="text-sm font-bold text-[#1A1C1C]">{group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}</div>
                             </div>
                         </div>
@@ -115,8 +115,8 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h2 className="text-xl font-bold text-[#1A1C1C]">Gruppens kampanjer</h2>
-                        <p className="text-sm text-[#78716C]">Kampanjer som tillhör denna grupp</p>
+                        <h2 className="text-xl font-bold text-[#1A1C1C]">Gruppens försäljningar</h2>
+                        <p className="text-sm text-[#78716C]">Försäljningar som tillhör denna grupp</p>
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
                 ) : campaigns.length === 0 ? (
                     <div className="bg-white rounded-2xl border border-[#E7E5E4] p-10 text-center text-[#78716C]">
                         <Store size={32} className="mx-auto mb-2 opacity-50" />
-                        <p className="font-medium">Inga kampanjer hittades för denna grupp.</p>
+                        <p className="font-medium">Inga försäljningar hittades för denna grupp.</p>
                     </div>
                 ) : (
                     <>
@@ -139,7 +139,7 @@ const GroupDetailsPage = ({ groupId }: GroupDetailsPageProps) => {
 
                         {/* Standard Pagination Component */}
                         <div className="mt-8">
-                            <Pagination meta={meta} onPageChange={(p) => setPage(p)} itemName="KAMPANJER" />
+                            <Pagination meta={meta} onPageChange={(p) => setPage(p)} itemName="FÖRSÄLJNINGAR" />
                         </div>
                     </>
                 )}

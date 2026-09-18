@@ -20,15 +20,9 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
     const [page, setPage] = useState(1);
     const [loadedGroupSellers, setLoadedGroupSellers] = useState<any[]>([]);
 
-    const groupId =
-        typeof rawGroupId === "object" && rawGroupId !== null
-            ? (rawGroupId as any).id || (rawGroupId as any)._id || ""
-            : String(rawGroupId || "");
+    const groupId = typeof rawGroupId === "object" && rawGroupId !== null ? (rawGroupId as any).id || (rawGroupId as any)._id || "" : String(rawGroupId || "");
 
-    const { data: groupSellersResponse, isFetching: isFetchingGroupSellers } = useGetGroupSellersQuery(
-        { groupId, page, limit: 10 },
-        { skip: !groupId || typeof groupId !== "string" || !isOpen }
-    );
+    const { data: groupSellersResponse, isFetching: isFetchingGroupSellers } = useGetGroupSellersQuery({ groupId, page, limit: 10 }, { skip: !groupId || typeof groupId !== "string" || !isOpen });
     const { data: campaignSellersResponse } = useGetCampaignSellersQuery(campaignId, {
         skip: !campaignId || !isOpen,
     });
@@ -130,7 +124,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                 <div className="px-6 py-4 border-b border-[#E7E5E4] flex items-center justify-between">
                     <div>
                         <h3 className="text-lg font-bold text-[#1A1C1C]">Hantera kampanjsäljare</h3>
-                        <p className="text-xs text-[#78716C]">Lägg till eller ta bort gruppsäljare från denna kampanj</p>
+                        <p className="text-xs text-[#78716C]">Lägg till eller ta bort gruppsäljare från denna försäljning</p>
                     </div>
                     <button onClick={onClose} className="p-1 hover:bg-[#F3F3F3] rounded-lg transition-colors text-[#78716C] cursor-pointer">
                         <X size={20} />
@@ -152,10 +146,7 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                 </div>
 
                 {/* Body with Infinite Scroll */}
-                <div
-                    onScroll={handleScrollGroupSellers}
-                    className="p-6 overflow-y-auto space-y-3 grow min-h-0"
-                >
+                <div onScroll={handleScrollGroupSellers} className="p-6 overflow-y-auto space-y-3 grow min-h-0">
                     {isFetchingGroupSellers && loadedGroupSellers.length === 0 ? (
                         <div className="flex items-center justify-center py-8">
                             <Loader2 className="animate-spin text-[#D97706]" size={24} />
@@ -180,18 +171,14 @@ const ManageSellersModal: React.FC<ManageSellersModalProps> = ({ isOpen, onClose
                                         className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? "border-[#D97706] bg-[#FCFBFA]" : "border-[#E7E5E4] bg-white hover:bg-[#F3F3F3]"}`}
                                     >
                                         <div className="flex items-center gap-3 min-w-0">
-                                            <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center shrink-0 font-bold text-sm">
-                                                {sellerName ? sellerName.charAt(0).toUpperCase() : <User size={18} />}
-                                            </div>
+                                            <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center shrink-0 font-bold text-sm">{sellerName ? sellerName.charAt(0).toUpperCase() : <User size={18} />}</div>
                                             <div className="min-w-0">
                                                 <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{sellerName}</h4>
                                                 <p className="text-xs text-[#78716C] mt-0.5 truncate">{sellerEmail}</p>
                                             </div>
                                         </div>
 
-                                        <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>
-                                            {isSelected && <Check size={14} strokeWidth={3} />}
-                                        </div>
+                                        <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${isSelected ? "bg-[#D97706] border-[#D97706] text-white" : "border-[#A8A29E] bg-white"}`}>{isSelected && <Check size={14} strokeWidth={3} />}</div>
                                     </div>
                                 );
                             })}

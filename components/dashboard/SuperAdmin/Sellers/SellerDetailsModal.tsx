@@ -80,7 +80,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                                     </span>
                                 )}
                             </div>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Totalt antal kampanjer</span>
+                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Totalt antal försäljningar</span>
                         </div>
                     </div>
                 </div>

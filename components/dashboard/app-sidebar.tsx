@@ -86,7 +86,7 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton onClick={handleLogout} className="cursor-pointer justify-center bg-linear-to-r! from-black! to-[#FF0000]! text-white! rounded-[24px]! hover:opacity-90 transition-opacity p-3! h-auto">
                             <LogOut className="text-white!" />
-                            <span className="text-white!">Logout</span>
+                            <span className="text-white!">Logga ut</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

@@ -271,9 +271,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide border ${statusStyle.badgeClass}`}>
-                                                        {statusStyle.label}
-                                                    </span>
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide border ${statusStyle.badgeClass}`}>{statusStyle.label}</span>
                                                     {canEdit && (
                                                         <button
                                                             onClick={() => {
@@ -377,7 +375,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 const isFulfilment = statusUpper === "FULFILMENT";
                                                 const isCompleted = statusUpper === "COMPLETED";
                                                 const colorClass = isFulfilment ? "text-blue-600" : isCompleted ? "text-amber-700" : "text-red-500";
-                                                const labelText = isFulfilment ? "Uppfyllnadsfas" : isCompleted ? "Kampanj avslutad" : "Kampanj avslutad";
+                                                const labelText = isFulfilment ? "Orderhantering" : "Försäljningen har avslutats";
                                                 return (
                                                     <div className="w-full flex items-center justify-between text-xs font-semibold">
                                                         <div className={`${colorClass} font-bold flex items-center gap-1.5`}>
@@ -411,7 +409,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             href={`/dashboard/team-sales/${groupId}/${campaign._id}`}
                                             className="w-full h-9 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-4 text-xs font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer"
                                         >
-                                            Hantera kampanj
+                                            Hantera Försäljning
                                         </Link>
                                     </div>
                                 </div>
@@ -428,7 +426,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                             <div className="w-14 h-14 rounded-full bg-white text-[#D97706] shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <Plus size={28} />
                             </div>
-                            <h4 className="text-base font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Starta ny kampanj</h4>
+                            <h4 className="text-base font-bold text-[#1A1C1C] group-hover:text-[#D97706] transition-colors">Starta ny försäljning</h4>
                             <p className="text-xs text-[#78716C] mt-1 max-w-50">Definiera parametrar för att börja ta emot försäljning för din grupp.</p>
                         </div>
                     ) : (

@@ -87,8 +87,8 @@ export function ManageCampaignSellersModal({ groupId: rawGroupId, selectedSeller
                 {/* Modal Header */}
                 <div className="flex items-center justify-between border-b border-[#F5F5F4] p-4 sm:p-5 shrink-0">
                     <div>
-                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Hantera kampanjsäljare</h3>
-                        <p className="text-xs text-[#78716C]">Välj gruppmedlemmar som ska delta i denna kampanj.</p>
+                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Hantera säljare</h3>
+                        <p className="text-xs text-[#78716C]">Välj gruppmedlemmar som ska delta i denna försäljning.</p>
                     </div>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg transition-colors cursor-pointer">
                         <X size={20} />

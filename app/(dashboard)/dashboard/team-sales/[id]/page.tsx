@@ -57,7 +57,7 @@ const Page = () => {
                                 <Award size={16} />
                             </div>
                             <div className="min-w-0">
-                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">AKTIVA KAMPANJER</div>
+                                <div className="text-[10px] text-[#78716C] font-semibold uppercase leading-none mb-1">AKTIVA FÖRSÄLJNINGAR</div>
                                 <div className="text-sm font-bold text-[#1A1C1C] truncate">
                                     {group.activeCampaigns ?? 0}/{group.totalCampaigns ?? 0}
                                 </div>

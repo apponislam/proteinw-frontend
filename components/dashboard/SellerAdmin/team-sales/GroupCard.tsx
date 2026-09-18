@@ -33,7 +33,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
                     </div>
 
                     <div className="flex items-start justify-between">
-                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Aktiva kampanjer</span>
+                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Aktiva försäljningar</span>
                         <div className="flex flex-col items-end">
                             <span className="text-[#D97706] font-bold text-sm">{activeCampaignsCount} Aktiva</span>
                             <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{totalCampaignsCount} Totalt</span>
@@ -41,7 +41,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
                     </div>
 
                     <div className="flex items-start justify-between">
-                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Försäljning aktiva kampanjer</span>
+                        <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Försäljningsvärde aktiva försäljningar</span>
                         <div className="flex flex-col items-end">
                             <span className="text-[#1A1C1C] font-bold text-sm group-hover:text-[#271900] transition-colors duration-300">{activeCampaignRevenue.toLocaleString()} SEK</span>
                             <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{activeCampaignPkgs} paket</span>

@@ -314,7 +314,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRODUKTDETALJER</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">PRISSÄTTNING</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">KAMPANJER</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">FÖRSÄLJNINGAR</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">Åtgärd</th>
                         </tr>
                     </thead>

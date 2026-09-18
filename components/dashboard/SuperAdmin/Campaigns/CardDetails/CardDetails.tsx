@@ -72,7 +72,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             <div className="flex items-center justify-between">
                 <button onClick={() => router.back()} className="inline-flex items-center gap-2 text-sm text-[#78716C] hover:text-[#1A1C1C] transition-colors cursor-pointer font-medium">
                     <ArrowLeft size={16} />
-                    <span>Tillbaka till kampanjer</span>
+                    <span>Tillbaka till försäljningar</span>
                 </button>
 
                 {/* Status Dropdown */}
@@ -137,7 +137,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
                     <AlertTriangle className="text-red-600 shrink-0 mt-0.5" size={18} />
                     <div>
                         <div className="text-xs font-bold text-red-800 uppercase">Varning för automatisk radering</div>
-                        <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Denna kampanj har avslutats och är planerad att raderas automatiskt om 2 månader.</p>
+                        <p className="text-xs text-red-700 mt-0.5 leading-relaxed">Denna försäljning har avslutats och är planerad att raderas automatiskt om 2 månader.</p>
                     </div>
                 </div>
             )}

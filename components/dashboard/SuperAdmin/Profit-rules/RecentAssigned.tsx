@@ -76,7 +76,7 @@ const RecentAssigned: React.FC = () => {
                             })}
 
                             <div className="mt-4">
-                                <Pagination meta={meta} onPageChange={setPage} itemName="KAMPANJER" />
+                                <Pagination meta={meta} onPageChange={setPage} itemName="FÖRSÄLJNINGAR" />
                             </div>
                         </div>
                     )}

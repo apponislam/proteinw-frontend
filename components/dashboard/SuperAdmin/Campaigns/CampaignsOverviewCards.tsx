@@ -15,7 +15,7 @@ const CampaignsOverviewCards = () => {
             color: "#D97706",
         },
         {
-            title: "AKTIVA KAMPANJER",
+            title: "AKTIVA FÖRSÄLJNINGAR",
             value: isLoading ? "..." : (overview.activeCampaigns || 0).toLocaleString(),
             color: "#D97706",
         },

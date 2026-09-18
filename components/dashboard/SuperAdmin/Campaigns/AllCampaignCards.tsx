@@ -80,7 +80,7 @@ const AllCampaignCards = () => {
                 <div className="mb-8">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                         <div>
-                            <h2 className="text-xl font-bold text-[#1A1C1C]">Alla kampanjer</h2>
+                            <h2 className="text-xl font-bold text-[#1A1C1C]">Alla försäljningar</h2>
                             <p className="text-[#78716C] text-sm mt-1">Utforska och hantera regionala insamlingsinitiativ</p>
                         </div>
                     </div>
@@ -99,7 +99,7 @@ const AllCampaignCards = () => {
             <div className="mb-6 sm:mb-8">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Alla kampanjer</h2>
+                        <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Alla försäljningar</h2>
                         <p className="text-[#78716C] text-xs sm:text-sm mt-0.5 sm:mt-1">Utforska och hantera regionala insamlingsinitiativ</p>
                     </div>
                     <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
@@ -140,7 +140,7 @@ const AllCampaignCards = () => {
 
                     {/* Pagination Component */}
                     <div className="mt-6 sm:mt-8">
-                        <Pagination meta={meta} onPageChange={handlePageChange} itemName="KAMPANJER" />
+                        <Pagination meta={meta} onPageChange={handlePageChange} itemName="FÖRSÄLJNINGAR" />
                     </div>
                 </>
             )}

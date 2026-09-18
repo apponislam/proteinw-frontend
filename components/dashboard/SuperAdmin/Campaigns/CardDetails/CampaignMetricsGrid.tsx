@@ -64,9 +64,9 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
             title: targetRevenue > 0 ? `MÅL: ${targetRevenue.toLocaleString()} SEK (${sekProgress}%)` : `MÅL: 0 SEK`,
         },
         {
-            subtitle: `BERÄKNAD VINST (${profitPercentage}%)`,
+            subtitle: `BERÄKNAD FÖRTJÄNST (${profitPercentage}%)`,
             value: `${estProfit.toLocaleString()} SEK`,
-            title: `INSAMLADE INTÄKTER: ${totalSoldAmount.toLocaleString()} SEK`,
+            title: `OMSÄTTNING: ${totalSoldAmount.toLocaleString()} SEK`,
         },
         {
             subtitle: `STATUS (${getDaysLeft()})`,

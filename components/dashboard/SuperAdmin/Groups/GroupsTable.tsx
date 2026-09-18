@@ -29,7 +29,7 @@ const GroupsTable = () => {
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">GRUPPNAMN</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">TILLDELAD ADMIN</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">SÄLJARE</th>
-                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">AKTIVA KAMPANJER</th>
+                            <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">AKTIVA FÖRSÄLJNINGAR</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider text-center">SÅLDA PAKET</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">INTÄKTER</th>
                             <th className="px-4 py-3 text-[#78716C] text-xs font-medium uppercase tracking-wider">STATUS</th>
