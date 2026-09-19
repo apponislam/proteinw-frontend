@@ -43,7 +43,7 @@ const OrdersTable = () => {
 
     const filterOptions = [
         { value: "", label: "Alla statusar", color: "bg-gray-400" },
-        { value: "pending", label: "Väntande", color: "bg-yellow-500" },
+        { value: "pending", label: "Ej levererad", color: "bg-yellow-500" },
         { value: "delivered", label: "Levererad", color: "bg-green-600" },
         { value: "cancelled", label: "Avbruten", color: "bg-red-500" },
     ];
@@ -91,7 +91,7 @@ const OrdersTable = () => {
     };
 
     const statusDisplayMap: Record<string, string> = {
-        pending: "Väntande",
+        pending: "Ej levererad",
         delivered: "Levererad",
         cancelled: "Avbruten",
     };
@@ -358,7 +358,7 @@ const OrdersTable = () => {
                                                 <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
                                                 <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                     {[
-                                                        { value: "pending", label: "Väntande", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                        { value: "pending", label: "Ej levererad", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
                                                         { value: "delivered", label: "Levererad", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
                                                         { value: "cancelled", label: "Avbruten", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
                                                     ].map((opt) => (

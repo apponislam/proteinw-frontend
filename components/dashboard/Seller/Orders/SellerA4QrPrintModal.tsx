@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { Printer, X, Scissors } from "lucide-react";
+import { Printer, X } from "lucide-react";
 
 interface SellerA4QrPrintModalProps {
     isOpen: boolean;
@@ -24,18 +24,12 @@ const SellerA4QrPrintModal: React.FC<SellerA4QrPrintModalProps> = ({ isOpen, onC
 
     const renderCardContent = () => (
         <div className="a4-card-half flex-1 p-3 sm:p-6 flex flex-col items-center justify-center text-center bg-white border-2 border-stone-200 rounded-2xl shadow-xs relative overflow-hidden my-1">
-            {/* Brand Header */}
-            <h1 className="a4-header-text text-xl sm:text-2xl md:text-3xl font-black text-[#1A1C1C] tracking-tight uppercase mb-0.5 sm:mb-1">Kungsbjörnen</h1>
-
-            {/* Tagline */}
-            <p className="a4-tagline-text text-amber-700 font-bold text-xs sm:text-sm md:text-base mb-2 sm:mb-3">Tillsammans gör vi skillnad.</p>
-
             {/* Instructions */}
-            <p className="a4-desc-text text-stone-800 font-semibold text-[11px] sm:text-xs md:text-sm max-w-xs sm:max-w-sm leading-snug mb-3 sm:mb-4">Scanna QR-koden för att besöka min digitala butik och stötta vår insamling.</p>
+            <p className="a4-desc-text text-stone-800 font-semibold text-[11px] sm:text-xs md:text-sm max-w-xs sm:max-w-sm leading-snug mb-3 sm:mb-4">Skanna QR-koden för att besöka min webbshop, upptäcka våra produkter och enkelt beställa online.</p>
 
             {/* Seller Personal Campaign QR Code */}
             <div className="a4-qr-box p-2 sm:p-3 bg-stone-50 border-2 border-stone-200 rounded-2xl shadow-inner flex items-center justify-center">
-                <img src={qrCodeUrl} alt="Scanna QR-koden för att besöka min digitala butik" className="a4-qr-img w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 object-contain rounded-lg" />
+                <img src={qrCodeUrl} alt="Skanna QR-koden för att besöka min webbshop" className="a4-qr-img w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 object-contain rounded-lg" />
             </div>
         </div>
     );
@@ -170,10 +164,6 @@ const SellerA4QrPrintModal: React.FC<SellerA4QrPrintModalProps> = ({ isOpen, onC
                             {/* Center Cut Line Divider */}
                             <div className="a4-divider relative my-2 sm:my-3 flex items-center justify-center shrink-0">
                                 <div className="w-full border-t-2 border-dashed border-stone-400"></div>
-                                <div className="absolute bg-white px-2.5 py-0.5 sm:px-3 sm:py-1 text-stone-500 text-[10px] sm:text-xs font-semibold flex items-center gap-1 sm:gap-1.5 border border-stone-300 rounded-full shadow-xs">
-                                    <Scissors className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                                    <span>Klipp här / Cut here</span>
-                                </div>
                             </div>
 
                             {/* Bottom Half */}

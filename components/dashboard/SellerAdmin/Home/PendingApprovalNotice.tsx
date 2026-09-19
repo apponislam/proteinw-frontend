@@ -18,15 +18,9 @@ const PendingApprovalNotice = () => {
 
             {/* Clean Typography Body */}
             <div className="space-y-4 text-base sm:text-lg text-[#514532] leading-relaxed">
-                <p className="font-semibold text-[#1A1C1C]">
-                    Hej och vad roligt att du har skapat ett konto och vill börja sälja tillsammans med oss på Kungsbjörnen!
-                </p>
-                <p>
-                    Vi kommer nu att granska din ansökan och godkänna ditt konto inom 24 timmar. När ditt konto är godkänt kan du skapa din grupp och därefter starta din insamling.
-                </p>
-                <p>
-                    Vill du komma igång tidigare, eller har du några frågor under tiden? Tveka inte att kontakta oss – vi hjälper dig mer än gärna.
-                </p>
+                <p className="font-semibold text-[#1A1C1C]">Hej och vad roligt att du har skapat ett konto och vill börja sälja tillsammans med oss på Kungsbjörnen!</p>
+                <p>Vi kommer nu att granska din ansökan och godkänna ditt konto inom 48 timmar. När ditt konto är godkänt kan du skapa din grupp och därefter starta din insamling.</p>
+                <p>Vill du komma igång tidigare, eller har du några frågor under tiden? Tveka inte att kontakta oss – vi hjälper dig mer än gärna.</p>
             </div>
 
             {/* Signature & Support Info */}

@@ -28,7 +28,7 @@ export const SellerCampaignOrders = ({ memberId, campaignId }: { memberId: strin
             case "cancelled":
                 return "Avbruten";
             default:
-                return "Väntande";
+                return "Ej levererad";
         }
     };
 
