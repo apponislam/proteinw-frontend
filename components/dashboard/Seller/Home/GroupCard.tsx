@@ -55,7 +55,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
                 </div>
 
                 <div className="mb-3 flex items-start justify-between">
-                    <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">Total försäljning</div>
+                    <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">Total omsättning</div>
                     <div className="text-right">
                         <div className="text-[#1A1C1C] font-bold text-base group-hover:text-[#271900] transition-colors duration-300">
                             {totalPackages} st

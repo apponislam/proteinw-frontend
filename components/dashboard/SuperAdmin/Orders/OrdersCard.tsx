@@ -20,7 +20,7 @@ const OrdersCard = () => {
             color: "#D97706",
         },
         {
-            title: "TOTAL FÖRSÄLJNING (DENNA MÅNAD)",
+            title: "TOTAL OMSÄTTNING (DENNA MÅNAD)",
             value: isLoading ? "..." : `${stats.mtdSales.toLocaleString()} SEK`,
             subtitle: "",
             color: "#D97706",

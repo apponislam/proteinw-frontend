@@ -108,7 +108,7 @@ const SellerAdminContributions = () => {
                                     <tr className="border-b border-[#E7E5E4]">
                                         <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">NAMN</th>
                                         <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">SÅLDA PAKET</th>
-                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">TOTAL FÖRSÄLJNING</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">TOTAL OMSÄTTNING</th>
                                     </tr>
                                 </thead>
                                 <tbody>

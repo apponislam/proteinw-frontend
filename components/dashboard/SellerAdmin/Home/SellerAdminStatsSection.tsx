@@ -29,7 +29,7 @@ const SellerAdminStatsSection: React.FC<SellerAdminStatsSectionProps> = ({ campa
     const progressPercent = goal > 0 ? Math.min(Math.round((totalSales / goal) * 100), 100) : 0;
 
     const cards = [
-        { label: "Total försäljning", value: isLoading ? "..." : `${(statsData.totalSales ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon1.svg" },
+        { label: "TOTAL OMSÄTTNING", value: isLoading ? "..." : `${(statsData.totalSales ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon1.svg" },
         { label: "Total vinst", value: isLoading ? "..." : `${(statsData.totalProfit ?? 0).toLocaleString()} SEK`, icon: "/dashboard/selleradmindashicon2.svg" },
         { label: "Sålda paket", value: isLoading ? "..." : `${(statsData.packagesSold ?? 0).toLocaleString()} st`, icon: "/dashboard/selleradmindashicon3.svg" },
         { label: "Återstående dagar", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Dagar`, icon: "/dashboard/selleradmindashicon4.svg" },
