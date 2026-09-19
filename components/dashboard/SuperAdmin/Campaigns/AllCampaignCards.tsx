@@ -127,8 +127,8 @@ const AllCampaignCards = () => {
                     <div className="h-10 sm:h-12 w-10 sm:w-12 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-[#D97706]">
                         <TrendingUp size={24} />
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-1 sm:mb-2">Inga kampanjer hittades</h3>
-                    <p className="text-xs sm:text-sm text-[#78716C]">Det finns inga kampanjer som matchar det aktuella filtret.</p>
+                    <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C] mb-1 sm:mb-2">Inga försäljningar hittades</h3>
+                    <p className="text-xs sm:text-sm text-[#78716C]">Det finns inga försäljningar som matchar det aktuella filtret.</p>
                 </div>
             ) : (
                 <>

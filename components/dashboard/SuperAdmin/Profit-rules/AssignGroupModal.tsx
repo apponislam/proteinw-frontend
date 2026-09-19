@@ -79,18 +79,18 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
         setErrorMsg("");
 
         if (!selectedCampaign?.id || !selectedTier?.id) {
-            setErrorMsg("V\u00e4lj b\u00e5de en kampanj och en vinstniv\u00e5.");
+            setErrorMsg("Välj både en försäljning och en vinstnivå.");
             return;
         }
 
         try {
             await assignTier({ campaignId: selectedCampaign.id, tierId: selectedTier.id }).unwrap();
-            setSuccessMsg("Niv\u00e5n tilldelades framg\u00e5ngsrikt!");
+            setSuccessMsg("Nivån tilldelades framgångsrikt!");
             setTimeout(() => {
                 onClose();
             }, 1200);
         } catch (err: any) {
-            setErrorMsg(err?.data?.message || "Misslyckades med att tilldela niv\u00e5 till kampanj.");
+            setErrorMsg(err?.data?.message || "Misslyckades med att tilldela nivå till försäljning.");
         }
     };
 
@@ -98,30 +98,29 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4 animate-in fade-in duration-200">
-            <div onClick={(e) => e.stopPropagation()} className="bg-white w-full max-w-md rounded-2xl p-4 sm:p-6 shadow-2xl relative border border-stone-100 flex flex-col">
-                <div className="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
-                    <div className="flex items-center gap-2 text-[#1A1C1C]">
-                        <Layers className="text-[#D97706]" size={20} />
-                        <h3 className="text-base sm:text-lg font-bold">Tilldela vinstniv\u00e5</h3>
+            <div className="bg-white rounded-2xl border border-[#E7E5E4] shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col p-5 sm:p-6 overflow-hidden animate-in zoom-in-95 duration-200">
+                {/* Modal Header */}
+                <div className="flex items-center justify-between border-b border-[#F5F5F4] pb-4 mb-4 shrink-0">
+                    <div>
+                        <h3 className="text-base sm:text-lg font-bold text-[#1A1C1C]">Tilldela vinstnivå</h3>
+                        <p className="text-xs text-[#78716C]">Ställ in vinstmarginal och regler för en specifik försäljning.</p>
                     </div>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="p-1 text-stone-400 hover:text-stone-600 rounded-full hover:bg-stone-100 transition-colors cursor-pointer"
-                    >
+                    <button onClick={onClose} className="text-stone-400 hover:text-stone-600 p-1 rounded-lg transition-colors cursor-pointer">
                         <X size={20} />
                     </button>
                 </div>
 
+                {/* Error Banner */}
                 {errorMsg && (
-                    <div className="mb-4 p-3 bg-red-50 text-red-700 text-xs font-semibold rounded-xl flex items-center gap-2 border border-red-100">
+                    <div className="bg-red-50 text-red-700 p-3 rounded-xl text-xs font-semibold mb-4 border border-red-200 flex items-center gap-2 shrink-0">
                         <AlertCircle size={16} className="shrink-0" />
                         <span>{errorMsg}</span>
                     </div>
                 )}
 
+                {/* Success Banner */}
                 {successMsg && (
-                    <div className="mb-4 p-3 bg-green-50 text-green-700 text-xs font-semibold rounded-xl flex items-center gap-2 border border-green-100">
+                    <div className="bg-emerald-50 text-emerald-700 p-3 rounded-xl text-xs font-semibold mb-4 border border-emerald-200 flex items-center gap-2 shrink-0">
                         <CheckCircle2 size={16} className="shrink-0" />
                         <span>{successMsg}</span>
                     </div>
@@ -131,7 +130,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                     {/* Custom Searchable Campaign Dropdown */}
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">
-                            V\u00e4lj kampanj / grupp
+                            Välj försäljning / grupp
                         </label>
                         <div className="relative">
                             <button
@@ -140,7 +139,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                 className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
                                 <span className={selectedCampaign ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
-                                    {selectedCampaign ? selectedCampaign.name : "-- V\u00e4lj kampanj --"}
+                                    {selectedCampaign ? selectedCampaign.name : "-- Välj försäljning --"}
                                 </span>
                                 <ChevronDown size={16} className={`shrink-0 transition-transform ${isCampaignDropdownOpen ? "rotate-180" : ""}`} />
                             </button>
@@ -156,7 +155,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                                 type="text"
                                                 value={campaignSearchTerm}
                                                 onChange={handleSearchChange}
-                                                placeholder="S\u00f6k p\u00e5 namn..."
+                                                placeholder="Sök på namn..."
                                                 className="w-full text-xs bg-transparent border-none outline-none py-1 text-stone-800 placeholder:text-stone-400"
                                                 autoFocus
                                             />
@@ -168,7 +167,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                             className="max-h-40 overflow-y-auto divide-y divide-stone-50"
                                         >
                                             {loadedCampaigns.length === 0 && !isFetchingCampaigns ? (
-                                                <div className="p-3 text-xs text-stone-400 text-center">Inga kampanjer hittades</div>
+                                                <div className="p-3 text-xs text-stone-400 text-center">Inga försäljningar hittades</div>
                                             ) : (
                                                 loadedCampaigns.map((c: any) => {
                                                     const displayName = `${c.groupId?.name || c.name} (${c.name})`;
