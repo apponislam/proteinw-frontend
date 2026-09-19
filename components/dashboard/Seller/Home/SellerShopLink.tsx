@@ -10,12 +10,14 @@ interface SellerShopLinkProps {
     statsShopUrl?: string;
     statsCampaignCode?: string;
     statsReferralCode?: string;
+    statsHasCampaign?: boolean;
 }
 
 const SellerShopLink: React.FC<SellerShopLinkProps> = ({
     statsShopUrl,
     statsCampaignCode,
     statsReferralCode,
+    statsHasCampaign,
 }) => {
     const user = useAppSelector(currentUser);
     const { data: referralData } = useGetReferralAndCampaignQuery();
@@ -25,7 +27,7 @@ const SellerShopLink: React.FC<SellerShopLinkProps> = ({
     const campaignCode = statsCampaignCode || referralData?.data?.campaignCode;
     const clientUrl = process.env.NEXT_PUBLIC_CLIENT_URL || "";
 
-    const hasCampaign = Boolean(campaignCode);
+    const hasCampaign = typeof statsHasCampaign === "boolean" ? statsHasCampaign : Boolean(campaignCode);
 
     const shopUrl =
         statsShopUrl ||

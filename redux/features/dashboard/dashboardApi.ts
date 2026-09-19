@@ -50,6 +50,7 @@ export type TSellerDashboardStats = {
     campaignCode?: string;
     referralCode?: string;
     shopUrl?: string;
+    hasCampaign?: boolean;
 };
 
 export type TAsSellerCampaignInfo = {

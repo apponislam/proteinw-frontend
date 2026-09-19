@@ -28,7 +28,7 @@ const SellerTopSection = () => {
                     <p className="text-[#78716C] text-sm sm:text-base lg:text-lg">{hasActiveCampaign ? "Din försäljning är aktiv och går bra." : "Det finns ingen aktiv försäljning igång."}</p>
                 </div>
                 <div className="shrink-0 flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-3 w-full lg:w-auto">
-                    <SellerShopLink statsShopUrl={statsData?.shopUrl} statsCampaignCode={statsData?.campaignCode} statsReferralCode={statsData?.referralCode} />
+                    <SellerShopLink statsShopUrl={statsData?.shopUrl} statsCampaignCode={statsData?.campaignCode} statsReferralCode={statsData?.referralCode} statsHasCampaign={statsData?.hasCampaign} />
 
                     <CamPaignListSeller
                         selectedCampaignId={selectedCampaignId}

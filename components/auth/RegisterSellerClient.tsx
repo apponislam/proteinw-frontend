@@ -44,9 +44,12 @@ const RegisterSellerForm = () => {
 
     const codeParam = searchParams.get("code") || codeFromQuery;
 
-    // If user is ALREADY logged in and visits invitation link with code, automatically join group & redirect
+    // Track if user was already authenticated on mount
+    const [wasAlreadyAuthenticated] = React.useState(() => !!token);
+
+    // If user was ALREADY logged in before opening page and visits invitation link with code, automatically join group & redirect
     useEffect(() => {
-        if (!token) return;
+        if (!token || !wasAlreadyAuthenticated) return;
 
         if (codeParam) {
             const handleAutoJoin = async () => {
@@ -64,7 +67,7 @@ const RegisterSellerForm = () => {
         } else {
             router.push("/dashboard");
         }
-    }, [token, codeParam, joinGroupByInvitationCode, router]);
+    }, [token, wasAlreadyAuthenticated, codeParam, joinGroupByInvitationCode, router]);
 
     const {
         control,
