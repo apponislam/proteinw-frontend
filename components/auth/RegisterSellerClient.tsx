@@ -14,14 +14,20 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import AuthHeader from "./AuthHeader";
 
-const sellerRegisterSchema = z.object({
-    name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
-    email: z.string().email("Ange en giltig e-postadress"),
-    phone: z.string().min(5, "Ange ett giltigt telefonnummer"),
-    password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
-    code: z.string().optional(),
-    terms: z.boolean().refine((val) => val === true, "Du måste godkänna villkoren"),
-});
+const sellerRegisterSchema = z
+    .object({
+        name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
+        email: z.string().email("Ange en giltig e-postadress"),
+        phone: z.string().min(5, "Ange ett giltigt telefonnummer"),
+        password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
+        confirmPassword: z.string().min(1, "Bekräfta ditt lösenord"),
+        code: z.string().optional(),
+        terms: z.boolean().refine((val) => val === true, "Du måste godkänna villkoren"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Lösenorden matchar inte",
+        path: ["confirmPassword"],
+    });
 
 type SellerRegisterFormValues = z.infer<typeof sellerRegisterSchema>;
 
@@ -82,6 +88,7 @@ const RegisterSellerForm = () => {
             email: emailFromQuery,
             phone: "",
             password: "",
+            confirmPassword: "",
             code: codeParam || "",
             terms: false,
         },
@@ -186,6 +193,17 @@ const RegisterSellerForm = () => {
                                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                             </div>
 
+                            {/* Confirm Password */}
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">BEKRÄFTA LÖSENORD</label>
+                                <Controller
+                                    name="confirmPassword"
+                                    control={control}
+                                    render={({ field }) => <input type="password" placeholder="••••••••" className="w-full px-4 py-3 bg-gray-200 text-gray-600 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" {...field} />}
+                                />
+                                {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
+                            </div>
+
                             {/* Checkboxes */}
                             <div className="space-y-3 pt-2">
                                 <Controller
@@ -204,7 +222,15 @@ const RegisterSellerForm = () => {
                                                 </div>
                                             </div>
                                             <span className="text-sm text-gray-700 flex-1">
-                                                Jag godkänner <span className="font-semibold">användarvillkoren</span> och har tagit del av <span className="font-semibold">integritetspolicyn</span>.
+                                                Jag godkänner{" "}
+                                                <Link href="/terms-of-service" target="_blank" className="font-semibold text-[#7C5800] hover:underline" onClick={(e) => e.stopPropagation()}>
+                                                    användarvillkoren
+                                                </Link>{" "}
+                                                och har tagit del av{" "}
+                                                <Link href="/privacy-policy" target="_blank" className="font-semibold text-[#7C5800] hover:underline" onClick={(e) => e.stopPropagation()}>
+                                                    integritetspolicyn
+                                                </Link>
+                                                .
                                             </span>
                                         </label>
                                     )}

@@ -20,11 +20,21 @@ export function ProtectedRouteProvider({ children }: { children: React.ReactNode
         }
     }, [isMounted, user, router]);
 
-    // Show a loading spinner during rehydration or while redirecting unauthenticated users
-    if (!isMounted || !user) {
+    if (!isMounted) {
         return (
             <div className="flex min-h-screen items-center justify-center bg-gray-50">
                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-600 border-t-transparent" />
+            </div>
+        );
+    }
+
+    if (!user) {
+        return (
+            <div className="relative">
+                <div className="fixed inset-0 z-50 flex min-h-screen items-center justify-center bg-gray-50/80 backdrop-blur-xs">
+                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-600 border-t-transparent" />
+                </div>
+                <div className="pointer-events-none opacity-0">{children}</div>
             </div>
         );
     }

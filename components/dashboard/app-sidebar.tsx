@@ -21,8 +21,8 @@ export function AppSidebar() {
 
     const roleLabels: Record<string, string> = {
         SUPER_ADMIN: "SUPER ADMIN",
-        ADMIN: "SELLER ADMIN",
-        SELLER: "SELLER",
+        ADMIN: "ADMIN",
+        SELLER: "SÄLJARE",
     };
 
     const handleLogout = async () => {

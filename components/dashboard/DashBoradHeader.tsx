@@ -60,6 +60,14 @@ const DashBoradHeader = () => {
         }
     };
 
+    const roleLabels: Record<string, string> = {
+        SUPER_ADMIN: "SUPER ADMIN",
+        ADMIN: "ADMIN",
+        SELLER: "SÄLJARE",
+    };
+
+    const displayRole = user?.role ? roleLabels[user.role] || user.role.replace("_", " ") : "ADMINISTRATÖR";
+
     return (
         <>
             <div className="bg-white p-2 shadow-[0px_8px_14px_0px_rgba(0,0,0,0.08)] sticky top-0 z-20">
@@ -86,8 +94,8 @@ const DashBoradHeader = () => {
                                 className={`flex items-center gap-2.5 cursor-pointer px-3 py-1.5 rounded-xl transition-all duration-200 select-none ${isDropdownOpen ? "bg-amber-50 border border-amber-200/60" : "hover:bg-amber-50/70 hover:border hover:border-amber-200/40 border border-transparent"}`}
                             >
                                 <div className="text-right hidden sm:block">
-                                    <h1 className="text-[#1A1C1C] font-bold text-sm">{user?.name || "User"}</h1>
-                                    <p className="text-[#A8A29E] text-xs font-semibold uppercase">{user?.role?.replace("_", " ") || "Admin"}</p>
+                                    <h1 className="text-[#1A1C1C] font-bold text-sm">{user?.name || "Användare"}</h1>
+                                    <p className="text-[#A8A29E] text-xs font-semibold uppercase">{displayRole}</p>
                                 </div>
                                 {user?.profileImage ? (
                                     <Image src={user.profileImage} alt="avatar" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white shadow-[2px_8px_14px_0px_rgba(0,0,0,0.05)] object-cover" />
@@ -108,8 +116,8 @@ const DashBoradHeader = () => {
                                         }}
                                         className="px-3 py-2 border-b border-[#F5F5F4] mb-1 hover:bg-amber-50/60 transition-colors cursor-pointer rounded-t-lg group"
                                     >
-                                        <p className="text-[#1A1C1C] font-bold text-xs truncate group-hover:text-[#D97706] transition-colors">{user?.name || "User"}</p>
-                                        <p className="text-[10px] text-[#D97706] font-semibold uppercase mt-0.5">{user?.role?.replace("_", " ") || "Admin"}</p>
+                                        <p className="text-[#1A1C1C] font-bold text-xs truncate group-hover:text-[#D97706] transition-colors">{user?.name || "Användare"}</p>
+                                        <p className="text-[10px] text-[#D97706] font-semibold uppercase mt-0.5">{displayRole}</p>
                                     </div>
 
                                     {/* Menu Items */}

@@ -350,7 +350,15 @@ const RegisterClient = () => {
                                                     </div>
                                                 </div>
                                                 <span className="text-sm text-gray-700 flex-1">
-                                                    Jag godkänner <span className="font-semibold">användarvillkoren</span> och har tagit del av <span className="font-semibold">integritetspolicyn</span> om hur mina uppgifter behandlas.
+                                                    Jag godkänner{" "}
+                                                    <Link href="/terms-of-service" target="_blank" className="font-semibold text-[#7C5800] hover:underline" onClick={(e) => e.stopPropagation()}>
+                                                        användarvillkoren
+                                                    </Link>{" "}
+                                                    och har tagit del av{" "}
+                                                    <Link href="/privacy-policy" target="_blank" className="font-semibold text-[#7C5800] hover:underline" onClick={(e) => e.stopPropagation()}>
+                                                        integritetspolicyn
+                                                    </Link>{" "}
+                                                    om hur mina uppgifter behandlas.
                                                 </span>
                                             </label>
                                         )}
