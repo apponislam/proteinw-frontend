@@ -20,7 +20,8 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
     const shopLink = infoData?.shopUrl || "";
     const campaignNameText = infoData?.name ? `the ${infoData.name}` : "your active";
     const statusUpper = (infoData?.status || "").toUpperCase();
-    const isCampaignActive = !infoData?.status || statusUpper === "ACTIVE";
+    const hasCampaign = infoData?.hasCampaign !== false;
+    const isCampaignActive = hasCampaign && (!infoData?.status || statusUpper === "ACTIVE");
 
     React.useEffect(() => {
         const activeCampaignId = infoData?.campaignId;
@@ -55,7 +56,15 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
 
     return (
         <div className="space-y-6 container mx-auto">
-            {!isCampaignActive ? (
+            {!hasCampaign ? (
+                /* No Active Campaign State */
+                <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] border border-stone-100 flex flex-col items-center justify-center text-center min-h-80">
+                    <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-3">Ingen aktiv försäljning</h2>
+                    <p className="text-[#78716C] text-base lg:text-lg leading-relaxed max-w-xl">
+                        Du deltar inte i någon aktiv försäljning för tillfället. Kontakta din lagadministratör eller vänta tills en försäljning startas.
+                    </p>
+                </div>
+            ) : !isCampaignActive ? (
                 /* Non-Active Campaign Closed State */
                 <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] border border-stone-100 flex flex-col items-center justify-center text-center min-h-80">
                     <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-3">Inga beställningar har lagts</h2>

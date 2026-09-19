@@ -61,6 +61,7 @@ export type TAsSellerCampaignInfo = {
     campaignCode: string;
     referralCode: string;
     shopUrl: string;
+    hasCampaign?: boolean;
 };
 
 export type TSalesLinkItem = {
