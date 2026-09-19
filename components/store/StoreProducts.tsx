@@ -66,12 +66,7 @@ const StoreProductsContent = () => {
                         {allProducts.map((product, index) => (
                             <StoreProductCard
                                 key={`${product._id}-${index}`}
-                                productId={product._id || ""}
-                                image={getImageUrl(product.images?.[0]) || "/products/product1.png"}
-                                title={product.name}
-                                price={`${product.price} SEK`}
-                                rawPrice={product.price}
-                                description={product.shortDescription}
+                                product={product}
                                 sellerName={sellerName}
                             />
                         ))}

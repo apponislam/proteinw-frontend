@@ -99,7 +99,7 @@ const StoreOrderContent = () => {
                 <div className="flex flex-col justify-between bg-[#E8E8E8] p-5 sm:p-8 md:p-10 rounded-[24px] shadow-xs">
                     <div className="space-y-6 sm:space-y-8 mb-6 sm:mb-8">
                         <div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1C] mb-3 sm:mb-4">Slutför ditt stöd</h2>
+                            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1C] mb-3 sm:mb-4">Slutför din beställning</h2>
                             <p className="text-xs sm:text-base text-[#514532] leading-relaxed">
                                 Tack för att du väljer att stötta {firstName}s kampanj ({campaignName})! Vi gör det enkelt och lokalt.
                             </p>

@@ -37,7 +37,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
         const diffDays = Math.round((endStart - todayStart) / (1000 * 60 * 60 * 24));
         if (diffDays < 0) return "Försäljningen har avslutats";
         if (diffDays === 0) return "Slutar idag";
-        return `Om ${diffDays} dagar`;
+        return `${diffDays} dagar kvar`;
     };
 
     const getStatusLabel = (statusStr: string) => {
