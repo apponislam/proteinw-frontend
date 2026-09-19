@@ -18,7 +18,7 @@ const formatInviteStatus = (status: string) => {
         case "declined":
             return "Avböjd";
         case "pending":
-            return "Väntande";
+            return "Väntar";
         default:
             return status;
     }
@@ -87,7 +87,7 @@ export default function Invitations({ groupId }: InvitationsProps) {
             </div>
 
             <div>
-                <h4 className="text-sm sm:text-base font-semibold text-[#1A1C1C] mb-4">Aktiva och väntande inbjudningar</h4>
+                <h4 className="text-sm sm:text-base font-semibold text-[#1A1C1C] mb-4">väntande inbjudningar</h4>
                 {isLoading ? (
                     <div className="flex items-center justify-center py-8">
                         <Loader2 className="animate-spin text-[#D97706]" size={28} />

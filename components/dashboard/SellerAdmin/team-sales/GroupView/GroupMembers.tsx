@@ -83,7 +83,9 @@ export default function GroupMembers({ groupId: rawGroupId }: GroupMembersProps)
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="py-3 sm:py-4 px-3 sm:px-4 font-medium uppercase text-xs tracking-wide text-[#78716C] whitespace-nowrap">{member.role}</td>
+                                            <td className="py-3 sm:py-4 px-3 sm:px-4 font-medium uppercase text-xs tracking-wide text-[#78716C] whitespace-nowrap">
+                                                {member.role === "SELLER" ? "SÄLJARE" : member.role === "ADMIN" ? "ADMIN" : member.role === "SUPER_ADMIN" ? "SUPER ADMIN" : member.role}
+                                            </td>
                                             <td className="py-3 sm:py-4 px-3 sm:px-4 text-right whitespace-nowrap">
                                                 <span
                                                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide
