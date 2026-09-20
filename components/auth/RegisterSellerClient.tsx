@@ -50,31 +50,6 @@ const RegisterSellerForm = () => {
 
     const codeParam = searchParams.get("code") || codeFromQuery;
 
-    // Track if user was already authenticated on mount
-    const [wasAlreadyAuthenticated] = React.useState(() => !!token);
-
-    // If user was ALREADY logged in before opening page and visits invitation link with code, automatically join group & redirect
-    useEffect(() => {
-        if (!token || !wasAlreadyAuthenticated) return;
-
-        if (codeParam) {
-            const handleAutoJoin = async () => {
-                const toastId = toast.loading("Går med i gruppen med inbjudningskoden...");
-                try {
-                    await joinGroupByInvitationCode({ code: codeParam }).unwrap();
-                    toast.success("Du har gått med i gruppen!", { id: toastId });
-                } catch (err: any) {
-                    toast.error(err?.data?.message || "Misslyckades att gå med i gruppen.", { id: toastId });
-                } finally {
-                    router.push("/dashboard");
-                }
-            };
-            handleAutoJoin();
-        } else {
-            router.push("/dashboard");
-        }
-    }, [token, wasAlreadyAuthenticated, codeParam, joinGroupByInvitationCode, router]);
-
     const {
         control,
         register,

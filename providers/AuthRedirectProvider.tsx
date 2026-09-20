@@ -15,10 +15,12 @@ export function AuthRedirectProvider({ children }: { children: React.ReactNode }
     const [joinGroupByInvitationCode] = useJoinGroupByInvitationCodeMutation();
 
     const code = searchParams.get("code");
+    // Only auto-join if the user was ALREADY logged in when they first opened/mounted the page with an invite code URL
+    const initialUserRef = useState(() => user)[0];
 
     useEffect(() => {
         setIsMounted(true);
-        if (user) {
+        if (initialUserRef) {
             if (code) {
                 const handleAutoJoin = async () => {
                     const toastId = toast.loading("Joining group with invitation code...");
@@ -36,7 +38,7 @@ export function AuthRedirectProvider({ children }: { children: React.ReactNode }
                 router.replace("/dashboard");
             }
         }
-    }, [user, code, joinGroupByInvitationCode, router]);
+    }, [initialUserRef, code, joinGroupByInvitationCode, router]);
 
     // Show a loading spinner during rehydration or while redirecting logged-in users
     if (!isMounted || user) {

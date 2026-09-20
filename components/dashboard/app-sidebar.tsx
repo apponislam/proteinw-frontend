@@ -48,12 +48,14 @@ export function AppSidebar() {
         <Sidebar>
             <SidebarHeader className="p-4">
                 <Link href="/" onClick={handleItemClick} className="flex items-center gap-3">
-                    <div>
+                    {/* <div>
                         <Image src="/dashboard/superadmin/logo.svg" alt="ProteinW" width={40} height={40} />
-                    </div>
+                    </div> */}
                     <div>
-                        <h1 className="text-[18px] font-bold">Fundraising Pro</h1>
-                        <p className="text-[#78716C] text-[10px]">{roleLabels[activeRole]} CONSOLE</p>
+                        {/* <h1 className="text-[18px] font-bold">Fundraising Pro</h1>
+                        <p className="text-[#78716C] text-[10px]">{roleLabels[activeRole]} CONSOLE</p> */}
+                        <h1 className="text-[18px] font-bold">KUNGSBJÖRNEN</h1>
+                        <p className="text-[#78716C] text-[10px]">Mina sidor</p>
                     </div>
                 </Link>
             </SidebarHeader>
