@@ -40,13 +40,22 @@ const SellerOrdersView = () => {
                             onSelectCampaign={(campaign) => {
                                 setSelectedCampaignId(campaign?._id || "");
                             }}
+                            onAutoSelectSingleCampaign={(id) => {
+                                if (!selectedCampaignId) {
+                                    setSelectedCampaignId(id);
+                                }
+                            }}
                         />
                     </div>
 
                     {!hasOrders ? (
                         <SellerEmptyOrders
                             campaignId={selectedCampaignId}
-                            onAutoSelectCampaign={(id) => setSelectedCampaignId(id)}
+                            onAutoSelectCampaign={(id) => {
+                                if (!selectedCampaignId) {
+                                    setSelectedCampaignId(id);
+                                }
+                            }}
                         />
                     ) : (
                         <>

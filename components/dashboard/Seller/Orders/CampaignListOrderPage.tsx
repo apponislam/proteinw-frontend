@@ -9,11 +9,12 @@ import { currentUser } from "@/redux/features/auth/authSlice";
 
 interface CampaignListOrderPageProps {
     onSelectCampaign?: (campaign: TCampaign | null) => void;
+    onAutoSelectSingleCampaign?: (campaignId: string) => void;
     selectedCampaignId?: string;
     placeholder?: string;
 }
 
-const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({ onSelectCampaign, selectedCampaignId, placeholder = "Alla försäljningar" }) => {
+const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({ onSelectCampaign, onAutoSelectSingleCampaign, selectedCampaignId, placeholder = "Alla försäljningar" }) => {
     const user = useAppSelector(currentUser);
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
@@ -47,6 +48,9 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({ onSelectC
 
             if (page === 1) {
                 setAccumulatedCampaigns(fetchedCampaigns);
+                if (fetchedCampaigns.length === 1 && fetchedCampaigns[0]._id && onAutoSelectSingleCampaign) {
+                    onAutoSelectSingleCampaign(fetchedCampaigns[0]._id);
+                }
             } else {
                 setAccumulatedCampaigns((prev) => {
                     const existingIds = new Set(prev.map((c) => c._id));
@@ -55,7 +59,7 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({ onSelectC
                 });
             }
         }
-    }, [responseData, page, hasNextPage, onSelectCampaign]);
+    }, [responseData, page, hasNextPage, onSelectCampaign, onAutoSelectSingleCampaign]);
 
     const activeId = selectedCampaignId !== undefined ? selectedCampaignId : internalSelectedId;
     const currentCampaign = accumulatedCampaigns.find((c) => c._id === activeId);

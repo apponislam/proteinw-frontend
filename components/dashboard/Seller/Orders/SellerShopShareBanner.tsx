@@ -20,7 +20,8 @@ const SellerShopShareBanner: React.FC<SellerShopShareBannerProps> = ({ campaignI
     const infoData = campaignInfoResponse?.data;
     const shopLink = infoData?.shopUrl || "";
     const statusUpper = (infoData?.status || "").toUpperCase();
-    const isCampaignActive = !infoData?.status || statusUpper === "ACTIVE";
+    const hasCampaign = infoData?.hasCampaign !== false;
+    const isCampaignActive = hasCampaign && (!infoData?.status || statusUpper === "ACTIVE");
 
     if (!isCampaignActive) return null;
 
