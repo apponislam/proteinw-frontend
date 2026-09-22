@@ -235,7 +235,7 @@ const RegisterSellerForm = () => {
 
                         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
                             <p className="text-sm text-gray-600">
-                                Har du redan en inbjudningskod eller ett konto?{" "}
+                                Har du redan ett konto?{" "}
                                 <Link href={loginUrl} className="font-bold text-[#7C5800] hover:underline">
                                     Logga in här
                                 </Link>

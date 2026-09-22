@@ -25,7 +25,7 @@ export default function UserProfile() {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
                 <Loader2 className="w-8 h-8 animate-spin text-[#D97706]" />
-                <p className="text-[#78716C] text-sm font-medium">Loading profile information...</p>
+                <p className="text-[#78716C] text-sm font-medium">Laddar profilinformation...</p>
             </div>
         );
     }
@@ -33,7 +33,7 @@ export default function UserProfile() {
     if (!user) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-                <p className="text-red-500 font-bold">Failed to load profile data.</p>
+                <p className="text-red-500 font-bold">Kunde inte ladda profildata.</p>
             </div>
         );
     }
@@ -49,8 +49,16 @@ export default function UserProfile() {
 
     const isSeller = user.role === "SELLER";
     const isSuperAdmin = user.role === "SUPER_ADMIN";
-    const formattedRole = user.role ? user.role.replace("_", " ") : "USER";
-    const joinedDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "N/A";
+    
+    // Role translation
+    const roleTranslations: Record<string, string> = {
+        SUPER_ADMIN: "SUPER ADMIN",
+        ADMIN: "GRUPPLEDARE",
+        SELLER: "SÄLJARE",
+    };
+    const formattedRole = user.role ? (roleTranslations[user.role] || user.role.replace("_", " ")) : "GRUPPLEDARE";
+    
+    const joinedDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("sv-SE", { year: "numeric", month: "short", day: "numeric" }) : "Ej angivet";
 
     let parsedAddress: any = user.address || {};
     if (typeof user.address === "string") {
@@ -78,7 +86,7 @@ export default function UserProfile() {
                             {/* Avatar image pulled up over cover photo */}
                             <div className="relative shrink-0 -mt-12 sm:-mt-14">
                                 {user.profileImage ? (
-                                    <Image src={user.profileImage} alt={user.name || "Profile"} width={112} height={112} className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl ring-4 ring-white shadow-xl object-cover bg-white" />
+                                    <Image src={user.profileImage} alt={user.name || "Profilbild"} width={112} height={112} className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl ring-4 ring-white shadow-xl object-cover bg-white" />
                                 ) : (
                                     <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl ring-4 ring-white shadow-xl bg-linear-to-br from-[#7C5800] to-[#FFB800] text-white font-extrabold text-3xl flex items-center justify-center">{initials}</div>
                                 )}
@@ -90,7 +98,7 @@ export default function UserProfile() {
                                     <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1C] tracking-tight">{user.name}</h1>
                                     <span className="px-3 py-0.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-amber-50 text-[#D97706] border border-amber-200/80">{formattedRole}</span>
                                     {!isSeller && !isSuperAdmin && user.isApproved !== undefined && (
-                                        <span className={`px-3 py-0.5 rounded-full text-xs font-bold border ${user.isApproved ? "bg-green-50 text-green-700 border-green-200" : "bg-yellow-50 text-yellow-800 border-yellow-200"}`}>{user.isApproved ? "Approved" : "Pending Approval"}</span>
+                                        <span className={`px-3 py-0.5 rounded-full text-xs font-bold border ${user.isApproved ? "bg-green-50 text-green-700 border-green-200" : "bg-yellow-50 text-yellow-800 border-yellow-200"}`}>{user.isApproved ? "Godkänd" : "Väntar på godkännande"}</span>
                                     )}
                                 </div>
                                 <p className="text-xs sm:text-sm text-[#78716C] font-semibold flex items-center gap-1.5">
@@ -104,15 +112,15 @@ export default function UserProfile() {
                         <div className="flex items-center gap-3 pt-2 sm:pt-4 flex-wrap">
                             <button onClick={() => setIsUpdateProfileOpen(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer">
                                 <Edit3 size={14} />
-                                <span>Edit Profile</span>
+                                <span>Redigera profil</span>
                             </button>
                             <button onClick={() => setIsChangePasswordOpen(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-all cursor-pointer">
                                 <KeyRound size={14} />
-                                <span>Change Password</span>
+                                <span>Ändra lösenord</span>
                             </button>
                             <button onClick={() => setIsDeleteAccountOpen(true)} className="inline-flex items-center gap-2 px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/80 rounded-xl text-xs font-bold transition-all cursor-pointer">
                                 <Trash2 size={14} />
-                                <span>Delete Account</span>
+                                <span>Radera konto</span>
                             </button>
                         </div>
                     </div>
@@ -125,35 +133,35 @@ export default function UserProfile() {
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_2px_10px_0px_rgba(0,0,0,0.03)] space-y-4">
                     <div className="flex items-center gap-2 border-b border-[#F5F5F4] pb-3">
                         <User size={18} className="text-[#D97706]" />
-                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Personal Information</h3>
+                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Personlig information</h3>
                     </div>
 
                     <div className="space-y-3.5 text-xs sm:text-sm">
                         <div className="flex items-center justify-between py-1 border-b border-stone-50">
                             <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <User size={14} className="text-stone-400" /> Full Name
+                                <User size={14} className="text-stone-400" /> Fullständigt namn
                             </span>
                             <span className="font-bold text-[#1A1C1C]">{user.name}</span>
                         </div>
 
                         <div className="flex items-center justify-between py-1 border-b border-stone-50">
                             <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <Mail size={14} className="text-stone-400" /> Email Address
+                                <Mail size={14} className="text-stone-400" /> E-postadress
                             </span>
                             <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{user.email}</span>
                         </div>
 
                         <div className="flex items-center justify-between py-1 border-b border-stone-50">
                             <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <Phone size={14} className="text-stone-400" /> Phone Number
+                                <Phone size={14} className="text-stone-400" /> Telefonnummer
                             </span>
-                            <span className="font-bold text-[#1A1C1C]">{user.phone || "Not provided"}</span>
+                            <span className="font-bold text-[#1A1C1C]">{user.phone || "Ej angivet"}</span>
                         </div>
 
                         {!isSeller && !isSuperAdmin && user.profession && (
                             <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                 <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                    <Briefcase size={14} className="text-stone-400" /> Profession
+                                    <Briefcase size={14} className="text-stone-400" /> Yrke
                                 </span>
                                 <span className="font-bold text-[#1A1C1C]">{user.profession}</span>
                             </div>
@@ -161,7 +169,7 @@ export default function UserProfile() {
 
                         <div className="flex items-center justify-between py-1">
                             <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <Calendar size={14} className="text-stone-400" /> Joined On
+                                <Calendar size={14} className="text-stone-400" /> Blev medlem
                             </span>
                             <span className="font-bold text-[#1A1C1C]">{joinedDate}</span>
                         </div>
@@ -172,7 +180,7 @@ export default function UserProfile() {
                 <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-[0px_2px_10px_0px_rgba(0,0,0,0.03)] space-y-4">
                     <div className="flex items-center gap-2 border-b border-[#F5F5F4] pb-3">
                         <Building size={18} className="text-[#D97706]" />
-                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">{isSeller ? "Organization Details" : isSuperAdmin ? "Location & Address" : "Organization & Location"}</h3>
+                        <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">{isSeller ? "Organisationsuppgifter" : isSuperAdmin ? "Plats & Adress" : "Organisation & Plats"}</h3>
                     </div>
 
                     <div className="space-y-3.5 text-xs sm:text-sm">
@@ -180,16 +188,16 @@ export default function UserProfile() {
                             <>
                                 <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                     <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <Building size={14} className="text-stone-400" /> Organization Name
+                                        <Building size={14} className="text-stone-400" /> Organisationsnamn
                                     </span>
-                                    <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.organizationName || "N/A"}</span>
+                                    <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.organizationName || "Ej angivet"}</span>
                                 </div>
 
                                 <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                     <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <Building2 size={14} className="text-stone-400" /> Organization Type
+                                        <Building2 size={14} className="text-stone-400" /> Organisationstyp
                                     </span>
-                                    <span className="font-bold text-[#1A1C1C]">{address.organizationType || "N/A"}</span>
+                                    <span className="font-bold text-[#1A1C1C]">{address.organizationType || "Ej angivet"}</span>
                                 </div>
                             </>
                         )}
@@ -198,23 +206,23 @@ export default function UserProfile() {
                             <>
                                 <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                     <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <MapPin size={14} className="text-stone-400" /> Street Address
+                                        <MapPin size={14} className="text-stone-400" /> Gatuadress
                                     </span>
-                                    <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.street || "N/A"}</span>
+                                    <span className="font-bold text-[#1A1C1C] truncate max-w-48 sm:max-w-64">{address.street || "Ej angivet"}</span>
                                 </div>
 
                                 <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                     <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <Building size={14} className="text-stone-400" /> Zip Code
+                                        <Building size={14} className="text-stone-400" /> Postnummer
                                     </span>
-                                    <span className="font-bold text-[#1A1C1C]">{address.zipCode || "N/A"}</span>
+                                    <span className="font-bold text-[#1A1C1C]">{address.zipCode || "Ej angivet"}</span>
                                 </div>
 
                                 <div className="flex items-center justify-between py-1 border-b border-stone-50">
                                     <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                        <MapPin size={14} className="text-stone-400" /> Locality
+                                        <MapPin size={14} className="text-stone-400" /> Ort
                                     </span>
-                                    <span className="font-bold text-[#1A1C1C]">{address.locality || "N/A"}</span>
+                                    <span className="font-bold text-[#1A1C1C]">{address.locality || "Ej angivet"}</span>
                                 </div>
                             </>
                         )}
