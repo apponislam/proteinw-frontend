@@ -37,8 +37,8 @@ const StoreContent = () => {
                         <AlertCircle size={36} />
                     </div>
                     <div className="space-y-2">
-                        <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Ogiltig butikslänk</h1>
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Denna insamlingslänk är ogiltig, ofullständig eller så är kampanjen inte längre aktiv. Kontakta din säljare för att få rätt länk.</p>
+                        <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Ogiltig webbshop</h1>
+                        <p className="text-gray-600 text-sm md:text-base leading-relaxed">Denna försäljningslänk är ogiltig, ofullständig eller så är försäljningen inte längre aktiv. Kontakta din säljare för att få rätt länk.</p>
                     </div>
                     <div className="pt-2">
                         <Link href="/" className="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white hover:from-[#8B6500] hover:to-[#FFCC00] transition-all w-full justify-center">

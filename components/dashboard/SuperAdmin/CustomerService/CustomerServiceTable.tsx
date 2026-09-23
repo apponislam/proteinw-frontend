@@ -11,14 +11,14 @@ import CustomerServiceDetailModal from "./CustomerServiceDetailModal";
 const getStatusBadge = (status: TCustomerServiceStatus) => {
     switch (status) {
         case "resolved":
-            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Löst</span>;
+            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Avslutad</span>;
         case "in_progress":
-            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Under behandling</span>;
+            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Under handläggning</span>;
         case "rejected":
             return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-red-100 text-red-800">Avslagen</span>;
         case "pending":
         default:
-            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">Väntande</span>;
+            return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">Inkommen</span>;
     }
 };
 
@@ -56,9 +56,9 @@ export default function CustomerServiceTable() {
 
     const filterOptions = [
         { value: "", label: "Alla statusar", color: "bg-gray-400" },
-        { value: "pending", label: "Väntande", color: "bg-yellow-500" },
-        { value: "in_progress", label: "Under behandling", color: "bg-blue-500" },
-        { value: "resolved", label: "Löst", color: "bg-green-600" },
+        { value: "pending", label: "Inkommen", color: "bg-yellow-500" },
+        { value: "in_progress", label: "Under handläggning", color: "bg-blue-500" },
+        { value: "resolved", label: "Avslutad", color: "bg-green-600" },
         { value: "rejected", label: "Avslagen", color: "bg-red-500" },
     ];
 

@@ -27,13 +27,13 @@ const getStatusBadge = (status: TCustomerServiceStatus) => {
         case "resolved":
             return (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200/70">
-                    <CheckCircle2 className="w-3 h-3" /> Löst
+                    <CheckCircle2 className="w-3 h-3" /> Avslutad
                 </span>
             );
         case "in_progress":
             return (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800 border border-blue-200/70">
-                    <RefreshCw className="w-3 h-3 animate-spin-slow" /> Under behandling
+                    <RefreshCw className="w-3 h-3 animate-spin-slow" /> Under handläggning
                 </span>
             );
         case "rejected":
@@ -46,7 +46,7 @@ const getStatusBadge = (status: TCustomerServiceStatus) => {
         default:
             return (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-900 border border-amber-200/70">
-                    <Clock className="w-3 h-3" /> Väntande
+                    <Clock className="w-3 h-3" /> Inkommen
                 </span>
             );
     }
@@ -269,9 +269,9 @@ export default function CustomerServiceDetailModal({ request, onClose }: Custome
     };
 
     const statusOptions: { value: TCustomerServiceStatus; label: string; activeClass: string; icon: any }[] = [
-        { value: "pending", label: "Väntande", activeClass: "bg-amber-500 text-white border-amber-600 shadow-xs ring-1 ring-amber-400/50", icon: Clock },
-        { value: "in_progress", label: "Under behandling", activeClass: "bg-blue-600 text-white border-blue-700 shadow-xs ring-1 ring-blue-400/50", icon: RefreshCw },
-        { value: "resolved", label: "Löst", activeClass: "bg-emerald-600 text-white border-emerald-700 shadow-xs ring-1 ring-emerald-400/50", icon: CheckCircle2 },
+        { value: "pending", label: "Inkommen", activeClass: "bg-amber-500 text-white border-amber-600 shadow-xs ring-1 ring-amber-400/50", icon: Clock },
+        { value: "in_progress", label: "Under handläggning", activeClass: "bg-blue-600 text-white border-blue-700 shadow-xs ring-1 ring-blue-400/50", icon: RefreshCw },
+        { value: "resolved", label: "Avslutad", activeClass: "bg-emerald-600 text-white border-emerald-700 shadow-xs ring-1 ring-emerald-400/50", icon: CheckCircle2 },
         { value: "rejected", label: "Avslagen", activeClass: "bg-rose-600 text-white border-rose-700 shadow-xs ring-1 ring-rose-400/50", icon: XCircle },
     ];
 

@@ -60,9 +60,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                 /* No Active Campaign State */
                 <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] border border-stone-100 flex flex-col items-center justify-center text-center min-h-80">
                     <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-3">Ingen aktiv försäljning</h2>
-                    <p className="text-[#78716C] text-base lg:text-lg leading-relaxed max-w-xl">
-                        Du deltar inte i någon aktiv försäljning för tillfället. Kontakta din lagadministratör eller vänta tills en försäljning startas.
-                    </p>
+                    <p className="text-[#78716C] text-base lg:text-lg leading-relaxed max-w-xl">Du deltar inte i någon aktiv försäljning för tillfället. Kontakta din kontaktperson eller vänta tills en försäljning startas.</p>
                 </div>
             ) : !isCampaignActive ? (
                 /* Non-Active Campaign Closed State */
@@ -129,11 +127,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                         </div>
                         <h3 className="text-base font-extrabold text-[#1A1C1C] tracking-wider uppercase mb-3">SKANNA FÖR ATT HANDLA</h3>
                         {shopLink && (
-                            <button
-                                type="button"
-                                onClick={() => setShowPrintModal(true)}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-all cursor-pointer shadow-xs active:scale-95"
-                            >
+                            <button type="button" onClick={() => setShowPrintModal(true)} className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-lg transition-all cursor-pointer shadow-xs active:scale-95">
                                 <Printer size={14} />
                                 <span>Skriv ut A4-ark</span>
                             </button>
@@ -143,12 +137,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
             )}
 
             {/* A4 Print Modal */}
-            <SellerA4QrPrintModal
-                isOpen={showPrintModal}
-                onClose={() => setShowPrintModal(false)}
-                shopLink={shopLink}
-                campaignName={infoData?.name}
-            />
+            <SellerA4QrPrintModal isOpen={showPrintModal} onClose={() => setShowPrintModal(false)} shopLink={shopLink} campaignName={infoData?.name} />
 
             {/* Bottom 3 Cards Section - Only shown when campaign is ACTIVE */}
             {isCampaignActive && (
