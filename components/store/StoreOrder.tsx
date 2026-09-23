@@ -44,6 +44,8 @@ const StoreOrderContent = () => {
         }));
     };
 
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (cartItems.length === 0) {
@@ -76,7 +78,7 @@ const StoreOrderContent = () => {
             // Clear cart
             dispatch(clearCart());
 
-            // Reset form
+            // Reset form & show confirmation modal
             setFormData({
                 fullName: "",
                 phoneNumber: "",
@@ -87,6 +89,7 @@ const StoreOrderContent = () => {
                 locality: "",
                 agree: false,
             });
+            setIsSubmitted(true);
         } catch (err: any) {
             console.error("Failed to place order:", err);
             toast.error(err?.data?.message || "Det gick inte att lägga beställningen. Försök igen.");
@@ -119,7 +122,7 @@ const StoreOrderContent = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="w-5 h-5 rounded-full bg-[#7C5800]/10 text-[#7C5800] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
-                                <p>Garanterad produktkvalitet</p>
+                                <p>Kvalitet Kungsbjörnen står bakom</p>
                             </div>
                         </div>
                     </div>
@@ -127,7 +130,8 @@ const StoreOrderContent = () => {
                     <div className="bg-[#FAFAF9CC] rounded-3xl p-4 sm:p-6 space-y-4">
                         <div>
                             <p className="text-xs sm:text-sm text-[#837560] font-bold">Beräknad leverans</p>
-                            <p className="text-lg sm:text-xl font-bold">2–3 veckor</p>
+                            <p className="text-sm sm:text-base font-bold text-[#1A1C1C]">Leverans inom 5 dagar efter avslutad insamling.</p>
+                            <p className="text-xs text-[#78716C] mt-1.5 leading-relaxed">Undrar du när insamlingen avslutas eller har du frågor? Kontakta mig!</p>
                         </div>
 
                         <div className="border-t border-gray-200 pt-4">
@@ -239,14 +243,14 @@ const StoreOrderContent = () => {
                         </div>
 
                         <div>
-                            <label className="block text-xs sm:text-sm font-medium text-[#837560] mb-1.5 sm:mb-2">Land / Område</label>
+                            <label className="block text-xs sm:text-sm font-medium text-[#837560] mb-1.5 sm:mb-2">Ort</label>
                             <input
                                 type="text"
                                 required
                                 name="locality"
                                 value={formData.locality}
                                 onChange={handleChange}
-                                placeholder="Sverige"
+                                placeholder="Östermalm"
                                 className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                             />
                         </div>
@@ -275,6 +279,34 @@ const StoreOrderContent = () => {
                     </form>
                 </div>
             </div>
+
+            {/* Order Confirmation Modal */}
+            {isSubmitted && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
+                    <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-5 border border-stone-100 shadow-2xl relative">
+                        <div className="mx-auto w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center border border-emerald-100">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-2xl font-extrabold text-stone-900">Tack för din order!</h3>
+                            <p className="text-stone-600 text-sm leading-relaxed">
+                                Din beställning har mottagits framgångsrikt. En orderbekräftelse har skickats till din e-post. {firstName} kommer att leverera dina produkter personligen.
+                            </p>
+                        </div>
+                        <div className="pt-2">
+                            <button
+                                type="button"
+                                onClick={() => setIsSubmitted(false)}
+                                className="w-full py-3 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-bold rounded-[24px] transition-all shadow-md cursor-pointer text-sm"
+                            >
+                                Stäng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

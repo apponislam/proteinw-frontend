@@ -250,6 +250,17 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                             <p className="text-[10px] text-[#7C5800] mt-0.5">Maximal period om 3 veckor/21 dagar</p>
                                                         </div>
                                                     </div>
+
+                                                    {/* Action buttons at bottom right */}
+                                                    <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#F5F5F4] mt-2">
+                                                        <button type="button" onClick={() => setEditingId(null)} className="px-3 py-1.5 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold cursor-pointer">
+                                                            Avbryt
+                                                        </button>
+                                                        <button type="button" onClick={() => handleSaveEdit(campaign)} disabled={isUpdating} className="px-3 py-1.5 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-semibold cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1">
+                                                            {isUpdating && <Loader2 className="animate-spin" size={12} />}
+                                                            Spara
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div className="min-w-0 flex-1">
@@ -259,17 +270,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                             )}
                                         </div>
                                         <div className="flex items-center gap-2 shrink-0">
-                                            {isEditing ? (
-                                                <div className="flex flex-col gap-1">
-                                                    <button onClick={() => handleSaveEdit(campaign)} disabled={isUpdating} className="px-2.5 py-1 bg-[#D97706] hover:bg-[#B45309] text-white rounded-lg text-xs font-semibold cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1">
-                                                        {isUpdating && <Loader2 className="animate-spin" size={12} />}
-                                                        Spara
-                                                    </button>
-                                                    <button onClick={() => setEditingId(null)} className="px-2.5 py-1 border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold cursor-pointer">
-                                                        Avbryt
-                                                    </button>
-                                                </div>
-                                            ) : (
+                                            {!isEditing && (
                                                 <>
                                                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide border ${statusStyle.badgeClass}`}>{statusStyle.label}</span>
                                                     {canEdit && (
