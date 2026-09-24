@@ -151,7 +151,7 @@ export default function Campaign({ groupId }: CampaignProps) {
                                     };
                                 case "FULFILMENT":
                                     return {
-                                        label: "Uppfyllnad",
+                                        label: "Leveransfas",
                                         badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
                                         iconClass: "bg-blue-50 text-blue-700",
                                     };

@@ -22,7 +22,7 @@ interface CardDetailsProps {
 const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; label: string; bg: string; text: string; dot: string }[] = [
     { value: "DRAFT", label: "UTKAST", bg: "bg-gray-100", text: "text-gray-800", dot: "bg-gray-500" },
     { value: "ACTIVE", label: "AKTIV", bg: "bg-green-100", text: "text-green-800", dot: "bg-green-500" },
-    { value: "FULFILMENT", label: "UPPFYLLNAD", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
+    { value: "FULFILMENT", label: "LEVERANSFAS", bg: "bg-blue-100", text: "text-blue-800", dot: "bg-blue-500" },
     { value: "COMPLETED", label: "AVSLUTAD", bg: "bg-[#FFDEA8]", text: "text-amber-900", dot: "bg-amber-600" },
 ];
 
@@ -46,7 +46,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
     const products = campaign.products || [];
     const [apiProductCount, setApiProductCount] = useState<number | null>(null);
     const totalProductsCount = apiProductCount ?? products.length;
-    const admin = campaign.campaignAdmin;
+    // const admin = campaign.campaignAdmin;
 
     const currentStatusStr = campaign.status || "DRAFT";
     const currentOption = statusOptions.find((opt) => opt.value === currentStatusStr) || statusOptions[0];

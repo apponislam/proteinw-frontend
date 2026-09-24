@@ -76,7 +76,7 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                 </div>
 
                 {/* TIP */}
-                {(() => {
+                {/* {(() => {
                     let tipMessage = "";
                     const activeStudents = Math.max(1, perStudent > 0 ? Math.ceil(packagesNeeded / perStudent) : 1);
 
@@ -100,7 +100,7 @@ export default function FundraisingSummary({ packagesNeeded = 209, perStudent = 
                             </p>
                         </div>
                     );
-                })()}
+                })()} */}
             </div>
             <div className="relative overflow-hidden rounded-[24px]">
                 <Image src="/profit/profitpic.png" alt="High margin products" width={500} height={300} className="w-full h-48 sm:h-64 lg:h-auto object-cover rounded-[24px]" />

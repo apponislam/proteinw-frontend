@@ -104,7 +104,7 @@ const StoreOrderContent = () => {
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1C] mb-3 sm:mb-4">Slutför din beställning</h2>
                             <p className="text-xs sm:text-base text-[#514532] leading-relaxed">
-                                Tack för att du väljer att stötta {firstName}s kampanj ({campaignName})! Vi gör det enkelt och lokalt.
+                                Tack för att du väljer att stötta {firstName}'s kampanj ({campaignName})! Vi gör det enkelt och lokalt.
                             </p>
                         </div>
                         <div className="bg-[#FEF3C780] border border-[#FDE68A] rounded-[24px] flex items-start gap-3 sm:gap-4 p-4 sm:p-6">
@@ -291,16 +291,10 @@ const StoreOrderContent = () => {
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-2xl font-extrabold text-stone-900">Tack för din order!</h3>
-                            <p className="text-stone-600 text-sm leading-relaxed">
-                                Din beställning har mottagits framgångsrikt. En orderbekräftelse har skickats till din e-post. {firstName} kommer att leverera dina produkter personligen.
-                            </p>
+                            <p className="text-stone-600 text-sm leading-relaxed">Din beställning har mottagits framgångsrikt. En orderbekräftelse har skickats till din e-post. {firstName} kommer att leverera dina produkter personligen.</p>
                         </div>
                         <div className="pt-2">
-                            <button
-                                type="button"
-                                onClick={() => setIsSubmitted(false)}
-                                className="w-full py-3 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-bold rounded-[24px] transition-all shadow-md cursor-pointer text-sm"
-                            >
+                            <button type="button" onClick={() => setIsSubmitted(false)} className="w-full py-3 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-bold rounded-[24px] transition-all shadow-md cursor-pointer text-sm">
                                 Stäng
                             </button>
                         </div>

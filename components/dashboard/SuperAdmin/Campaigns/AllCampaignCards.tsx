@@ -113,7 +113,7 @@ const AllCampaignCards = () => {
                             Aktiva
                         </button>
                         <button type="button" onClick={() => handleTabChange("FULFILMENT")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
-                            Leverans
+                            Leveransfas
                         </button>
                         <button type="button" onClick={() => handleTabChange("COMPLETED")} className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}>
                             Avslutade

@@ -56,7 +56,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
                 };
             case "FULFILMENT":
                 return {
-                    label: "LEVERANS",
+                    label: "LEVERANSFAS",
                     bg: "bg-blue-100 text-blue-800",
                     dot: "bg-blue-500",
                 };

@@ -158,7 +158,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                                 currentStatusStr === "ACTIVE"
                                     ? { bg: "bg-green-100", text: "text-green-800", border: "border-green-300", dot: "bg-green-500", label: "AKTIV" }
                                     : currentStatusStr === "FULFILMENT"
-                                      ? { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300", dot: "bg-blue-500", label: "LEVERANS" }
+                                      ? { bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-300", dot: "bg-blue-500", label: "LEVERANSFAS" }
                                       : currentStatusStr === "COMPLETED"
                                         ? { bg: "bg-amber-100", text: "text-amber-900", border: "border-amber-300", dot: "bg-amber-600", label: "AVSLUTAD" }
                                         : { bg: "bg-gray-100", text: "text-gray-800", border: "border-gray-300", dot: "bg-gray-500", label: "UTKAST" };

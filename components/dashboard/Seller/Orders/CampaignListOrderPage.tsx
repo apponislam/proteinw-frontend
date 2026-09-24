@@ -159,7 +159,7 @@ const CampaignListOrderPage: React.FC<CampaignListOrderPageProps> = ({ onSelectC
                                                 s === "ACTIVE"
                                                     ? "AKTIV"
                                                     : s === "FULFILMENT"
-                                                      ? "LEVERANS"
+                                                      ? "LEVERANSFAS"
                                                       : s === "COMPLETED"
                                                         ? "AVSLUTAD"
                                                         : s;

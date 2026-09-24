@@ -45,7 +45,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
             case "ACTIVE":
                 return "AKTIV";
             case "FULFILMENT":
-                return "UPPFYLLNAD";
+                return "LEVERANSFAS";
             case "COMPLETED":
                 return "AVSLUTAD";
             case "DRAFT":
