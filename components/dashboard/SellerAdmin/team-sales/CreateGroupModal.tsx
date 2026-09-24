@@ -10,7 +10,7 @@ import { useCreateGroupMutation } from "@/redux/features/group/groupApi";
 import { toast } from "sonner";
 
 const groupFormSchema = z.object({
-    className: z.string().min(2, "Klassnamnet måste vara minst 2 tecken"),
+    className: z.string().min(2, "Gruppnamnet måste vara minst 2 tecken"),
 });
 
 type GroupFormValues = z.infer<typeof groupFormSchema>;
@@ -63,8 +63,8 @@ const CreateGroupModal: React.FC<CreateGroupModalProps> = ({ isOpen, onClose }) 
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-[#1A1C1C]">Klassnamn</label>
-                        <Input placeholder="Ange klassnamn" {...register("className")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
+                        <label className="text-sm font-medium text-[#1A1C1C]">Gruppnamn</label>
+                        <Input placeholder="Ange grupp- eller klassnamn" {...register("className")} className="h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1" />
                         {errors.className && <p className="text-red-500 text-xs">{errors.className.message}</p>}
                     </div>
                     <button

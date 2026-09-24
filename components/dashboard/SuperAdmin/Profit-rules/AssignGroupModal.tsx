@@ -98,7 +98,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4 animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl border border-[#E7E5E4] shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col p-5 sm:p-6 overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-2xl border border-[#E7E5E4] shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col p-5 sm:p-6 overflow-visible animate-in zoom-in-95 duration-200">
                 {/* Modal Header */}
                 <div className="flex items-center justify-between border-b border-[#F5F5F4] pb-4 mb-4 shrink-0">
                     <div>
@@ -135,7 +135,10 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                         <div className="relative">
                             <button
                                 type="button"
-                                onClick={() => setIsCampaignDropdownOpen((prev) => !prev)}
+                                onClick={() => {
+                                    setIsCampaignDropdownOpen((prev) => !prev);
+                                    setIsTierDropdownOpen(false);
+                                }}
                                 className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
                                 <span className={selectedCampaign ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
@@ -212,7 +215,10 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                         <div className="relative">
                             <button
                                 type="button"
-                                onClick={() => setIsTierDropdownOpen((prev) => !prev)}
+                                onClick={() => {
+                                    setIsTierDropdownOpen((prev) => !prev);
+                                    setIsCampaignDropdownOpen(false);
+                                }}
                                 className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
                                 <span className={selectedTier ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>

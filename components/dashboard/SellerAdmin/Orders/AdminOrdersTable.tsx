@@ -5,6 +5,8 @@ import { ChevronDown, Check, X } from "lucide-react";
 import { useGetRunningCampaignOrdersQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
 import Pagination from "@/components/dashboard/Pagination";
+import { useAppSelector } from "@/redux/hooks";
+import { currentUser, roles } from "@/redux/features/auth/authSlice";
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -47,6 +49,8 @@ interface AdminOrdersTableProps {
 }
 
 const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
+    const user = useAppSelector(currentUser);
+    const isSuperAdmin = user?.role === roles.SUPER_ADMIN;
     const [page, setPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<string>("");
     const [selectedOrder, setSelectedOrder] = useState<TOrder | null>(null);
@@ -375,10 +379,12 @@ const AdminOrdersTable: React.FC<AdminOrdersTableProps> = ({ campaignId }) => {
                                     Stäng
                                 </button>
                             </div>
-                            <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
-                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
-                            </p>
+                            {!isSuperAdmin && (
+                                <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
+                                    <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>

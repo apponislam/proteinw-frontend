@@ -6,7 +6,7 @@ import { ChevronDown, Check, X } from "lucide-react";
 import { useGetAllOrdersQuery, useGetRunningCampaignOrdersQuery, useGetOrdersByMemberQuery, useUpdateOrderStatusMutation, TOrder, TOrderStatus } from "@/redux/features/order/orderApi";
 import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
-import { currentUser } from "@/redux/features/auth/authSlice";
+import { currentUser, roles } from "@/redux/features/auth/authSlice";
 import Pagination from "@/components/dashboard/Pagination";
 
 const getStatusColor = (status: string) => {
@@ -40,6 +40,7 @@ const OrdersTable = () => {
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const user = useAppSelector(currentUser);
     const role = user?.role;
+    const isSuperAdmin = role === roles.SUPER_ADMIN;
 
     const filterOptions = [
         { value: "", label: "Alla statusar", color: "bg-gray-400" },
@@ -384,10 +385,12 @@ const OrdersTable = () => {
                                     Stäng
                                 </button>
                             </div>
-                            <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
-                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
-                            </p>
+                            {!isSuperAdmin && (
+                                <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
+                                    <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
