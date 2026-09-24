@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import FundraisingCalculatorLeft from "./FundraisingCalculatorLeft";
 import FundraisingSummary from "./FundraisingSummary";
 
@@ -65,6 +66,18 @@ const Fundraisingcalculator = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             <FundraisingCalculatorLeft targetProfit={targetProfit} setTargetProfit={setTargetProfit} students={students} setStudents={setStudents} profitPercent={profitPercent} />
             <FundraisingSummary packagesNeeded={packagesNeeded} perStudent={perStudent} totalProfit={totalProfit} profitPercent={profitPercent} progress={progress} nextTier={nextTier} targetProfit={targetProfit} />
+
+            {/* CTA Banner for Mobile (hidden on desktop) */}
+            <div className="lg:hidden rounded-3xl bg-[#2F3131] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-center sm:text-left">
+                    <h3 className="text-lg sm:text-xl font-bold leading-tight">Redo att köra igång?</h3>
+                    <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-zinc-400">Det tar mindre än 2 minuter att komma igång.</p>
+                </div>
+
+                <Link href="/auth/register" className="w-full sm:w-auto">
+                    <button className="w-full sm:w-auto rounded-2xl bg-linear-to-r from-[#7C5800] to-[#FFB800] px-6 py-3.5 sm:py-4 text-sm sm:text-lg font-semibold text-white transition hover:scale-[1.02] cursor-pointer">Starta er försäljning nu</button>
+                </Link>
+            </div>
         </div>
     );
 };

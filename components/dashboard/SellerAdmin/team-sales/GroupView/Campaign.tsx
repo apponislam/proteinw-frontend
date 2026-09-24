@@ -41,15 +41,15 @@ export default function Campaign({ groupId }: CampaignProps) {
 
     const todayStr = formatDateStr(today);
 
-    const getCampaignMaxDate = (campaign: TCampaign) => {
-        let creation: Date;
+    const getCampaignCreatedDate = (campaign: TCampaign) => {
         if (campaign.createdAt) {
-            creation = new Date(campaign.createdAt);
-        } else if (campaign.endDate) {
-            creation = new Date(new Date(campaign.endDate).getTime() - 21 * 24 * 60 * 60 * 1000);
-        } else {
-            creation = new Date();
+            return new Date(campaign.createdAt);
         }
+        return new Date();
+    };
+
+    const getCampaignMaxDate = (campaign: TCampaign) => {
+        const creation = getCampaignCreatedDate(campaign);
         creation.setHours(0, 0, 0, 0);
         const max = new Date(creation);
         max.setDate(creation.getDate() + 21);
@@ -87,10 +87,11 @@ export default function Campaign({ groupId }: CampaignProps) {
                 const d = new Date(year, month, day);
                 const checkToday = new Date();
                 checkToday.setHours(0, 0, 0, 0);
+                const creationDate = getCampaignCreatedDate(campaign);
                 const checkMax = getCampaignMaxDate(campaign);
 
                 if (d < checkToday || d > checkMax) {
-                    toast.error(`Slutdatum kan inte överstiga 21 dagar från kampanjens skapandedatum (${formatDateStr(checkMax)})`);
+                    toast.error(`Slutdatum kan inte överstiga 21 dagar från kampanjens skapandedatum (${formatDateStr(creationDate)})`);
                     return;
                 }
             }
@@ -187,9 +188,9 @@ export default function Campaign({ groupId }: CampaignProps) {
                                                 <Store size={20} />
                                             </div>
                                             {isEditing ? (
-                                                <div className="space-y-3 w-full">
+                                                <div className="space-y-3 w-full min-w-0">
                                                     <Input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Kampanjnamn" className="h-9 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 font-bold text-sm" />
-                                                    <div className="space-y-1">
+                                                    <div className="space-y-1 w-full min-w-0">
                                                         <Textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} placeholder="Kort beskrivning" className="min-h-12 border-[#F5F5F4] focus:border-[#D97706] focus:ring-[#D97706] focus:ring-1 text-xs" />
                                                         <p className="text-[11px] text-[#D97706] font-medium flex items-center gap-1 pt-0.5">
                                                             <Info size={13} className="shrink-0" />

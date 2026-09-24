@@ -213,8 +213,8 @@ export default function FundraisingCalculatorLeft({ targetProfit, setTargetProfi
                 </div>
             </div>
 
-            {/* CTA */}
-            <div className="mt-6 sm:mt-8 rounded-3xl bg-[#2F3131] p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* CTA for Desktop (hidden on mobile) */}
+            <div className="hidden lg:flex mt-6 sm:mt-8 rounded-3xl bg-[#2F3131] p-6 sm:p-8 text-white flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-center sm:text-left">
                     <h3 className="text-lg sm:text-xl font-bold leading-tight">Redo att köra igång?</h3>
                     <p className="mt-1 sm:mt-2 text-xs sm:text-sm leading-relaxed text-zinc-400">Det tar mindre än 2 minuter att komma igång.</p>

@@ -32,9 +32,7 @@ interface CampaignCardProps {
 
 const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status, progress, goal, raised, daysLeft, tierInfo, campaigns = ["W", "N", "F", "G"], onViewDetails }) => {
     const nextTierProfitText = tierInfo?.nextTier?.percentage ? `${tierInfo.nextTier.percentage}%` : null;
-    const untilBonusText = tierInfo?.nextTier
-        ? `${tierInfo.packagesNeededForNextTier || 0} paket kvar till ${tierInfo.nextTier.percentage}% vinstbonus`
-        : null;
+    const untilBonusText = tierInfo?.nextTier ? `${tierInfo.packagesNeededForNextTier || 0} paket kvar till ${tierInfo.nextTier.percentage}% förtjänst` : null;
 
     const currentMin = tierInfo?.currentTier?.minSalesVolume ?? 0;
     const nextMin = tierInfo?.nextTier?.minSalesVolume;
@@ -109,7 +107,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
                     </div>
                     <div className="grid grid-cols-2 gap-4 ">
                         <div>
-                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">VINST</div>
+                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">FÖRTJÄNST</div>
                             <div className="text-[#D97706] font-bold text-lg">{raised}</div>
                         </div>
                         <div>
@@ -123,7 +121,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
                     <div className="mb-4 space-y-1.5">
                         {nextTierProfitText && (
                             <div className="flex items-center justify-between">
-                                <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider">NÄSTA VINSTNIVÅ</span>
+                                <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider">NÄSTA FÖRTJÄNSTNIVÅ</span>
                                 <span className="text-[#D97706] font-bold text-sm">{nextTierProfitText}</span>
                             </div>
                         )}
@@ -132,9 +130,7 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ title, description, status,
                                 <div className="h-full bg-linear-to-r from-[#7C5800] to-[#FFB800] rounded-full transition-all duration-300" style={{ width: `${tierProgress}%` }} />
                             </div>
                         )}
-                        {untilBonusText && (
-                            <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{untilBonusText}</div>
-                        )}
+                        {untilBonusText && <div className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{untilBonusText}</div>}
                     </div>
                 )}
             </div>

@@ -9,7 +9,7 @@ interface GroupCardProps {
 const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
     const activeSellersCount = group?.totalSellers ?? group?.activeSellers ?? 0;
     const totalPackages = group?.totalPackagesSold ?? group?.tierInfo?.totalPackagesSold ?? 0;
-    const totalSalesNum = group?.totalRevenue ?? group?.tierInfo?.totalRevenue ?? 0;
+    // const totalSalesNum = group?.totalRevenue ?? group?.tierInfo?.totalRevenue ?? 0;
 
     const campaignName = group?.runningCampaign?.name || (group?.runningCampaignId as any)?.name || "Försäljningsgrupp";
 
@@ -21,7 +21,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
     const untilBonusText = tierInfo?.nextTier ? `${tierInfo.packagesNeededForNextTier || 0} paket kvar till ${tierInfo.nextTier.percentage}% vinstbonus` : null;
     const progress = tierInfo?.nextTier && tierInfo.nextTier.minSalesVolume ? Math.min(100, Math.round((totalPackages / tierInfo.nextTier.minSalesVolume) * 100)) : null;
 
-    const totalSalesText = `${totalPackages} st (${totalSalesNum.toLocaleString()} SEK)`;
+    // const totalSalesText = `${totalPackages} st (${totalSalesNum.toLocaleString()} SEK)`;
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 hover:bg-[#FFDEA8] relative overflow-hidden group flex flex-col justify-between">
