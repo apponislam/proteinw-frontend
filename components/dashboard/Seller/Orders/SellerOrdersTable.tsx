@@ -75,7 +75,7 @@ const SellerOrdersTable: React.FC<SellerOrdersTableProps> = ({ campaignId }) => 
         <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)]">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">Mina kundbeställningar</h2>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Mina beställningar</h2>
                     <p className="text-[#78716C] text-xs mt-1">Spåra beställningar som gjorts via din personliga värvningslänk</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-4">

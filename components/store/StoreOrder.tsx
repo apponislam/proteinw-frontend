@@ -104,7 +104,7 @@ const StoreOrderContent = () => {
                         <div>
                             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A1C1C] mb-3 sm:mb-4">Slutför din beställning</h2>
                             <p className="text-xs sm:text-base text-[#514532] leading-relaxed">
-                                Tack för att du väljer att stötta {firstName}'s kampanj ({campaignName})! Vi gör det enkelt och lokalt.
+                                Tack för att du handlar hos {firstName}s ({campaignName})! Genom ditt köp hjälper du gruppen att nå sitt mål.
                             </p>
                         </div>
                         <div className="bg-[#FEF3C780] border border-[#FDE68A] rounded-[24px] flex items-start gap-3 sm:gap-4 p-4 sm:p-6">

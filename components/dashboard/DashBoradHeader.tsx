@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useSidebar } from "../ui/sidebar";
 import React, { useState, useRef, useEffect } from "react";
 import Notifications from "./Notifications";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import { currentUser } from "@/redux/features/auth/authSlice";
 import { performFullLogout } from "@/redux/utils/logout";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
@@ -48,14 +48,14 @@ const DashBoradHeader = () => {
 
     const handleLogout = async () => {
         setIsDropdownOpen(false);
-        const toastId = toast.loading("Logging out...");
+        const toastId = toast.loading("Loggar ut...");
         try {
             await logoutMutation().unwrap();
         } catch (err) {
             // Ignore API logout error if token already expired
         } finally {
             performFullLogout();
-            toast.success("Logged out successfully", { id: toastId });
+            toast.success("Du har loggats ut", { id: toastId });
             router.push("/auth/login");
         }
     };

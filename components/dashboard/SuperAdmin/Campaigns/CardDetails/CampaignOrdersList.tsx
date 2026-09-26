@@ -56,6 +56,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const user = useAppSelector(currentUser);
     const role = user?.role;
+    const isSuperAdmin = role === "SUPER_ADMIN";
 
     const filterOptions = [
         { value: "", label: "Alla statusar", color: "bg-gray-400" },
@@ -334,6 +335,12 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                                 Stäng
                             </button>
                         </div>
+                        {!isSuperAdmin && (
+                            <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
+                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
+                            </p>
+                        )}
                     </div>
                 </div>
             )}

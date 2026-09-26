@@ -31,7 +31,7 @@ const SellerOrdersView = () => {
                 <>
                     <div className="flex items-center justify-between mb-4 md:mb-8 gap-4 flex-col md:flex-row">
                         <div>
-                            <h1 className="text-3xl font-bold text-[#1A1C1C]">Mina kundbeställning</h1>
+                            <h1 className="text-3xl font-bold text-[#1A1C1C]">Mina beställningar</h1>
                             <p className="text-[#78716C] mt-2 max-w-2xl">Visa och spåra alla kundbeställningar som lagts via din personliga försäljningslänk.</p>
                         </div>
 
