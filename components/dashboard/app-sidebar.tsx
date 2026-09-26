@@ -26,14 +26,14 @@ export function AppSidebar() {
     };
 
     const handleLogout = async () => {
-        const toastId = toast.loading("Logging out...");
+        const toastId = toast.loading("Loggar ut...");
         try {
             await logoutApi().unwrap();
         } catch (error) {
             // Ignore API logout error if session expired
         } finally {
             performFullLogout();
-            toast.success("You have been successfully logged out.", { id: toastId });
+            toast.success("Du har loggats ut", { id: toastId });
             router.push("/auth/login");
         }
     };

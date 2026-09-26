@@ -74,7 +74,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                     <div className="flex items-center justify-between gap-2 border-b border-[#F5F5F4] group-hover:border-[#271900]/15 pb-2.5 transition-colors">
                         <div className="text-[#D97706] group-hover:text-[#271900] text-xs font-bold tracking-wider uppercase flex items-center gap-1.5 transition-colors">
                             <Package size={15} />
-                            <span>Försäljning & Vinstnivå</span>
+                            <span>PAKET SÅLDA & FÖRTJÄNSTNIVÅ</span>
                         </div>
                         <span className="bg-amber-50 group-hover:bg-[#271900]/10 text-[#D97706] group-hover:text-[#271900] border border-amber-200/80 px-2 py-0.5 rounded-full text-[11px] font-bold shrink-0 transition-colors">{profitTierPercentage}% Nivå</span>
                     </div>
@@ -88,14 +88,14 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
-                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Min försäljning</span>
+                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Mina paket sålda</span>
                             <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${myPackagesSold} st`}>
                                 {myPackagesSold} st
                             </span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
-                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Total försäljning i försäljningen</span>
+                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Totalt antal paket sålda</span>
                             <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${totalGroupSales} st`}>
                                 {totalGroupSales} st
                             </span>
@@ -119,21 +119,21 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
 
                     <div className="space-y-2 pt-0.5">
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
-                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Min vinst</span>
+                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Min förtjänst</span>
                             <span className="font-bold text-emerald-700 group-hover:text-[#271900] truncate text-right" title={`${Math.round(myProfit).toLocaleString()} SEK`}>
                                 {Math.round(myProfit).toLocaleString()} SEK
                             </span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
-                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Kampanjens vinst</span>
+                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Total omsättning</span>
                             <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${Math.round(campaignProfit).toLocaleString()} SEK`}>
                                 {Math.round(campaignProfit).toLocaleString()} SEK
                             </span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
-                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Kampanjens intäkter</span>
+                            <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Total förtjänst</span>
                             <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right" title={`${Math.round(groupRevenue).toLocaleString()} SEK`}>
                                 {Math.round(groupRevenue).toLocaleString()} SEK
                             </span>

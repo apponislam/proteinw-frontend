@@ -40,7 +40,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
                         </div>
                     </div>
 
-                    <div className="flex items-start justify-between">
+                    {/* <div className="flex items-start justify-between">
                         <span className="text-[#78716C] text-xs font-semibold group-hover:text-[#271900] transition-colors duration-300 uppercase tracking-wider mt-0.5">Försäljningsvärde aktiva försäljningar</span>
                         <div className="flex flex-col items-end">
                             <span className="text-[#1A1C1C] font-bold text-sm group-hover:text-[#271900] transition-colors duration-300">{activeCampaignRevenue.toLocaleString()} SEK</span>
@@ -54,7 +54,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, className = "" }) => {
                             <span className="text-[#1A1C1C] font-bold text-sm group-hover:text-[#271900] transition-colors duration-300">{totalSalesNum.toLocaleString()} SEK</span>
                             <span className="text-[#78716C] text-xs group-hover:text-[#271900] transition-colors duration-300">{totalPackages} paket</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <Link
