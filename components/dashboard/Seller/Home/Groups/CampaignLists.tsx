@@ -16,10 +16,7 @@ const CampaignLists = () => {
 
     const statusParam = activeTab !== "ALL" ? activeTab : undefined;
 
-    const { data: campaignResponse, isLoading } = useGetRunningCampaignForSellerQuery(
-        { groupId: id, page, limit: 9, status: statusParam },
-        { skip: !id }
-    );
+    const { data: campaignResponse, isLoading } = useGetRunningCampaignForSellerQuery({ groupId: id, page, limit: 9, status: statusParam }, { skip: !id });
 
     const campaignsList = campaignResponse?.data || [];
     const pagination = campaignResponse?.meta || { page: 1, limit: 9, total: 0, totalPages: 1 };
@@ -38,12 +35,7 @@ const CampaignLists = () => {
             <div className="mb-6 sm:mb-8">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-3 sm:gap-4">
-                        <button
-                            type="button"
-                            onClick={() => router.back()}
-                            className="p-2 bg-white hover:bg-stone-100 border border-stone-200 rounded-xl transition-all cursor-pointer shadow-xs text-stone-700 hover:text-stone-900 shrink-0"
-                            title="Gå tillbaka"
-                        >
+                        <button type="button" onClick={() => router.back()} className="p-2 bg-white hover:bg-stone-100 border border-stone-200 rounded-xl transition-all cursor-pointer shadow-xs text-stone-700 hover:text-stone-900 shrink-0" title="Gå tillbaka">
                             <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
                         </button>
                         <div>
@@ -54,28 +46,40 @@ const CampaignLists = () => {
                     <div className="w-full sm:w-auto overflow-x-auto scrollbar-none flex items-center gap-1.5 sm:gap-2 pb-1 sm:pb-0">
                         <button
                             type="button"
-                            onClick={() => { setActiveTab("ALL"); setPage(1); }}
+                            onClick={() => {
+                                setActiveTab("ALL");
+                                setPage(1);
+                            }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ALL" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
                             Alla
                         </button>
                         <button
                             type="button"
-                            onClick={() => { setActiveTab("ACTIVE"); setPage(1); }}
+                            onClick={() => {
+                                setActiveTab("ACTIVE");
+                                setPage(1);
+                            }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "ACTIVE" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
                             Aktiva
                         </button>
                         <button
                             type="button"
-                            onClick={() => { setActiveTab("FULFILMENT"); setPage(1); }}
+                            onClick={() => {
+                                setActiveTab("FULFILMENT");
+                                setPage(1);
+                            }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "FULFILMENT" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
                             Leveransfas
                         </button>
                         <button
                             type="button"
-                            onClick={() => { setActiveTab("COMPLETED"); setPage(1); }}
+                            onClick={() => {
+                                setActiveTab("COMPLETED");
+                                setPage(1);
+                            }}
                             className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${activeTab === "COMPLETED" ? "bg-[#D97706] text-white" : "text-[#78716C] hover:bg-[#F5F5F4]"}`}
                         >
                             Avslutade
@@ -85,9 +89,7 @@ const CampaignLists = () => {
             </div>
 
             {campaignsList.length === 0 ? (
-                <div className="text-center py-12 text-[#78716C] text-sm">
-                    Inga försäljningar hittades som matchar ditt val.
-                </div>
+                <div className="text-center py-12 text-[#78716C] text-sm">Du har inte blivit inbjuden till någon försäljning inom gruppen.</div>
             ) : (
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
