@@ -32,7 +32,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
     const categories = [
         { value: "All", label: "Kategori: Alla", subcategories: [] },
         { value: "Scented Candles", label: "Kategori: Doftljus", subcategories: ["Reed Diffusers"] },
-        { value: "Premium Socks", label: "Kategori: Premiumstrumpor", subcategories: [] },
+        { value: "Premium Socks", label: "Kategori: Strumpor", subcategories: [] },
     ];
 
     // Get current category data

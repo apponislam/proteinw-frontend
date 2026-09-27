@@ -210,7 +210,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                     {/* Custom Profit Tier Dropdown */}
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">
-                            V\u00e4lj vinstniv\u00e5
+                            Välj vinstnivå
                         </label>
                         <div className="relative">
                             <button
@@ -222,7 +222,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                 className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
                                 <span className={selectedTier ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
-                                    {selectedTier ? selectedTier.name : "-- V\u00e4lj niv\u00e5 --"}
+                                    {selectedTier ? selectedTier.name : "-- Välj nivå --"}
                                 </span>
                                 <ChevronDown size={16} className={`shrink-0 transition-transform ${isTierDropdownOpen ? "rotate-180" : ""}`} />
                             </button>
@@ -233,10 +233,10 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                     <div className="absolute left-0 right-0 mt-1 z-50 bg-white rounded-xl shadow-2xl border border-stone-200 overflow-hidden animate-in fade-in duration-150">
                                         <div className="max-h-40 overflow-y-auto divide-y divide-stone-50">
                                             {tiers.length === 0 ? (
-                                                <div className="p-3 text-xs text-stone-400 text-center">Inga niv\u00e5er tillg\u00e4ngliga</div>
+                                                <div className="p-3 text-xs text-stone-400 text-center">Inga nivåer tillgängliga</div>
                                             ) : (
                                                 tiers.map((tier) => {
-                                                    const tierLabel = `${tier.name} (${tier.percentage}% Vinstniv\u00e5)`;
+                                                    const tierLabel = `${tier.name} (${tier.percentage}% Vinstnivå)`;
                                                     const isSelected = selectedTier?.id === tier._id;
                                                     return (
                                                         <button
@@ -278,7 +278,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                             disabled={isAssigning}
                             className="px-4 sm:px-5 py-2.5 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-xs sm:text-sm font-bold rounded-xl hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer shadow-xs disabled:opacity-50"
                         >
-                            {isAssigning ? "Tilldelar..." : "Bekr\u00e4fta tilldelning"}
+                            {isAssigning ? "Tilldelar..." : "Bekräfta tilldelning"}
                         </button>
                     </div>
                 </form>

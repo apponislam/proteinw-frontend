@@ -244,7 +244,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                         className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
                                     >
                                         <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>
-                                            {category === "Scented Candles" ? "Doftljus" : category === "Premium Socks" ? "Premiumstrumpor" : category || "Välj kategori"}
+                                            {category === "Scented Candles" ? "Doftljus" : category === "Premium Socks" ? "Strumpor" : category || "Välj kategori"}
                                         </span>
                                         <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
@@ -255,7 +255,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                             <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                 {[
                                                     { value: "Scented Candles", label: "Doftljus" },
-                                                    { value: "Premium Socks", label: "Premiumstrumpor" },
+                                                    { value: "Premium Socks", label: "Strumpor" },
                                                 ].map((catOption) => (
                                                     <button
                                                         key={catOption.value}

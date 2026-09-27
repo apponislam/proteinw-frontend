@@ -40,7 +40,7 @@ const ProfitRuleHead = () => {
     });
 
     const onSubmit = async (data: TierFormValues) => {
-        const toastId = toast.loading("Skapar niv\u00e5...");
+        const toastId = toast.loading("Skapar nivå...");
         try {
             await createTier({
                 name: data.name,
@@ -49,11 +49,11 @@ const ProfitRuleHead = () => {
                 maxSalesVolume: data.maxSalesVolume || undefined,
                 isPopular: data.isPopular,
             }).unwrap();
-            toast.success("Niv\u00e5n skapades framg\u00e5ngsrikt!", { id: toastId });
+            toast.success("Nivån skapades framgångsrikt!", { id: toastId });
             setIsModalOpen(false);
             reset();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Misslyckades med att skapa niv\u00e5", { id: toastId });
+            toast.error(err?.data?.message || "Misslyckades med att skapa nivå", { id: toastId });
         }
     };
 
@@ -62,13 +62,13 @@ const ProfitRuleHead = () => {
             <div className="bg-[#1C1917] rounded-2xl sm:rounded-[32px] p-5 sm:p-10">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-6">
                     <div>
-                        <h1 className="text-xs sm:text-sm text-[#FBBF24] mb-2 sm:mb-4 uppercase tracking-widest font-semibold">Int\u00e4ktshantering</h1>
+                        <h1 className="text-xs sm:text-sm text-[#FBBF24] mb-2 sm:mb-4 uppercase tracking-widest font-semibold">Intäktshantering</h1>
                         <h2 className="text-white text-2xl sm:text-4xl font-extrabold mb-2 sm:mb-3">Vinst- och prisstrategi.</h2>
                         <p className="text-[#A8A29E] max-w-2xl text-xs sm:text-sm leading-relaxed">Konfigurera dina prestationsnivåer och vinstmarginaler för att driva tillväxt. Dessa regler definierar automatiska utbetalningsstrukturer för alla aktiva försäljningar.</p>
                     </div>
                     <button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 rounded-[24px] bg-linear-to-r from-[#7C5800] to-[#FFB800] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-sm hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer">
                         <Plus size={16} />
-                        L\u00e4gg till ny niv\u00e5
+                        Lägg till ny nivå
                     </button>
                 </div>
             </div>
@@ -81,7 +81,7 @@ const ProfitRuleHead = () => {
                                 <div className="p-1.5 sm:p-2 bg-amber-50 rounded-xl text-[#D97706]">
                                     <TrendingUp size={18} />
                                 </div>
-                                <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">L\u00e4gg till ny niv\u00e5</h2>
+                                <h2 className="text-lg sm:text-xl font-bold text-[#1A1C1C]">Lägg till ny nivå</h2>
                             </div>
                             <button
                                 onClick={() => {
@@ -95,8 +95,8 @@ const ProfitRuleHead = () => {
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
                             <div>
-                                <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Niv\u00e5namn</label>
-                                <input type="text" placeholder="t.ex. TILLV\u00c4XTBONUS" {...register("name")} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
+                                <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Nivånamn</label>
+                                <input type="text" placeholder="t.ex. TILLVÄXTBONUS" {...register("name")} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
                                 {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                             </div>
                             <div>
@@ -106,25 +106,25 @@ const ProfitRuleHead = () => {
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div>
-                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Min f\u00f6rs\u00e4ljning (artiklar)</label>
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Min försäljning (artiklar)</label>
                                     <input type="number" placeholder="0" {...register("minSalesVolume", { valueAsNumber: true })} className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm" />
                                     {errors.minSalesVolume && <p className="text-red-500 text-xs mt-1">{errors.minSalesVolume.message}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Max f\u00f6rs\u00e4ljning (artiklar)</label>
+                                    <label className="block text-xs sm:text-sm font-semibold text-[#1A1C1C] mb-1.5 sm:mb-2">Max försäljning (artiklar)</label>
                                     <input
                                         type="number"
-                                        placeholder="L\u00e4mna tomt f\u00f6r obegr\u00e4nsat"
+                                        placeholder="Lämna tomt för obegränsat"
                                         {...register("maxSalesVolume", { valueAsNumber: true })}
                                         className="w-full h-11 sm:h-12 px-3.5 sm:px-4 border border-[#F5F5F4] rounded-xl focus:outline-none focus:border-[#D97706] focus:ring-2 focus:ring-[#D97706]/20 text-xs sm:text-sm"
                                     />
-                                    <p className="text-[#A8A29E] text-[10px] mt-1">Tomt = obegr\u00e4nsat</p>
+                                    <p className="text-[#A8A29E] text-[10px] mt-1">Tomt = obegränsat</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 p-3 bg-amber-50 rounded-xl border border-amber-100">
                                 <input type="checkbox" id="isPopular" {...register("isPopular")} className="w-4 h-4 accent-[#D97706] cursor-pointer" />
                                 <label htmlFor="isPopular" className="text-xs sm:text-sm font-semibold text-[#1A1C1C] cursor-pointer">
-                                    Markera som mest popul\u00e4r
+                                    Markera som mest populär
                                 </label>
                             </div>
                             <button
@@ -138,7 +138,7 @@ const ProfitRuleHead = () => {
                                         <span>Skapar...</span>
                                     </>
                                 ) : (
-                                    "Skapa niv\u00e5"
+                                    "Skapa nivå"
                                 )}
                             </button>
                         </form>

@@ -139,7 +139,7 @@ const ProductsClient = () => {
                                 className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Premium Socks" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
                             >
                                 <Footprints className="w-4 h-4 text-[#837560]" />
-                                <span>Premiumstrumpor</span>
+                                <span>Strumpor</span>
                             </li>
                         </ul>
 
