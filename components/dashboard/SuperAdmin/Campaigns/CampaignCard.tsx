@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import { TCampaign, useUpdateCampaignStatusMutation } from "../../../../redux/features/campaign/campaignApi";
 import Link from "next/link";
-import { ChevronDown, Check, Calendar } from "lucide-react";
+import { ChevronDown, Check, Calendar, FileText, Loader2 } from "lucide-react";
+import { useAppSelector } from "@/redux/hooks";
+import { currentToken } from "@/redux/features/auth/authSlice";
 
 interface CampaignCardProps {
     campaign: TCampaign;
@@ -19,6 +21,44 @@ const statusOptions: { value: "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED"; l
 const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
     const [updateCampaignStatus, { isLoading: isUpdating }] = useUpdateCampaignStatusMutation();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const token = useAppSelector(currentToken);
+
+    const downloadOrderSummaryAsPdf = async (campaignId: string, authToken: string) => {
+        setIsDownloading(true);
+        try {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_API || "https://fundraisingapi.apponislam.top";
+            const response = await fetch(
+                `${baseUrl}/api/v1/campaigns/${campaignId}/order-summary`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+            if (!response.ok) throw new Error("Kunde inte hämta sammanställningen");
+            const htmlContent = await response.text();
+            // Dynamically import html2pdf.js
+            // @ts-ignore
+            const html2pdf = (await import("html2pdf.js")).default;
+            const container = document.createElement("div");
+            container.innerHTML = htmlContent;
+            document.body.appendChild(container);
+            const options = {
+                margin: 10,
+                filename: `Order-Summary-${campaign.name || campaignId}.pdf`,
+                image: { type: "jpeg" as const, quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: "mm" as const, format: "a4" as const, orientation: "portrait" as const },
+            };
+            await html2pdf().set(options).from(container).save();
+            document.body.removeChild(container);
+        } catch (error) {
+            console.error("Fel vid nedladdning av PDF:", error);
+        } finally {
+            setIsDownloading(false);
+        }
+    };
 
     const progress = campaign.target > 0 ? Math.min(100, Math.round(((campaign.totalRevenueSold || 0) / campaign.target) * 100)) : 0;
     const currentStatusStr = campaign.status || "DRAFT";
@@ -79,12 +119,30 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
     return (
         <div className="flex flex-col justify-between h-full bg-white p-4 md:p-6 rounded-lg shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden group">
             <div className="relative z-10 flex flex-col">
-                {/* Header Status Badge */}
-                <div className="mb-4">
+                {/* Header Status Badge & FULFILMENT Download Order Summary PDF */}
+                <div className="mb-4 flex items-center justify-between gap-2 flex-wrap">
                     <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${currentOption.bg} ${currentOption.text}`}>
                         <span className={`w-2 h-2 rounded-full ${currentOption.dot}`}></span>
                         {currentOption.label}
                     </span>
+
+                    {currentStatusStr === "FULFILMENT" && (
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (campaign._id) {
+                                    downloadOrderSummaryAsPdf(campaign._id, token || "");
+                                }
+                            }}
+                            disabled={isDownloading}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 hover:bg-amber-100 text-[#D97706] border border-amber-200/80 rounded-full text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                            title="Ladda ner beställningssammanställning PDF"
+                        >
+                            {isDownloading ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
+                            <span>{isDownloading ? "Hämtar..." : "Beställningssammanställning"}</span>
+                        </button>
+                    )}
                 </div>
 
                 <div className="mb-4">
