@@ -23,12 +23,12 @@ export function AuthRedirectProvider({ children }: { children: React.ReactNode }
         if (initialUserRef) {
             if (code) {
                 const handleAutoJoin = async () => {
-                    const toastId = toast.loading("Joining group with invitation code...");
+                    const toastId = toast.loading("Går med i gruppen med inbjudningskod...");
                     try {
                         await joinGroupByInvitationCode({ code }).unwrap();
-                        toast.success("Successfully joined the group!", { id: toastId });
+                        toast.success("Du har gått med i gruppen!", { id: toastId });
                     } catch (err: any) {
-                        toast.error(err?.data?.message || "Failed to join group with code.", { id: toastId });
+                        toast.error(err?.data?.message || "Kunde inte gå med i gruppen med koden.", { id: toastId });
                     } finally {
                         router.replace("/dashboard");
                     }

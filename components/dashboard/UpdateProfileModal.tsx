@@ -74,7 +74,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const toastId = toast.loading("Updating profile...");
+        const toastId = toast.loading("Uppdaterar profil...");
 
         try {
             const formData = new FormData();
@@ -112,10 +112,10 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
             }
 
             refetch();
-            toast.success("Profile updated successfully!", { id: toastId });
+            toast.success("Profilen uppdaterades framgångsrikt!", { id: toastId });
             onClose();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to update profile", { id: toastId });
+            toast.error(err?.data?.message || "Det gick inte att uppdatera profilen.", { id: toastId });
         }
     };
 

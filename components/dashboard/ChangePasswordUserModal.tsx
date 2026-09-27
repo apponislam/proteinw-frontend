@@ -27,26 +27,26 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
         e.preventDefault();
 
         if (newPassword !== confirmPassword) {
-            toast.error("New passwords do not match!");
+            toast.error("De nya lösenorden matchar inte!");
             return;
         }
 
         if (newPassword.length < 6) {
-            toast.error("New password must be at least 6 characters long.");
+            toast.error("Det nya lösenordet måste vara minst 6 tecken långt.");
             return;
         }
 
-        const toastId = toast.loading("Updating password...");
+        const toastId = toast.loading("Uppdaterar lösenord...");
 
         try {
             await changePassword({ currentPassword, newPassword }).unwrap();
-            toast.success("Password changed successfully!", { id: toastId });
+            toast.success("Lösenordet ändrades framgångsrikt!", { id: toastId });
             setCurrentPassword("");
             setNewPassword("");
             setConfirmPassword("");
             onClose();
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to change password", { id: toastId });
+            toast.error(err?.data?.message || "Det gick inte att ändra lösenordet.", { id: toastId });
         }
     };
 

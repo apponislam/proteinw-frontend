@@ -33,29 +33,29 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, onClose
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!password.trim()) {
-            toast.error("Please enter your password.");
+            toast.error("Vänligen ange ditt lösenord.");
             return;
         }
 
         if (!confirmPassword.trim()) {
-            toast.error("Please confirm your password.");
+            toast.error("Vänligen bekräfta ditt lösenord.");
             return;
         }
 
         if (password !== confirmPassword) {
-            toast.error("Passwords do not match. Please re-enter matching passwords.");
+            toast.error("Lösenorden matchar inte. Vänligen ange samma lösenord.");
             return;
         }
 
-        const toastId = toast.loading("Deleting account...");
+        const toastId = toast.loading("Raderar konto...");
         try {
             await deleteAccount({ password }).unwrap();
-            toast.success("Account deleted successfully", { id: toastId });
+            toast.success("Kontot har raderats framgångsrikt", { id: toastId });
             performFullLogout();
             handleModalClose();
             router.push("/auth/login");
         } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to delete account. Please check your password.", { id: toastId });
+            toast.error(err?.data?.message || "Det gick inte att radera kontot. Kontrollera ditt lösenord.", { id: toastId });
         }
     };
 
