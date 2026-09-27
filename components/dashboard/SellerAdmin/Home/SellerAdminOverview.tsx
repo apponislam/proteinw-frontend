@@ -31,6 +31,8 @@ const SellerAdminOverview = () => {
         return <CreateGroupForm />;
     }
 
+    const hasCampaign = Boolean(selectedCampaignId || statusData?.hasCampaign);
+
     return (
         <div className="space-y-6 sm:space-y-8">
             <div>
@@ -38,7 +40,7 @@ const SellerAdminOverview = () => {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#1A1C1C] mb-2 sm:mb-3 tracking-tight">Välkommen tillbaka, {user?.name || "Erik"}!</h2>
-                        <p className="text-[#78716C] text-sm sm:text-base md:text-lg">Din försäljning är aktiv och går bra.</p>
+                        <p className="text-[#78716C] text-sm sm:text-base md:text-lg">{hasCampaign ? "Din försäljning är aktiv och går bra." : "Det finns ingen aktiv försäljning."}</p>
                     </div>
                     <div className="w-full md:w-auto">
                         <CampaignList
@@ -49,7 +51,11 @@ const SellerAdminOverview = () => {
                 </div>
             </div>
 
-            <SellerAdminStatsSection campaignId={selectedCampaignId} />
+            {!hasCampaign ? (
+                <div className="p-8 h-96 text-center bg-white rounded-xl border border-[#E7E5E4] text-[#78716C] font-medium text-lg shadow-xs flex items-center justify-center">Det finns ingen aktiv försäljning.</div>
+            ) : (
+                <SellerAdminStatsSection campaignId={selectedCampaignId} />
+            )}
             <SellerAdminContributions />
         </div>
     );
