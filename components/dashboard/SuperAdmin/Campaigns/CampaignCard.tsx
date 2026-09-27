@@ -38,21 +38,33 @@ const CampaignCard: React.FC<CampaignCardProps> = ({ campaign }) => {
             );
             if (!response.ok) throw new Error("Kunde inte hämta sammanställningen");
             const htmlContent = await response.text();
-            // Dynamically import html2pdf.js
-            // @ts-ignore
-            const html2pdf = (await import("html2pdf.js")).default;
-            const container = document.createElement("div");
-            container.innerHTML = htmlContent;
-            document.body.appendChild(container);
-            const options = {
-                margin: 10,
-                filename: `Order-Summary-${campaign.name || campaignId}.pdf`,
-                image: { type: "jpeg" as const, quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: "mm" as const, format: "a4" as const, orientation: "portrait" as const },
-            };
-            await html2pdf().set(options).from(container).save();
-            document.body.removeChild(container);
+
+            // Create hidden iframe to render 100% exact backend HTML/CSS design
+            const iframe = document.createElement("iframe");
+            iframe.style.position = "fixed";
+            iframe.style.right = "0";
+            iframe.style.bottom = "0";
+            iframe.style.width = "0";
+            iframe.style.height = "0";
+            iframe.style.border = "0";
+            document.body.appendChild(iframe);
+
+            const iframeDoc = iframe.contentWindow?.document;
+            if (!iframeDoc) throw new Error("Kunde inte skapa PDF");
+
+            iframeDoc.open();
+            iframeDoc.write(htmlContent);
+            iframeDoc.close();
+
+            setTimeout(() => {
+                iframe.contentWindow?.focus();
+                iframe.contentWindow?.print();
+                setTimeout(() => {
+                    if (document.body.contains(iframe)) {
+                        document.body.removeChild(iframe);
+                    }
+                }, 2000);
+            }, 400);
         } catch (error) {
             console.error("Fel vid nedladdning av PDF:", error);
         } finally {
