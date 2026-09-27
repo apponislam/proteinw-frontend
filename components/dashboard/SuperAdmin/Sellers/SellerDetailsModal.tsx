@@ -31,56 +31,56 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                     </button>
                 </div>
 
-                {/* Fully Responsive Top Stat Cards Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mb-6">
+                {/* Thin / Compact Stat Cards Row */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-5">
                     {/* Packages Sold (Highlight Card) */}
-                    <div className="bg-amber-50/80 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-amber-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#D97706] text-white flex items-center justify-center font-bold shrink-0 shadow-2xs">
-                            <PackageCheck size={18} className="sm:w-5 sm:h-5" />
+                    <div className="bg-amber-50/70 px-3 py-2.5 rounded-xl border border-amber-200/70 flex items-center gap-2.5">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#D97706] text-white flex items-center justify-center font-bold shrink-0">
+                            <PackageCheck size={16} />
                         </div>
                         <div className="min-w-0">
-                            <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] block leading-tight">{seller.packages}</span>
-                            <span className="text-[11px] sm:text-xs font-bold text-[#7C5800] truncate block">Sålda paket</span>
+                            <span className="text-sm sm:text-base font-extrabold text-[#1A1C1C] block leading-tight">{seller.packages}</span>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-[#7C5800] truncate block">Sålda paket</span>
                         </div>
                     </div>
 
                     {/* Total Orders */}
-                    <div className="bg-[#FAFAF9] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-stone-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-amber-100/80 text-[#7C5800] flex items-center justify-center font-bold shrink-0">
-                            <ShoppingBag size={18} className="sm:w-5 sm:h-5" />
+                    <div className="bg-[#FAFAF9] px-3 py-2.5 rounded-xl border border-stone-200/80 flex items-center gap-2.5">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-100/80 text-[#7C5800] flex items-center justify-center font-bold shrink-0">
+                            <ShoppingBag size={16} />
                         </div>
                         <div className="min-w-0">
-                            <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] block leading-tight">{seller.orders}</span>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Totalt antal order</span>
+                            <span className="text-sm sm:text-base font-extrabold text-[#1A1C1C] block leading-tight">{seller.orders}</span>
+                            <span className="text-[10px] sm:text-[11px] font-semibold text-[#78716C] truncate block">Totalt antal order</span>
                         </div>
                     </div>
 
                     {/* Total Groups */}
-                    <div className="bg-[#FAFAF9] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-stone-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-amber-100/80 text-[#7C5800] flex items-center justify-center font-bold shrink-0">
-                            <Users size={18} className="sm:w-5 sm:h-5" />
+                    <div className="bg-[#FAFAF9] px-3 py-2.5 rounded-xl border border-stone-200/80 flex items-center gap-2.5">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-100/80 text-[#7C5800] flex items-center justify-center font-bold shrink-0">
+                            <Users size={16} />
                         </div>
                         <div className="min-w-0">
-                            <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] block leading-tight">{totalGroupsCount}</span>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Tilldelade grupper</span>
+                            <span className="text-sm sm:text-base font-extrabold text-[#1A1C1C] block leading-tight">{totalGroupsCount}</span>
+                            <span className="text-[10px] sm:text-[11px] font-semibold text-[#78716C] truncate block">Tilldelade grupper</span>
                         </div>
                     </div>
 
                     {/* Campaigns (Total & Active) */}
-                    <div className="bg-[#FAFAF9] p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-stone-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold shrink-0">
-                            <Target size={18} className="sm:w-5 sm:h-5" />
+                    <div className="bg-[#FAFAF9] px-3 py-2.5 rounded-xl border border-stone-200/80 flex items-center gap-2.5">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold shrink-0">
+                            <Target size={16} />
                         </div>
                         <div className="min-w-0">
                             <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="text-lg sm:text-2xl font-extrabold text-[#1A1C1C] leading-tight">{totalCampaignsCount}</span>
+                                <span className="text-sm sm:text-base font-extrabold text-[#1A1C1C] leading-tight">{totalCampaignsCount}</span>
                                 {activeCampaignsCount > 0 && (
-                                    <span className="text-[9px] sm:text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md truncate">
+                                    <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md truncate">
                                         {activeCampaignsCount} Aktiva
                                     </span>
                                 )}
                             </div>
-                            <span className="text-[11px] sm:text-xs font-semibold text-[#78716C] truncate block">Totalt antal försäljningar</span>
+                            <span className="text-[10px] sm:text-[11px] font-semibold text-[#78716C] truncate block">Totalt antal försäljningar</span>
                         </div>
                     </div>
                 </div>
