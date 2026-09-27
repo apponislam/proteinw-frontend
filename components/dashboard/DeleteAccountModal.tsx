@@ -75,8 +75,8 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, onClose
                         <AlertTriangle size={20} />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-[#1A1C1C]">Delete Account</h3>
-                        <p className="text-xs text-[#78716C]">This action is permanent and cannot be undone.</p>
+                        <h3 className="text-lg font-bold text-[#1A1C1C]">Radera konto</h3>
+                        <p className="text-xs text-[#78716C]">Denna åtgärd är permanent och kan inte ångras.</p>
                     </div>
                 </div>
 
@@ -84,14 +84,14 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, onClose
                     {/* Password Field 1 */}
                     <div className="space-y-1.5">
                         <label className="block text-xs font-bold text-[#78716C] uppercase tracking-wider">
-                            Password <span className="text-red-500">*</span>
+                            Lösenord <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <Input
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your current password"
+                                placeholder="Ange ditt nuvarande lösenord"
                                 required
                                 className="h-10 border-[#E7E5E4] focus:border-red-500 text-xs pr-10"
                             />
@@ -108,14 +108,14 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, onClose
                     {/* Password Field 2 - Confirm Password */}
                     <div className="space-y-1.5">
                         <label className="block text-xs font-bold text-[#78716C] uppercase tracking-wider">
-                            Confirm Password <span className="text-red-500">*</span>
+                            Bekräfta lösenord <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <Input
                                 type={showConfirmPassword ? "text" : "password"}
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                placeholder="Re-enter your password to confirm"
+                                placeholder="Ange ditt lösenord igen för att bekräfta"
                                 required
                                 className="h-10 border-[#E7E5E4] focus:border-red-500 text-xs pr-10"
                             />
@@ -136,7 +136,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, onClose
                             disabled={isLoading}
                             className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-xl text-xs transition-all cursor-pointer"
                         >
-                            Cancel
+                            Avbryt
                         </button>
                         <button
                             type="submit"
@@ -144,7 +144,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, onClose
                             className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                         >
                             {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
-                            <span>Delete Permanently</span>
+                            <span>Radera permanent</span>
                         </button>
                     </div>
                 </form>

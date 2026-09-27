@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 const adminFormSchema = z.object({
     name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
     email: z.string().email("Ange en giltig e-postadress"),
-    phone: z.string().min(10, "Telefonnumret måste vara minst 10 tecken"),
+    phone: z.string().min(4, "Telefonnumret måste vara minst 4 tecken"),
     password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
 });
 

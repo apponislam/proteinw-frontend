@@ -13,10 +13,10 @@ interface UpdateProfileModalProps {
 }
 
 const professionOptions: { label: string; value: UserProfession }[] = [
-    { label: "Leader", value: "LEADER" },
-    { label: "Teacher", value: "TEACHER" },
-    { label: "Parent", value: "PARENT" },
-    { label: "Coach", value: "COACH" },
+    { label: "Ledare", value: "LEADER" },
+    { label: "Lärare", value: "TEACHER" },
+    { label: "Förälder", value: "PARENT" },
+    { label: "Tränare", value: "COACH" },
 ];
 
 const organizationTypeOptions = ["Skola", "Gymnasium", "Förening", "Annat"];
@@ -131,33 +131,33 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
 
                 {/* Header */}
                 <div className="mb-6">
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">Update Profile</h2>
-                    <p className="text-sm text-[#78716C] mt-1">Manage your account information and preferences</p>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Uppdatera profil</h2>
+                    <p className="text-sm text-[#78716C] mt-1">Hantera dina kontouppgifter och inställningar</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Name */}
                     <div>
-                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Full Name</label>
+                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Fullständigt namn</label>
                         <div className="relative">
                             <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                            <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full pl-10 pr-4 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Enter full name" />
+                            <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full pl-10 pr-4 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Ange fullständigt namn" />
                         </div>
                     </div>
 
                     {/* Phone */}
                     <div>
-                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Phone Number</label>
+                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Telefonnummer</label>
                         <div className="relative">
                             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full pl-10 pr-4 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Enter phone number" />
+                            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full pl-10 pr-4 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Ange telefonnummer" />
                         </div>
                     </div>
 
                     {/* Profession Section (Hidden for SELLER and SUPER_ADMIN roles) */}
                     {me?.role !== "SELLER" && me?.role !== "SUPER_ADMIN" && (
                         <div>
-                            <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Profession</label>
+                            <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Yrke / Roll</label>
                             <div className="relative">
                                 <button
                                     type="button"
@@ -165,7 +165,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                                     className="w-full pl-10 pr-10 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm flex items-center justify-between text-left focus:outline-none focus:border-[#D97706] text-[#1A1C1C] cursor-pointer transition-colors"
                                 >
                                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-                                    <span className={selectedProfLabel ? "text-[#1A1C1C] font-medium" : "text-gray-400"}>{selectedProfLabel || "Select Profession"}</span>
+                                    <span className={selectedProfLabel ? "text-[#1A1C1C] font-medium" : "text-gray-400"}>{selectedProfLabel || "Välj yrke / roll"}</span>
                                     <ChevronDown size={16} className={`absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-transform duration-200 ${isProfDropdownOpen ? "rotate-180" : ""}`} />
                                 </button>
 
@@ -181,7 +181,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                                                 }}
                                                 className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${!profession ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-600"}`}
                                             >
-                                                <span>Select Profession</span>
+                                                <span>Välj yrke / roll</span>
                                                 {!profession && <Check size={14} className="text-[#D97706]" />}
                                             </button>
                                             {professionOptions.map((opt) => (
@@ -207,7 +207,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                     {/* Address Section */}
                     <div className="pt-2 border-t border-[#F5F5F4]">
                         <h4 className="text-xs font-bold text-[#1A1C1C] uppercase mb-3 flex items-center gap-1.5">
-                            <MapPin size={14} className="text-[#D97706]" /> Address & Organization Details
+                            <MapPin size={14} className="text-[#D97706]" /> Adress- och organisationsuppgifter
                         </h4>
 
                         <div className="space-y-3">
@@ -220,7 +220,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                                             onClick={() => setIsOrgTypeDropdownOpen((prev) => !prev)}
                                             className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm flex items-center justify-between text-left focus:outline-none focus:border-[#D97706] text-[#1A1C1C] cursor-pointer transition-colors"
                                         >
-                                            <span className={organizationType ? "text-[#1A1C1C] font-medium truncate" : "text-gray-400 truncate"}>{organizationType || "Select Type"}</span>
+                                            <span className={organizationType ? "text-[#1A1C1C] font-medium truncate" : "text-gray-400 truncate"}>{organizationType || "Välj typ"}</span>
                                             <ChevronDown size={16} className={`text-gray-400 shrink-0 transition-transform duration-200 ${isOrgTypeDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>
 
@@ -236,7 +236,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                                                         }}
                                                         className={`w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-left cursor-pointer hover:bg-amber-50/60 ${!organizationType ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-600"}`}
                                                     >
-                                                        <span>Select Type</span>
+                                                        <span>Välj typ</span>
                                                         {!organizationType && <Check size={14} className="text-[#D97706]" />}
                                                     </button>
                                                     {organizationTypeOptions.map((opt) => (
@@ -261,11 +261,11 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                                     {/* Right: Organization Name Input */}
                                     <div>
                                         {(() => {
-                                            let placeholder = "Organization Name";
-                                            if (organizationType === "Skola") placeholder = "School Name";
-                                            else if (organizationType === "Gymnasium") placeholder = "High School Name";
-                                            else if (organizationType === "Förening") placeholder = "Association Name";
-                                            else if (organizationType === "Annat") placeholder = "Organization Name";
+                                            let placeholder = "Organisationsnamn";
+                                            if (organizationType === "Skola") placeholder = "Skolnamn";
+                                            else if (organizationType === "Gymnasium") placeholder = "Gymnasienamn";
+                                            else if (organizationType === "Förening") placeholder = "Föreningsnamn";
+                                            else if (organizationType === "Annat") placeholder = "Organisationsnamn";
 
                                             return <input type="text" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder={placeholder} />;
                                         })()}
@@ -276,12 +276,12 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                             {me?.role !== "SELLER" && (
                                 <>
                                     <div>
-                                        <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Street Address" />
+                                        <input type="text" value={street} onChange={(e) => setStreet(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Gatuadress" />
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-3">
-                                        <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Zip / Postal Code" />
-                                        <input type="text" value={locality} onChange={(e) => setLocality(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Locality" />
+                                        <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Postnummer" />
+                                        <input type="text" value={locality} onChange={(e) => setLocality(e.target.value)} className="w-full px-3 py-2 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]" placeholder="Ort" />
                                     </div>
                                 </>
                             )}
@@ -291,11 +291,11 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                     {/* Action Buttons */}
                     <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#F5F5F4]">
                         <button type="button" onClick={onClose} className="px-4 py-2 text-sm font-semibold text-[#78716C] hover:bg-[#F5F5F4] rounded-lg transition-colors cursor-pointer">
-                            Cancel
+                            Avbryt
                         </button>
                         <button type="submit" disabled={isLoading} className="px-5 py-2 text-sm font-semibold bg-[#D97706] hover:bg-[#C06A06] text-white rounded-lg transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50">
                             {isLoading && <Loader2 size={16} className="animate-spin" />}
-                            Save Changes
+                            Spara ändringar
                         </button>
                     </div>
                 </form>

@@ -63,14 +63,14 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
 
                 {/* Header */}
                 <div className="mb-6">
-                    <h2 className="text-xl font-bold text-[#1A1C1C]">Change Password</h2>
-                    <p className="text-sm text-[#78716C] mt-1">Update your account password for enhanced security</p>
+                    <h2 className="text-xl font-bold text-[#1A1C1C]">Ändra lösenord</h2>
+                    <p className="text-sm text-[#78716C] mt-1">Uppdatera ditt kontolösenord för ökad säkerhet</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Current Password */}
                     <div>
-                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Current Password</label>
+                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Nuvarande lösenord</label>
                         <div className="relative">
                             <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                             <input
@@ -79,7 +79,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 className="w-full pl-10 pr-10 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]"
-                                placeholder="Enter current password"
+                                placeholder="Ange nuvarande lösenord"
                             />
                             <button
                                 type="button"
@@ -93,7 +93,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
 
                     {/* New Password */}
                     <div>
-                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">New Password</label>
+                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Nytt lösenord</label>
                         <div className="relative">
                             <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                             <input
@@ -102,7 +102,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 className="w-full pl-10 pr-10 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]"
-                                placeholder="Enter new password"
+                                placeholder="Ange nytt lösenord"
                             />
                             <button
                                 type="button"
@@ -116,7 +116,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
 
                     {/* Confirm New Password */}
                     <div>
-                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Confirm New Password</label>
+                        <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Bekräfta nytt lösenord</label>
                         <div className="relative">
                             <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                             <input
@@ -125,7 +125,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 className="w-full pl-10 pr-10 py-2.5 bg-[#FAFAF9] border border-[#E7E5E4] rounded-lg text-sm focus:outline-none focus:border-[#D97706] text-[#1A1C1C]"
-                                placeholder="Confirm new password"
+                                placeholder="Bekräfta nytt lösenord"
                             />
                             <button
                                 type="button"
@@ -144,7 +144,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
                             onClick={onClose}
                             className="px-4 py-2 text-sm font-semibold text-[#78716C] hover:bg-[#F5F5F4] rounded-lg transition-colors cursor-pointer"
                         >
-                            Cancel
+                            Avbryt
                         </button>
                         <button
                             type="submit"
@@ -152,7 +152,7 @@ const ChangePasswordUserModal: React.FC<ChangePasswordUserModalProps> = ({ isOpe
                             className="px-5 py-2 text-sm font-semibold bg-[#D97706] hover:bg-[#C06A06] text-white rounded-lg transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
                         >
                             {isLoading && <Loader2 size={16} className="animate-spin" />}
-                            Update Password
+                            Uppdatera lösenord
                         </button>
                     </div>
                 </form>
