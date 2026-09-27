@@ -64,7 +64,7 @@ const StoreProductCard = ({ product, sellerName = "Okänd" }: StoreProductCardPr
         <>
             <div className="group bg-white rounded-3xl overflow-hidden shadow-xs transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl border border-gray-100 flex flex-col justify-between h-full relative">
                 {/* Image Container */}
-                <div className="relative w-full h-56 sm:h-56 md:h-64 bg-gray-50 overflow-hidden group/img">
+                <div className="relative w-full h-64 sm:h-64 md:h-64 bg-gray-50 overflow-hidden group/img">
                     <Image src={activeImageUrl} alt={title} width={500} height={500} className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.01] cursor-pointer" onClick={() => setIsModalOpen(true)} />
 
                     {/* Expand Fullscreen Button */}

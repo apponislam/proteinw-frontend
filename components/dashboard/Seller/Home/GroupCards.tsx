@@ -18,7 +18,7 @@ const GroupCards = () => {
         return null;
     }
 
-    console.log(myJoinedGroupsData);
+    // console.log(myJoinedGroupsData);
 
     const groups = myJoinedGroupsData?.data || [];
 

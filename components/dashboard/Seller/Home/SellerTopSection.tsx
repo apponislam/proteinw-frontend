@@ -42,7 +42,10 @@ const SellerTopSection = () => {
             </div>
 
             {!isStatsLoading && !hasActiveCampaign ? (
-                <div className="p-8 h-96 text-center bg-white rounded-xl border border-[#E7E5E4] text-[#78716C] font-medium text-lg shadow-xs flex items-center justify-center">Det finns ingen aktiv försäljning.</div>
+                <>
+                    <div className="p-8 h-96 text-center bg-white rounded-xl border border-[#E7E5E4] text-[#78716C] font-medium text-lg shadow-xs flex items-center justify-center">Det finns ingen aktiv försäljning.</div>
+                    <GroupCards />
+                </>
             ) : (
                 <>
                     <SellerHomeCards data={statsData} isLoading={isStatsLoading} />
