@@ -46,7 +46,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
 
     const filterOptions = [
         { value: "", label: "Alla statusar", color: "bg-gray-400" },
-        { value: "pending", label: "Väntande", color: "bg-yellow-500" },
+        { value: "pending", label: "Ej levererad", color: "bg-yellow-500" },
         { value: "delivered", label: "Levererad", color: "bg-green-600" },
         { value: "cancelled", label: "Avbruten", color: "bg-red-500" },
     ];
@@ -159,7 +159,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
                                 const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "Ej tillgänglig";
 
                                 const statusDisplayMap: Record<string, string> = {
-                                    pending: "Väntande",
+                                    pending: "Ej levererad",
                                     delivered: "Levererad",
                                     cancelled: "Avbruten",
                                 };
@@ -277,8 +277,8 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
                             </div>
                         </div>
 
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t pt-5">
-                            {(role as string) === "SUPER_ADMIN" || (role as string) === "ADMIN" ? (
+                        <div className="border-t pt-4">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-3 relative">
                                     <span className="font-bold text-xs text-gray-700 uppercase">Uppdatera status:</span>
                                     <div className="relative">
@@ -288,7 +288,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
                                             className="flex items-center gap-2 px-3.5 py-1.5 border rounded-xl text-xs font-semibold focus:outline-none bg-white border-gray-200 shadow-2xs hover:border-[#D97706] transition-all capitalize cursor-pointer"
                                         >
                                             <span className={`inline-block w-2 h-2 rounded-full ${activeSelectedOrder.status === "delivered" ? "bg-green-500" : activeSelectedOrder.status === "pending" ? "bg-yellow-500" : "bg-red-500"}`}></span>
-                                            <span className="text-gray-800">{activeSelectedOrder.status === "pending" ? "Väntande" : activeSelectedOrder.status === "delivered" ? "Levererad" : activeSelectedOrder.status === "cancelled" ? "Avbruten" : activeSelectedOrder.status}</span>
+                                            <span className="text-gray-800">{activeSelectedOrder.status === "pending" ? "Ej levererad" : activeSelectedOrder.status === "delivered" ? "Levererad" : activeSelectedOrder.status === "cancelled" ? "Avbruten" : activeSelectedOrder.status}</span>
                                             <ChevronDown size={14} className={`text-gray-500 transition-transform duration-200 ${isStatusDropdownOpen ? "rotate-180" : ""}`} />
                                         </button>
 
@@ -297,7 +297,7 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
                                                 <div className="fixed inset-0 z-20" onClick={() => setIsStatusDropdownOpen(false)}></div>
                                                 <div className="absolute bottom-full mb-2 left-0 z-30 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                     {[
-                                                        { value: "pending", label: "Väntande", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
+                                                        { value: "pending", label: "Ej levererad", color: "bg-yellow-500", bg: "hover:bg-yellow-50 text-yellow-800" },
                                                         { value: "delivered", label: "Levererad", color: "bg-green-600", bg: "hover:bg-green-50 text-green-900" },
                                                         { value: "cancelled", label: "Avbruten", color: "bg-red-500", bg: "hover:bg-red-50 text-red-800" },
                                                     ].map((opt) => (
@@ -319,15 +319,14 @@ const SellerCampaignOrdersList: React.FC<SellerCampaignOrdersListProps> = ({ cam
                                         )}
                                     </div>
                                 </div>
-                            ) : (
-                                <div className="flex items-center gap-2">
-                                    <span className="font-bold text-xs text-gray-700 uppercase">Status:</span>
-                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${getStatusColor(activeSelectedOrder.status)}`}>{activeSelectedOrder.status === "pending" ? "Väntande" : activeSelectedOrder.status === "delivered" ? "Levererad" : activeSelectedOrder.status === "cancelled" ? "Avbruten" : activeSelectedOrder.status}</span>
-                                </div>
-                            )}
-                            <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
-                                Stäng
-                            </button>
+                                <button onClick={() => setSelectedOrder(null)} className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold transition-all text-xs cursor-pointer">
+                                    Stäng
+                                </button>
+                            </div>
+                            <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
+                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på alla dina beställningar.</span>
+                            </p>
                         </div>
                     </div>
                 </div>

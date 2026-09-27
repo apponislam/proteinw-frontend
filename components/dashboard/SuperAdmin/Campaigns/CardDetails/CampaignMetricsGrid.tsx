@@ -22,12 +22,20 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
     const sekProgress = targetRevenue > 0 ? Math.min(100, Math.round((totalSoldAmount / targetRevenue) * 100)) : 0;
     const packagesNeeded = campaign.packagesNeededForNextTier;
 
+    const formatDateToDMY = (dateInput?: string | Date) => {
+        if (!dateInput) return "Ej tillgänglig";
+        const d = new Date(dateInput);
+        if (isNaN(d.getTime())) return "Ej tillgänglig";
+        const day = String(d.getUTCDate()).padStart(2, "0");
+        const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+        const year = d.getUTCFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const endDate = new Date(campaign.endDate);
     const today = new Date();
-    const day = String(endDate.getUTCDate()).padStart(2, "0");
-    const month = String(endDate.getUTCMonth() + 1).padStart(2, "0");
-    const year = endDate.getUTCFullYear();
-    const formattedEndDate = `${day}/${month}/${year}`;
+    const formattedStartDate = formatDateToDMY(campaign.createdAt || (campaign as any).startDate);
+    const formattedEndDate = formatDateToDMY(campaign.endDate);
 
     console.log("Today date & time:", today);
 
@@ -71,7 +79,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
         {
             subtitle: `STATUS (${getDaysLeft()})`,
             value: currentStatusStr,
-            title: `SLUTDATUM: ${formattedEndDate}`,
+            title: `STARTDATUM: ${formattedStartDate}\nSLUTDATUM: ${formattedEndDate}`,
         },
     ];
 
@@ -84,7 +92,7 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, sta
                     <div className="relative z-10">
                         {stat.subtitle && <div className="text-[#D97706] text-xs font-bold mb-2 group-hover:text-[#271900] transition-colors duration-300 tracking-wider uppercase">{stat.subtitle}</div>}
                         <div className="text-3xl font-bold text-[#1A1C1C] mb-2 group-hover:text-[#271900] transition-colors duration-300">{stat.value}</div>
-                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300">{stat.title}</div>
+                        <div className="text-[#78716C] text-xs font-medium uppercase tracking-wider group-hover:text-[#271900] transition-colors duration-300 whitespace-pre-line leading-relaxed">{stat.title}</div>
                     </div>
                     <div className="absolute bottom-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                         <Image src="/dashboard/superadmin/dashcircle.png" alt="" width={80} height={80} style={{ width: "auto", height: "auto" }} className="block" />

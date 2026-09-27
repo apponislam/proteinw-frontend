@@ -338,7 +338,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
                         {!isSuperAdmin && (
                             <p className="text-[11px] font-medium text-amber-800 bg-amber-50/80 border border-amber-200/60 p-2.5 rounded-lg mt-3 flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0"></span>
-                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på dina ordrar.</span>
+                                <span>Uppdatera statusen på dina kundbeställningar för att enkelt hålla koll på alla dina beställningar.</span>
                             </p>
                         )}
                     </div>
