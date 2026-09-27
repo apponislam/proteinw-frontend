@@ -146,7 +146,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ campaign }) => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Campaign Contact / Admin Info Card - Shows first on Mobile, Right Column on Desktop */}
                 <div className="lg:col-span-1 lg:order-2 space-y-4">
-                    <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Kampanjkontakt</h3>
+                    <h3 className="text-sm font-bold text-[#1A1C1C] uppercase tracking-wider">Hjälp & support</h3>
                     <div className="bg-white rounded-lg border border-[#E7E5E4] p-6 space-y-4 shadow-[0px_4px_10px_rgba(0,0,0,0.03)]">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 text-[#D97706] flex items-center justify-center font-bold text-sm shrink-0">

@@ -62,7 +62,7 @@ const DashBoradHeader = () => {
 
     const roleLabels: Record<string, string> = {
         SUPER_ADMIN: "SUPER ADMIN",
-        ADMIN: "ADMIN",
+        ADMIN: "GRUPPLEDARE",
         SELLER: "SÄLJARE",
     };
 

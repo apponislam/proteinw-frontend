@@ -10,6 +10,13 @@ interface AdminViewModalProps {
     admin: TAdminStats | null;
 }
 
+const professionTranslations: Record<string, string> = {
+    LEADER: "Ledare",
+    TEACHER: "Lärare",
+    PARENT: "Förälder",
+    COACH: "Tränare",
+};
+
 const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin }) => {
     const adminId = admin?._id || "";
     const { data: response, isLoading } = useGetUserByIdQuery(adminId, { skip: !isOpen || !adminId });
@@ -71,7 +78,9 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                     <Briefcase size={16} className="text-[#D97706]" />
                                     <span className="text-[#78716C] w-20 sm:w-24">Yrke:</span>
                                 </div>
-                                <span className="font-semibold text-[#1A1C1C]">{user.profession || "Ej tillgängligt"}</span>
+                                <span className="font-semibold text-[#1A1C1C]">
+                                    {user.profession ? professionTranslations[user.profession] || user.profession : "Ej tillgängligt"}
+                                </span>
                             </div>
                         </div>
 

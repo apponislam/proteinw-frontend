@@ -49,15 +49,24 @@ export default function UserProfile() {
 
     const isSeller = user.role === "SELLER";
     const isSuperAdmin = user.role === "SUPER_ADMIN";
-    
+
     // Role translation
     const roleTranslations: Record<string, string> = {
         SUPER_ADMIN: "SUPER ADMIN",
         ADMIN: "GRUPPLEDARE",
         SELLER: "SÄLJARE",
     };
-    const formattedRole = user.role ? (roleTranslations[user.role] || user.role.replace("_", " ")) : "GRUPPLEDARE";
-    
+    const formattedRole = user.role ? roleTranslations[user.role] || user.role.replace("_", " ") : "GRUPPLEDARE";
+
+    // Profession translation
+    const professionTranslations: Record<string, string> = {
+        LEADER: "Ledare",
+        TEACHER: "Lärare",
+        PARENT: "Förälder",
+        COACH: "Tränare",
+    };
+    const formattedProfession = user.profession ? professionTranslations[user.profession] || user.profession : "";
+
     const joinedDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("sv-SE", { year: "numeric", month: "short", day: "numeric" }) : "Ej angivet";
 
     let parsedAddress: any = user.address || {};
@@ -163,13 +172,13 @@ export default function UserProfile() {
                                 <span className="text-[#78716C] font-medium flex items-center gap-2">
                                     <Briefcase size={14} className="text-stone-400" /> Yrke
                                 </span>
-                                <span className="font-bold text-[#1A1C1C]">{user.profession}</span>
+                                <span className="font-bold text-[#1A1C1C]">{formattedProfession}</span>
                             </div>
                         )}
 
                         <div className="flex items-center justify-between py-1">
                             <span className="text-[#78716C] font-medium flex items-center gap-2">
-                                <Calendar size={14} className="text-stone-400" /> Blev medlem
+                                <Calendar size={14} className="text-stone-400" /> Medlem sedan
                             </span>
                             <span className="font-bold text-[#1A1C1C]">{joinedDate}</span>
                         </div>

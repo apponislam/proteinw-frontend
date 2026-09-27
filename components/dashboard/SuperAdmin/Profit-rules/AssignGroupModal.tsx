@@ -25,10 +25,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
     // Custom dropdown state for Tier select
     const [isTierDropdownOpen, setIsTierDropdownOpen] = useState(false);
 
-    const { data: campaignOptionsResponse, isFetching: isFetchingCampaigns } = useGetAllCampaignsSummaryQuery(
-        { page: campaignPage, limit: 8, search: campaignSearchTerm, status: "FULFILMENT" },
-        { skip: !isOpen }
-    );
+    const { data: campaignOptionsResponse, isFetching: isFetchingCampaigns } = useGetAllCampaignsSummaryQuery({ page: campaignPage, limit: 8, search: campaignSearchTerm, status: "FULFILMENT" }, { skip: !isOpen });
 
     const { data: tiersData } = useGetAllTiersQuery();
     const [assignTier, { isLoading: isAssigning }] = useAssignTierToCampaignMutation();
@@ -129,9 +126,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                 <form onSubmit={handleAssignTier} className="space-y-4 flex-1 p-0.5">
                     {/* Custom Searchable Campaign Dropdown */}
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">
-                            Välj försäljning / grupp
-                        </label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">Välj försäljning / grupp</label>
                         <div className="relative">
                             <button
                                 type="button"
@@ -141,9 +136,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                 }}
                                 className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
-                                <span className={selectedCampaign ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
-                                    {selectedCampaign ? selectedCampaign.name : "-- Välj försäljning --"}
-                                </span>
+                                <span className={selectedCampaign ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>{selectedCampaign ? selectedCampaign.name : "-- Välj försäljning --"}</span>
                                 <ChevronDown size={16} className={`shrink-0 transition-transform ${isCampaignDropdownOpen ? "rotate-180" : ""}`} />
                             </button>
 
@@ -154,26 +147,17 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                         {/* Search Bar */}
                                         <div className="p-2 border-b border-stone-100 flex items-center gap-2 bg-stone-50">
                                             <Search size={16} className="text-stone-400 shrink-0 ml-1" />
-                                            <input
-                                                type="text"
-                                                value={campaignSearchTerm}
-                                                onChange={handleSearchChange}
-                                                placeholder="Sök på namn..."
-                                                className="w-full text-xs bg-transparent border-none outline-none py-1 text-stone-800 placeholder:text-stone-400"
-                                                autoFocus
-                                            />
+                                            <input type="text" value={campaignSearchTerm} onChange={handleSearchChange} placeholder="Sök på namn..." className="w-full text-xs bg-transparent border-none outline-none py-1 text-stone-800 placeholder:text-stone-400" autoFocus />
                                         </div>
 
                                         {/* Options List with Lazy Loading Scroll */}
-                                        <div
-                                            onScroll={handleScrollCampaigns}
-                                            className="max-h-40 overflow-y-auto divide-y divide-stone-50"
-                                        >
+                                        <div onScroll={handleScrollCampaigns} className="max-h-40 overflow-y-auto divide-y divide-stone-50">
                                             {loadedCampaigns.length === 0 && !isFetchingCampaigns ? (
                                                 <div className="p-3 text-xs text-stone-400 text-center">Inga försäljningar hittades</div>
                                             ) : (
                                                 loadedCampaigns.map((c: any) => {
-                                                    const displayName = `${c.groupId?.name || c.name} (${c.name})`;
+                                                    const groupName = c.group?.name || c.groupId?.name;
+                                                    const displayName = groupName ? `${c.name} (${groupName})` : c.name;
                                                     const isSelected = selectedCampaign?.id === c._id;
                                                     return (
                                                         <button
@@ -183,9 +167,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                                                 setSelectedCampaign({ id: c._id, name: displayName });
                                                                 setIsCampaignDropdownOpen(false);
                                                             }}
-                                                            className={`w-full text-left px-3.5 py-2.5 text-xs font-semibold flex items-center justify-between cursor-pointer transition-colors hover:bg-amber-50 ${
-                                                                isSelected ? "bg-amber-50 text-[#D97706]" : "text-stone-700"
-                                                            }`}
+                                                            className={`w-full text-left px-3.5 py-2.5 text-xs font-semibold flex items-center justify-between cursor-pointer transition-colors hover:bg-amber-50 ${isSelected ? "bg-amber-50 text-[#D97706]" : "text-stone-700"}`}
                                                         >
                                                             <span className="truncate">{displayName}</span>
                                                             {isSelected && <Check size={14} className="text-[#D97706] shrink-0" />}
@@ -209,9 +191,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
 
                     {/* Custom Profit Tier Dropdown */}
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">
-                            Välj vinstnivå
-                        </label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#78716C] mb-1.5">Välj vinstnivå</label>
                         <div className="relative">
                             <button
                                 type="button"
@@ -221,9 +201,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                 }}
                                 className="w-full h-11 px-3.5 bg-[#F9F9F9] border border-stone-200 rounded-xl text-xs sm:text-sm font-medium text-[#1A1C1C] flex items-center justify-between focus:outline-none focus:border-[#D97706] cursor-pointer"
                             >
-                                <span className={selectedTier ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>
-                                    {selectedTier ? selectedTier.name : "-- Välj nivå --"}
-                                </span>
+                                <span className={selectedTier ? "text-[#1A1C1C] font-semibold truncate" : "text-stone-400 truncate"}>{selectedTier ? selectedTier.name : "-- Välj förtjänstnivå --"}</span>
                                 <ChevronDown size={16} className={`shrink-0 transition-transform ${isTierDropdownOpen ? "rotate-180" : ""}`} />
                             </button>
 
@@ -248,9 +226,7 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                                                                     setIsTierDropdownOpen(false);
                                                                 }
                                                             }}
-                                                            className={`w-full text-left px-3.5 py-2.5 text-xs font-semibold flex items-center justify-between cursor-pointer transition-colors hover:bg-amber-50 ${
-                                                                isSelected ? "bg-amber-50 text-[#D97706]" : "text-stone-700"
-                                                            }`}
+                                                            className={`w-full text-left px-3.5 py-2.5 text-xs font-semibold flex items-center justify-between cursor-pointer transition-colors hover:bg-amber-50 ${isSelected ? "bg-amber-50 text-[#D97706]" : "text-stone-700"}`}
                                                         >
                                                             <span className="truncate">{tierLabel}</span>
                                                             {isSelected && <Check size={14} className="text-[#D97706] shrink-0" />}
@@ -266,18 +242,10 @@ const AssignGroupModal: React.FC<AssignGroupModalProps> = ({ isOpen, onClose }) 
                     </div>
 
                     <div className="pt-3 flex items-center justify-end gap-2 sm:gap-3">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-stone-600 hover:bg-stone-100 rounded-xl transition-all cursor-pointer"
-                        >
+                        <button type="button" onClick={onClose} className="px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-stone-600 hover:bg-stone-100 rounded-xl transition-all cursor-pointer">
                             Avbryt
                         </button>
-                        <button
-                            type="submit"
-                            disabled={isAssigning}
-                            className="px-4 sm:px-5 py-2.5 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-xs sm:text-sm font-bold rounded-xl hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer shadow-xs disabled:opacity-50"
-                        >
+                        <button type="submit" disabled={isAssigning} className="px-4 sm:px-5 py-2.5 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-xs sm:text-sm font-bold rounded-xl hover:from-[#8B6500] hover:to-[#FFCC00] transition-all cursor-pointer shadow-xs disabled:opacity-50">
                             {isAssigning ? "Tilldelar..." : "Bekräfta tilldelning"}
                         </button>
                     </div>
