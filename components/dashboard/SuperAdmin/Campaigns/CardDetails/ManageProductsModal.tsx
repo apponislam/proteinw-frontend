@@ -3,6 +3,7 @@ import Image from "next/image";
 import { X, Search, Check, Loader2, Package } from "lucide-react";
 import { toast } from "sonner";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { translateCategory } from "@/utils/translateCategory";
 import { useGetProductsWithCampaignStatusQuery } from "@/redux/features/product/productApi";
 import {
     useAddMultipleProductsToCampaignMutation,
@@ -155,7 +156,7 @@ const ManageProductsModal: React.FC<ManageProductsModalProps> = ({
                                             <div className="min-w-0">
                                                 <h4 className="font-bold text-sm text-[#1A1C1C] truncate">{product.name}</h4>
                                                 <p className="text-xs text-[#78716C] mt-0.5">
-                                                    SEK {product.price} • {product.category}
+                                                    SEK {product.price} • {translateCategory(product.category)}
                                                 </p>
                                             </div>
                                         </div>

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Package, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { translateCategory } from "@/utils/translateCategory";
 import { useGetProductsByCampaignQuery } from "@/redux/features/campaignProduct/campaignProductApi";
 
 interface ProductsListProps {
@@ -62,7 +63,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ campaignId, fallbackProduct
                         </div>
                         <div className="grow min-w-0">
                             <h4 className="font-bold text-base text-[#1A1C1C] truncate">{product.name}</h4>
-                            <p className="text-xs text-[#78716C] uppercase font-semibold mt-0.5">{product.category}</p>
+                            <p className="text-xs text-[#78716C] uppercase font-semibold mt-0.5">{translateCategory(product.category)}</p>
                         </div>
                         <div className="flex items-center gap-6 sm:gap-12 shrink-0 w-full sm:w-auto justify-between sm:justify-end mt-3 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-0 border-[#E7E5E4]">
                             <div>

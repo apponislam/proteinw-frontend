@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, Phone, Mail, MapPin, Briefcase, Group } from "lucide-react";
+import { X, Phone, Mail, MapPin, Briefcase, Group, Building2 } from "lucide-react";
 import { TAdminStats, useGetUserByIdQuery } from "@/redux/features/auth/authApi";
 
 interface AdminViewModalProps {
@@ -136,13 +136,52 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                             </div>
                         </div>
 
-                        {/* Address Details */}
-                        {address && (
-                            <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-2 border border-[#E7E5E4]">
+                        {/* Address & Organization Details */}
+                        {address && (address.street || address.city || address.organizationName || address.organizationType || address.state || address.zipCode || address.locality) && (
+                            <div className="bg-[#FAFAF9] p-4 rounded-xl space-y-3 border border-[#E7E5E4]">
                                 <h3 className="text-xs font-bold text-[#78716C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                    <MapPin size={14} className="text-[#D97706]" /> Adressinformation
+                                    <MapPin size={14} className="text-[#D97706]" /> Adress & Organisation
                                 </h3>
-                                <p className="text-sm text-[#1A1C1C] font-medium">{[address.street, address.city, address.state, address.zipCode, address.locality].filter(Boolean).join(", ") || "Ingen adress angiven."}</p>
+
+                                {(address.organizationName || address.organizationType) && (
+                                    <div className="flex items-start gap-2 bg-white p-2.5 rounded-lg border border-[#E7E5E4]">
+                                        <Building2 size={16} className="text-[#D97706] shrink-0 mt-0.5" />
+                                        <div>
+                                            <span className="font-bold text-xs sm:text-sm text-[#1A1C1C] block">{address.organizationName || "Organisation"}</span>
+                                            {address.organizationType && <span className="text-[#78716C] text-xs">{address.organizationType}</span>}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    {address.street && (
+                                        <div>
+                                            <span className="text-[#78716C] block font-medium">Gatuadress</span>
+                                            <span className="font-semibold text-[#1A1C1C]">{address.street}</span>
+                                        </div>
+                                    )}
+                                    {address.locality && (
+                                        <div>
+                                            <span className="text-[#78716C] block font-medium">Ort</span>
+                                            <span className="font-semibold text-[#1A1C1C]">{address.locality}</span>
+                                        </div>
+                                    )}
+                                    {(address.city || address.zipCode) && (
+                                        <div>
+                                            <span className="text-[#78716C] block font-medium">Stad / Postnummer</span>
+                                            <span className="font-semibold text-[#1A1C1C]">
+                                                {address.zipCode ? `${address.zipCode} ` : ""}
+                                                {address.city || ""}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {address.state && (
+                                        <div>
+                                            <span className="text-[#78716C] block font-medium">Län / Region</span>
+                                            <span className="font-semibold text-[#1A1C1C]">{address.state}</span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
                     </div>

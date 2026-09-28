@@ -29,6 +29,7 @@ export type TUser = {
     role: Role;
     isActive: boolean;
     isEmailVerified: boolean;
+    isApproved?: boolean;
     isDeleted: boolean;
     lastLogin?: string;
     groupAssigned?: string;
