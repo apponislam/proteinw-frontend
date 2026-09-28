@@ -97,7 +97,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
         return (
             <div className="p-8 text-center">
                 <div className="w-8 h-8 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                <p className="text-[#78716C] text-sm font-medium">Laddar kampanjorder...</p>
+                <p className="text-[#78716C] text-sm font-medium">Laddar KUNDBESTÄLLNINGAR...</p>
             </div>
         );
     }
@@ -108,7 +108,7 @@ const CampaignOrdersList: React.FC<CampaignOrdersListProps> = ({ campaignId }) =
             <div className="p-4 border-b border-[#E7E5E4] bg-[#FAF9F6] rounded-t-xl flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                     <ShoppingBag size={18} className="text-[#D97706]" />
-                    <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Kampanjorder ({pagination.total})</span>
+                    <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">KUNDBESTÄLLNINGAR ({pagination.total})</span>
                 </div>
                 <div className="relative">
                     <button type="button" onClick={() => setIsFilterDropdownOpen((prev) => !prev)} className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs font-semibold text-[#1A1C1C] shadow-2xs transition-all cursor-pointer">

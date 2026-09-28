@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ReduxProviders } from "../providers/ReduxProvider";
@@ -17,6 +17,11 @@ export const metadata: Metadata = {
     icons: {
         icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     },
+};
+
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
 };
 
 export default function RootLayout({

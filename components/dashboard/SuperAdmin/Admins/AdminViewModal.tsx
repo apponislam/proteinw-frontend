@@ -41,10 +41,8 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                     <div>
                         <h2 className="text-xl font-bold text-[#1A1C1C]">{admin.name}</h2>
                         <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">ADMIN</span>
-                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved === true ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                                {admin.isApproved === true ? "Godkänd" : "Ej godkänd"}
-                            </span>
+                            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-amber-100 text-[#D97706]">GRUPPLEDARE</span>
+                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${admin.isApproved === true ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>{admin.isApproved === true ? "Godkänd" : "Ej godkänd"}</span>
                         </div>
                     </div>
                 </div>
@@ -78,9 +76,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                     <Briefcase size={16} className="text-[#D97706]" />
                                     <span className="text-[#78716C] w-20 sm:w-24">Yrke:</span>
                                 </div>
-                                <span className="font-semibold text-[#1A1C1C]">
-                                    {user.profession ? professionTranslations[user.profession] || user.profession : "Ej tillgängligt"}
-                                </span>
+                                <span className="font-semibold text-[#1A1C1C]">{user.profession ? professionTranslations[user.profession] || user.profession : "Ej tillgängligt"}</span>
                             </div>
                         </div>
 

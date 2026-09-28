@@ -90,7 +90,7 @@ const SellerAdminContributions = () => {
             <div className="lg:col-span-2 bg-white p-5 sm:p-6 rounded-xl shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] transition-all duration-300 hover:shadow-[0px_0px_20px_0px_rgba(0,0,0,0.12)] hover:translate-y-0.5 relative overflow-hidden">
                 <div className="relative z-10">
                     <div className="flex items-center justify-between mb-4 sm:mb-6">
-                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider">Mest sålda säljare</h3>
+                        <h3 className="text-[#78716C] text-xs sm:text-sm font-medium uppercase tracking-wider">TOPPSÄLJARE</h3>
                         <Link href="/dashboard/team-sales" className="text-[#D97706] text-xs sm:text-sm font-medium hover:text-[#7C5800] transition-colors">
                             Visa hela teamet
                         </Link>
@@ -108,7 +108,7 @@ const SellerAdminContributions = () => {
                                     <tr className="border-b border-[#E7E5E4]">
                                         <th className="text-left text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">NAMN</th>
                                         <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">SÅLDA PAKET</th>
-                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">TOTAL OMSÄTTNING</th>
+                                        <th className="text-right text-[#78716C] text-xs font-medium uppercase tracking-wider pb-3 px-2">OMSÄTTNING</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,9 +120,7 @@ const SellerAdminContributions = () => {
                                                     <span className="text-[#1A1C1C] font-medium text-xs sm:text-sm truncate max-w-32 sm:max-w-none">{contributor.name}</span>
                                                 </div>
                                             </td>
-                                            <td className="py-3 sm:py-4 text-right text-[#1A1C1C] text-xs sm:text-sm px-2">
-                                                {contributor.packages.toLocaleString()} st
-                                            </td>
+                                            <td className="py-3 sm:py-4 text-right text-[#1A1C1C] text-xs sm:text-sm px-2">{contributor.packages.toLocaleString()} st</td>
                                             <td className="py-3 sm:py-4 text-right text-[#D97706] font-bold text-xs sm:text-sm rounded-r-md px-2">{contributor.sales.toLocaleString()} SEK</td>
                                         </tr>
                                     ))}

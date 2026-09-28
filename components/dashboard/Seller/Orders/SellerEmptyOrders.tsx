@@ -11,6 +11,26 @@ interface SellerEmptyOrdersProps {
     onAutoSelectCampaign?: (campaignId: string) => void;
 }
 
+export type CampaignStatus = "DRAFT" | "ACTIVE" | "FULFILMENT" | "COMPLETED";
+
+const formatStatusSwedish = (status?: string): string => {
+    if (!status) return "okänd";
+    const normalized = status.trim().toUpperCase();
+    switch (normalized) {
+        case "DRAFT":
+            return "utkast";
+        case "ACTIVE":
+            return "aktiv";
+        case "FULFILMENT":
+        case "FULFILLMENT":
+            return "leveransfas";
+        case "COMPLETED":
+            return "avslutad";
+        default:
+            return status.toLowerCase();
+    }
+};
+
 const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAutoSelectCampaign }) => {
     const { data: campaignInfoResponse } = useGetAsSellerCampaignInfoQuery(campaignId || undefined);
     const [copied, setCopied] = useState(false);
@@ -67,7 +87,7 @@ const SellerEmptyOrders: React.FC<SellerEmptyOrdersProps> = ({ campaignId, onAut
                 <div className="bg-white rounded-2xl p-8 lg:p-10 shadow-[0px_0px_14px_0px_rgba(0,0,0,0.08)] border border-stone-100 flex flex-col items-center justify-center text-center min-h-80">
                     <h2 className="text-3xl lg:text-4xl font-extrabold text-[#1A1C1C] tracking-tight mb-3">Inga beställningar har lagts</h2>
                     <p className="text-[#78716C] text-base lg:text-lg leading-relaxed max-w-xl">
-                        Denna försäljning är för närvarande i status <span className="font-semibold text-[#1A1C1C]">{infoData?.status ? infoData.status.toLowerCase() : "stängd"}</span> och tar inte längre emot nya kundbeställningar.
+                        Denna försäljning är för närvarande i status <span className="font-semibold text-[#1A1C1C]">{formatStatusSwedish(infoData?.status)}</span> och tar inte längre emot nya kundbeställningar.
                     </p>
                 </div>
             ) : (

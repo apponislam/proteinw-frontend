@@ -89,6 +89,11 @@ const StoreOrderContent = () => {
                 locality: "",
                 agree: false,
             });
+
+            // Dismiss mobile keyboard & show modal cleanly
+            if (typeof document !== "undefined" && document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
             setIsSubmitted(true);
         } catch (err: any) {
             console.error("Failed to place order:", err);
@@ -172,7 +177,7 @@ const StoreOrderContent = () => {
                                     value={formData.fullName}
                                     onChange={handleChange}
                                     placeholder="Erik Johansson"
-                                    className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                    className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                                 />
                             </div>
                             <div>
@@ -184,7 +189,7 @@ const StoreOrderContent = () => {
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
                                     placeholder="+46 70 123 45 67"
-                                    className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                    className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                                 />
                             </div>
                         </div>
@@ -198,7 +203,7 @@ const StoreOrderContent = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="erik@example.com"
-                                className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                             />
                         </div>
 
@@ -211,7 +216,7 @@ const StoreOrderContent = () => {
                                 value={formData.street}
                                 onChange={handleChange}
                                 placeholder="Storgatan 12"
-                                className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                             />
                         </div>
 
@@ -225,7 +230,7 @@ const StoreOrderContent = () => {
                                     value={formData.city}
                                     onChange={handleChange}
                                     placeholder="Stockholm"
-                                    className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                    className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                                 />
                             </div>
                             <div>
@@ -237,7 +242,7 @@ const StoreOrderContent = () => {
                                     value={formData.postalCode}
                                     onChange={handleChange}
                                     placeholder="111 22"
-                                    className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                    className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                                 />
                             </div>
                         </div>
@@ -251,7 +256,7 @@ const StoreOrderContent = () => {
                                 value={formData.locality}
                                 onChange={handleChange}
                                 placeholder="Östermalm"
-                                className="w-full px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
+                                className="w-full px-4 py-2.5 sm:py-3 text-base rounded-[24px] border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFB800] focus:border-transparent transition-all"
                             />
                         </div>
 
@@ -282,19 +287,19 @@ const StoreOrderContent = () => {
 
             {/* Order Confirmation Modal */}
             {isSubmitted && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-5 border border-stone-100 shadow-2xl relative">
-                        <div className="mx-auto w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center border border-emerald-100">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+                    <div className="bg-white rounded-3xl p-5 sm:p-8 max-w-md w-full text-center space-y-5 border border-stone-100 shadow-2xl relative max-h-[90vh] overflow-y-auto box-border my-auto">
+                        <div className="mx-auto w-14 h-14 sm:w-16 sm:h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center border border-emerald-100 shrink-0">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                         </div>
                         <div className="space-y-2">
-                            <h3 className="text-2xl font-extrabold text-stone-900">Tack för din order!</h3>
-                            <p className="text-stone-600 text-sm leading-relaxed">Din beställning har mottagits framgångsrikt. En orderbekräftelse har skickats till din e-post. {firstName} kommer att leverera dina produkter personligen.</p>
+                            <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 wrap-break-word">Tack för din order!</h3>
+                            <p className="text-stone-600 text-xs sm:text-sm leading-relaxed wrap-break-word">Din beställning har mottagits framgångsrikt. En orderbekräftelse har skickats till din e-post. {firstName} kommer att leverera dina produkter personligen.</p>
                         </div>
                         <div className="pt-2">
-                            <button type="button" onClick={() => setIsSubmitted(false)} className="w-full py-3 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-bold rounded-[24px] transition-all shadow-md cursor-pointer text-sm">
+                            <button type="button" onClick={() => setIsSubmitted(false)} className="w-full py-3 bg-linear-to-r from-[#7C5800] to-[#FFB800] hover:from-[#8B6500] hover:to-[#FFCC00] text-white font-bold rounded-[24px] transition-all shadow-md cursor-pointer text-sm sm:text-base">
                                 Stäng
                             </button>
                         </div>

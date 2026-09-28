@@ -121,12 +121,6 @@ const ProfitRuleHead = () => {
                                     <p className="text-[#A8A29E] text-[10px] mt-1">Tomt = obegränsat</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-amber-50 rounded-xl border border-amber-100">
-                                <input type="checkbox" id="isPopular" {...register("isPopular")} className="w-4 h-4 accent-[#D97706] cursor-pointer" />
-                                <label htmlFor="isPopular" className="text-xs sm:text-sm font-semibold text-[#1A1C1C] cursor-pointer">
-                                    Markera som mest populär
-                                </label>
-                            </div>
                             <button
                                 type="submit"
                                 disabled={isCreating}

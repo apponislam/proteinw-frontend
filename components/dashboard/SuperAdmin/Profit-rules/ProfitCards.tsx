@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { TTier, useGetAllTiersQuery, useUpdateTierMutation, useToggleTierStatusMutation, useDeleteTierMutation } from "@/redux/features/tier/tierApi";
-import { TrendingUp, Star, Pencil, Trash2, ToggleLeft, ToggleRight, Loader2, ChevronRight, X, Check } from "lucide-react";
+import { TrendingUp, Pencil, Trash2, ToggleLeft, ToggleRight, Loader2, ChevronRight, X, Check } from "lucide-react";
 
 const TierCard = ({ tier }: { tier: TTier }) => {
     const [updateTier, { isLoading: isUpdating }] = useUpdateTierMutation();
@@ -80,7 +80,7 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                         className="inline-flex items-center gap-1 bg-linear-to-r from-[#7C5800] to-[#FFB800] text-white text-[10px] font-bold uppercase tracking-wider px-2.5 sm:px-3 py-1 rounded-full cursor-pointer hover:scale-105 transition-transform"
                         title="Klicka för att ändra status som mest populär"
                     >
-                        <Star size={10} fill="currentColor" /> Mest populär
+                        Mest populär
                     </button>
                 </div>
             )}
@@ -112,14 +112,6 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                         </>
                     ) : (
                         <>
-                            <button
-                                onClick={handleTogglePopular}
-                                disabled={isUpdating}
-                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${tier.isPopular ? "text-[#D97706] bg-amber-50 hover:bg-amber-100" : "text-gray-400 hover:text-[#D97706] hover:bg-amber-50"}`}
-                                title={tier.isPopular ? "Ta bort tagg för mest populär" : "Sätt som mest populär"}
-                            >
-                                <Star size={14} fill={tier.isPopular ? "currentColor" : "none"} />
-                            </button>
                             <button onClick={() => setIsEditing(true)} className="p-1.5 text-[#D97706] hover:bg-amber-50 rounded-lg cursor-pointer" title="Redigera">
                                 <Pencil size={14} />
                             </button>
@@ -156,10 +148,6 @@ const TierCard = ({ tier }: { tier: TTier }) => {
                             <ChevronRight size={14} className="text-[#78716C]" />
                             <input type="number" value={editMax} onChange={(e) => setEditMax(e.target.value)} className="w-20 sm:w-24 text-xs px-2 py-1 border border-[#F5F5F4] rounded-lg focus:outline-none focus:border-[#D97706]" placeholder="Max (∞)" />
                         </div>
-                        <label className="flex items-center gap-2 pt-1 cursor-pointer select-none">
-                            <input type="checkbox" checked={editIsPopular} onChange={(e) => setEditIsPopular(e.target.checked)} className="w-4 h-4 accent-[#D97706] cursor-pointer rounded" />
-                            <span className="text-xs font-bold text-[#1A1C1C]">Markera som mest populär</span>
-                        </label>
                     </div>
                 ) : (
                     <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#1A1C1C] flex-wrap">
