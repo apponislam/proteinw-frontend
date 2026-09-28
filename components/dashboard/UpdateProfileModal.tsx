@@ -122,10 +122,10 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
     const selectedProfLabel = professionOptions.find((opt) => opt.value === profession)?.label;
 
     return (
-        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
-            <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs overflow-y-auto">
+            <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl max-w-lg w-full p-6 md:p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200 my-auto overflow-visible">
                 {/* Close Button */}
-                <button onClick={onClose} className="absolute top-5 right-5 p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer">
+                <button onClick={onClose} className="absolute top-5 right-5 p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer z-10">
                     <X size={20} />
                 </button>
 
@@ -158,7 +158,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                     {me?.role !== "SELLER" && me?.role !== "SUPER_ADMIN" && (
                         <div>
                             <label className="block text-xs font-semibold text-[#78716C] uppercase mb-1">Yrke / Roll</label>
-                            <div className="relative">
+                            <div className={`relative ${isProfDropdownOpen ? "z-40" : "z-10"}`}>
                                 <button
                                     type="button"
                                     onClick={() => setIsProfDropdownOpen((prev) => !prev)}
@@ -171,8 +171,8 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
 
                                 {isProfDropdownOpen && (
                                     <>
-                                        <div className="fixed inset-0 z-20" onClick={() => setIsProfDropdownOpen(false)}></div>
-                                        <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                        <div className="fixed inset-0 z-40" onClick={() => setIsProfDropdownOpen(false)}></div>
+                                        <div className="absolute left-0 right-0 top-full mt-1.5 z-50 bg-white rounded-xl shadow-2xl border border-[#E7E5E4] py-1.5 overflow-hidden max-h-56 overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
                                             <button
                                                 type="button"
                                                 onClick={() => {
@@ -214,7 +214,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
                             {me?.role !== "SUPER_ADMIN" && (
                                 <div className="grid grid-cols-2 gap-3">
                                     {/* Left: Organization Type Selection */}
-                                    <div className="relative">
+                                    <div className={`relative ${isOrgTypeDropdownOpen ? "z-40" : "z-10"}`}>
                                         <button
                                             type="button"
                                             onClick={() => setIsOrgTypeDropdownOpen((prev) => !prev)}
@@ -226,8 +226,8 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ isOpen, onClose
 
                                         {isOrgTypeDropdownOpen && (
                                             <>
-                                                <div className="fixed inset-0 z-20" onClick={() => setIsOrgTypeDropdownOpen(false)}></div>
-                                                <div className="absolute left-0 right-0 mt-1 z-30 bg-white rounded-xl shadow-xl border border-[#E7E5E4] py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                                                <div className="fixed inset-0 z-40" onClick={() => setIsOrgTypeDropdownOpen(false)}></div>
+                                                <div className="absolute left-0 right-0 top-full mt-1 z-50 bg-white rounded-xl shadow-2xl border border-[#E7E5E4] py-1.5 max-h-52 overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
                                                     <button
                                                         type="button"
                                                         onClick={() => {
