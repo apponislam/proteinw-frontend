@@ -9,13 +9,13 @@ interface SellerHomeCardsProps {
 
 const SellerHomeCards: React.FC<SellerHomeCardsProps> = ({ data, isLoading }) => {
     const statsData = data || {
-        totalSales: 0,
+        totalProfit: 0,
         packagesSold: 0,
         daysRemaining: 0,
     };
 
     const stats = [
-        { label: "TOTAL OMSÄTTNING", value: isLoading ? "..." : `${statsData.totalSales?.toLocaleString() ?? 0} SEK` },
+        { label: "TOTAL OMSÄTTNING", value: isLoading ? "..." : `${statsData.totalProfit?.toLocaleString() ?? 0} SEK` },
         { label: "Sålda paket", value: isLoading ? "..." : `${statsData.packagesSold?.toLocaleString() ?? 0} st` },
         { label: "Återstående dagar", value: isLoading ? "..." : `${statsData.daysRemaining ?? 0} Dagar` },
     ];
