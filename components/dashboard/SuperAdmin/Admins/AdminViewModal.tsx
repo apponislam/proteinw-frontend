@@ -166,7 +166,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                             <span className="font-semibold text-[#1A1C1C]">{address.locality}</span>
                                         </div>
                                     )}
-                                    {(address.city || address.zipCode) && (
+                                    {/* {(address.city || address.zipCode) && (
                                         <div>
                                             <span className="text-[#78716C] block font-medium">Stad / Postnummer</span>
                                             <span className="font-semibold text-[#1A1C1C]">
@@ -174,7 +174,7 @@ const AdminViewModal: React.FC<AdminViewModalProps> = ({ isOpen, onClose, admin 
                                                 {address.city || ""}
                                             </span>
                                         </div>
-                                    )}
+                                    )} */}
                                     {address.state && (
                                         <div>
                                             <span className="text-[#78716C] block font-medium">Län / Region</span>

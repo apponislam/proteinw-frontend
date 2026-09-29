@@ -26,17 +26,11 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                 {/* Header */}
                 <div className="flex items-start justify-between border-b border-[#F5F5F4] pb-5 mb-6">
                     <div className="flex items-center gap-3.5">
-                        <span className="w-12 h-12 rounded-2xl bg-[#D97706] text-white flex items-center justify-center font-extrabold text-lg shadow-xs shrink-0">
-                            {seller.code || userData?.name?.charAt(0) || "S"}
-                        </span>
+                        <span className="w-12 h-12 rounded-2xl bg-[#D97706] text-white flex items-center justify-center font-extrabold text-lg shadow-xs shrink-0">{seller.code || userData?.name?.charAt(0) || "S"}</span>
                         <div>
                             <div className="flex items-center gap-2 flex-wrap mb-0.5">
                                 <h3 className="text-xl font-extrabold text-[#1A1C1C]">{userData?.name || seller.name}</h3>
-                                {userData?.role && (
-                                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-100 text-[#7C5800]">
-                                        {userData.role}
-                                    </span>
-                                )}
+                                {userData?.role && <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-100 text-[#7C5800]">{userData.role}</span>}
                             </div>
                             <div className="flex items-center gap-3 text-xs text-[#78716C] flex-wrap">
                                 <span className="flex items-center gap-1">
@@ -144,7 +138,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                         </div>
 
                         {/* Address & Organization Information */}
-                        <div className="bg-[#FAFAF9] p-4 sm:p-5 rounded-2xl border border-[#E7E5E4] space-y-3">
+                        {/* <div className="bg-[#FAFAF9] p-4 sm:p-5 rounded-2xl border border-[#E7E5E4] space-y-3">
                             <div className="flex items-center gap-2 border-b border-stone-200/60 pb-2.5">
                                 <MapPin size={16} className="text-[#D97706]" />
                                 <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Adress & Organisation</span>
@@ -195,7 +189,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                             ) : (
                                 <p className="text-xs text-stone-400 font-medium py-2">Ingen adress- eller organisationsinformation registrerad</p>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 ) : null}
 

@@ -127,15 +127,15 @@ const CampaignMetricsGrid: React.FC<CampaignMetricsGridProps> = ({ campaign, cam
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Total omsättning</span>
-                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${Math.round(campaignProfit).toLocaleString()} SEK`}>
-                                {Math.round(campaignProfit).toLocaleString()} SEK
+                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right" title={`${Math.round(groupRevenue).toLocaleString()} SEK`}>
+                                {Math.round(groupRevenue).toLocaleString()} SEK
                             </span>
                         </div>
 
                         <div className="flex items-center justify-between text-xs sm:text-sm group-hover:text-[#271900] transition-colors gap-2">
                             <span className="text-[#78716C] group-hover:text-[#271900]/80 font-medium shrink-0">Total förtjänst</span>
-                            <span className="font-bold text-[#D97706] group-hover:text-[#271900] truncate text-right" title={`${Math.round(groupRevenue).toLocaleString()} SEK`}>
-                                {Math.round(groupRevenue).toLocaleString()} SEK
+                            <span className="font-bold text-[#1A1C1C] group-hover:text-[#271900] truncate text-right" title={`${Math.round(campaignProfit).toLocaleString()} SEK`}>
+                                {Math.round(campaignProfit).toLocaleString()} SEK
                             </span>
                         </div>
                     </div>
