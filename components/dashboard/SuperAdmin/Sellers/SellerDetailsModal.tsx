@@ -138,10 +138,10 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                         </div>
 
                         {/* Address & Organization Information */}
-                        {/* <div className="bg-[#FAFAF9] p-4 sm:p-5 rounded-2xl border border-[#E7E5E4] space-y-3">
+                        <div className="bg-[#FAFAF9] p-4 sm:p-5 rounded-2xl border border-[#E7E5E4] space-y-3">
                             <div className="flex items-center gap-2 border-b border-stone-200/60 pb-2.5">
                                 <MapPin size={16} className="text-[#D97706]" />
-                                <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Adress & Organisation</span>
+                                <span className="text-xs font-bold text-[#1A1C1C] uppercase tracking-wider">Organisation</span>
                             </div>
 
                             {address && (address.street || address.city || address.organizationName) ? (
@@ -156,7 +156,7 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                                         </div>
                                     )}
 
-                                    <div className="grid grid-cols-2 gap-2 pt-1">
+                                    {/* <div className="grid grid-cols-2 gap-2 pt-1">
                                         {address.street && (
                                             <div>
                                                 <span className="text-[#78716C] block font-medium">Gatuadress</span>
@@ -184,12 +184,12 @@ export const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({ seller, 
                                                 <span className="font-bold text-[#1A1C1C]">{address.state}</span>
                                             </div>
                                         )}
-                                    </div>
+                                    </div> */}
                                 </div>
                             ) : (
-                                <p className="text-xs text-stone-400 font-medium py-2">Ingen adress- eller organisationsinformation registrerad</p>
+                                <p className="text-xs text-stone-400 font-medium py-2">Ingen organisationsinformation registrerad</p>
                             )}
-                        </div> */}
+                        </div>
                     </div>
                 ) : null}
 

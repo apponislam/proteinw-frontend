@@ -4,13 +4,13 @@ export const translateCategory = (category?: string): string => {
     const map: Record<string, string> = {
         "Scented Candles": "Doftljus",
         "Premium Socks": "Strumpor",
-        "Reed Diffusers": "Doftstickor",
+        "Reed Diffusers": "Doftpinnar",
         "SCENTED CANDLES": "Doftljus",
         "PREMIUM SOCKS": "Strumpor",
-        "REED DIFFUSERS": "Doftstickor",
-        "ScentedCandles": "Doftljus",
-        "PremiumSocks": "Strumpor",
-        "ReedDiffusers": "Doftstickor",
+        "REED DIFFUSERS": "Doftpinnar",
+        ScentedCandles: "Doftljus",
+        PremiumSocks: "Strumpor",
+        ReedDiffusers: "Doftpinnar",
     };
     return map[cat] || map[cat.toUpperCase()] || cat;
 };
