@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import ProductCard from "@/components/products/ProductCard";
-import { Rocket, ChevronDown, Infinity, Leaf, Footprints, Info, Loader2 } from "lucide-react";
+import { Rocket, ChevronDown, Infinity, Leaf, Footprints, Info, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import ProductDetailModal from "@/components/products/ProductDetailModal";
 import { useGetActiveProductsQuery } from "@/redux/features/product/productApi";
@@ -10,8 +10,6 @@ import { getImageUrl } from "@/utils/getImageUrl";
 
 const ProductsClient = () => {
     const [activeCategory, setActiveCategory] = useState("All Products");
-    const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
-    const [isCandlesOpen, setIsCandlesOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
 
     // Lazy loading state
@@ -19,7 +17,6 @@ const ProductsClient = () => {
     const [accumulatedProducts, setAccumulatedProducts] = useState<any[]>([]);
 
     const categoryParam = activeCategory !== "All Products" ? activeCategory : undefined;
-    const subCategoryParam = activeSubCategory || undefined;
 
     const {
         data: productsResponse,
@@ -27,7 +24,6 @@ const ProductsClient = () => {
         isLoading,
     } = useGetActiveProductsQuery({
         category: categoryParam,
-        subCategory: subCategoryParam,
         page,
         limit: 6,
     });
@@ -36,7 +32,7 @@ const ProductsClient = () => {
     useEffect(() => {
         setPage(1);
         setAccumulatedProducts([]);
-    }, [activeCategory, activeSubCategory]);
+    }, [activeCategory]);
 
     // Append items when results arrive
     useEffect(() => {
@@ -89,52 +85,39 @@ const ProductsClient = () => {
                             <li
                                 onClick={() => {
                                     setActiveCategory("All Products");
-                                    setActiveSubCategory(null);
                                 }}
-                                className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "All Products" && !activeSubCategory ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
+                                className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "All Products" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
                             >
                                 <Infinity className="w-4 h-4 text-[#837560]" />
                                 <span>Alla produkter</span>
                             </li>
 
                             {/* Scented Candles */}
-                            <li className="flex flex-col">
-                                <div
-                                    onClick={() => {
-                                        setActiveCategory("Scented Candles");
-                                        setActiveSubCategory(null);
-                                        setIsCandlesOpen(!isCandlesOpen);
-                                    }}
-                                    className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center justify-between ${activeCategory === "Scented Candles" && !activeSubCategory ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <Leaf className="w-4 h-4 text-[#837560]" />
-                                        <span>Doftljus</span>
-                                    </div>
-                                    <ChevronDown className={`w-4 h-4 text-[#837560] transition-transform duration-300 ${isCandlesOpen ? "rotate-180" : ""}`} />
-                                </div>
+                            <li
+                                onClick={() => {
+                                    setActiveCategory("Scented Candles");
+                                }}
+                                className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Scented Candles" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
+                            >
+                                <Leaf className="w-4 h-4 text-[#837560]" />
+                                <span>Doftljus</span>
+                            </li>
 
-                                {/* Sub-category list */}
-                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isCandlesOpen ? "max-h-20 opacity-100 mt-1 pl-4" : "max-h-0 opacity-0"}`}>
-                                    <ul className="border-l-2 border-[#FFDEA8] pl-3 py-1 space-y-1">
-                                        <li
-                                            onClick={() => {
-                                                setActiveCategory("Scented Candles");
-                                                setActiveSubCategory("Reed Diffusers");
-                                            }}
-                                            className={`text-[#5E4200] cursor-pointer py-2 px-4 rounded-[20px] text-sm whitespace-nowrap transition-all duration-200 ${activeSubCategory === "Reed Diffusers" ? "bg-[#FFDEA8] font-semibold shadow-xs" : "hover:bg-[#FFDEA8]/30"}`}
-                                        >
-                                            Doftstickor
-                                        </li>
-                                    </ul>
-                                </div>
+                            {/* Reed Diffusers (Doftpinnar) */}
+                            <li
+                                onClick={() => {
+                                    setActiveCategory("Reed Diffusers");
+                                }}
+                                className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Reed Diffusers" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
+                            >
+                                <Sparkles className="w-4 h-4 text-[#837560]" />
+                                <span>Doftpinnar</span>
                             </li>
 
                             {/* Premium Socks */}
                             <li
                                 onClick={() => {
                                     setActiveCategory("Premium Socks");
-                                    setActiveSubCategory(null);
                                 }}
                                 className={`text-[#5E4200] cursor-pointer px-5 py-3.5 rounded-[32px] whitespace-nowrap transition-all duration-300 ease-out font-medium flex items-center gap-3 ${activeCategory === "Premium Socks" ? "bg-[#FFDEA8] shadow-xs -translate-y-0.5" : "hover:bg-[#FFDEA8]/40 hover:-translate-y-0.5"}`}
                             >

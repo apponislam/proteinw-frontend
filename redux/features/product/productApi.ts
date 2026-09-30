@@ -6,7 +6,6 @@ export type TProduct = {
     price: number;
     shortDescription: string;
     category: string;
-    subCategory?: string;
     images?: string[];
     marginBenefit?: string;
     qualityHighlight?: string;
@@ -44,7 +43,7 @@ const productApi = baseApi.injectEndpoints({
     overrideExisting: true,
     endpoints: (builder) => ({
         // Public endpoints
-        getActiveProducts: builder.query<TProductResponse, { category?: string; subCategory?: string; page?: number; limit?: number } | string | void>({
+        getActiveProducts: builder.query<TProductResponse, { category?: string; page?: number; limit?: number } | string | void>({
             query: (params) => {
                 let url = "/products";
                 const queryParams = new URLSearchParams();
@@ -57,7 +56,6 @@ const productApi = baseApi.injectEndpoints({
                     queryParams.append("category", params);
                 } else if (params && typeof params === "object") {
                     if (params.category) queryParams.append("category", params.category);
-                    if (params.subCategory) queryParams.append("subCategory", params.subCategory);
                     page = params.page ?? 1;
                     limit = params.limit ?? 10;
                 }

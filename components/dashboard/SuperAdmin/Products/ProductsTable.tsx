@@ -20,29 +20,23 @@ interface ProductsTableProps {
 const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
     // State for filters and pagination
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
-    const [selectedSubcategory, setSelectedSubcategory] = useState<string>("All");
     const [selectedStatus, setSelectedStatus] = useState<string>("All");
     const [currentPage, setCurrentPage] = useState<number>(1);
 
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const [isSubcategoryOpen, setIsSubcategoryOpen] = useState(false);
     const [isStatusOpen, setIsStatusOpen] = useState(false);
 
-    // Define categories and their subcategories
+    // Define categories
     const categories = [
-        { value: "All", label: "Kategori: Alla", subcategories: [] },
-        { value: "Scented Candles", label: "Kategori: Doftljus", subcategories: ["Reed Diffusers"] },
-        { value: "Premium Socks", label: "Kategori: Strumpor", subcategories: [] },
+        { value: "All", label: "Kategori: Alla" },
+        { value: "Scented Candles", label: "Kategori: Doftljus" },
+        { value: "Reed Diffusers", label: "Kategori: Doftpinnar" },
+        { value: "Premium Socks", label: "Kategori: Strumpor" },
     ];
-
-    // Get current category data
-    const currentCategoryData = categories.find((cat) => cat.value === selectedCategory);
-    const currentSubcategories = currentCategoryData?.subcategories || [];
 
     // Build query params
     const queryParams: Record<string, any> = { page: currentPage };
     if (selectedCategory !== "All") queryParams.category = selectedCategory;
-    if (selectedSubcategory !== "All") queryParams.subCategory = selectedSubcategory;
     if (selectedStatus !== "All") queryParams.isActive = selectedStatus === "Active";
 
     const { data, isLoading, error } = useGetAllProductsQuery(queryParams);
@@ -133,7 +127,6 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                 type="button"
                                 onClick={() => {
                                     setIsCategoryOpen((prev) => !prev);
-                                    setIsSubcategoryOpen(false);
                                     setIsStatusOpen(false);
                                 }}
                                 className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
@@ -152,7 +145,6 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                                 type="button"
                                                 onClick={() => {
                                                     setSelectedCategory(cat.value);
-                                                    setSelectedSubcategory("All");
                                                     setCurrentPage(1);
                                                     setIsCategoryOpen(false);
                                                 }}
@@ -167,59 +159,6 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                             )}
                         </div>
 
-                        {/* Subcategory Custom Dropdown */}
-                        {currentSubcategories.length > 0 && (
-                            <div className="relative flex-1 sm:flex-none">
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setIsSubcategoryOpen((prev) => !prev);
-                                        setIsCategoryOpen(false);
-                                        setIsStatusOpen(false);
-                                    }}
-                                    className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
-                                >
-                                    <span className="truncate">Underkategori: {selectedSubcategory === "All" ? "Alla" : selectedSubcategory === "Reed Diffusers" ? "Doftpinnar" : selectedSubcategory}</span>
-                                    <ChevronDown size={16} className={`text-[#78716C] shrink-0 transition-transform duration-200 ${isSubcategoryOpen ? "rotate-180" : ""}`} />
-                                </button>
-
-                                {isSubcategoryOpen && (
-                                    <>
-                                        <div className="fixed inset-0 z-20" onClick={() => setIsSubcategoryOpen(false)}></div>
-                                        <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 z-30 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    setSelectedSubcategory("All");
-                                                    setCurrentPage(1);
-                                                    setIsSubcategoryOpen(false);
-                                                }}
-                                                className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === "All" ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
-                                            >
-                                                <span>Underkategori: Alla</span>
-                                                {selectedSubcategory === "All" && <Check size={14} className="text-[#D97706]" />}
-                                            </button>
-                                            {currentSubcategories.map((subcat) => (
-                                                <button
-                                                    key={subcat}
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSelectedSubcategory(subcat);
-                                                        setCurrentPage(1);
-                                                        setIsSubcategoryOpen(false);
-                                                    }}
-                                                    className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm font-medium transition-colors text-left cursor-pointer hover:bg-amber-50/60 ${selectedSubcategory === subcat ? "bg-amber-50 text-[#D97706] font-bold" : "text-gray-700"}`}
-                                                >
-                                                    <span>Underkategori: {subcat === "Reed Diffusers" ? "Doftpinnar" : subcat}</span>
-                                                    {selectedSubcategory === subcat && <Check size={14} className="text-[#D97706]" />}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        )}
-
                         {/* Status Custom Dropdown */}
                         <div className="relative flex-1 sm:flex-none">
                             <button
@@ -227,7 +166,6 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ onEdit, onView }) => {
                                 onClick={() => {
                                     setIsStatusOpen((prev) => !prev);
                                     setIsCategoryOpen(false);
-                                    setIsSubcategoryOpen(false);
                                 }}
                                 className="w-full sm:w-auto flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2 bg-white border border-[#E7E5E4] hover:border-[#D97706] rounded-xl text-xs sm:text-sm font-semibold text-[#1A1C1C] shadow-xs transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D97706]/30"
                             >

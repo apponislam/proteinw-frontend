@@ -19,7 +19,6 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
     const [name, setName] = useState(product.name);
     const [shortDescription, setShortDescription] = useState(product.shortDescription);
     const [category, setCategory] = useState(product.category);
-    const [subCategory, setSubCategory] = useState(product.subCategory || "");
     const [marginBenefit, setMarginBenefit] = useState(product.marginBenefit || "");
     const [qualityHighlight, setQualityHighlight] = useState(product.qualityHighlight || "");
     const [ecoHighlight, setEcoHighlight] = useState(product.ecoHighlight || "");
@@ -32,7 +31,6 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
     const [isDragging, setIsDragging] = useState(false);
 
     const [isCatDropdownOpen, setIsCatDropdownOpen] = useState(false);
-    const [isSubCatDropdownOpen, setIsSubCatDropdownOpen] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -120,7 +118,6 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
         setName(product.name);
         setShortDescription(product.shortDescription);
         setCategory(product.category);
-        setSubCategory(product.subCategory || "");
         setMarginBenefit(product.marginBenefit || "");
         setQualityHighlight(product.qualityHighlight || "");
         setEcoHighlight(product.ecoHighlight || "");
@@ -138,7 +135,6 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
             formData.append("name", name);
             formData.append("shortDescription", shortDescription);
             formData.append("category", category);
-            formData.append("subCategory", subCategory);
             formData.append("marginBenefit", marginBenefit);
             formData.append("qualityHighlight", qualityHighlight);
             formData.append("ecoHighlight", ecoHighlight);
@@ -222,13 +218,13 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                         </div>
                     </div>
 
-                    {/* Section 2: Category & Subcategory */}
+                    {/* Section 2: Category */}
                     <div className="space-y-4 pt-2 border-t border-stone-100">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-amber-800/80 flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-[#D97706]" /> Kategorisering
                         </h3>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
                             {/* Category Dropdown */}
                             <div>
                                 <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">
@@ -237,14 +233,11 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                 <div className="relative">
                                     <button
                                         type="button"
-                                        onClick={() => {
-                                            setIsCatDropdownOpen((prev) => !prev);
-                                            setIsSubCatDropdownOpen(false);
-                                        }}
+                                        onClick={() => setIsCatDropdownOpen((prev) => !prev)}
                                         className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
                                     >
                                         <span className={category ? "text-stone-900 font-medium" : "text-stone-400"}>
-                                            {category === "Scented Candles" ? "Doftljus" : category === "Premium Socks" ? "Strumpor" : category || "Välj kategori"}
+                                            {category === "Scented Candles" ? "Doftljus" : category === "Reed Diffusers" ? "Doftpinnar" : category === "Premium Socks" ? "Strumpor" : category || "Välj kategori"}
                                         </span>
                                         <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isCatDropdownOpen ? "rotate-180" : ""}`} />
                                     </button>
@@ -255,6 +248,7 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                             <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
                                                 {[
                                                     { value: "Scented Candles", label: "Doftljus" },
+                                                    { value: "Reed Diffusers", label: "Doftpinnar" },
                                                     { value: "Premium Socks", label: "Strumpor" },
                                                 ].map((catOption) => (
                                                     <button
@@ -262,7 +256,6 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                                         type="button"
                                                         onClick={() => {
                                                             setCategory(catOption.value);
-                                                            if (catOption.value !== "Scented Candles") setSubCategory("");
                                                             setIsCatDropdownOpen(false);
                                                         }}
                                                         className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${category === catOption.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
@@ -276,52 +269,6 @@ const EditProduct: React.FC<EditProductProps> = ({ isOpen, onClose, product }) =
                                     )}
                                 </div>
                             </div>
-
-                            {/* Subcategory Dropdown */}
-                            {category === "Scented Candles" ? (
-                                <div>
-                                    <label className="block text-stone-700 text-xs sm:text-sm font-semibold mb-1.5">Underkategori</label>
-                                    <div className="relative">
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setIsSubCatDropdownOpen((prev) => !prev);
-                                                setIsCatDropdownOpen(false);
-                                            }}
-                                            className="w-full h-11 sm:h-12 px-4 bg-stone-50/50 hover:bg-stone-100/50 border border-stone-200 rounded-xl text-xs sm:text-sm flex items-center justify-between text-stone-900 focus:outline-none focus:bg-white focus:border-[#D97706] focus:ring-4 focus:ring-[#D97706]/10 transition-all cursor-pointer font-medium"
-                                        >
-                                            <span className={subCategory ? "text-stone-900 font-medium" : "text-stone-400"}>
-                                                {subCategory === "Reed Diffusers" ? "Doftpinnar" : subCategory || "Välj underkategori"}
-                                            </span>
-                                            <ChevronDown size={18} className={`text-stone-500 transition-transform duration-200 ${isSubCatDropdownOpen ? "rotate-180" : ""}`} />
-                                        </button>
-
-                                        {isSubCatDropdownOpen && (
-                                            <>
-                                                <div className="fixed inset-0 z-20" onClick={() => setIsSubCatDropdownOpen(false)}></div>
-                                                <div className="absolute left-0 right-0 mt-1.5 z-30 bg-white rounded-xl shadow-xl border border-stone-100 py-1.5 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-                                                    {[{ value: "Reed Diffusers", label: "Doftpinnar" }].map((subOption) => (
-                                                        <button
-                                                            key={subOption.value}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setSubCategory(subOption.value);
-                                                                setIsSubCatDropdownOpen(false);
-                                                            }}
-                                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm transition-colors text-left cursor-pointer hover:bg-amber-50/80 ${subCategory === subOption.value ? "bg-amber-50 text-[#D97706] font-bold" : "text-stone-700"}`}
-                                                        >
-                                                            <span>{subOption.label}</span>
-                                                            {subCategory === subOption.value && <Check size={16} className="text-[#D97706]" />}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="hidden sm:block" />
-                            )}
                         </div>
                     </div>
 
