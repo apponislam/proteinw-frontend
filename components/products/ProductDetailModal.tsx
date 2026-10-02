@@ -76,7 +76,7 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                 </button>
 
                 {/* Left Side: 50% Image Slider */}
-                <div className="w-full md:w-1/2 relative h-56 sm:h-64 md:h-125 shrink-0 rounded-t-2xl sm:rounded-t-[32px] md:rounded-tr-none md:rounded-l-[32px] overflow-hidden bg-stone-100 group">
+                <div className="w-full md:w-1/2 relative h-64 sm:h-64 md:h-125 shrink-0 rounded-t-2xl sm:rounded-t-[32px] md:rounded-tr-none md:rounded-l-[32px] overflow-hidden bg-stone-100 group">
                     <Image key={currentIndex} src={imageList[currentIndex] || "/products/product1.png"} alt={product.title} fill className="object-cover transition-all duration-500 ease-in-out animate-in fade-in" />
 
                     {/* Previous/Next Arrows (shown when > 1 image) */}
